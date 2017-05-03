@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1920"
+   height="1080"
+   id="svg3376"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   viewBox="0 0 1920 1080"
+   inkscape:export-filename="/home/hiroki/デスクトップ/hoge.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"
+   sodipodi:docname="UI_sample.svg">
+  <defs
+     id="defs3378" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.47066795"
+     inkscape:cx="771.36001"
+     inkscape:cy="596.67785"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="987"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3381">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <rect
+       style="fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero"
+       id="rect3384"
+       width="1377.0804"
+       height="1314.239"
+       x="580.43121"
+       y="-102.14429"
+       ry="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:600;font-size:40px;line-height:125%;font-family:'ヒラギノ角ゴ Pro';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:'ヒラギノ角ゴ Pro Semi-Bold';font-stretch:normal;font-variant:normal;"
+       x="38.301617"
+       y="54.695168"
+       id="text3388"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3390"
+         x="38.301617"
+         y="54.695168"
+         style="fill:#ffffff;-inkscape-font-specification:'ヒラギノ角ゴ Pro Semi-Bold';font-family:'ヒラギノ角ゴ Pro';font-weight:600;font-style:normal;font-stretch:normal;font-variant:normal;">hogefuga</tspan><tspan
+         sodipodi:role="line"
+         x="38.301617"
+         y="104.69517"
+         style="fill:#ffffff;-inkscape-font-specification:'ヒラギノ角ゴ Pro Semi-Bold';font-family:'ヒラギノ角ゴ Pro';font-weight:600;font-style:normal;font-stretch:normal;font-variant:normal;"
+         id="tspan3392">void</tspan><tspan
+         sodipodi:role="line"
+         x="38.301617"
+         y="154.69516"
+         style="fill:#ffffff;-inkscape-font-specification:'ヒラギノ角ゴ Pro Semi-Bold';font-family:'ヒラギノ角ゴ Pro';font-weight:600;font-style:normal;font-stretch:normal;font-variant:normal;"
+         id="tspan3394">unchgi </tspan><tspan
+         sodipodi:role="line"
+         x="38.301617"
+         y="204.69516"
+         style="fill:#ffffff;-inkscape-font-specification:'ヒラギノ角ゴ Pro Semi-Bold';font-family:'ヒラギノ角ゴ Pro';font-weight:600;font-style:normal;font-stretch:normal;font-variant:normal;"
+         id="tspan3396" /></text>
+    <rect
+       style="fill:#1d0c47;fill-opacity:1;fill-rule:nonzero"
+       id="rect4214"
+       width="745.95013"
+       height="1236.2301"
+       x="-58.589203"
+       y="-78.107979" />
+    <rect
+       style="fill:#404040;fill-opacity:0;fill-rule:nonzero;stroke:#3e3e3e;stroke-width:4.54112291;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4216"
+       width="340.28879"
+       height="1079.9551"
+       x="1578.5903"
+       y="5.4543924" />
+    <path
+       style="fill:#404040;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 1581,89.25 337.5,-1.5"
+       id="path4218"
+       inkscape:connector-curvature="0" />
+    <a
+       id="a4268"
+       style="fill:#404040">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4218-3"
+         d="m 1578.75,172.5 337.5,-1.5"
+         style="fill:#404040;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    </a>
+    <path
+       style="fill:#404040;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 1581.4036,253.17582 337.5,-1.5"
+       id="path4218-35"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#404040;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 1579.1536,336.42582 337.5,-1.5"
+       id="path4218-3-6"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#404040;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 1583.5249,425.00276 337.5,-1.5"
+       id="path4218-2"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#404040;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 1581.2749,508.25276 337.5,-1.5"
+       id="path4218-3-9"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#404040;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 1580.809,593.05774 337.5,-1.5"
+       id="path4218-3-9-9"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#404040;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 1750.5,4.5 -1.5,585"
+       id="path4334"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:50px;line-height:125%;font-family:'ヒラギノ角ゴ Pro';-inkscape-font-specification:'ヒラギノ角ゴ Pro Light';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="103.13927"
+       y="86.512932"
+       id="text4338"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4340"
+         x="103.13927"
+         y="86.512932">int x, y;</tspan><tspan
+         sodipodi:role="line"
+         x="103.13927"
+         y="149.01294"
+         id="tspan4358">void <tspan
+   style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:50px;font-family:'ヒラギノ角ゴ Pro';-inkscape-font-specification:'ヒラギノ角ゴ Pro Light'"
+   id="tspan4384">setup</tspan>(){</tspan><tspan
+         sodipodi:role="line"
+         x="103.13927"
+         y="211.51294"
+         id="tspan4346">    background(255);</tspan><tspan
+         sodipodi:role="line"
+         x="103.13927"
+         y="274.01291"
+         id="tspan4348">}</tspan><tspan
+         sodipodi:role="line"
+         x="103.13927"
+         y="336.51294"
+         id="tspan4350" /><tspan
+         sodipodi:role="line"
+         x="103.13927"
+         y="399.01294"
+         id="tspan4352">void <tspan
+   style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:50px;font-family:'ヒラギノ角ゴ Pro';-inkscape-font-specification:'ヒラギノ角ゴ Pro Light'"
+   id="tspan4386">draw</tspan>(){</tspan><tspan
+         sodipodi:role="line"
+         x="103.13927"
+         y="461.51294"
+         id="tspan4354">    ellipse(x,y);</tspan><tspan
+         sodipodi:role="line"
+         x="103.13927"
+         y="524.01294"
+         id="tspan4356">}</tspan><tspan
+         sodipodi:role="line"
+         x="103.13927"
+         y="586.51294"
+         id="tspan4342" /><tspan
+         sodipodi:role="line"
+         x="103.13927"
+         y="649.01294"
+         id="tspan4344" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:40px;line-height:125%;font-family:'ヒラギノ角ゴ Pro';-inkscape-font-specification:'ヒラギノ角ゴ Pro Semi-Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="237.58788"
+       y="360.87241"
+       id="text4362"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4364"
+         x="237.58788"
+         y="360.87241" /></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4366"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:'ヒラギノ角ゴ Pro';font-style:normal;font-weight:600;font-size:40px;line-height:125%;letter-spacing:0px;word-spacing:0px;-inkscape-font-specification:'ヒラギノ角ゴ Pro Semi-Bold';font-stretch:normal;font-variant:normal;"><flowRegion
+         id="flowRegion4368"><rect
+           id="rect4370"
+           width="273.65033"
+           height="430.62802"
+           x="1883.7324"
+           y="254.80638"
+           style="-inkscape-font-specification:'ヒラギノ角ゴ Pro Semi-Bold';font-family:'ヒラギノ角ゴ Pro';font-weight:600;font-style:normal;font-stretch:normal;font-variant:normal;" /></flowRegion><flowPara
+         id="flowPara4372"></flowPara></flowRoot>    <rect
+       style="fill:#404040;fill-opacity:0;fill-rule:nonzero;stroke:#3e3e3e;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4388"
+       width="342.53522"
+       height="136.71361"
+       x="1577.4648"
+       y="949.29578" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:50px;line-height:125%;font-family:'ヒラギノ角ゴ Pro';-inkscape-font-specification:'ヒラギノ角ゴ Pro Light';letter-spacing:0px;word-spacing:0px;fill:#404040;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       x="1702.1503"
+       y="1035.4272"
+       id="text4390"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4392"
+         x="1702.1503"
+         y="1035.4272">実行</tspan></text>
+  </g>
+</svg>
