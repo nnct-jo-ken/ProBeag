@@ -1,0 +1,44 @@
+canvas.canvas_1{
+	display: block;
+  margin-left: 20px;
+	margin-right: 20px;
+	border : 1px solid black;
+}
+.area{
+  display: box;
+  display: -webkit-box;
+  display: -moz-box;
+
+  box-pack: end;
+  -webkit-box-pack:end;
+	-moz-box-pack:end;
+
+  margin: 20px;
+  padding: 10px;
+
+	box-align:start;
+	-webkit-box-align:start;
+	-moz-box-align:start;
+}
+button.position{
+  width:100%;
+}
+table.table_img {
+	border-collapse: collapse;
+	text-align: center;
+	line-height: 1.5;
+}
+table.table_img th {
+	border:1px solid black;
+	width: 155px;
+	padding: 10px;
+	font-weight: bold;
+	vertical-align: top;
+}
+table.table_img td {
+	border:1px solid black;
+	width: 155px;
+	padding: 10px;
+	vertical-align: top;
+	border-bottom: 1px solid black;
+}
