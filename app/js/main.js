@@ -2,14 +2,11 @@ var source = document.getElementById("source_code");
 /*var source_ctx = sorce.getContext("2d");*/
 var canvas = document.getElementById("canvas");
 var canvas_ctx = canvas.getContext("2d");
-var image_object;
-var code = [];
-
+var code;
+var decompile_code;
 //ソースコードの中身
   function decompile_source(){
-    for(var i in code){
-      code[i]
-    }
+    source.innerHTML = decompile_code;
   }
 //preのインデントを消去
 window.addEventListener("DOMContentLoaded", function(){

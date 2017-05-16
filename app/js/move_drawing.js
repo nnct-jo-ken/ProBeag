@@ -5,7 +5,7 @@ var cicle_code = "";
 var cicle = document.getElementById("cicle");
 var rect = document.getElementById("rect");
 var figuers = [];
-
+var load_figuers = 0;
   rect.addEventListener("click",function(){
     $("canvas").drawRect({
        strokeStyle: "black",
@@ -18,18 +18,22 @@ var figuers = [];
        fromCenter: false,
        draggable:true
      });
-    var load_figuers = 0;
-    var rect_code = "rect(x,y,w,h);";
+    var rect_code = "rect(" + ' <input type="text" width="50"> ' + ",y,w,h); " + "\n";
     figuers.push(rect_code);
+    code = figuers.toString();
+    decompile_code = code.replace("\t","\n");
     $(function ($) {
-    $("#decompile").click( function() {
-    for (var i in figuers){
-      if(++load_figuers == figuers.length){
-        $("#source_code").append(figuers[i] + "\n");
-      }
-    }
-  });
-});
+      $("#decompile").click( function() {
+        for (var i in figuers){
+          if(++load_figuers == figuers.length){
+            $("#source_code").append(function(){
+              code = figuers.toString();
+              decompile_code = code.replace("\t","\n");
+            });
+          }
+        }
+      });
+    });
     },false);
 
 cicle.addEventListener("click",function(){
@@ -43,5 +47,21 @@ cicle.addEventListener("click",function(){
     height: 100,
     fromCenter: false,
     draggable: true
-  })
+  });
+  var ellipse_code = "ellipse(" + ' <input type="text" width="50"> ' + ",y,w,h); " + "\n";
+  figuers.push(ellipse_code);
+  code = figuers.toString();
+  decompile_code = code.replace("\t","\n");
+  $(function ($) {
+    $("#decompile").click( function() {
+      for (var i in figuers){
+        if(++load_figuers == figuers.length){
+          $("#source_code").append(function(){
+            code = figuers.toString();
+            decompile_code = code.replace("\t","\n");
+          });
+        }
+      }
+    });
+  });
 },false);
