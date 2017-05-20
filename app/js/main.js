@@ -4,10 +4,12 @@ var canvas = document.getElementById("canvas");
 var canvas_ctx = canvas.getContext("2d");
 var code;
 var decompile_code;
-//ソースコードの中身
-  function decompile_source(){
+var decompile = document.getElementById("decompile");
+//逆コンパイル
+  decompile.addEventListener("click",function(){
     source.innerHTML = decompile_code;
-  }
+  },false);
+
 //preのインデントを消去
 window.addEventListener("DOMContentLoaded", function(){
   var pres = document.getElementsByClassName("pre");
@@ -15,8 +17,3 @@ window.addEventListener("DOMContentLoaded", function(){
     pres[i].firstChild.data = pres[i].firstChild.data.replace(/^ +/gm,"");
   }
 },false);
-
-//逆コンパイル
-function decompile(){
-  decompile_source();
-}
