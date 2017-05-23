@@ -7,6 +7,9 @@ var rect = document.getElementById("rect");
 var figuers = [];
 var load_figuers = 0;
 var compile = document.getElementById("compile");
+var count = 1;
+var x_point = 200;
+var obj_x;
 
 function literal(figures_code){
   figuers.push(figures_code);
@@ -25,10 +28,11 @@ function literal(figures_code){
     });
   });
 }
-
-
-  rect.addEventListener("click",function(){
-    $("canvas").drawRect({
+rect.addEventListener("click",function(){
+  ++count;
+  for (var i = 1;i < count ;i++){
+     $("canvas").drawRect({
+       name:"myBox" + i,
        strokeStyle: "black",
        fillStyle: "red",
        strokeWidth: 1,
@@ -37,26 +41,55 @@ function literal(figures_code){
        width: 100,
        height: 100,
        fromCenter: false,
-       draggable:true
-     });
+       draggable:true,
+       id:"rect",
+       click: function(layer){
+         //compile.addEventListener("click",function(){
+           translateX: "+=" + x_point
+         //},false);
+         }
+       });
+     }
+     //});
     var rect_code = "rect(" + '<form><input type="text" size="4"id ="rect_x"></form> ' + ",y,w,h); " + "\n";
     literal(rect_code);
-    },false);
+  },false);
+
+  compile.addEventListener("click",function(){
+    for(var i = 1;i < count;i++){
+    obj_x = $("#rect_x" + i).val();
+    $('canvas').setLayer('myBox' + i, {
+      //fillStyle: '#36b',
+      //rotate: 30,
+      x: '+=' + obj_x,
+      y: '-=100'
+    })
+    .drawLayers();
+  }
+  },false);
 
     function change_id(obj){
       $(function(){
-        $("form").each(function(i){
+        $("input").each(function(i){
             $("#" + obj).attr("id",obj + (i+1));
-            console.log($("#" + obj + (i+1)).val());
+//            document.getElementById(obj + (i+1) ).val();
+
+          //  var obj + (i+1) = document.getElementById(obj + (i+1));
+
         });
       });
+  //    console.log(document.getElementById("rect_x1").val());
     }
 
-compile.addEventListener("click",function(){
-  change_id("rect_x");
-  change_id("ellipse_x");
-},false);
+    function trans(){
+      $(function(){
+        $("input").each(function(i){
 
+//          var obj_x = document.getElementById("rect").x;
+          console.log(document.getElementById("rect").translateX);
+      });
+    });
+  }
 
 cicle.addEventListener("click",function(){
   $("canvas").drawEllipse({
