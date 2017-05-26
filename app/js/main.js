@@ -8,8 +8,8 @@ var decompile = document.getElementById("decompile");
 //逆コンパイル
   decompile.addEventListener("click",function(){
     source.innerHTML = decompile_code;
-    change_id("rect_x");
-    change_id("ellipse_x");
+    change_id("rect");
+    change_id("ellipse");
   },false);
 
 //preのインデントを消去
