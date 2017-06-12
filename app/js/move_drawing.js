@@ -24,7 +24,7 @@ function literal(figures_code){
         if(++load_figuers == figuers.length){
           $("#source_code").append(function(){
             code = figuers.toString();
-            decompile_code = code.replace("\t","\n");
+            decompile_code = code.replace("/^/","\n");
           });
         }
       }
@@ -46,18 +46,43 @@ rect.addEventListener("click",function(){
        width: 100,
        height: 100,
        fromCenter: false,
-       draggable:true
+       draggable:true,
+       mouseover:function(){
+         MOver("rect_source",count_Rect)
+       },
+       mouseout:function(){
+         MOut("rect_source",count_Rect);
+       }
        });
      }
-    var rect_code = "rect(" + '<input type="text" size="4"id ="rect_x">' + "," + '<input type="text" size="4"id ="rect_y">' + ",w,h); " + "\n";
+    var rect_code = "<font color = '#f7f7f7'>rect(" + '<input type="text" size="4"id ="rect_x">' + "," + '<input type="text" size="4"id ="rect_y">' + ",w,h);</font>" + "\n";
     literal(rect_code);
   },false);
+
 //ボタンを押して図形の位置を変更する
   compile.addEventListener("click",function(){
     Compile("rect","Rect",count_Rect);
     Compile("ellipse","Ellipse",count_Ellipse);
   },false);
 
+function MOver(obj,count_obj){
+  for(var i = 1;i < count_obj;i++){
+  $(function(){
+      $("span","#" + obj + i).css({
+        'background-color':'yellow'
+      });
+  });
+}
+}
+function MOut(obj,count_obj){
+  for(var i = 1;i < count_obj;i++){
+    $(function(){
+      $("#" + obj + i).css({
+        "background-color" : "white",
+      });
+    });
+  }
+}
 
 //図形の位置を変える
 function Compile(obj,Obj,count_obj){
@@ -94,6 +119,15 @@ function Compile(obj,Obj,count_obj){
   .drawLayers();
   }
 }
+
+function change_id_span(obj){
+  $(function(){
+    $("span").each(function(i){
+        $("#" + obj).attr("id",obj + (i+1));
+    });
+  });
+}
+
 //idを変更している
     function change_id(obj){
       $(function(){
@@ -121,7 +155,7 @@ cicle.addEventListener("click",function(){
       draggable: true
     });
   }
-  var ellipse_code = "ellipse(" + '<input type="text" size="4" id="ellipse_x">' + "," + '<input type="text" size="4" id="ellipse_y">' + ",w,h); " + "\n";
+  var ellipse_code = "<font color = '#f7f7f7'>ellipse(" + '<input type="text" size="4" id="ellipse_x">' + "," + '<input type="text" size="4" id="ellipse_y">' + ",w,h); </font>" + "\n";
   literal(ellipse_code);
 },false);
 
