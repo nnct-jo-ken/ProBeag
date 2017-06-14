@@ -10,7 +10,8 @@ var decompile = document.getElementById("decompile");
     source.innerHTML = decompile_code;
     change_id("rect");
     change_id("ellipse");
-    change_id_span("rect_source")
+    change_id_span("rect_source");
+    change_class_span("rect_source");
   },false);
 
 //preのインデントを消去

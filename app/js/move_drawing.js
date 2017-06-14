@@ -13,6 +13,9 @@ var count_Ellipse = 1;
 var count_Image = 1;
 var obj_x;
 var obj_y;
+var object_Over;
+var object_Out;
+var array = [];
 //配列に入れてtoString()で文字列に直している
 function literal(figures_code){
   figuers.push(figures_code);
@@ -47,15 +50,19 @@ rect.addEventListener("click",function(){
        height: 100,
        fromCenter: false,
        draggable:true,
-       mouseover:function(){
-         MOver("rect_source",count_Rect)
+       mouseover:function(layer){
+         $(function(){
+           MOver("rect_source" + (i-1));
+         });
        },
-       mouseout:function(){
-         MOut("rect_source",count_Rect);
+       mouseout:function(layer){
+         $(function(){
+           MOut("rect_source" + (i-1));
+         });
        }
-       });
+      });
      }
-    var rect_code = "<font color = '#f7f7f7'>rect(" + '<input type="text" size="4"id ="rect_x">' + "," + '<input type="text" size="4"id ="rect_y">' + ",w,h);</font>" + "\n";
+    var rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '5'>rect(" + '<input type="text" size="4"id ="rect_x">' + "," + '<input type="text" size="4"id ="rect_y">' + ",w,h);</font></span>" + "\n";
     literal(rect_code);
   },false);
 
@@ -65,23 +72,21 @@ rect.addEventListener("click",function(){
     Compile("ellipse","Ellipse",count_Ellipse);
   },false);
 
-function MOver(obj,count_obj){
-  for(var i = 1;i < count_obj;i++){
+function MOver(obj){
   $(function(){
-      $("span","#" + obj + i).css({
-        'background-color':'yellow'
-      });
+    $("pre > ." + obj).each(function(){
+      object_Over = document.getElementById(obj);
+      object_Over.style.backgroundColor = "yellow";
+    });
   });
 }
-}
-function MOut(obj,count_obj){
-  for(var i = 1;i < count_obj;i++){
-    $(function(){
-      $("#" + obj + i).css({
-        "background-color" : "white",
-      });
+function MOut(obj){
+  $(function(){
+    $("pre > ." + obj).each(function(){
+      object_Out = document.getElementById(obj);
+      object_Out.style.backgroundColor = "#0b0023";
     });
-  }
+  });
 }
 
 //図形の位置を変える
@@ -120,10 +125,11 @@ function Compile(obj,Obj,count_obj){
   }
 }
 
-function change_id_span(obj){
+function change_class_span(obj){
   $(function(){
     $("span").each(function(i){
-        $("#" + obj).attr("id",obj + (i+1));
+        $("#" + obj + (i+1)).addClass(obj + (i+1));
+      //  i++;
     });
   });
 }
@@ -134,6 +140,14 @@ function change_id_span(obj){
         $("input").each(function(i){
             $("#" + obj +"_x").attr("id",obj + "_x" + (i+1));
             $("#" + obj +"_y").attr("id",obj + "_y" + (i+1));
+        });
+      });
+    }
+
+    function change_id_span(obj){
+      $(function(){
+        $("span").each(function(i){
+          $("#" + obj).attr("id",obj + (i+1));
         });
       });
     }
@@ -155,7 +169,7 @@ cicle.addEventListener("click",function(){
       draggable: true
     });
   }
-  var ellipse_code = "<font color = '#f7f7f7'>ellipse(" + '<input type="text" size="4" id="ellipse_x">' + "," + '<input type="text" size="4" id="ellipse_y">' + ",w,h); </font>" + "\n";
+  var ellipse_code = "<font color = '#f7f7f7' size = '5'>ellipse(" + '<input type="text" size="4" id="ellipse_x">' + "," + '<input type="text" size="4" id="ellipse_y">' + ",w,h); </font>" + "\n";
   literal(ellipse_code);
 },false);
 
