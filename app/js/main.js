@@ -11,7 +11,9 @@ var decompile = document.getElementById("decompile");
     change_id("rect");
     change_id("ellipse");
     change_id_span("rect_source");
+    change_id_span("ellipse_source");
     change_class_span("rect_source");
+    change_class_span("ellipse_source");
   },false);
 
 //preのインデントを消去
