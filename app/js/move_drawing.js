@@ -143,20 +143,6 @@ function for_obj(Obj){
   var subctrl = $("#ctrl").val();
   var subrate = $("#rate").val();
   var subfor_y = $("#for_y").val();
-
-  if (typeof subint == "undefined" || subint == "" ||isNaN($("#int").val())){
-    subint = 0;
-  }
-  if (typeof subctrl == "undefined" || subctrl == "" ||isNaN($("#ctrl").val())){
-    subctrl = 0;
-  }
-  if (typeof subrate == "undefined" || subrate == "" ||isNaN($("#rate").val())){
-    subrate = 0;
-  }
-  if (typeof subfor_y == "undefined" || subfor_y == "" ||isNaN($("#for_y").val())){
-    subfor_y = 0;
-  }
-
   $(function(){
     $("#int").change(function(){
       subint = subint.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
@@ -183,6 +169,19 @@ function for_obj(Obj){
       $("#for_y").val(subfor_y);
     }).change();
   })
+
+    if (typeof subint == "undefined" || subint == "" ||isNaN($("#int").val())){
+      subint = 0;
+    }
+    if (typeof subctrl == "undefined" || subctrl == "" ||isNaN($("#ctrl").val())){
+      subctrl = 0;
+    }
+    if (typeof subrate == "undefined" || subrate == "" ||isNaN($("#rate").val())){
+      subrate = 0;
+    }
+    if (typeof subfor_y == "undefined" || subfor_y == "" ||isNaN($("#for_y").val())){
+      subfor_y = 0;
+    }
 
   int =  parseInt(subint);
   ctrl = parseInt(subctrl);
@@ -244,13 +243,6 @@ function Compile(obj,Obj,count_obj){
     obj_x = $("#" + obj + "_x" + i).val();
     obj_y = $("#" + obj + "_y" + i).val();
 
-    if (typeof obj_x == "undefined" || obj_x == "" ||isNaN($("#" + obj + "_x" + i).val())){
-      obj_x = 0;
-    }
-    if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + obj + "_y" + i).val())){
-      obj_y = 0;
-    }
-
     $(function(){
       $("#" + obj + "_x" + i).change(function(){
         obj_x = obj_x.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
@@ -265,6 +257,12 @@ function Compile(obj,Obj,count_obj){
         $("#" + obj + "_y" + i).val(obj_y);
       }).change();
     })
+    if (typeof obj_x == "undefined" || obj_x == "" ||isNaN($("#" + obj + "_x" + i).val())){
+      obj_x = 0;
+    }
+    if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + obj + "_y" + i).val())){
+      obj_y = 0;
+    }
 
     $("canvas").setLayer(Obj + i, {
 //      visible:true,
