@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang = "ja">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"  name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <title>逆コンパイラ</title>
     <link rel="stylesheet" href="style.css">
   </head>
@@ -32,18 +32,19 @@
 	           <tr>
 		           <td><img src="img/black.png" width="110" height="110" id="for">
                 </th>
-		           <td>内容</th>
+		           <td></th>
 	           </tr>
-	           <tr>
-		           <td>内容</th>
-		           <td>内容</th>
+	           <th scope="cols" colspan="2" id = "for_property" height = "110">
+               </th>
 	           </tr>
              <th scope="cols" colspan="2">
                <button type="button" name="compile" value="compile" class="position" id="compile">
                <font size="5" face="Century">compile</font>
                </button>
              </th>
+
 	        </tbody>
+          <th><button type="button"id = "sample_for"><font>for文を実行</font></th>
       </table>
     </div>
     <script type="text/javascript" src="js/jquery.js"> </script>
