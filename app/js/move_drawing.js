@@ -7,6 +7,8 @@ var for_str = document.getElementById("for");
 var compile = document.getElementById("compile");
 var for_property = document.getElementById("for_property");
 var sample_for = document.getElementById("sample_for");
+var back = document.getElementById("back");
+var store = document.getElementById("store")
 var figuers = [];
 var for_figuers = [];
 var load_figuers = 0;
@@ -16,6 +18,7 @@ var count_for = 0;
 var ellipse_flag = false;
 var rect_flag = false;
 var for_flag = false;
+var restore_flag = false;
 var obj_x;
 var obj_y;
 var object_Over;
@@ -26,6 +29,11 @@ var rate;
 var for_over;
 var for_out;
 var for_y;
+var index;
+var rect_code;
+var ellipse_code;
+var i = 0;
+var count_groups = 0;
 //配列に入れてtoString()で文字列に直している
 function literal(figures_code){
   figuers.push(figures_code);
@@ -49,11 +57,16 @@ function literal(figures_code){
 }
 //四角形を描く
 rect.addEventListener("click",function(){
+  rect_judge = true;
+  ellipse_judge = false;
+  ++count_groups;
   ++count_Rect;
+  i = 0;
   for (var i = 1;i < count_Rect;i++){
      $("canvas").drawRect({
        layer:true,
        name:"Rect" + i,
+       groups:["obj" + count_groups],
        strokeStyle: "black",
        fillStyle: "red",
        strokeWidth: 1,
@@ -67,6 +80,7 @@ rect.addEventListener("click",function(){
          $(function(){
            MOver("rect_source" + (i-1));
          });
+         console.log(layer.groups);
        },
        mouseout:function(layer){
          $(function(){
@@ -75,7 +89,7 @@ rect.addEventListener("click",function(){
        }
       });
      }
-    var rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '5'>rect(" + '<input type="text" size="4"id ="rect_x">' + "," + '<input type="text" size="4"id ="rect_y">' + ",w,h);</font></span>" + "\n";
+    rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '5'>rect(" + '<input type="text" size="4"id ="rect_x">' + "," + '<input type="text" size="4"id ="rect_y">' + ",w,h);</font></span>" + "\n";
     literal(rect_code);
     if(for_flag === true){
           $("canvas").setLayer("Rect" + (count_Rect -1),{
@@ -122,23 +136,18 @@ sample_for.addEventListener("click",function(){
     for_obj("rectangle");
     $("canvas").setLayerGroup("shapes" + (count_for-1),{
       fillStyle:"red",
-/*      mouseover:function(layer){
-        console.log(layer.groups);
-      }*/
     }).drawLayers();
   }
   if(ellipse_flag == true){
     for_obj("ellipse");
     $("canvas").setLayerGroup("shapes" + (count_for-1),{
       fillStyle:"blue",
-    /*  mouseover:function(layer){
-        console.log(layer.groups);
-      }*/
     }).drawLayers();
   }
   },false);
 
 function for_obj(Obj){
+//  $("#canvas").saveCanvas();
   var subint = $("#int").val();
   var subctrl = $("#ctrl").val();
   var subrate = $("#rate").val();
@@ -205,6 +214,7 @@ for(var ob_x = int; ob_x < ctrl; ob_x += rate){
     height: 100,
     radius:50,
     fromCenter: false,
+
 //    draggable:true,
     mouseover:function(layer){
       $(function(){
@@ -225,7 +235,6 @@ for(var ob_x = int; ob_x < ctrl; ob_x += rate){
           });
         });
       });
-    //  console.log(i);
     }
   }).drawLayers();
   }
@@ -237,6 +246,11 @@ for(var ob_x = int; ob_x < ctrl; ob_x += rate){
   "</font></span>" + "\n";
       literal(for_code);
 }
+
+
+
+
+
 //図形の位置を変える
 function Compile(obj,Obj,count_obj){
   for(var i = 1;i < count_obj;i++){
@@ -300,11 +314,16 @@ function change_class_span(obj){
     }
 //円を描く
 cicle.addEventListener("click",function(){
+  ellipse_judge = true;
+  rect_judge = false;
+  ++count_groups;
   ++count_Ellipse;
+  i = 0;
   for(var i = 1;i < count_Ellipse;i++){
     $("canvas").drawEllipse({
       layer:true,
       name:"Ellipse" + i,
+      groups:["obj" + count_groups],
       strokeStyle: "black",
       fillStyle: "blue",
       strokeWidth: 1,
@@ -319,6 +338,7 @@ cicle.addEventListener("click",function(){
         $(function(){
           MOver("ellipse_source" + (i-1));
         });
+        console.log(layer.groups);
       },
       mouseout:function(layer){
         $(function(){
@@ -327,7 +347,7 @@ cicle.addEventListener("click",function(){
       }
     });
   }
-  var ellipse_code = "<span id = 'ellipse_source'><font color = '#f7f7f7' size = '5'>ellipse(" + '<input type="text" size="4" id="ellipse_x">' + "," + '<input type="text" size="4" id="ellipse_y">' + ",w,h); </font></span>" + "\n";
+  ellipse_code = "<span id = 'ellipse_source'><font color = '#f7f7f7' size = '5'>ellipse(" + '<input type="text" size="4" id="ellipse_x">' + "," + '<input type="text" size="4" id="ellipse_y">' + ",w,h); </font></span>" + "\n";
   literal(ellipse_code);
   if(for_flag === true){
     $("canvas").setLayer("Ellipse" + (count_Ellipse -1),{
@@ -351,23 +371,16 @@ for_str.addEventListener("click",function(){
   for_flag = true;
   count_for++;
 },false);
-/*
-Image.addEventListener("click",function(){
-  ++count_Image;
-  for(var i = 1;i < count_Image;i++){
-    $("canvas").drawImage({
-      layer:true,
-      name:"Image" + i,
-      source:"img/black.png",
-      x: 100,
-      y: 100,
-      width : 100,
-      height : 100,
-      fromCenter : false,
-      draggable : true
-    });
-  }
-  var for_code = "for(int i =" + '<input type="text" size="4" id="for_init">' + "; i" + '<input type="text" size="4" id="for_ctr">' + "; i" + '<input type="text" size="4" id="for_incr">' + ";){" + "\n";
-  literal(for_code);
+
+back.addEventListener("click",function(){
+  $("canvas").setLayerGroup("obj" + (count_groups),{
+    visible:false
+  }).drawLayers();
+  console.log("obj" + (count_groups));
+  --count_groups;
+  figuers.pop();
 },false);
-*/
+
+store.addEventListener("click",function(){
+  $("canvas").clearCanvas();
+},false);

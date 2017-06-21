@@ -5,6 +5,8 @@ var canvas_ctx = canvas.getContext("2d");
 var code;
 var decompile_code;
 var decompile = document.getElementById("decompile");
+var rect_judge = false;
+var ellipse_judge = false;
 //逆コンパイル
   decompile.addEventListener("click",function(){
     source.innerHTML = decompile_code;
