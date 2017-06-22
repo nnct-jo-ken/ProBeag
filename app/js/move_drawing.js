@@ -206,7 +206,6 @@ for(var ob_x = int; ob_x < ctrl; ob_x += rate){
     groups: ['shapes' + i],
 //    dragGroups: ['shapes'],
     strokeStyle: "black",
-//    fillStyle: "black",
     strokeWidth: 1,
     x:ob_x,
     y: for_y,
@@ -279,7 +278,6 @@ function Compile(obj,Obj,count_obj){
     }
 
     $("canvas").setLayer(Obj + i, {
-//      visible:true,
       x: obj_x,
       y: obj_y
     })
@@ -373,10 +371,12 @@ for_str.addEventListener("click",function(){
 },false);
 
 back.addEventListener("click",function(){
+  if(for_flag === true){
+    for_property.innerHTML = "";
+  }
   $("canvas").setLayerGroup("obj" + (count_groups),{
     visible:false
   }).drawLayers();
-  console.log("obj" + (count_groups));
   --count_groups;
   figuers.pop();
 },false);
