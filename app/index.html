@@ -1,65 +1,95 @@
 <!DOCTYPE HTML>
-<html lang = "ja">
-  <head>
-    <meta charset="utf-8"  name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <title>逆コンパイラ</title>
     <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div class="area">
-      <div>
-        <pre class="pre"  id = "source_code">
-        </pre>
-      </div>
-      <canvas width="800" height="600" class="canvas_1" id="canvas"> </canvas>
-      <table class="table_img">
-	       <thead>
-	          <tr>
-		          <th scope="cols" colspan="2">
-                <button type="button" name="compile" value="compile" class="position" id="decompile">
-                <font size="5" face="Century">実行</font>
-                </button>
-              </th>
-	         </tr>
-	       </thead>
-	        <tbody>
-	           <tr>
-		           <td> <img src="img/blue_ellipse.png" width="110" height="110" id="cicle">
-               </th>
-		           <td> <img src="img/red.png" width="110" height="110" id="rect">
-              </th>
-	           </tr>
-	           <tr>
-		           <td><img src="img/black.png" width="110" height="110" id="for">
-                </th>
-		           <td></th>
-	           </tr>
-	           <th scope="cols" colspan="2" id = "for_property" height = "110">
-               </th>
-	           </tr>
-             <tr>
-             <th><button type="button"id = "sample_for"><font>for文を実行</font>
-             </button></th>
-             <th><button type="button"id = "store"><font>全消去</font>
-             </button></th></tr>
-             <tr>
-             <th><button type="button"id = "back"><font>前に戻る</font>
-             </button></th>
-             <th></th>
-           </tr>
-             <th scope="cols" colspan="2">
-               <button type="button" name="compile" value="compile" class="position" id="compile">
-               <font size="5" face="Century">compile</font>
-               </button>
-             </th>
+</head>
 
-	        </tbody>
-      </table>
+<body>
+    <div class="area">
+        <div>
+            <pre class="pre" id="source_code">
+        </pre>
+        </div>
+        <canvas width="800" height="600" class="canvas_1" id="canvas"> </canvas>
+
+        
+        <table class="table_img">
+            <div class="tab">
+                <button class="tablinks" onclick="openItem(event, 'shape')">図形</button>
+                <button class="tablinks" onclick="openItem(event, 'img')">イメージ</button>
+            </div>
+            <thead>
+                <tr>
+                    <th scope="cols" colspan="2">
+                        <button type="button" name="compile" value="compile" class="position" id="decompile">
+                    <font size="5" face="Century">実行</font>
+                    </button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <div id="shape" class="tabcontent">
+                    <tr>
+                        <td> <img src="img/blue_ellipse.png" width="110" height="110" id="cicle">
+                            </th>
+                            <td> <img src="img/red.png" width="110" height="110" id="rect">
+                                </th>
+                    </tr>
+                    <tr>
+                        <td><img src="img/black.png" width="110" height="110" id="for">
+                            </th>
+                            <td>
+                                </th>
+                    </tr>
+                </div>
+                <div class="tabcontent" id="img">
+                    <tr>
+                        <td>hogehoge</td>
+                        <td>hoge</td>
+                    </tr>
+                    <tr>
+                        <td>fugafuga</td>
+                        <td>fuga</td>
+                    </tr>
+                </div>
+                <th scope="cols" colspan="2" id="for_property" height="110">
+                </th>
+                </tr>
+                <tr>
+                    <th><button type="button" id="sample_for"><font>for文を実行</font>
+                 </button></th>
+                    <th><button type="button" id="store"><font>全消去</font>
+                 </button></th>
+                </tr>
+                <tr>
+                    <th><button type="button" id="back"><font>前に戻る</font>
+                 </button></th>
+                    <th></th>
+                </tr>
+                <th scope="cols" colspan="2">
+                    <button type="button" name="compile" value="compile" class="position" id="compile">
+                   <font size="5" face="Century">compile</font>
+                   </button>
+                </th>
+
+            </tbody>
+        </table>
+
+
+
     </div>
-    <script type="text/javascript" src="js/jquery.js"> </script>
-    <script type="text/javascript" src="js/jcanvas.min.js"> </script>
+    <script type="text/javascript" src="js/jquery.js">
+    </script>
+    <script type="text/javascript" src="js/jcanvas.min.js">
+    </script>
     <script type="type/javascript" src="js/jquery-3.2.1.min.js"> </script>
     <script type="text/javascript" src="js/move_drawing.js"></script>
-    <script type="text/javascript" src="js/main.js"> </script>
-  </body>
+    <script type="text/javascript" src="js/main.js">
+    </script>
+</body>
+
 </html>
