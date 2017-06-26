@@ -285,6 +285,7 @@ function Compile(obj,Obj,count_obj){
   }
 }
 
+
 function change_class_span(obj){
   $(function(){
     $("span").each(function(i){
@@ -371,16 +372,34 @@ for_str.addEventListener("click",function(){
 },false);
 
 back.addEventListener("click",function(){
+  figuers.pop();
   if(for_flag === true){
     for_property.innerHTML = "";
   }
   $("canvas").setLayerGroup("obj" + (count_groups),{
     visible:false
   }).drawLayers();
+  if(count_Rect != 2){
+    $("canvas").removeLayer("Rect" + (count_Rect - 1));
+    count_Rect--;
+  }
+  if(count_Ellipse != 2){
+    $("canvas").removeLayer("Ellispe" + (count_Ellipse - 1));
+    count_Ellipse--;
+  }
   --count_groups;
-  figuers.pop();
+  for_flag = false;
 },false);
 
 store.addEventListener("click",function(){
+  decompile_code = "";
+  count_Rect = 1;
+  count_Ellipse = 1;
+  count_groups = 0;
+
   $("canvas").clearCanvas();
+  $("canvas").setLayers({
+    visible:false
+  }).drawLayers();
+  $("canvas").removeLayers();
 },false);
