@@ -4,11 +4,14 @@ $.jCanvas.defaults.layer = true;
 var cicle = document.getElementById("cicle");
 var rect = document.getElementById("rect");
 var for_str = document.getElementById("for");
+var if_str = document.getElementById("if");
 var compile = document.getElementById("compile");
 var for_property = document.getElementById("for_property");
 var sample_for = document.getElementById("sample_for");
 var back = document.getElementById("back");
-var store = document.getElementById("store")
+var store = document.getElementById("store");
+var if_property = document.getElementById("if_property");
+var sample_if = document.getElementById("sample_if");
 var figuers = [];
 var for_figuers = [];
 var load_figuers = 0;
@@ -18,7 +21,7 @@ var count_for = 0;
 var ellipse_flag = false;
 var rect_flag = false;
 var for_flag = false;
-var restore_flag = false;
+var if_flag = false;
 var obj_x;
 var obj_y;
 var object_Over;
@@ -34,6 +37,12 @@ var rect_code;
 var ellipse_code;
 var i = 0;
 var count_groups = 0;
+var obj_flag;
+var X;
+var Y;
+var obj_judge;
+
+
 //配列に入れてtoString()で文字列に直している
 function literal(figures_code){
   figuers.push(figures_code);
@@ -80,13 +89,20 @@ rect.addEventListener("click",function(){
          $(function(){
            MOver("rect_source" + (i-1));
          });
-         console.log(layer.groups);
        },
        mouseout:function(layer){
          $(function(){
            MOut("rect_source" + (i-1));
          });
-       }
+       },
+       click:function(layer){
+       	if(if_flag === true){
+         obj_flag = layer.name;
+         X = layer.x;
+         Y = layer.y;
+         if_property.innerHTML = "オブジェクトを<input type = 'text' size = '4' id = 'pace'>秒でx座標を<input type = 'text' size = '4' id = 'if_x'>までy座標を<input type = 'text' size = '4' id = 'if_y'>まで動かす.";
+        }
+        }
       });
      }
     rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '5'>rect(" + '<input type="text" size="4"id ="rect_x">' + "," + '<input type="text" size="4"id ="rect_y">' + ",w,h);</font></span>" + "\n";
@@ -101,6 +117,7 @@ rect.addEventListener("click",function(){
     rect_flag = true;
     for_property.innerHTML = "四角形の始めのx座標を" + '<input type="text" size="4" id = "int">' + "y座標を" + '<input type = "text" size = "4" id = "for_y">' +"から横に" + '<input type="text" size="4" id = "ctrl">' + " まで"
     + '<input type="text" size="4" id = "rate">' + "ずつ動かす";
+    obj_judge = "rect";
   }else{
     $("canvas").setLayer("Rect" + (count_Rect -1),{
       visible:true
@@ -114,6 +131,7 @@ rect.addEventListener("click",function(){
     Compile("ellipse","Ellipse",count_Ellipse);
   },false);
 
+//マウスオーバーの関数
 function MOver(obj){
   $(function(){
     $("pre > ." + obj).each(function(){
@@ -122,6 +140,7 @@ function MOver(obj){
     });
   });
 }
+//マウスアウトの関数
 function MOut(obj){
   $(function(){
     $("pre > ." + obj).each(function(){
@@ -131,6 +150,75 @@ function MOut(obj){
   });
 }
 
+//if文の実行のイベントリスナ
+sample_if.addEventListener("click",function(){
+
+var subpace = $("#pace").val();
+var subif_x = $("#if_x").val();
+var subif_y = $("#if_y").val();
+
+$(function(){
+    $("#pace").change(function(){
+      subpace = subpace.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+          return String.fromCharCode(s.charCodeAt(0) - 65248);
+      });
+      $("#pace").val(subpace);
+    }).change();
+    $("#if_x").change(function(){
+      subif_x = subif_x.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+          return String.fromCharCode(s.charCodeAt(0) - 65248);
+      });
+      $("#if_x").val(subif_x);
+    }).change();
+    $("#if_y").change(function(){
+      subif_y = subif_y.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+          return String.fromCharCode(s.charCodeAt(0) - 65248);
+      });
+      $("#if_y").val(subif_y);
+    }).change();
+    });
+
+	if (typeof subpace == "undefined" || subpace == "" ||isNaN($("#pace").val())){
+      subpace = 1;
+    }
+    if (typeof subif_x == "undefined" || subif_x == "" ||isNaN($("#if_x").val())){
+      subif_x = 0;
+    }
+    if (typeof subif_y == "undefined" || subif_y == "" ||isNaN($("#if_y").val())){
+      subif_y = 0;
+    }
+
+    pace = parseInt((subpace*1000));
+    if_x = parseInt(subif_x);
+ 	  if_y = parseInt(subif_y);
+
+ if(if_flag === true){
+  $("canvas").animateLayer(obj_flag,{
+   x:function(){
+    if(X < if_x && Y < if_y){
+     return if_x;
+    }
+   },
+   y:function(){
+    if(Y < if_y && X < if_x){
+     return if_y;
+    }
+   }
+  },pace).drawLayers();
+ }
+ var num_x = (if_x - X)/(60*subpace);
+ var num_y = (if_y - Y)/(60*subpace);
+ var if_code = "<span id = 'if_source'><font color = '#f7f7f7' size = '5'>" +
+ "if(" + X + "<=" + if_x + " && " + Y + "<=" + if_y + "){" + "\n" +
+   " x += " + parseFloat(num_x).toFixed(2) + ";" + "\n" +
+   " y += " + parseFloat(num_y).toFixed(2) + ";" + "\n" +
+ "}" + "\n" +
+ "</font></span>" + "\n";
+  literal(if_code);
+  if_flag = false;
+},false);
+
+//for文を実行のイベントリスナ
 sample_for.addEventListener("click",function(){
   if(rect_flag == true){
     for_obj("rectangle");
@@ -146,8 +234,8 @@ sample_for.addEventListener("click",function(){
   }
   },false);
 
+//for文の実行コード
 function for_obj(Obj){
-//  $("#canvas").saveCanvas();
   var subint = $("#int").val();
   var subctrl = $("#ctrl").val();
   var subrate = $("#rate").val();
@@ -202,9 +290,7 @@ for(var ob_x = int; ob_x < ctrl; ob_x += rate){
   $("canvas").addLayer({
     type:Obj,
     layer:true,
-//    name:"OBJ" + i,
     groups: ['shapes' + i],
-//    dragGroups: ['shapes'],
     strokeStyle: "black",
     strokeWidth: 1,
     x:ob_x,
@@ -213,8 +299,6 @@ for(var ob_x = int; ob_x < ctrl; ob_x += rate){
     height: 100,
     radius:50,
     fromCenter: false,
-
-//    draggable:true,
     mouseover:function(layer){
       $(function(){
         $("pre > .for_source" + i).each(function(){
@@ -240,15 +324,11 @@ for(var ob_x = int; ob_x < ctrl; ob_x += rate){
 }
   var for_code = "<span id = 'for_source'><font color = '#f7f7f7' size = '5'>" +
   "for (int x = " + int + ";x < " + ctrl + "; x+=" + rate + "){" + "\n" +
-    "rect(x," + for_y + ",100,100);" + "\n" +
+    obj_judge + "(x," + for_y + ",100,100);" + "\n" +
   "}" + "\n" +
   "</font></span>" + "\n";
       literal(for_code);
 }
-
-
-
-
 
 //図形の位置を変える
 function Compile(obj,Obj,count_obj){
@@ -285,7 +365,7 @@ function Compile(obj,Obj,count_obj){
   }
 }
 
-
+//spanタグにClassを付与
 function change_class_span(obj){
   $(function(){
     $("span").each(function(i){
@@ -303,7 +383,7 @@ function change_class_span(obj){
         });
       });
     }
-
+//spanタグのid変更
     function change_id_span(obj){
       $(function(){
         $("span").each(function(i){
@@ -337,7 +417,7 @@ cicle.addEventListener("click",function(){
         $(function(){
           MOver("ellipse_source" + (i-1));
         });
-        console.log(layer.groups);
+        console.log(layer.name);
       },
       mouseout:function(layer){
         $(function(){
@@ -358,6 +438,7 @@ cicle.addEventListener("click",function(){
   ellipse_flag = true;
   for_property.innerHTML = "円の始めのx座標を" + '<input type="text" size="4" id = "int">' + "y座標を" + '<input type = "text" size = "4" id = "for_y">' +"から横に" + '<input type="text" size="4" id = "ctrl">' + " まで"
   + '<input type="text" size="4" id = "rate">' + "ずつ動かす";
+  obj_judge = "ellipse";
   }else{
       $("canvas").setLayer("Ellipse" + (count_Ellipse -1),{
         visible:true
@@ -365,32 +446,55 @@ cicle.addEventListener("click",function(){
     }
 },false);
 
+//画像の緑のイベントリスナ
+if_str.addEventListener("click",function(){
+ if_property.innerHTML = "オブジェクトを選択してください.";
+ if_flag = true;
+},false);
+
+//画像の黒のイベントリスナ
 for_str.addEventListener("click",function(){
   for_property.innerHTML = "オブジェクトを選択してください.";
   for_flag = true;
   count_for++;
 },false);
 
+//前に戻るのイベントリスナ
 back.addEventListener("click",function(){
   figuers.pop();
   if(for_flag === true){
     for_property.innerHTML = "";
   }
-  $("canvas").setLayerGroup("obj" + (count_groups),{
-    visible:false
-  }).drawLayers();
-  if(count_Rect != 2){
+  if(if_flag === true){
+    if_property.innerHTML = "";
+  }
+  if(count_Rect != 1){
+    $("canvas").setLayerGroup("obj" + (count_groups),{
+      visible:false
+    }).drawLayers();
     $("canvas").removeLayer("Rect" + (count_Rect - 1));
     count_Rect--;
   }
-  if(count_Ellipse != 2){
-    $("canvas").removeLayer("Ellispe" + (count_Ellipse - 1));
+  if(count_Ellipse != 1){
+    $("canvas").setLayerGroup("obj" + (count_groups),{
+      visible:false
+    }).drawLayers();
+    $("canvas").removeLayer("Ellipse" + (count_Ellipse - 1));
     count_Ellipse--;
+  }
+  if(count_for != 0){
+    console.log(count_for-1);
+    $("canvas").setLayerGroup("shapes" + (count_for-1),{
+      visible:false
+    }).drawLayers();
+    $("canvas").removeLayerGroup("shapes" + (count_for - 1));
+    count_for--;
   }
   --count_groups;
   for_flag = false;
 },false);
 
+//全消去のイベントリスナ
 store.addEventListener("click",function(){
   decompile_code = "";
   count_Rect = 1;

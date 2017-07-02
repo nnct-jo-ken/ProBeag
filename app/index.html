@@ -15,7 +15,7 @@
         </div>
         <canvas width="800" height="600" class="canvas_1" id="canvas"> </canvas>
 
-        
+
         <table class="table_img">
             <div class="tab">
                 <button class="tablinks" onclick="openItem(event, 'shape')">図形</button>
@@ -35,15 +35,15 @@
                 <div id="shape" class="tabcontent">
                     <tr>
                         <td> <img src="img/blue_ellipse.png" width="110" height="110" id="cicle">
-                            </th>
-                            <td> <img src="img/red.png" width="110" height="110" id="rect">
-                                </th>
+                        </th>
+                        <td> <img src="img/red.png" width="110" height="110" id="rect">
+                        </th>
                     </tr>
                     <tr>
                         <td><img src="img/black.png" width="110" height="110" id="for">
-                            </th>
-                            <td>
-                                </th>
+                        </th>
+                        <td><img src="img/green.png" width="110" height="110" id="if">
+                        </th>
                     </tr>
                 </div>
                 <div class="tabcontent" id="img">
@@ -56,8 +56,11 @@
                         <td>fuga</td>
                     </tr>
                 </div>
+                <tr>
                 <th scope="cols" colspan="2" id="for_property" height="110">
-                </th>
+                </th></tr>
+                <tr><th scope="cols" colspan="2" id="if_property" height="110">
+                </th></tr>
                 </tr>
                 <tr>
                     <th><button type="button" id="sample_for"><font>for文を実行</font>
@@ -68,7 +71,7 @@
                 <tr>
                     <th><button type="button" id="back"><font>前に戻る</font>
                  </button></th>
-                    <th></th>
+                    <th><button type="button" id="sample_if">if文を実行</th>
                 </tr>
                 <th scope="cols" colspan="2">
                     <button type="button" name="compile" value="compile" class="position" id="compile">
