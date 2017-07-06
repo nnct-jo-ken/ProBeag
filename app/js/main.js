@@ -27,6 +27,11 @@ window.addEventListener("DOMContentLoaded", function(){
     pres[i].firstChild.data = pres[i].firstChild.data.replace(/^ +/gm,"");
   }
 },false);
+//color_picker
+$(document).ready(function() {
+  $('#colorpicker').farbtastic('#color');
+});
+
 
 //tab用関数
 function openItem(evt, cityName) {

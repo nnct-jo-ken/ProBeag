@@ -13,7 +13,6 @@ var store = document.getElementById("store");
 var if_property = document.getElementById("if_property");
 var sample_if = document.getElementById("sample_if");
 var figuers = [];
-var for_figuers = [];
 var load_figuers = 0;
 var count_Rect = 1;
 var count_Ellipse = 1;
@@ -32,7 +31,6 @@ var rate;
 var for_over;
 var for_out;
 var for_y;
-var index;
 var rect_code;
 var ellipse_code;
 var i = 0;
@@ -41,7 +39,10 @@ var obj_flag;
 var X;
 var Y;
 var obj_judge;
-
+var obj_ope_x;
+var obj_ope_y;
+var comp_x;
+var comp_y;
 
 //配列に入れてtoString()で文字列に直している
 function literal(figures_code){
@@ -77,13 +78,17 @@ rect.addEventListener("click",function(){
        name:"Rect" + i,
        groups:["obj" + count_groups],
        strokeStyle: "black",
-       fillStyle: "red",
+       fillStyle:"#FF0000",
        strokeWidth: 1,
        x: 100,
        y: 100,
        width: 100,
        height: 100,
        fromCenter: false,
+       dblclick:function(layer){
+         layer.fillStyle = $("#color").val();
+         console.log(layer.fillStyle);
+       },
        draggable:true,
        mouseover:function(layer){
          $(function(){
@@ -105,7 +110,7 @@ rect.addEventListener("click",function(){
         }
       });
      }
-    rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '5'>rect(" + '<input type="text" size="4"id ="rect_x">' + "," + '<input type="text" size="4"id ="rect_y">' + ",w,h);</font></span>" + "\n";
+    rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '5'>rect(" + '<input type="text" size="4"id ="rect_x" value = "100">' + "," + '<input type="text" size="4"id ="rect_y" value = "100">' + ",w,h);</font></span>" + "\n";
     literal(rect_code);
     if(for_flag === true){
           $("canvas").setLayer("Rect" + (count_Rect -1),{
@@ -149,7 +154,6 @@ function MOut(obj){
     });
   });
 }
-
 //if文の実行のイベントリスナ
 sample_if.addEventListener("click",function(){
 
@@ -194,24 +198,38 @@ $(function(){
 
  if(if_flag === true){
   $("canvas").animateLayer(obj_flag,{
-   x:function(){
-    if(X < if_x && Y < if_y){
-     return if_x;
-    }
-   },
-   y:function(){
-    if(Y < if_y && X < if_x){
-     return if_y;
-    }
-   }
+   x:if_x,
+   y:if_y
   },pace).drawLayers();
+ }
+
+ if(X <= if_x && Y <= if_y){
+   comp_x = "<=";
+   comp_y = "<=";
+   obj_ope_x = "+=";
+   obj_ope_y = "+=";
+ }else if(X >= if_x && Y <= if_y){
+   comp_x = ">=";
+   comp_y = "<=";
+   obj_ope_x = "-=";
+   obj_ope_y = "+=";
+ }else if(X <= if_x && Y >= if_y){
+   comp_x = "<=";
+   comp_y = ">=";
+   obj_ope_x = "+=";
+   obj_ope_y = "-=";
+ }else if(X >= if_x && Y >= if_y){
+   comp_x = ">=";
+   comp_y = ">=";
+   obj_ope_x = "-=";
+   obj_ope_y = "-=";
  }
  var num_x = (if_x - X)/(60*subpace);
  var num_y = (if_y - Y)/(60*subpace);
  var if_code = "<span id = 'if_source'><font color = '#f7f7f7' size = '5'>" +
- "if(" + X + "<=" + if_x + " && " + Y + "<=" + if_y + "){" + "\n" +
-   " x += " + parseFloat(num_x).toFixed(2) + ";" + "\n" +
-   " y += " + parseFloat(num_y).toFixed(2) + ";" + "\n" +
+ "if( x " + comp_x + if_x + " && y "+ comp_y + if_y + "){" + "\n" +
+   " x " + obj_ope_x + parseFloat(num_x).toFixed(2) + ";" + "\n" +
+   " y " + obj_ope_y + parseFloat(num_y).toFixed(2) + ";" + "\n" +
  "}" + "\n" +
  "</font></span>" + "\n";
   literal(if_code);
@@ -223,13 +241,13 @@ sample_for.addEventListener("click",function(){
   if(rect_flag == true){
     for_obj("rectangle");
     $("canvas").setLayerGroup("shapes" + (count_for-1),{
-      fillStyle:"red",
+      fillStyle:"#FF0000",
     }).drawLayers();
   }
   if(ellipse_flag == true){
     for_obj("ellipse");
     $("canvas").setLayerGroup("shapes" + (count_for-1),{
-      fillStyle:"blue",
+      fillStyle:"#0000FF",
     }).drawLayers();
   }
   },false);
@@ -404,7 +422,7 @@ cicle.addEventListener("click",function(){
       name:"Ellipse" + i,
       groups:["obj" + count_groups],
       strokeStyle: "black",
-      fillStyle: "blue",
+      fillStyle: "#0000FF",
       strokeWidth: 1,
       x: 100,
       y: 100,
@@ -412,6 +430,9 @@ cicle.addEventListener("click",function(){
       height: 100,
       fromCenter: false,
       draggable: true,
+      dblclick:function(layer){
+        layer.fillStyle = $("#color").val();
+      },
       visible:true,
       mouseover:function(layer){
         $(function(){
@@ -426,7 +447,7 @@ cicle.addEventListener("click",function(){
       }
     });
   }
-  ellipse_code = "<span id = 'ellipse_source'><font color = '#f7f7f7' size = '5'>ellipse(" + '<input type="text" size="4" id="ellipse_x">' + "," + '<input type="text" size="4" id="ellipse_y">' + ",w,h); </font></span>" + "\n";
+  ellipse_code = "<span id = 'ellipse_source'><font color = '#f7f7f7' size = '5'>ellipse(" + '<input type="text" size="4" id="ellipse_x" value = "100">' + "," + '<input type="text" size="4" id="ellipse_y" value = "100">' + ",w,h); </font></span>" + "\n";
   literal(ellipse_code);
   if(for_flag === true){
     $("canvas").setLayer("Ellipse" + (count_Ellipse -1),{

@@ -26,6 +26,11 @@ background:linear-gradient(90deg,#0b0023 0%,#0b0023 33%,#cfab3f 33.1%,#cfab3f 33
 button.position{
   width:100%;
 }
+
+.farbtastic{
+	margin: auto;
+}
+
 table.table_img {
 	border-collapse: collapse;
 	text-align: center;
