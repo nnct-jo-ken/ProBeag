@@ -1,6 +1,6 @@
 $.jCanvas.defaults.fromCenter = false;
 $.jCanvas.defaults.layer = true;
-
+//document.getElementByIdでhtmlのid属性を取得
 var cicle = document.getElementById("cicle");
 var rect = document.getElementById("rect");
 var for_str = document.getElementById("for");
@@ -12,46 +12,69 @@ var back = document.getElementById("back");
 var store = document.getElementById("store");
 var if_property = document.getElementById("if_property");
 var sample_if = document.getElementById("sample_if");
+//表示するコードをいれる配列
 var figuers = [];
+//何回関数が読みだされたかカウント
 var load_figuers = 0;
 var count_Rect = 1;
 var count_Ellipse = 1;
 var count_for = 0;
+//forを作る判定
 var ellipse_flag = false;
 var rect_flag = false;
 var for_flag = false;
 var if_flag = false;
+//図形のtextboxの値を取得する変数
 var obj_x;
 var obj_y;
+//mouseを動かした際のid属性を入れる変数
 var object_Over;
 var object_Out;
+//forのtextboxの値を取得する変数
 var int;
 var ctrl;
 var rate;
+//forで作った図形のmouse動作
 var for_over;
 var for_out;
+//forで指定するy座標の変数
 var for_y;
+//図形のソースコード
 var rect_code;
 var ellipse_code;
-var i = 0;
+//図形が何回canvas内にあるか
 var count_groups = 0;
+//図形のnameプロパティを取得
 var obj_flag;
+//図形の座標取得
 var X;
 var Y;
+//for文のellipseかrectなどを取得する変数
 var obj_judge;
+//if文のインクリメントかデクリメントかをを決める
 var obj_ope_x;
 var obj_ope_y;
+//if文の演算子を決める
 var comp_x;
 var comp_y;
+//ぶっちゃけいらない,改良予定の部分
+var re_x = 100;
+var re_y = 100;
 
 //配列に入れてtoString()で文字列に直している
 function literal(figures_code){
+  //引数をfiguersの一番最後にぶちこむ
   figuers.push(figures_code);
+  //forを作る際のやり直しを行うもの
   if(for_flag == true){
+    //最後の要素を消す
     figuers.pop();
   }
+  //配列を文字列に直す
   code = figuers.toString();
+  //正規表現のところやね
   decompile_code = code.replace("\t","\n");
+  //これでpreタグ内に書き込める
   $(function ($) {
     $("#decompile").click( function() {
       for (var i in figuers){
@@ -67,12 +90,10 @@ function literal(figures_code){
 }
 //四角形を描く
 rect.addEventListener("click",function(){
-  rect_judge = true;
-  ellipse_judge = false;
   ++count_groups;
   ++count_Rect;
-  i = 0;
   for (var i = 1;i < count_Rect;i++){
+    //これがJcanvasの四角形を描くソース
      $("canvas").drawRect({
        layer:true,
        name:"Rect" + i,
@@ -87,7 +108,6 @@ rect.addEventListener("click",function(){
        fromCenter: false,
        dblclick:function(layer){
          layer.fillStyle = $("#color").val();
-         console.log(layer.fillStyle);
        },
        draggable:true,
        mouseover:function(layer){
@@ -101,25 +121,28 @@ rect.addEventListener("click",function(){
          });
        },
        click:function(layer){
-       	if(if_flag === true){
-         obj_flag = layer.name;
-         X = layer.x;
-         Y = layer.y;
-         if_property.innerHTML = "オブジェクトを<input type = 'text' size = '4' id = 'pace'>秒でx座標を<input type = 'text' size = '4' id = 'if_x'>までy座標を<input type = 'text' size = '4' id = 'if_y'>まで動かす.";
-        }
+       	 if(if_flag === true){
+           obj_flag = layer.name;
+           X = layer.x;
+           Y = layer.y;
+           if_property.innerHTML = "オブジェクトを<input type = 'text' size = '4' id = 'pace'>秒でx座標を<input type = 'text' size = '4' id = 'if_x'>までy座標を<input type = 'text' size = '4' id = 'if_y'>まで動かす.";
+         }
         }
       });
      }
-    rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '5'>rect(" + '<input type="text" size="4"id ="rect_x" value = "100">' + "," + '<input type="text" size="4"id ="rect_y" value = "100">' + ",w,h);</font></span>" + "\n";
+    rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '5'>rect(" + '<input type="text" size="4"id ="rect_x" value = ' + re_x + '>' + "," + '<input type="text" size="4"id ="rect_y" value = ' + re_y + '>' + ",w,h);</font></span>" + "\n";
     literal(rect_code);
+    //forをクリックされた際の処理
     if(for_flag === true){
-          $("canvas").setLayer("Rect" + (count_Rect -1),{
-            visible:false
-        }).drawLayers();
-        count_Rect--;
+      //nameプロパティがRect(最後)の図形を見えなくする
+      $("canvas").setLayer("Rect" + (count_Rect -1),{
+        visible:false
+      }).drawLayers();
+    count_Rect--;
     for_flag = false;
     ellipse_flag = false;
     rect_flag = true;
+    //table内のfor_propertyに書き込む
     for_property.innerHTML = "四角形の始めのx座標を" + '<input type="text" size="4" id = "int">' + "y座標を" + '<input type = "text" size = "4" id = "for_y">' +"から横に" + '<input type="text" size="4" id = "ctrl">' + " まで"
     + '<input type="text" size="4" id = "rate">' + "ずつ動かす";
     obj_judge = "rect";
@@ -139,6 +162,7 @@ rect.addEventListener("click",function(){
 //マウスオーバーの関数
 function MOver(obj){
   $(function(){
+    //preタグ内のclass名を取得
     $("pre > ." + obj).each(function(){
       object_Over = document.getElementById(obj);
       object_Over.style.backgroundColor = "rgba(127,255,212,0.55)";
@@ -156,11 +180,11 @@ function MOut(obj){
 }
 //if文の実行のイベントリスナ
 sample_if.addEventListener("click",function(){
-
+//ifのtextbox内の値をid属性で指定して取得
 var subpace = $("#pace").val();
 var subif_x = $("#if_x").val();
 var subif_y = $("#if_y").val();
-
+//全角で打った時の数値を半角に直す処理
 $(function(){
     $("#pace").change(function(){
       subpace = subpace.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
@@ -181,7 +205,7 @@ $(function(){
       $("#if_y").val(subif_y);
     }).change();
     });
-
+//textbox内の値の中身が入ってなかったり、数値以外だった際に行う処理
 	if (typeof subpace == "undefined" || subpace == "" ||isNaN($("#pace").val())){
       subpace = 1;
     }
@@ -191,11 +215,11 @@ $(function(){
     if (typeof subif_y == "undefined" || subif_y == "" ||isNaN($("#if_y").val())){
       subif_y = 0;
     }
-
+//textboxで取得した値を数値に直す処理(そのまま使うと文字列になるため)
     pace = parseInt((subpace*1000));
     if_x = parseInt(subif_x);
  	  if_y = parseInt(subif_y);
-
+//ifのときにクリックされた図形に対して行うアニメーション
  if(if_flag === true){
   $("canvas").animateLayer(obj_flag,{
    x:if_x,
@@ -224,10 +248,14 @@ $(function(){
    obj_ope_x = "-=";
    obj_ope_y = "-=";
  }
+ //変化率を出す処理
+ //x,yに+=か-=する数値
  var num_x = (if_x - X)/(60*subpace);
  var num_y = (if_y - Y)/(60*subpace);
+
  var if_code = "<span id = 'if_source'><font color = '#f7f7f7' size = '5'>" +
  "if( x " + comp_x + if_x + " && y "+ comp_y + if_y + "){" + "\n" +
+                                        //↓小数点を決める、この場合は第二位まで
    " x " + obj_ope_x + parseFloat(num_x).toFixed(2) + ";" + "\n" +
    " y " + obj_ope_y + parseFloat(num_y).toFixed(2) + ";" + "\n" +
  "}" + "\n" +
@@ -240,6 +268,7 @@ $(function(){
 sample_for.addEventListener("click",function(){
   if(rect_flag == true){
     for_obj("rectangle");
+    //グループ化しているものを取得してプロパティを追加
     $("canvas").setLayerGroup("shapes" + (count_for-1),{
       fillStyle:"#FF0000",
     }).drawLayers();
@@ -254,10 +283,12 @@ sample_for.addEventListener("click",function(){
 
 //for文の実行コード
 function for_obj(Obj){
+  //forのtextbox内の値を取得
   var subint = $("#int").val();
   var subctrl = $("#ctrl").val();
   var subrate = $("#rate").val();
   var subfor_y = $("#for_y").val();
+  //全角→半角変換処理
   $(function(){
     $("#int").change(function(){
       subint = subint.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
@@ -284,7 +315,7 @@ function for_obj(Obj){
       $("#for_y").val(subfor_y);
     }).change();
   })
-
+//textboxの値判定
     if (typeof subint == "undefined" || subint == "" ||isNaN($("#int").val())){
       subint = 0;
     }
@@ -297,12 +328,12 @@ function for_obj(Obj){
     if (typeof subfor_y == "undefined" || subfor_y == "" ||isNaN($("#for_y").val())){
       subfor_y = 0;
     }
-
+//文字列→数値変換処理
   int =  parseInt(subint);
   ctrl = parseInt(subctrl);
   rate = parseInt(subrate);
   for_y = parseInt(subfor_y);
-
+//for文を実行して図形を出す処理
 for(var ob_x = int; ob_x < ctrl; ob_x += rate){
   for(var i = 0;i < count_for;i++){
   $("canvas").addLayer({
@@ -351,9 +382,10 @@ for(var ob_x = int; ob_x < ctrl; ob_x += rate){
 //図形の位置を変える
 function Compile(obj,Obj,count_obj){
   for(var i = 1;i < count_obj;i++){
+    //図形のtextbox内の値を取得
     obj_x = $("#" + obj + "_x" + i).val();
     obj_y = $("#" + obj + "_y" + i).val();
-
+//全角→半角変換処理
     $(function(){
       $("#" + obj + "_x" + i).change(function(){
         obj_x = obj_x.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
@@ -368,13 +400,14 @@ function Compile(obj,Obj,count_obj){
         $("#" + obj + "_y" + i).val(obj_y);
       }).change();
     })
+    //textboxの値判定
     if (typeof obj_x == "undefined" || obj_x == "" ||isNaN($("#" + obj + "_x" + i).val())){
       obj_x = 0;
     }
     if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + obj + "_y" + i).val())){
       obj_y = 0;
     }
-
+//nameプロパティを指定して動かす
     $("canvas").setLayer(Obj + i, {
       x: obj_x,
       y: obj_y
@@ -411,11 +444,8 @@ function change_class_span(obj){
     }
 //円を描く
 cicle.addEventListener("click",function(){
-  ellipse_judge = true;
-  rect_judge = false;
   ++count_groups;
   ++count_Ellipse;
-  i = 0;
   for(var i = 1;i < count_Ellipse;i++){
     $("canvas").drawEllipse({
       layer:true,
@@ -449,6 +479,7 @@ cicle.addEventListener("click",function(){
   }
   ellipse_code = "<span id = 'ellipse_source'><font color = '#f7f7f7' size = '5'>ellipse(" + '<input type="text" size="4" id="ellipse_x" value = "100">' + "," + '<input type="text" size="4" id="ellipse_y" value = "100">' + ",w,h); </font></span>" + "\n";
   literal(ellipse_code);
+  //forがクリックされたときの処理
   if(for_flag === true){
     $("canvas").setLayer("Ellipse" + (count_Ellipse -1),{
       visible:false
@@ -482,13 +513,16 @@ for_str.addEventListener("click",function(){
 
 //前に戻るのイベントリスナ
 back.addEventListener("click",function(){
+  //一番最後の配列の要素消去
   figuers.pop();
+  //それぞれのプロパティを消す
   if(for_flag === true){
     for_property.innerHTML = "";
   }
   if(if_flag === true){
     if_property.innerHTML = "";
   }
+  //図形を消してレイヤーごと消去
   if(count_Rect != 1){
     $("canvas").setLayerGroup("obj" + (count_groups),{
       visible:false
@@ -504,7 +538,6 @@ back.addEventListener("click",function(){
     count_Ellipse--;
   }
   if(count_for != 0){
-    console.log(count_for-1);
     $("canvas").setLayerGroup("shapes" + (count_for-1),{
       visible:false
     }).drawLayers();

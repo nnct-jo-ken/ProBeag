@@ -1,14 +1,13 @@
+//document.getElementByIdでhtmlのid属性を取得
 var source = document.getElementById("source_code");
-/*var source_ctx = sorce.getContext("2d");*/
 var canvas = document.getElementById("canvas");
-var canvas_ctx = canvas.getContext("2d");
+var decompile = document.getElementById("decompile");
+//ソースコードの中身の変数
 var code;
 var decompile_code;
-var decompile = document.getElementById("decompile");
-var rect_judge = false;
-var ellipse_judge = false;
 //逆コンパイル
   decompile.addEventListener("click",function(){
+    //ソースコード表示
     source.innerHTML = decompile_code;
     change_id("rect");
     change_id("ellipse");
