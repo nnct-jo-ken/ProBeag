@@ -5,6 +5,8 @@ var cicle = document.getElementById("cicle");
 var rect = document.getElementById("rect");
 var for_str = document.getElementById("for");
 var if_str = document.getElementById("if");
+var triangle = document.getElementById("triangle");
+var polygon = document.getElementById("polygon");
 var compile = document.getElementById("compile");
 var for_property = document.getElementById("for_property");
 var sample_for = document.getElementById("sample_for");
@@ -18,10 +20,14 @@ var figuers = [];
 var load_figuers = 0;
 var count_Rect = 1;
 var count_Ellipse = 1;
+var count_tri = 1;
+var count_ply = 1;
 var count_for = 0;
 //forを作る判定
 var ellipse_flag = false;
 var rect_flag = false;
+var tri_flag = false;
+var ply_flag = false;
 var for_flag = false;
 var if_flag = false;
 //図形のtextboxの値を取得する変数
@@ -42,6 +48,7 @@ var for_y;
 //図形のソースコード
 var rect_code;
 var ellipse_code;
+var tri_code;
 //図形が何回canvas内にあるか
 var count_groups = 0;
 //図形のnameプロパティを取得
@@ -155,14 +162,16 @@ rect.addEventListener("click",function(){
 
 //ボタンを押して図形の位置を変更する
   compile.addEventListener("click",function(){
+    //(図形のtextboxのid,nameプロパティ,count_??);
     Compile("rect","Rect",count_Rect);
     Compile("ellipse","Ellipse",count_Ellipse);
+    Compile("triangle","Triangle",count_tri);
   },false);
 
 //マウスオーバーの関数
 function MOver(obj){
   $(function(){
-    //preタグ内のclass名を取得
+    //preタグ内のspanのclass名を取得
     $("pre > ." + obj).each(function(){
       object_Over = document.getElementById(obj);
       object_Over.style.backgroundColor = "rgba(127,255,212,0.55)";
@@ -468,7 +477,6 @@ cicle.addEventListener("click",function(){
         $(function(){
           MOver("ellipse_source" + (i-1));
         });
-        console.log(layer.name);
       },
       mouseout:function(layer){
         $(function(){
@@ -537,6 +545,13 @@ back.addEventListener("click",function(){
     $("canvas").removeLayer("Ellipse" + (count_Ellipse - 1));
     count_Ellipse--;
   }
+  if(count_tri != 1){
+    $("canvas").setLayerGroup("obj" + (count_groups),{
+      visible:false
+    }).drawLayers();
+    $("canvas").removeLayer("Triangle" + (count_tri - 1));
+    count_tri--;
+  }
   if(count_for != 0){
     $("canvas").setLayerGroup("shapes" + (count_for-1),{
       visible:false
@@ -552,6 +567,7 @@ back.addEventListener("click",function(){
 store.addEventListener("click",function(){
   decompile_code = "";
   count_Rect = 1;
+  count_tri = 1;
   count_Ellipse = 1;
   count_groups = 0;
 
@@ -561,3 +577,70 @@ store.addEventListener("click",function(){
   }).drawLayers();
   $("canvas").removeLayers();
 },false);
+
+
+//三角形を描く
+triangle.addEventListener("click",function(){
+  ++count_groups;
+  ++count_tri;
+  for (var i = 1;i < count_tri;i++){
+    //これがJcanvasの三角形を描くソース
+     $("canvas").drawPolygon({
+       layer:true,
+       name:"Triangle" + i,
+       groups:["obj" + count_groups],
+       strokeStyle: "black",
+       fillStyle:"#FFA500",
+       strokeWidth: 1,
+       x: 100,
+       y: 100,
+       radius:50,
+       fromCenter: false,
+       sides: 3,
+       dblclick:function(layer){
+         layer.fillStyle = $("#color").val();
+       },
+       draggable:true,
+       mouseover:function(layer){
+         $(function(){
+           MOver("triangle_source" + (i-1));
+         });
+       },
+       mouseout:function(layer){
+         $(function(){
+           MOut("triangle_source" + (i-1));
+         });
+       },
+       click:function(layer){
+       	 if(if_flag === true){
+           obj_flag = layer.name;
+           X = layer.x;
+           Y = layer.y;
+           if_property.innerHTML = "オブジェクトを<input type = 'text' size = '4' id = 'pace'>秒でx座標を<input type = 'text' size = '4' id = 'if_x'>までy座標を<input type = 'text' size = '4' id = 'if_y'>まで動かす.";
+         }
+        }
+      });
+     }
+    tri_code = "<span id = 'triangle_source'><font color = '#f7f7f7' size = '5'>triangle(" + '<input type="text" size="4"id ="triangle_x" value = ' + re_x + '>' + "," + '<input type="text" size="4"id ="triangle_y" value = ' + re_y + '>' + ",w,h);</font></span>" + "\n";
+    literal(tri_code);
+    //forをクリックされた際の処理
+    if(for_flag === true){
+      //nameプロパティがTriangle(最後)の図形を見えなくする
+      $("canvas").setLayer("Triangle" + (count_tri -1),{
+        visible:false
+      }).drawLayers();
+    count_tri--;
+    for_flag = false;
+    rect_flag = false;
+    ellipse_flag = false;
+    tri_flag = true;
+    //table内のfor_propertyに書き込む
+    for_property.innerHTML = "三角形の始めのx座標を" + '<input type="text" size="4" id = "int">' + "y座標を" + '<input type = "text" size = "4" id = "for_y">' +"から横に" + '<input type="text" size="4" id = "ctrl">' + " まで"
+    + '<input type="text" size="4" id = "rate">' + "ずつ動かす";
+    obj_judge = "rect";
+  }else{
+    $("canvas").setLayer("Triangle" + (count_tri -1),{
+      visible:true
+    }).drawLayers();
+  }
+  },false);

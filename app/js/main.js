@@ -11,11 +11,14 @@ var decompile_code;
     source.innerHTML = decompile_code;
     change_id("rect");
     change_id("ellipse");
+    change_id("triangle");
     change_id_span("rect_source");
     change_id_span("ellipse_source");
+    change_id_span("triangle_source");
     change_id_span("for_source");
     change_class_span("rect_source");
     change_class_span("ellipse_source");
+    change_class_span("triangle_source");
     change_class_span("for_source");
   },false);
 
