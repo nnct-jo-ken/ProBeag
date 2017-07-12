@@ -49,6 +49,7 @@ var for_y;
 var rect_code;
 var ellipse_code;
 var tri_code;
+var ply_code;
 //図形が何回canvas内にあるか
 var count_groups = 0;
 //図形のnameプロパティを取得
@@ -148,6 +149,8 @@ rect.addEventListener("click",function(){
     count_Rect--;
     for_flag = false;
     ellipse_flag = false;
+    ply_flag = false;
+    tri_flag = false;
     rect_flag = true;
     //table内のfor_propertyに書き込む
     for_property.innerHTML = "四角形の始めのx座標を" + '<input type="text" size="4" id = "int">' + "y座標を" + '<input type = "text" size = "4" id = "for_y">' +"から横に" + '<input type="text" size="4" id = "ctrl">' + " まで"
@@ -166,6 +169,7 @@ rect.addEventListener("click",function(){
     Compile("rect","Rect",count_Rect);
     Compile("ellipse","Ellipse",count_Ellipse);
     Compile("triangle","Triangle",count_tri);
+    Compile("polygon","Polygon",count_ply);
   },false);
 
 //マウスオーバーの関数
@@ -495,6 +499,8 @@ cicle.addEventListener("click",function(){
     count_Ellipse--;
   for_flag = false;
   rect_flag = false;
+  tri_flag = false;
+  ply_flag = false;
   ellipse_flag = true;
   for_property.innerHTML = "円の始めのx座標を" + '<input type="text" size="4" id = "int">' + "y座標を" + '<input type = "text" size = "4" id = "for_y">' +"から横に" + '<input type="text" size="4" id = "ctrl">' + " まで"
   + '<input type="text" size="4" id = "rate">' + "ずつ動かす";
@@ -590,7 +596,7 @@ triangle.addEventListener("click",function(){
        name:"Triangle" + i,
        groups:["obj" + count_groups],
        strokeStyle: "black",
-       fillStyle:"#FFA500",
+       fillStyle:"#FFC90E",
        strokeWidth: 1,
        x: 100,
        y: 100,
@@ -633,14 +639,82 @@ triangle.addEventListener("click",function(){
     for_flag = false;
     rect_flag = false;
     ellipse_flag = false;
+    ply_flag = false;
     tri_flag = true;
     //table内のfor_propertyに書き込む
     for_property.innerHTML = "三角形の始めのx座標を" + '<input type="text" size="4" id = "int">' + "y座標を" + '<input type = "text" size = "4" id = "for_y">' +"から横に" + '<input type="text" size="4" id = "ctrl">' + " まで"
     + '<input type="text" size="4" id = "rate">' + "ずつ動かす";
-    obj_judge = "rect";
+    obj_judge = "triangle";
   }else{
     $("canvas").setLayer("Triangle" + (count_tri -1),{
       visible:true
     }).drawLayers();
   }
   },false);
+
+  //多角形を描く
+  polygon.addEventListener("click",function(){
+    ++count_groups;
+    ++count_ply;
+    for (var i = 1;i < count_ply;i++){
+      //これがJcanvasの多角形を描くソース
+       $("canvas").drawPolygon({
+         layer:true,
+         name:"Polygon" + i,
+         groups:["obj" + count_groups],
+         strokeStyle: "black",
+         fillStyle:"#A349A4",
+         strokeWidth: 1,
+         x: 100,
+         y: 100,
+         radius:50,
+         fromCenter: false,
+         sides: 5,
+         dblclick:function(layer){
+           layer.fillStyle = $("#color").val();
+         },
+         draggable:true,
+         mouseover:function(layer){
+           $(function(){
+             MOver("polygon_source" + (i-1));
+           });
+         },
+         mouseout:function(layer){
+           $(function(){
+             MOut("polygon_source" + (i-1));
+           });
+         },
+         click:function(layer){
+         	 if(if_flag === true){
+             obj_flag = layer.name;
+             X = layer.x;
+             Y = layer.y;
+             if_property.innerHTML = "オブジェクトを<input type = 'text' size = '4' id = 'pace'>秒でx座標を<input type = 'text' size = '4' id = 'if_x'>までy座標を<input type = 'text' size = '4' id = 'if_y'>まで動かす.";
+           }
+          }
+        });
+       }
+      ply_code = "<span id = 'polygon_source'><font color = '#f7f7f7' size = '5'>polygon(" + '<input type="text" size="4"id ="polygon_x" value = "100">' + "," + '<input type="text" size="4"id ="polygon_y" value = "100">' + ",w,h);</font></span>" + "\n";
+      literal(ply_code);
+      //forをクリックされた際の処理
+      if(for_flag === true){
+        //nameプロパティがPolygon(最後)の図形を見えなくする
+        $("canvas").setLayer("Polygon" + (count_ply -1),{
+          visible:false
+        }).drawLayers();
+      count_ply--;
+      for_flag = false;
+      rect_flag = false;
+      ellipse_flag = false;
+      tri_flag = false;
+      ply_flag = true;
+      //table内のfor_propertyに書き込む
+      for_property.innerHTML = "多角形の始めのx座標を" + '<input type="text" size="4" id = "int">' + "y座標を" + '<input type = "text" size = "4" id = "for_y">' +"から横に" + '<input type="text" size="4" id = "ctrl">' + " まで"
+      + '<input type="text" size="4" id = "rate">' + "ずつ動かす";
+      obj_judge = "polygon";
+    }else{
+      $("canvas").setLayer("Polygon" + (count_ply -1),{
+        visible:true
+      }).drawLayers();
+    }
+    },false);
