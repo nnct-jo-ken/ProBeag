@@ -7,6 +7,7 @@ var for_str = document.getElementById("for");
 var if_str = document.getElementById("if");
 var triangle = document.getElementById("triangle");
 var polygon = document.getElementById("polygon");
+var line = document.getElementById("line");
 var compile = document.getElementById("compile");
 var for_property = document.getElementById("for_property");
 var sample_for = document.getElementById("sample_for");
@@ -22,6 +23,7 @@ var count_Rect = 1;
 var count_Ellipse = 1;
 var count_tri = 1;
 var count_ply = 1;
+var count_line = 1;
 var count_for = 0;
 //forを作る判定
 var ellipse_flag = false;
@@ -30,6 +32,7 @@ var tri_flag = false;
 var ply_flag = false;
 var for_flag = false;
 var if_flag = false;
+var line_flag = false;
 //図形のtextboxの値を取得する変数
 var obj_x;
 var obj_y;
@@ -68,7 +71,19 @@ var comp_y;
 //ぶっちゃけいらない,改良予定の部分
 var re_x = 100;
 var re_y = 100;
-
+//Lineの第二座標を決める変数
+var x;
+var y;
+//Lineの第二座標をクリックで設定する関数
+function onClick(e) {
+    var rect = e.target.getBoundingClientRect();
+    x = e.clientX - rect.left;
+    y = e.clientY - rect.top;
+    $("canvas").setLayer("Line" + (count_line-1),{
+      x2:x,y2:y
+    }).drawLayers();
+}
+canvas.addEventListener("click",onClick,false);
 //配列に入れてtoString()で文字列に直している
 function literal(figures_code){
   //引数をfiguersの一番最後にぶちこむ
@@ -170,6 +185,8 @@ rect.addEventListener("click",function(){
     Compile("ellipse","Ellipse",count_Ellipse);
     Compile("triangle","Triangle",count_tri);
     Compile("polygon","Polygon",count_ply);
+    Compile("line1","Line",count_line);
+    Compile("line2","Line",count_line);
   },false);
 
 //マウスオーバーの関数
@@ -669,7 +686,7 @@ triangle.addEventListener("click",function(){
          y: 100,
          radius:50,
          fromCenter: false,
-         sides: 5,
+         sides: angle.value,
          dblclick:function(layer){
            layer.fillStyle = $("#color").val();
          },
@@ -685,8 +702,8 @@ triangle.addEventListener("click",function(){
            });
          },
          click:function(layer){
+           obj_flag = layer.name;
          	 if(if_flag === true){
-             obj_flag = layer.name;
              X = layer.x;
              Y = layer.y;
              if_property.innerHTML = "オブジェクトを<input type = 'text' size = '4' id = 'pace'>秒でx座標を<input type = 'text' size = '4' id = 'if_x'>までy座標を<input type = 'text' size = '4' id = 'if_y'>まで動かす.";
@@ -718,3 +735,59 @@ triangle.addEventListener("click",function(){
       }).drawLayers();
     }
     },false);
+
+line.addEventListener("click",function(){
+  count_line++;
+  count_groups++;
+  for (var i = 1;i < count_line;i++){
+    //これがJcanvasの多角形を描くソース
+     $("canvas").drawLine({
+       layer:true,
+       name:"Line" + i,
+       groups:["obj" + count_groups],
+       strokeStyle:"#FFAEC9",
+       strokeWidth: 3,
+       x1: 100,y1: 100,
+       x2: 200,y2: 200,
+       fromCenter: false,
+       dblclick:function(layer){
+         layer.strokeStyle = $("#color").val();
+       },
+       draggable:true,
+       mouseover:function(layer){
+         $(function(){
+           MOver("line_source" + (i-1));
+         });
+       },
+       mouseout:function(layer){
+         $(function(){
+           MOut("line_source" + (i-1));
+         });
+       },
+      });
+     }
+    line_code = "<span id = 'line_source'><font color = '#f7f7f7' size = '5'>line(" + '<input type="text" size="4"id ="line1_x" value = "100">' + "," + '<input type="text" size="4"id ="line1_y" value = "100">' + "," + '<input type="text" size="4"id ="line2_y" value = "500">' + "," + '<input type="text" size="4"id ="line2_y" value = "500">' + ");</font></span>" + "\n";
+    literal(line_code);
+    //forをクリックされた際の処理
+    if(for_flag === true){
+      //nameプロパティがPolygon(最後)の図形を見えなくする
+      $("canvas").setLayer("Line" + (count_line -1),{
+        visible:false
+      }).drawLayers();
+    count_line--;
+    for_flag = false;
+    rect_flag = false;
+    ellipse_flag = false;
+    tri_flag = false;
+    ply_flag = false;
+    line_flag = true;
+    //table内のfor_propertyに書き込む
+    for_property.innerHTML = "多角形の始めのx座標を" + '<input type="text" size="4" id = "int">' + "y座標を" + '<input type = "text" size = "4" id = "for_y">' +"から横に" + '<input type="text" size="4" id = "ctrl">' + " まで"
+    + '<input type="text" size="4" id = "rate">' + "ずつ動かす";
+    obj_judge = "polygon";
+  }else{
+    $("canvas").setLayer("Line" + (count_line -1),{
+      visible:true
+    }).drawLayers();
+  }
+},false);
