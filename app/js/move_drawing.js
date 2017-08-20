@@ -74,13 +74,19 @@ var re_y = 100;
 //Lineの第二座標を決める変数
 var x;
 var y;
+
+var line_x1;
+var line_y1;
+
+var Line_name;
 //Lineの第二座標をクリックで設定する関数
 function onClick(e) {
-    var rect = e.target.getBoundingClientRect();
-    x = e.clientX - rect.left;
-    y = e.clientY - rect.top;
-    $("canvas").setLayer("Line" + (count_line-1),{
-      x2:x,y2:y
+    var line = e.target.getBoundingClientRect();
+    x = e.clientX - line.left;
+    y = e.clientY - line.top;
+    $("canvas").setLayer(Line_name,{
+      x2:x,
+      y2:y,
     }).drawLayers();
 }
 canvas.addEventListener("click",onClick,false);
@@ -185,9 +191,44 @@ rect.addEventListener("click",function(){
     Compile("ellipse","Ellipse",count_Ellipse);
     Compile("triangle","Triangle",count_tri);
     Compile("polygon","Polygon",count_ply);
-    Compile("line1","Line",count_line);
-    Compile("line2","Line",count_line);
+    Compile_Line("line1","Line",count_line);
   },false);
+
+  function Compile_Line(obj,Obj,count_obj){
+    for(var i = 1;i < count_obj;i++){
+      //図形のtextbox内の値を取得
+      obj_x = $("#" + obj + "_x" + i).val();
+      obj_y = $("#" + obj + "_y" + i).val();
+  //全角→半角変換処理
+      $(function(){
+        $("#" + obj + "_x" + i).change(function(){
+          obj_x = obj_x.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+              return String.fromCharCode(s.charCodeAt(0) - 65248);
+          });
+          $("#" + obj + "_x" + i).val(obj_x);
+        }).change();
+        $("#" + obj + "_y" + i).change(function(){
+          obj_y = obj_y.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+              return String.fromCharCode(s.charCodeAt(0) - 65248);
+          });
+          $("#" + obj + "_y" + i).val(obj_y);
+        }).change();
+      })
+      //textboxの値判定
+      if (typeof obj_x == "undefined" || obj_x == "" ||isNaN($("#" + obj + "_x" + i).val())){
+        obj_x = 0;
+      }
+      if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + obj + "_y" + i).val())){
+        obj_y = 0;
+      }
+  //nameプロパティを指定して動かす
+      $("canvas").setLayer(Obj + i, {
+        x1: obj_x,
+        y1: obj_y
+      })
+    .drawLayers();
+    }
+  }
 
 //マウスオーバーの関数
 function MOver(obj){
@@ -752,6 +793,7 @@ line.addEventListener("click",function(){
        fromCenter: false,
        dblclick:function(layer){
          layer.strokeStyle = $("#color").val();
+         Line_name = "";
        },
        draggable:true,
        mouseover:function(layer){
@@ -764,13 +806,18 @@ line.addEventListener("click",function(){
            MOut("line_source" + (i-1));
          });
        },
+       click:function(layer){
+         Line_name = layer.name;
+         line_x1 = layer.x1;
+         line_x2 = layer.x2;
+       }
       });
      }
-    line_code = "<span id = 'line_source'><font color = '#f7f7f7' size = '5'>line(" + '<input type="text" size="4"id ="line1_x" value = "100">' + "," + '<input type="text" size="4"id ="line1_y" value = "100">' + "," + '<input type="text" size="4"id ="line2_y" value = "500">' + "," + '<input type="text" size="4"id ="line2_y" value = "500">' + ");</font></span>" + "\n";
+    line_code = "<span id = 'line_source'><font color = '#f7f7f7' size = '5'>line(" + '<input type="text" size="4"id ="line1_x" value = "100">' + "," + '<input type="text" size="4"id ="line1_y" value = "100">' + "," + '<input type="text" size="4"id ="line2_x" value = "500">' + "," + '<input type="text" size="4"id ="line2_y" value = "500">' + ");</font></span>" + "\n";
     literal(line_code);
     //forをクリックされた際の処理
     if(for_flag === true){
-      //nameプロパティがPolygon(最後)の図形を見えなくする
+      //nameプロパティがLine(最後)の図形を見えなくする
       $("canvas").setLayer("Line" + (count_line -1),{
         visible:false
       }).drawLayers();
@@ -782,9 +829,7 @@ line.addEventListener("click",function(){
     ply_flag = false;
     line_flag = true;
     //table内のfor_propertyに書き込む
-    for_property.innerHTML = "多角形の始めのx座標を" + '<input type="text" size="4" id = "int">' + "y座標を" + '<input type = "text" size = "4" id = "for_y">' +"から横に" + '<input type="text" size="4" id = "ctrl">' + " まで"
-    + '<input type="text" size="4" id = "rate">' + "ずつ動かす";
-    obj_judge = "polygon";
+    for_property.innerHTML = "この図形には使えません";
   }else{
     $("canvas").setLayer("Line" + (count_line -1),{
       visible:true
