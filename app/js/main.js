@@ -46,6 +46,21 @@ for(var i = 0;i < 11;i++){
   $("#angle").append("<option value = " + (i+5) + " > " + (i+5) + "</option>")
 }
 
+function disableContextMenu(e) {
+  Line_name = "";
+	if (e.preventDefault) {
+		e.preventDefault();	// Firefox, Opera用
+	} else {
+		event.returnValue = false;	// IE用
+	}
+}
+// 右クリックイベントを追加
+if (document.attachEvent) {
+	document.attachEvent('oncontextmenu' , disableContextMenu);
+} else {
+	document.addEventListener('contextmenu', disableContextMenu, false);
+}
+
 
 //tab用関数
 function openItem(evt, cityName) {

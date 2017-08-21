@@ -142,15 +142,18 @@ rect.addEventListener("click",function(){
        },
        draggable:true,
        drag:function(layer){
-         fig_x = layer.x;
-         fig_y = layer.y;
-       },
-       mouseover:function(layer){
-         fig_x = layer.x;
-         fig_y = layer.y;
          $(function(){
            change_text = setInterval(function(){
-             change_auto("rect",count_Rect);
+                 $("#rect_x" + (i - 1)).val(layer.x);
+                 $("#rect_y" + (i - 1)).val(layer.y);
+           },10);
+         });
+       },
+       mouseover:function(layer){
+         $(function(){
+           change_text = setInterval(function(){
+                 $("#rect_x" + (i - 1)).val(layer.x);
+                 $("#rect_y" + (i - 1)).val(layer.y);
            },10);
          });
          $(function(){
@@ -501,13 +504,6 @@ function Compile(obj,Obj,count_obj){
   }
 }
 
-function change_auto(obj_trans,obj_count){
-  for(var i = 1;i < obj_count;i++){
-      $("#" + obj_trans + "_x" + i).val(fig_x);
-      $("#" + obj_trans + "_y" + i).val(fig_y);
-  }
-}
-
 //spanタグにClassを付与
 function change_class_span(obj){
   $(function(){
@@ -557,15 +553,18 @@ cicle.addEventListener("click",function(){
       },
       visible:true,
       drag:function(layer){
-        fig_x = layer.x;
-        fig_y = layer.y;
-      },
-      mouseover:function(layer){
-        fig_x = layer.x;
-        fig_y = layer.y;
         $(function(){
           change_text = setInterval(function(){
-            change_auto("ellipse",count_Ellipse);
+                $("#ellipse_x" + (i - 1)).val(layer.x);
+                $("#ellipse_y" + (i - 1)).val(layer.y);
+          },10);
+        });
+      },
+      mouseover:function(layer){
+        $(function(){
+          change_text = setInterval(function(){
+                $("#ellipse_x" + (i - 1)).val(layer.x);
+                $("#ellipse_y" + (i - 1)).val(layer.y);
           },10);
         });
         $(function(){
@@ -699,15 +698,19 @@ triangle.addEventListener("click",function(){
        },
        draggable:true,
        drag:function(layer){
-         fig_x = layer.x;
-         fig_y = layer.y;
-       },
-       mouseover:function(layer){
-         fig_x = layer.x;
-         fig_y = layer.y;
          $(function(){
            change_text = setInterval(function(){
-             change_auto("triangle",count_tri);
+                 $("#triangle_x" + (i - 1)).val(layer.x);
+                 $("#triangle_y" + (i - 1)).val(layer.y);
+
+           },10);
+         });
+       },
+       mouseover:function(layer){
+         $(function(){
+           change_text = setInterval(function(){
+                 $("#triangle_x" + (i - 1)).val(layer.x);
+                 $("#triangle_y" + (i - 1)).val(layer.y);
            },10);
          });
          $(function(){
@@ -778,15 +781,18 @@ triangle.addEventListener("click",function(){
          },
          draggable:true,
          drag:function(layer){
-           fig_x = layer.x;
-           fig_y = layer.y;
-         },
-         mouseover:function(layer){
-           fig_x = layer.x;
-           fig_y = layer.y;
            $(function(){
              change_text = setInterval(function(){
-               change_auto("polygon",count_ply);
+                   $("#polygon_x" + (i - 1)).val(layer.x);
+                   $("#polygon_y" + (i - 1)).val(layer.y);
+             },10);
+           });
+         },
+         mouseover:function(layer){
+           $(function(){
+             change_text = setInterval(function(){
+                   $("#polygon_x" + (i - 1)).val(layer.x);
+                   $("#polygon_y" + (i - 1)).val(layer.y);
              },10);
            });
            $(function(){
@@ -850,7 +856,6 @@ line.addEventListener("click",function(){
        fromCenter: false,
        dblclick:function(layer){
          layer.strokeStyle = $("#color").val();
-         Line_name = "";
        },
        mouseover:function(layer){
          $(function(){
@@ -871,6 +876,7 @@ line.addEventListener("click",function(){
            MOut("line_source" + (i-1));
          });
        },
+
        click:function(layer){
          Line_name = layer.name;
          line_x1 = layer.x1;
