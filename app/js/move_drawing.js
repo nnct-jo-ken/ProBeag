@@ -68,9 +68,9 @@ var obj_ope_y;
 //if文の演算子を決める
 var comp_x;
 var comp_y;
-//ぶっちゃけいらない,改良予定の部分
-var re_x = 100;
-var re_y = 100;
+//図形のx,y座標取得する変数
+var fig_x = 100;
+var fig_y = 100;
 //Lineの第二座標を決める変数
 var x;
 var y;
@@ -79,11 +79,13 @@ var line_x1;
 var line_y1;
 
 var Line_name;
+
+var change_text;
 //Lineの第二座標をクリックで設定する関数
 function onClick(e) {
     var line = e.target.getBoundingClientRect();
-    x = e.clientX - line.left;
-    y = e.clientY - line.top;
+    x = Math.ceil(e.clientX - line.left);
+    y = Math.ceil(e.clientY - line.top);
     $("canvas").setLayer(Line_name,{
       x2:x,
       y2:y,
@@ -139,12 +141,24 @@ rect.addEventListener("click",function(){
          layer.fillStyle = $("#color").val();
        },
        draggable:true,
+       drag:function(layer){
+         fig_x = layer.x;
+         fig_y = layer.y;
+       },
        mouseover:function(layer){
+         fig_x = layer.x;
+         fig_y = layer.y;
+         $(function(){
+           change_text = setInterval(function(){
+             change_auto("rect",count_Rect);
+           },10);
+         });
          $(function(){
            MOver("rect_source" + (i-1));
          });
        },
        mouseout:function(layer){
+         clearInterval(change_text);
          $(function(){
            MOut("rect_source" + (i-1));
          });
@@ -159,7 +173,7 @@ rect.addEventListener("click",function(){
         }
       });
      }
-    rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '5'>rect(" + '<input type="text" size="4"id ="rect_x" value = ' + re_x + '>' + "," + '<input type="text" size="4"id ="rect_y" value = ' + re_y + '>' + ",w,h);</font></span>" + "\n";
+    rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '5'>rect(" + '<input type="text" size="4"id ="rect_x" value = 100>' + "," + '<input type="text" size="4"id ="rect_y" value = 100>' + ",w,h);</font></span>" + "\n";
     literal(rect_code);
     //forをクリックされた際の処理
     if(for_flag === true){
@@ -487,6 +501,13 @@ function Compile(obj,Obj,count_obj){
   }
 }
 
+function change_auto(obj_trans,obj_count){
+  for(var i = 1;i < obj_count;i++){
+      $("#" + obj_trans + "_x" + i).val(fig_x);
+      $("#" + obj_trans + "_y" + i).val(fig_y);
+  }
+}
+
 //spanタグにClassを付与
 function change_class_span(obj){
   $(function(){
@@ -535,16 +556,28 @@ cicle.addEventListener("click",function(){
         layer.fillStyle = $("#color").val();
       },
       visible:true,
+      drag:function(layer){
+        fig_x = layer.x;
+        fig_y = layer.y;
+      },
       mouseover:function(layer){
+        fig_x = layer.x;
+        fig_y = layer.y;
+        $(function(){
+          change_text = setInterval(function(){
+            change_auto("ellipse",count_Ellipse);
+          },10);
+        });
         $(function(){
           MOver("ellipse_source" + (i-1));
         });
       },
       mouseout:function(layer){
+        clearInterval(change_text);
         $(function(){
           MOut("ellipse_source" + (i-1));
         });
-      }
+      },
     });
   }
   ellipse_code = "<span id = 'ellipse_source'><font color = '#f7f7f7' size = '5'>ellipse(" + '<input type="text" size="4" id="ellipse_x" value = "100">' + "," + '<input type="text" size="4" id="ellipse_y" value = "100">' + ",w,h); </font></span>" + "\n";
@@ -665,12 +698,24 @@ triangle.addEventListener("click",function(){
          layer.fillStyle = $("#color").val();
        },
        draggable:true,
+       drag:function(layer){
+         fig_x = layer.x;
+         fig_y = layer.y;
+       },
        mouseover:function(layer){
+         fig_x = layer.x;
+         fig_y = layer.y;
+         $(function(){
+           change_text = setInterval(function(){
+             change_auto("triangle",count_tri);
+           },10);
+         });
          $(function(){
            MOver("triangle_source" + (i-1));
          });
        },
        mouseout:function(layer){
+         clearInterval(change_text);
          $(function(){
            MOut("triangle_source" + (i-1));
          });
@@ -732,12 +777,24 @@ triangle.addEventListener("click",function(){
            layer.fillStyle = $("#color").val();
          },
          draggable:true,
+         drag:function(layer){
+           fig_x = layer.x;
+           fig_y = layer.y;
+         },
          mouseover:function(layer){
+           fig_x = layer.x;
+           fig_y = layer.y;
+           $(function(){
+             change_text = setInterval(function(){
+               change_auto("polygon",count_ply);
+             },10);
+           });
            $(function(){
              MOver("polygon_source" + (i-1));
            });
          },
          mouseout:function(layer){
+           clearInterval(change_text);
            $(function(){
              MOut("polygon_source" + (i-1));
            });
@@ -789,19 +846,27 @@ line.addEventListener("click",function(){
        strokeStyle:"#FFAEC9",
        strokeWidth: 3,
        x1: 100,y1: 100,
-       x2: 200,y2: 200,
+       x2: 500,y2: 500,
        fromCenter: false,
        dblclick:function(layer){
          layer.strokeStyle = $("#color").val();
          Line_name = "";
        },
-       draggable:true,
        mouseover:function(layer){
+         $(function(){
+           change_text = setInterval(function(){
+               for(var i = 1;i < count_line;i++){
+                   $("#line2_x" + i).val(x);
+                   $("#line2_y" + i).val(y);
+               }
+           },10);
+         });
          $(function(){
            MOver("line_source" + (i-1));
          });
        },
        mouseout:function(layer){
+         clearInterval(change_text);
          $(function(){
            MOut("line_source" + (i-1));
          });

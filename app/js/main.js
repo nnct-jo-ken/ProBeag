@@ -14,7 +14,8 @@ var decompile_code;
     change_id("ellipse");
     change_id("triangle");
     change_id("polygon");
-    change_id("line1");
+    change_id("line1")
+    change_id("line2");
     change_id_span("rect_source");
     change_id_span("ellipse_source");
     change_id_span("triangle_source");
