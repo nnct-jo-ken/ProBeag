@@ -142,14 +142,12 @@ rect.addEventListener("click",function(){
        },
        draggable:true,
        drag:function(layer){
-         $(function(){
-           change_text = setInterval(function(){
-                 $("#rect_x" + (i - 1)).val(layer.x);
-                 $("#rect_y" + (i - 1)).val(layer.y);
-           },10);
-         });
+          $("#rect_x" + (i - 1)).val(layer.x);
+          $("#rect_y" + (i - 1)).val(layer.y);
        },
+
        mouseover:function(layer){
+         console.log("a");
          $(function(){
            change_text = setInterval(function(){
                  $("#rect_x" + (i - 1)).val(layer.x);
@@ -553,18 +551,14 @@ cicle.addEventListener("click",function(){
       },
       visible:true,
       drag:function(layer){
-        $(function(){
-          change_text = setInterval(function(){
-                $("#ellipse_x" + (i - 1)).val(layer.x);
-                $("#ellipse_y" + (i - 1)).val(layer.y);
-          },10);
-        });
+        $("#ellipse_x" + (i - 1)).val(layer.x);
+        $("#ellipse_y" + (i - 1)).val(layer.y);
       },
       mouseover:function(layer){
         $(function(){
           change_text = setInterval(function(){
-                $("#ellipse_x" + (i - 1)).val(layer.x);
-                $("#ellipse_y" + (i - 1)).val(layer.y);
+            $("#ellipse_x" + (i - 1)).val(layer.x);
+            $("#ellipse_y" + (i - 1)).val(layer.y);
           },10);
         });
         $(function(){
@@ -698,19 +692,14 @@ triangle.addEventListener("click",function(){
        },
        draggable:true,
        drag:function(layer){
-         $(function(){
-           change_text = setInterval(function(){
-                 $("#triangle_x" + (i - 1)).val(layer.x);
-                 $("#triangle_y" + (i - 1)).val(layer.y);
-
-           },10);
-         });
+         $("#triangle_x" + (i - 1)).val(layer.x);
+         $("#triangle_y" + (i - 1)).val(layer.y);
        },
        mouseover:function(layer){
          $(function(){
            change_text = setInterval(function(){
-                 $("#triangle_x" + (i - 1)).val(layer.x);
-                 $("#triangle_y" + (i - 1)).val(layer.y);
+             $("#triangle_x" + (i - 1)).val(layer.x);
+             $("#triangle_y" + (i - 1)).val(layer.y);
            },10);
          });
          $(function(){
@@ -781,18 +770,14 @@ triangle.addEventListener("click",function(){
          },
          draggable:true,
          drag:function(layer){
-           $(function(){
-             change_text = setInterval(function(){
-                   $("#polygon_x" + (i - 1)).val(layer.x);
-                   $("#polygon_y" + (i - 1)).val(layer.y);
-             },10);
-           });
+           $("#polygon_x" + (i - 1)).val(layer.x);
+           $("#polygon_y" + (i - 1)).val(layer.y);
          },
          mouseover:function(layer){
            $(function(){
              change_text = setInterval(function(){
-                   $("#polygon_x" + (i - 1)).val(layer.x);
-                   $("#polygon_y" + (i - 1)).val(layer.y);
+               $("#polygon_x" + (i - 1)).val(layer.x);
+               $("#polygon_y" + (i - 1)).val(layer.y);
              },10);
            });
            $(function(){
