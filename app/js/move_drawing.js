@@ -74,16 +74,16 @@ var fig_y = 100;
 //Lineの第二座標を決める変数
 var x;
 var y;
-
-var line_x1;
-var line_y1;
-
+//Lineのlayerを受け取る変数
 var Line_name;
-
+//setIntervalを定義する変数
 var change_text;
 //Lineの第二座標をクリックで設定する関数
 function onClick(e) {
+  //図形の絶対値座標を取得する
     var line = e.target.getBoundingClientRect();
+    //Math.ceilで数字の切り上げ,
+    //clientでページ内の座標取得
     x = Math.ceil(e.clientX - line.left);
     y = Math.ceil(e.clientY - line.top);
     $("canvas").setLayer(Line_name,{
@@ -147,7 +147,6 @@ rect.addEventListener("click",function(){
        },
 
        mouseover:function(layer){
-         console.log("a");
          $(function(){
            change_text = setInterval(function(){
                  $("#rect_x" + (i - 1)).val(layer.x);
@@ -174,7 +173,7 @@ rect.addEventListener("click",function(){
         }
       });
      }
-    rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '5'>rect(" + '<input type="text" size="4"id ="rect_x" value = 100>' + "," + '<input type="text" size="4"id ="rect_y" value = 100>' + ",w,h);</font></span>" + "\n";
+    rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '5'>rect(" + '<input type="text" size="4"id ="rect_x" placeholder = 100>' + "," + '<input type="text" size="4"id ="rect_y" placeholder = 100>' + ",w,h);</font></span>" + "\n";
     literal(rect_code);
     //forをクリックされた際の処理
     if(for_flag === true){
@@ -186,6 +185,7 @@ rect.addEventListener("click",function(){
     for_flag = false;
     ellipse_flag = false;
     ply_flag = false;
+    line_flag = false;
     tri_flag = false;
     rect_flag = true;
     //table内のfor_propertyに書き込む
@@ -209,6 +209,7 @@ rect.addEventListener("click",function(){
     Compile_Line("line1","Line",count_line);
   },false);
 
+//Lineだけの変更処理
   function Compile_Line(obj,Obj,count_obj){
     for(var i = 1;i < count_obj;i++){
       //図形のtextbox内の値を取得
@@ -571,9 +572,17 @@ cicle.addEventListener("click",function(){
           MOut("ellipse_source" + (i-1));
         });
       },
+      click:function(layer){
+        if(if_flag === true){
+          obj_flag = layer.name;
+          X = layer.x;
+          Y = layer.y;
+          if_property.innerHTML = "オブジェクトを<input type = 'text' size = '4' id = 'pace'>秒でx座標を<input type = 'text' size = '4' id = 'if_x'>までy座標を<input type = 'text' size = '4' id = 'if_y'>まで動かす.";
+        }
+       }
     });
   }
-  ellipse_code = "<span id = 'ellipse_source'><font color = '#f7f7f7' size = '5'>ellipse(" + '<input type="text" size="4" id="ellipse_x" value = "100">' + "," + '<input type="text" size="4" id="ellipse_y" value = "100">' + ",w,h); </font></span>" + "\n";
+  ellipse_code = "<span id = 'ellipse_source'><font color = '#f7f7f7' size = '5'>ellipse(" + '<input type="text" size="4" id="ellipse_x" placeholder = "100">' + "," + '<input type="text" size="4" id="ellipse_y" placeholder = "100">' + ",w,h); </font></span>" + "\n";
   literal(ellipse_code);
   //forがクリックされたときの処理
   if(for_flag === true){
@@ -585,6 +594,7 @@ cicle.addEventListener("click",function(){
   rect_flag = false;
   tri_flag = false;
   ply_flag = false;
+  line_flag = false;
   ellipse_flag = true;
   for_property.innerHTML = "円の始めのx座標を" + '<input type="text" size="4" id = "int">' + "y座標を" + '<input type = "text" size = "4" id = "for_y">' +"から横に" + '<input type="text" size="4" id = "ctrl">' + " まで"
   + '<input type="text" size="4" id = "rate">' + "ずつ動かす";
@@ -642,6 +652,20 @@ back.addEventListener("click",function(){
     $("canvas").removeLayer("Triangle" + (count_tri - 1));
     count_tri--;
   }
+  if(count_ply != 1){
+    $("canvas").setLayerGroup("obj" + (count_groups),{
+      visible:false
+    }).drawLayers();
+    $("canvas").removeLayer("Polygon" + (count_ply - 1));
+    count_ply--;
+  }
+  if(count_line != 1){
+    $("canvas").setLayerGroup("obj" + (count_groups),{
+      visible:false
+    }).drawLayers();
+    $("canvas").removeLayer("Line" + (count_line - 1));
+    count_line--;
+  }
   if(count_for != 0){
     $("canvas").setLayerGroup("shapes" + (count_for-1),{
       visible:false
@@ -659,6 +683,8 @@ store.addEventListener("click",function(){
   count_Rect = 1;
   count_tri = 1;
   count_Ellipse = 1;
+  count_ply = 1;
+  count_line = 1;
   count_groups = 0;
 
   $("canvas").clearCanvas();
@@ -722,7 +748,7 @@ triangle.addEventListener("click",function(){
         }
       });
      }
-    tri_code = "<span id = 'triangle_source'><font color = '#f7f7f7' size = '5'>triangle(" + '<input type="text" size="4"id ="triangle_x" value = ' + re_x + '>' + "," + '<input type="text" size="4"id ="triangle_y" value = ' + re_y + '>' + ",w,h);</font></span>" + "\n";
+    tri_code = "<span id = 'triangle_source'><font color = '#f7f7f7' size = '5'>triangle(" + '<input type="text" size="4"id ="triangle_x" placeholder = ' + re_x + '>' + "," + '<input type="text" size="4"id ="triangle_y" placeholder = ' + re_y + '>' + ",w,h);</font></span>" + "\n";
     literal(tri_code);
     //forをクリックされた際の処理
     if(for_flag === true){
@@ -733,6 +759,7 @@ triangle.addEventListener("click",function(){
     count_tri--;
     for_flag = false;
     rect_flag = false;
+    line_flag = false;
     ellipse_flag = false;
     ply_flag = false;
     tri_flag = true;
@@ -800,7 +827,7 @@ triangle.addEventListener("click",function(){
           }
         });
        }
-      ply_code = "<span id = 'polygon_source'><font color = '#f7f7f7' size = '5'>polygon(" + '<input type="text" size="4"id ="polygon_x" value = "100">' + "," + '<input type="text" size="4"id ="polygon_y" value = "100">' + ",w,h);</font></span>" + "\n";
+      ply_code = "<span id = 'polygon_source'><font color = '#f7f7f7' size = '5'>polygon(" + '<input type="text" size="4"id ="polygon_x" placeholder = "100">' + "," + '<input type="text" size="4"id ="polygon_y" placeholder = "100">' + ",w,h);</font></span>" + "\n";
       literal(ply_code);
       //forをクリックされた際の処理
       if(for_flag === true){
@@ -835,7 +862,7 @@ line.addEventListener("click",function(){
        name:"Line" + i,
        groups:["obj" + count_groups],
        strokeStyle:"#FFAEC9",
-       strokeWidth: 3,
+       strokeWidth: 10,
        x1: 100,y1: 100,
        x2: 500,y2: 500,
        fromCenter: false,
@@ -845,10 +872,8 @@ line.addEventListener("click",function(){
        mouseover:function(layer){
          $(function(){
            change_text = setInterval(function(){
-               for(var i = 1;i < count_line;i++){
-                   $("#line2_x" + i).val(x);
-                   $("#line2_y" + i).val(y);
-               }
+             $("#line2_x" + (i-1)).val(layer.x2);
+             $("#line2_y" + (i-1)).val(layer.y2);
            },10);
          });
          $(function(){
@@ -864,12 +889,10 @@ line.addEventListener("click",function(){
 
        click:function(layer){
          Line_name = layer.name;
-         line_x1 = layer.x1;
-         line_x2 = layer.x2;
        }
       });
      }
-    line_code = "<span id = 'line_source'><font color = '#f7f7f7' size = '5'>line(" + '<input type="text" size="4"id ="line1_x" value = "100">' + "," + '<input type="text" size="4"id ="line1_y" value = "100">' + "," + '<input type="text" size="4"id ="line2_x" value = "500">' + "," + '<input type="text" size="4"id ="line2_y" value = "500">' + ");</font></span>" + "\n";
+    line_code = "<span id = 'line_source'><font color = '#f7f7f7' size = '5'>line(" + '<input type="text" size="4"id ="line1_x" value = "100">' + "," + '<input type="text" size="4"id ="line1_y" value = "100">' + "," + '<input type="text" size="4"id ="line2_x" placeholder = "500">' + "," + '<input type="text" size="4"id ="line2_y" placeholder = "500">' + ");</font></span>" + "\n";
     literal(line_code);
     //forをクリックされた際の処理
     if(for_flag === true){
