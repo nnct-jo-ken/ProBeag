@@ -61,18 +61,44 @@ if (document.attachEvent) {
 	document.addEventListener('contextmenu', disableContextMenu, false);
 }
 
+$(function(){
 
-//tab用関数
-function openItem(evt, cityName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(cityName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
+	/*=======================================
+	タブ切り替え
+	=========================================*/
+
+	// タブメニューをクリックしたとき
+	$('.tab > div').click(function(){
+
+		// タブメニューとタブコンテンツのクラス「select」を削除
+		$('.tab > div,.tab_content').removeClass('select');
+
+		// タブメニューのクラスを取得し、変数「tabClass」に格納（例：sky）
+		var tabClass = $(this).attr('class');
+
+		// クリックしたタブメニューにクラス「select」を付与
+		$(this).addClass('select');
+
+
+		// それぞれのタブコンテンツに対して
+		$('.tab_content').each(function(){
+
+			// 変数「tabClass」と、同じクラスがついたタブコンテンツに
+			if($(this).attr('class').indexOf(tabClass) != -1){
+
+				// クラス「active」を付与し、フェードインしながら表示
+				$(this).addClass('select').fadeIn();
+
+			// それ以外のタブコンテンツは
+			}else{
+
+				// 隠す
+				$(this).hide();
+
+			}
+
+		});
+
+	});
+
+});

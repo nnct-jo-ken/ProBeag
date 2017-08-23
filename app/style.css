@@ -1,27 +1,29 @@
 canvas.canvas_1{
 	display: block;
-  margin-left: 200px;
-	margin-right: 20px;
-	border : 1px solid black;
+  margin-left: 10px;
+	margin-right: 0px;
 }
 .area{
   display: box;
   display: -webkit-box;
   display: -moz-box;
 
-  box-pack: end;
-  -webkit-box-pack:end;
+	box-pack:end;
+	-webkit-box-pack:end;
 	-moz-box-pack:end;
 
-  margin: 20px;
+	margin-right: 20px;
   padding: 10px;
 
 	box-align:start;
 	-webkit-box-align:start;
 	-moz-box-align:start;
 }
+.pre{
+	margin-right: 100px;
+}
 body{
-background:linear-gradient(90deg,#0b0023 0%,#0b0023 33%,#cfab3f 33.1%,#cfab3f 33.6%,#f7f7f7 33.6%,#f7f7f7 100%);
+background:linear-gradient(90deg,#0b0023 0%,#0b0023 29%,#cfab3f 29%,#cfab3f 29.5%,#f7f7f7 29.5%,#f7f7f7 100%);
 }
 button.position{
   width:100%;
@@ -38,52 +40,23 @@ table.table_img {
 }
 table.table_img th {
 	border:1px solid black;
-	width: 155px;
-	padding: 10px;
+	width: 80px;
+	padding: 7px;
 	font-weight: bold;
 	vertical-align: top;
 }
 table.table_img td {
 	border:1px solid black;
-	width: 155px;
-	padding: 10px;
+	width: 80px;
+	padding: 7px;
 	vertical-align: top;
 	border-bottom: 1px solid black;
 }
 
-/* Style the tab */
-div.tab {
-    overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
-}
-
-/* Style the buttons inside the tab */
-div.tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    font-size: 17px;
-}
-
-/* Change background color of buttons on hover */
-div.tab button:hover {
-    background-color: #ddd;
-}
-
-/* Create an active/current tablink class */
-div.tab button.active {
-    background-color: #ccc;
-}
-
-/* Style the tab content */
-.tabcontent {
-    display: none;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-top: none;
-}
+div {*zoom: 1;}
+div:after {display: block;content: "";clear: both;}
+.tab {margin-bottom: 0px;}
+.tab > div {float: left;width:100px;background:#666;color:#fff;text-align: center;padding:10px 0;cursor:pointer;}
+.tab > div.select {background:#000;}
+.tab_content {display:none;padding:20px 0;}
+.tab_content.select {display:block;position: absolute;top: 50px;left:1300px;}

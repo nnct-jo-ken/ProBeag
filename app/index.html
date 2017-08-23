@@ -2,7 +2,7 @@
 <html lang="ja">
 
 <head>
-    <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta charset="utf-8" name="viewport" content="initial-scale=0.8,user-scalable=no">
     <title>逆コンパイラ</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="farbtastic/farbtastic.css" type="text/css" />
@@ -10,69 +10,42 @@
 
 <body>
     <div class="area">
-        <div>
-            <pre class="pre" id="source_code">
-        </pre>
-        </div>
-        <canvas width="800" height="600" class="canvas_1" id="canvas"> </canvas>
+            <pre class="pre" id="source_code"></pre>
 
+        <canvas width="843" height="705" class="canvas_1" id="canvas"> </canvas>
+      <div class="tab">
+        <div class="figure select">図形</div>
+        <div class="image">イメージ</div>
+      </div>
 
+<div class="tab_content figure select">
         <table class="table_img">
-            <div class="tab">
-                <button class="tablinks" onclick="openItem(event, 'shape')">図形</button>
-                <button class="tablinks" onclick="openItem(event, 'img')">イメージ</button>
-            </div>
             <thead>
                 <tr>
                     <th scope="cols" colspan="2">
                         <button type="button" name="compile" value="compile" class="position" id="decompile">
-                    <font size="5" face="Century">実行</font>
+                    <font size="3" face="Century">実行</font>
                     </button>
                     </th>
                 </tr>
             </thead>
             <tbody>
-
-                <div id="shape" class="tabcontent">
                     <tr>
-                        <td> <img src="img/blue_ellipse.png" width="110" height="110" id="cicle">
+                        <td> <img src="img/blue_ellipse.png" width="65" height="65" id="cicle">
                         </th>
-                        <td> <img src="img/red.png" width="110" height="110" id="rect">
+                        <td> <img src="img/red.png" width="65" height="65" id="rect">
                         </th>
                     </tr>
                     <tr>
-                        <td><img src="img/black.png" width="110" height="110" id="for">
-                        </th>
-                        <td><img src="img/green.png" width="110" height="110" id="if">
-                        </th>
-                    </tr>
-                    <tr>
-                      <td><img src="img/orange.png" width="110" height="110" id="triangle">
+                      <td><img src="img/orange.png" width="65" height="65" id="triangle">
                       </th>
-                      <td><img src="img/purple.png" width="110" height="110" id="polygon">
+                      <td><img src="img/purple.png" width="65" height="65" id="polygon">
                       </th>
                     </tr>
                     <tr>
-                      <td><img src="img/pink.png" width="110" height="110" id="line">
+                      <td><img src="img/pink.png" width="65" height="65" id="line">
                       </th>
                     </tr>
-                </div>
-                <div class="tabcontent" id="img">
-                    <tr>
-                        <td>hogehoge</td>
-                        <td>hoge</td>
-                    </tr>
-                    <tr>
-                        <td>fugafuga</td>
-                        <td>fuga</td>
-                    </tr>
-                </div>
-                <tr>
-                <th scope="cols" colspan="2" id="for_property" height="110">
-                </th></tr>
-                <tr><th scope="cols" colspan="2" id="if_property" height="110">
-                </th></tr>
-                </tr>
                   <tr><th scope="cols" colspan="2">
                     <div id="colorpicker" class="colorpicker"></div>
                       <form><input type="text" id="color" name="color" value="#000000" /></form>
@@ -80,15 +53,10 @@
                   </th></tr>
 
                 <tr>
-                    <th><button type="button" id="sample_for"><font>for文を実行</font>
-                 </button></th>
                     <th><button type="button" id="store"><font>全消去</font>
                  </button></th>
-                </tr>
-                <tr>
                     <th><button type="button" id="back"><font>前に戻る</font>
                  </button></th>
-                    <th><button type="button" id="sample_if">if文を実行</th>
                 </tr>
                 <tr>
                   <th><select id="angle"name="angle">
@@ -96,7 +64,7 @@
                 </tr>
                 <th scope="cols" colspan="2">
                     <button type="button" name="compile" value="compile" class="position" id="compile">
-                   <font size="5" face="Century">compile</font>
+                   <font size="3" face="Century">compile</font>
                    </button>
                 </th>
 
@@ -104,7 +72,51 @@
         </table>
 
 
-
+</div>
+    <div class="tab_content image">
+      <table class="table_img">
+          <thead>
+              <tr>
+                  <th scope="cols" colspan="2">
+                      <button type="button" name="compile" value="compile" class="position" id="decompile">
+                  <font size="3" face="Century">実行</font>
+                  </button>
+                  </th>
+              </tr>
+          </thead>
+          <tbody>
+                  <tr>
+                      <td><img src="img/black.png" width="65" height="65" id="for">
+                      </th>
+                      <td><img src="img/green.png" width="65" height="65" id="if">
+                      </th>
+                  </tr>
+              <tr>
+              <th scope="cols" colspan="2" id="for_property" height="65">
+              </th></tr>
+              <tr><th scope="cols" colspan="2" id="if_property" height="65">
+              </th></tr>
+              </tr>
+              <tr>
+                  <th><button type="button" id="sample_for"><font>for文を実行</font>
+               </button></th>
+               <th><button type="button" id="sample_if"><font>if文を実行</font>
+               </button></th>
+              </tr>
+              <tr>
+                <th><button type="button" id="store"><font>全消去</font>
+             </button></th>
+                  <th><button type="button" id="back"><font>前に戻る</font>
+               </button></th>
+              </tr>
+              <th scope="cols" colspan="2">
+                  <button type="button" name="compile" value="compile" class="position" id="compile">
+                 <font size="3" face="Century">compile</font>
+                 </button>
+              </th>
+          </tbody>
+      </table>
+    </div>
     </div>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/jcanvas.min.js"></script>
