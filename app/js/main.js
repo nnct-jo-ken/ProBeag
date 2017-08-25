@@ -31,6 +31,7 @@ var decompile_code;
   },false);
 
 //preのインデントを消去
+
 window.addEventListener("DOMContentLoaded", function(){
   var pres = document.getElementsByClassName("pre");
   for (var i = 0; i < pres.length; i++){
@@ -60,45 +61,29 @@ if (document.attachEvent) {
 } else {
 	document.addEventListener('contextmenu', disableContextMenu, false);
 }
-
 $(function(){
-
 	/*=======================================
 	タブ切り替え
 	=========================================*/
-
 	// タブメニューをクリックしたとき
 	$('.tab > div').click(function(){
-
 		// タブメニューとタブコンテンツのクラス「select」を削除
 		$('.tab > div,.tab_content').removeClass('select');
-
-		// タブメニューのクラスを取得し、変数「tabClass」に格納（例：sky）
+		// タブメニューのクラスを取得し、変数にいれる
 		var tabClass = $(this).attr('class');
-
 		// クリックしたタブメニューにクラス「select」を付与
 		$(this).addClass('select');
-
-
 		// それぞれのタブコンテンツに対して
 		$('.tab_content').each(function(){
-
 			// 変数「tabClass」と、同じクラスがついたタブコンテンツに
 			if($(this).attr('class').indexOf(tabClass) != -1){
-
-				// クラス「active」を付与し、フェードインしながら表示
+				// クラス「select」を付与し、フェードインしながら表示
 				$(this).addClass('select').fadeIn();
-
 			// それ以外のタブコンテンツは
 			}else{
-
 				// 隠す
 				$(this).hide();
-
 			}
-
 		});
-
 	});
-
 });

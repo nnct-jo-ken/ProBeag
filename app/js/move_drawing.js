@@ -79,6 +79,11 @@ var Line_name;
 //setIntervalを定義する変数
 var change_text;
 //Lineの第二座標をクリックで設定する関数
+
+
+console.log(window.innerWidth,window.innerHeight);
+
+
 function onClick(e) {
   //図形の絶対値座標を取得する
     var line = e.target.getBoundingClientRect();
@@ -189,7 +194,7 @@ rect.addEventListener("click",function(){
     tri_flag = false;
     rect_flag = true;
     //table内のfor_propertyに書き込む
-    for_property.innerHTML = "四角形の始めのx座標を" + '<input type="text" size="2" id = "int">' + "y座標を" + '<input type = "text" size = "4" id = "for_y">' +"から横に" + '<input type="text" size="2" id = "ctrl">' + " まで"
+    for_property.innerHTML = "四角形の始めのx座標を" + '<input type="text" size="2" id = "int">' + "y座標を" + '<input type = "text" size = "2" id = "for_y">' +"から横に" + '<input type="text" size="2" id = "ctrl">' + " まで"
     + '<input type="text" size="2" id = "rate">' + "ずつ動かす";
     obj_judge = "rect";
   }else{
@@ -679,6 +684,7 @@ back.addEventListener("click",function(){
 
 //全消去のイベントリスナ
 store.addEventListener("click",function(){
+  figuers = [];
   decompile_code = "";
   count_Rect = 1;
   count_tri = 1;

@@ -2,8 +2,11 @@ canvas.canvas_1{
 	display: block;
   margin-left: 10px;
 	margin-right: 0px;
+	top: 0%;
+	width: 57.5%;
 }
 .area{
+	width:100%;
   display: box;
   display: -webkit-box;
   display: -moz-box;
@@ -12,18 +15,17 @@ canvas.canvas_1{
 	-webkit-box-pack:end;
 	-moz-box-pack:end;
 
-	margin-right: 20px;
-  padding: 10px;
-
 	box-align:start;
 	-webkit-box-align:start;
 	-moz-box-align:start;
 }
 .pre{
-	margin-right: 100px;
+	top: 0%;
+	right:71%;
+	width:17.5%;
 }
 body{
-background:linear-gradient(90deg,#0b0023 0%,#0b0023 29%,#cfab3f 29%,#cfab3f 29.5%,#f7f7f7 29.5%,#f7f7f7 100%);
+background:linear-gradient(90deg,#0b0023 0%,#0b0023 28%,#cfab3f 28%,#cfab3f 28.5%,#f7f7f7 28.5%,#f7f7f7 100%);
 }
 button.position{
   width:100%;
@@ -34,6 +36,7 @@ button.position{
 }
 
 table.table_img {
+	width:100%;
 	border-collapse: collapse;
 	text-align: center;
 	line-height: 1.5;
@@ -55,8 +58,9 @@ table.table_img td {
 
 div {*zoom: 1;}
 div:after {display: block;content: "";clear: both;}
-.tab {margin-bottom: 0px;}
-.tab > div {float: left;width:100px;background:#666;color:#fff;text-align: center;padding:10px 0;cursor:pointer;}
+.tab {margin-bottom: 0%;margin-right: 7%;width:25%;}
+.tab > div {float: left;width:100px;background:#666;color:#fff;text-align: center;padding:0.1% 0;cursor:pointer;}
 .tab > div.select {background:#000;}
-.tab_content {display:none;padding:20px 0;}
-.tab_content.select {display:block;position: absolute;top: 50px;left:1300px;}
+.wrapper{position: relative;}
+.tab_content {display:none;padding:1% 0;}
+.tab_content.select {display:none;position: absolute;top: 33px;left:0px;}
