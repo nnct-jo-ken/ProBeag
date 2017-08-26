@@ -173,12 +173,12 @@ rect.addEventListener("click",function(){
            obj_flag = layer.name;
            X = layer.x;
            Y = layer.y;
-           if_property.innerHTML = "オブジェクトを<input type = 'text' size='2' id = 'pace'>秒でx座標を<input type = 'text' size='2' id = 'if_x'>までy座標を<input type = 'text' size='2' id = 'if_y'>まで動かす.";
+           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
          }
         }
       });
      }
-    rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '3'>rect(" + '<input type="text" size="2"id ="rect_x" placeholder = 100>' + "," + '<input type="text" size="2"id ="rect_y" placeholder = 100>' + ",w,h);</font></span>" + "\n";
+    rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '3'>rect(" + '<input class="textbox" type="text" size="2"id ="rect_x" placeholder = 100>' + "," + '<input class="textbox" type="text" size="2"id ="rect_y" placeholder = 100>' + ",100,100);</font></span>" + "\n";
     literal(rect_code);
     //forをクリックされた際の処理
     if(for_flag === true){
@@ -194,8 +194,8 @@ rect.addEventListener("click",function(){
     tri_flag = false;
     rect_flag = true;
     //table内のfor_propertyに書き込む
-    for_property.innerHTML = "四角形の始めのx座標を" + '<input type="text" size="2" id = "int">' + "y座標を" + '<input type = "text" size = "2" id = "for_y">' +"から横に" + '<input type="text" size="2" id = "ctrl">' + " まで"
-    + '<input type="text" size="2" id = "rate">' + "ずつ動かす";
+    for_property.innerHTML = "四角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
+    + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
     obj_judge = "rect";
   }else{
     $("canvas").setLayer("Rect" + (count_Rect -1),{
@@ -582,12 +582,12 @@ cicle.addEventListener("click",function(){
           obj_flag = layer.name;
           X = layer.x;
           Y = layer.y;
-          if_property.innerHTML = "オブジェクトを<input type = 'text' size='2' id = 'pace'>秒でx座標を<input type = 'text' size='2' id = 'if_x'>までy座標を<input type = 'text' size='2' id = 'if_y'>まで動かす.";
+          if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
         }
        }
     });
   }
-  ellipse_code = "<span id = 'ellipse_source'><font color = '#f7f7f7' size = '3'>ellipse(" + '<input type="text" size="2" id="ellipse_x" placeholder = "100">' + "," + '<input type="text" size="2" id="ellipse_y" placeholder = "100">' + ",w,h); </font></span>" + "\n";
+  ellipse_code = "<span id = 'ellipse_source'><font color = '#f7f7f7' size = '3'>ellipse(" + '<input class="textbox" type="text" size="2" id="ellipse_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2" id="ellipse_y" placeholder = "100">' + ",100,100); </font></span>" + "\n";
   literal(ellipse_code);
   //forがクリックされたときの処理
   if(for_flag === true){
@@ -601,8 +601,8 @@ cicle.addEventListener("click",function(){
   ply_flag = false;
   line_flag = false;
   ellipse_flag = true;
-  for_property.innerHTML = "円の始めのx座標を" + '<input type="text" size="2" id = "int">' + "y座標を" + '<input type = "text" size = "4" id = "for_y">' +"から横に" + '<input type="text" size="2" id = "ctrl">' + " まで"
-  + '<input type="text" size="2" id = "rate">' + "ずつ動かす";
+  for_property.innerHTML = "円の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
+  + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
   obj_judge = "ellipse";
   }else{
       $("canvas").setLayer("Ellipse" + (count_Ellipse -1),{
@@ -749,12 +749,12 @@ triangle.addEventListener("click",function(){
            obj_flag = layer.name;
            X = layer.x;
            Y = layer.y;
-           if_property.innerHTML = "オブジェクトを<input type = 'text' size = '2' id = 'pace'>秒でx座標を<input type = 'text' size = '2' id = 'if_x'>までy座標を<input type = 'text' size = '2' id = 'if_y'>まで動かす.";
+           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size = '2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size = '2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size = '2' id = 'if_y'>まで動かす.";
          }
         }
       });
      }
-    tri_code = "<span id = 'triangle_source'><font color = '#f7f7f7' size = '3'>triangle(" + '<input type="text" size="2"id ="triangle_x" placeholder = "100">' + "," + '<input type="text" size="2"id ="triangle_y" placeholder = "100">' + ",w,h);</font></span>" + "\n";
+    tri_code = "<span id = 'triangle_source'><font color = '#f7f7f7' size = '3'>triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" placeholder = "100">' + ",100,100);</font></span>" + "\n";
     literal(tri_code);
     //forをクリックされた際の処理
     if(for_flag === true){
@@ -770,8 +770,8 @@ triangle.addEventListener("click",function(){
     ply_flag = false;
     tri_flag = true;
     //table内のfor_propertyに書き込む
-    for_property.innerHTML = "三角形の始めのx座標を" + '<input type="text" size="2" id = "int">' + "y座標を" + '<input type = "text" size = "2" id = "for_y">' +"から横に" + '<input type="text" size="2" id = "ctrl">' + " まで"
-    + '<input type="text" size="2" id = "rate">' + "ずつ動かす";
+    for_property.innerHTML = "三角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
+    + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
     obj_judge = "triangle";
   }else{
     $("canvas").setLayer("Triangle" + (count_tri -1),{
@@ -828,12 +828,12 @@ triangle.addEventListener("click",function(){
          	 if(if_flag === true){
              X = layer.x;
              Y = layer.y;
-             if_property.innerHTML = "オブジェクトを<input type = 'text' size='2' id = 'pace'>秒でx座標を<input type = 'text' size='2' id = 'if_x'>までy座標を<input type = 'text' size='2' id = 'if_y'>まで動かす.";
+             if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
            }
           }
         });
        }
-      ply_code = "<span id = 'polygon_source'><font color = '#f7f7f7' size = '3'>polygon(" + '<input type="text" size="2"id ="polygon_x" placeholder = "100">' + "," + '<input type="text" size="2"id ="polygon_y" placeholder = "100">' + ",w,h);</font></span>" + "\n";
+      ply_code = "<span id = 'polygon_source'><font color = '#f7f7f7' size = '3'>polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" placeholder = "100">' + ",100,100);</font></span>" + "\n";
       literal(ply_code);
       //forをクリックされた際の処理
       if(for_flag === true){
@@ -848,8 +848,8 @@ triangle.addEventListener("click",function(){
       tri_flag = false;
       ply_flag = true;
       //table内のfor_propertyに書き込む
-      for_property.innerHTML = "多角形の始めのx座標を" + '<input type="text" size="2" id = "int">' + "y座標を" + '<input type = "text" size = "4" id = "for_y">' +"から横に" + '<input type="text" size="2" id = "ctrl">' + " まで"
-      + '<input type="text" size="2" id = "rate">' + "ずつ動かす";
+      for_property.innerHTML = "多角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
+      + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
       obj_judge = "polygon";
     }else{
       $("canvas").setLayer("Polygon" + (count_ply -1),{
@@ -898,7 +898,7 @@ line.addEventListener("click",function(){
        }
       });
      }
-    line_code = "<span id = 'line_source'><font color = '#f7f7f7' size = '3'>line(" + '<input type="text" size="2"id ="line1_x" value = "100">' + "," + '<input type="text" size="2"id ="line1_y" value = "100">' + "," + '<input type="text" size="2"id ="line2_x" placeholder = "400">' + "," + '<input type="text" size="2"id ="line2_y" placeholder = "400">' + ");</font></span>" + "\n";
+    line_code = "<span id = 'line_source'><font color = '#f7f7f7' size = '3'>line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" placeholder = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" placeholder = "400">' + ");</font></span>" + "\n";
     literal(line_code);
     //forをクリックされた際の処理
     if(for_flag === true){

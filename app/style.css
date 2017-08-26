@@ -1,11 +1,22 @@
 canvas.canvas_1{
+	position: absolute;
 	display: block;
   margin-left: 10px;
 	margin-right: 0px;
 	top: 0%;
+	right: 13.9%;
 	width: 57.5%;
 }
+
+.textbox{
+    width: 15%;
+}
+font{
+	font-size: 1vw;
+}
+
 .area{
+	position: relative;
 	width:100%;
   display: box;
   display: -webkit-box;
@@ -20,8 +31,9 @@ canvas.canvas_1{
 	-moz-box-align:start;
 }
 .pre{
+	position: absolute;
 	top: 0%;
-	right:71%;
+	right:73%;
 	width:17.5%;
 }
 body{
@@ -35,32 +47,36 @@ button.position{
 	margin: auto;
 }
 
+img{
+	max-width: 80%;
+	height: auto;
+}
+
 table.table_img {
-	width:100%;
+	width: 100%;
 	border-collapse: collapse;
 	text-align: center;
 	line-height: 1.5;
 }
 table.table_img th {
 	border:1px solid black;
-	width: 80px;
-	padding: 7px;
+	width: 50%;
+	padding: 3%;
 	font-weight: bold;
 	vertical-align: top;
 }
 table.table_img td {
 	border:1px solid black;
-	width: 80px;
-	padding: 7px;
+	width: 50%;
+	padding: 3%;
 	vertical-align: top;
 	border-bottom: 1px solid black;
 }
-
 div {*zoom: 1;}
 div:after {display: block;content: "";clear: both;}
-.tab {margin-bottom: 0%;margin-right: 7%;width:25%;}
-.tab > div {float: left;width:100px;background:#666;color:#fff;text-align: center;padding:0.1% 0;cursor:pointer;}
+.tab {position: absolute;margin-bottom: 20%;right: 13%;top: 0%;width:25%;}
+.tab > div {float: left;width:300%;background:#666;color:#fff;text-align: center;padding:0.1% 0;cursor:pointer;}
 .tab > div.select {background:#000;}
-.wrapper{position: relative;}
+.wrapper{position: relative;right: 11.4%;top: 0%; width: 7%;}
 .tab_content {display:none;padding:1% 0;}
-.tab_content.select {display:none;position: absolute;top: 33px;left:0px;}
+.tab_content.select {display:block;position: absolute;top: 32px;left:63%;width: 200%;}
