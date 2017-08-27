@@ -37,10 +37,14 @@ font{
 	width:17.5%;
 }
 body{
-background:linear-gradient(90deg,#0b0023 0%,#0b0023 28%,#cfab3f 28%,#cfab3f 28.5%,#f7f7f7 28.5%,#f7f7f7 100%);
+background:linear-gradient(90deg,#0b0023 0%,#0b0023 28%,#cfab3f 28%,#cfab3f 28.5%,#f7f7f7 28.5%,#f7f7f7 150%);
 }
 button.position{
   width:100%;
+}
+
+#color{
+	width: 80%;
 }
 
 .farbtastic{
@@ -48,7 +52,7 @@ button.position{
 }
 
 img{
-	max-width: 80%;
+	width: 65%;
 	height: auto;
 }
 
@@ -79,4 +83,4 @@ div:after {display: block;content: "";clear: both;}
 .tab > div.select {background:#000;}
 .wrapper{position: relative;right: 11.4%;top: 0%; width: 7%;}
 .tab_content {display:none;padding:1% 0;}
-.tab_content.select {display:block;position: absolute;top: 32px;left:63%;width: 200%;}
+.tab_content.select {display:none;position: absolute;top: 32px;left:63%;width: 175%;}

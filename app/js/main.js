@@ -43,7 +43,7 @@ $(document).ready(function() {
   $('#colorpicker').farbtastic('#color');
 });
 //angleがつくid属性に<option>タグを入れている
-for(var i = 0;i < 11;i++){
+for(var i = 0;i < 6;i++){
   $("#angle").append("<option value = " + (i+5) + " > " + (i+5) + "</option>")
 }
 
