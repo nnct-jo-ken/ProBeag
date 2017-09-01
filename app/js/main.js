@@ -7,34 +7,12 @@ var angle = document.getElementById("angle");
 var code;
 var decompile_code;
 //逆コンパイル
-  decompile.addEventListener("click",function(){
-    //ソースコード表示
-    source.innerHTML = decompile_code;
-    change_id("rect");
-    change_id("ellipse");
-    change_id("triangle");
-    change_id("polygon");
-    change_id("line1")
-    change_id("line2");
-    change_id_span("rect_source");
-    change_id_span("ellipse_source");
-    change_id_span("triangle_source");
-    change_id_span("polygon_source");
-    change_id_span("for_source");
-    change_id_span("line_source");
-    change_class_span("rect_source");
-    change_class_span("ellipse_source");
-    change_class_span("triangle_source");
-    change_class_span("polygon_source");
-    change_class_span("for_source");
-    change_class_span("line_source");
-  },false);
-
 //preのインデントを消去
 
 window.addEventListener("DOMContentLoaded", function(){
   var pres = document.getElementsByClassName("pre");
   for (var i = 0; i < pres.length; i++){
+    pres[i].firstChild.data = pres[i].firstChild.data.replace("/^ +/n","");
     pres[i].firstChild.data = pres[i].firstChild.data.replace(/^ +/gm,"");
   }
 },false);

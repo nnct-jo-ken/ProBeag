@@ -16,9 +16,9 @@ var store = document.getElementById("store");
 var if_property = document.getElementById("if_property");
 var sample_if = document.getElementById("sample_if");
 //表示するコードをいれる配列
-var figuers = [];
+var figures = [];
 //何回関数が読みだされたかカウント
-var load_figuers = 0;
+var load_figures = 0;
 var count_Rect = 1;
 var count_Ellipse = 1;
 var count_tri = 1;
@@ -78,12 +78,12 @@ var y;
 var Line_name;
 //setIntervalを定義する変数
 var change_text;
+
+var fill_code_rec;
+
+var fill;
+
 //Lineの第二座標をクリックで設定する関数
-
-
-console.log(window.innerWidth,window.innerHeight);
-
-
 function onClick(e) {
   //図形の絶対値座標を取得する
     var line = e.target.getBoundingClientRect();
@@ -97,32 +97,51 @@ function onClick(e) {
     }).drawLayers();
 }
 canvas.addEventListener("click",onClick,false);
+
+
 //配列に入れてtoString()で文字列に直している
 function literal(figures_code){
   //引数をfiguersの一番最後にぶちこむ
-  figuers.push(figures_code);
+  figures.push(figures_code);
   //forを作る際のやり直しを行うもの
   if(for_flag == true){
     //最後の要素を消す
-    figuers.pop();
+    figures.pop();
   }
+  var count = figures.length;
   //配列を文字列に直す
-  code = figuers.toString();
+//  code = figures.toString();
   //正規表現のところやね
-  decompile_code = code.replace("\t","\n");
+//  decompile_code = code.replace("\t","\n");
   //これでpreタグ内に書き込める
-  $(function ($) {
-    $("#decompile").click( function() {
-      for (var i in figuers){
-        if(++load_figuers == figuers.length){
-          $("#source_code").append(function(){
-            code = figuers.toString();
-            decompile_code = code.replace("/^/","\n");
-          });
+//  $(function ($) {
+//    $("#decompile").click( function() {
+//      for (var i in figures){
+        if(++load_figures == figures.length){
+/*          change_id("rect");
+          change_id("ellipse");
+          change_id("triangle");
+          change_id("polygon");
+          change_id("line1")
+          change_id("line2");
+          change_id_span("rect_source");
+          change_id_span("ellipse_source");
+          change_id_span("triangle_source");
+          change_id_span("polygon_source");
+          change_id_span("for_source");
+          change_id_span("line_source");
+          change_id_span("rec_fill");
+          change_class_span("rect_source");
+          change_class_span("ellipse_source");
+          change_class_span("triangle_source");
+          change_class_span("polygon_source");
+          change_class_span("for_source");
+          change_class_span("line_source");*/
+          $("#source_code").append(figures[count-1]);
         }
-      }
-    });
-  });
+//      }
+  //  });
+//  });
 }
 //四角形を描く
 rect.addEventListener("click",function(){
@@ -143,7 +162,9 @@ rect.addEventListener("click",function(){
        height: 65,
        fromCenter: false,
        dblclick:function(layer){
+
          layer.fillStyle = $("#color").val();
+         document.getElementById('rec_fill' + (i-1)).innerHTML = "<span><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></span>";
        },
        draggable:true,
        drag:function(layer){
@@ -178,8 +199,16 @@ rect.addEventListener("click",function(){
         }
       });
      }
+
+    fill_code_rec = "<span id='rec_fill'><font color = '#f7f7f7' size = '3'>fill(255,0,0);</font></span>" + "\n";
+    literal(fill_code_rec);
     rect_code = "<span id = 'rect_source'><font color = '#f7f7f7' size = '3'>rect(" + '<input class="textbox" type="text" size="2"id ="rect_x" placeholder = 100>' + "," + '<input class="textbox" type="text" size="2"id ="rect_y" placeholder = 100>' + ",100,100);</font></span>" + "\n";
     literal(rect_code);
+    $("#rect_x").attr("id","rect_x" + (count_Rect-1));
+    $("#rect_y").attr("id","rect_y" + (count_Rect-1));
+    $("#rect_source").attr("id","rect_source" + (count_Rect-1));
+    $("#rect_source" + (count_Rect-1)).addClass("rect_source" + (count_Rect-1));
+    $("#rec_fill").attr("id","rec_fill" + (count_Rect-1));
     //forをクリックされた際の処理
     if(for_flag === true){
       //nameプロパティがRect(最後)の図形を見えなくする
@@ -626,8 +655,9 @@ for_str.addEventListener("click",function(){
 
 //前に戻るのイベントリスナ
 back.addEventListener("click",function(){
-  //一番最後の配列の要素消去
-  figuers.pop();
+  //一番最後の要素消去
+  $("span:last").remove();
+  $("span:last").remove();
   //それぞれのプロパティを消す
   if(for_flag === true){
     for_property.innerHTML = "";
@@ -680,11 +710,12 @@ back.addEventListener("click",function(){
   }
   --count_groups;
   for_flag = false;
+  if_flag = false;
 },false);
 
 //全消去のイベントリスナ
 store.addEventListener("click",function(){
-  figuers = [];
+  $("#source_code").html("");
   decompile_code = "";
   count_Rect = 1;
   count_tri = 1;

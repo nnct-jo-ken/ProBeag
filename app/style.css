@@ -3,7 +3,6 @@ canvas.canvas_1{
 	display: block;
   margin-left: 10px;
 	margin-right: 0px;
-	top: 0%;
 	right: 13.9%;
 	width: 57.5%;
 }
@@ -18,6 +17,7 @@ font{
 .area{
 	position: relative;
 	width:100%;
+	height: 100%;
   display: box;
   display: -webkit-box;
   display: -moz-box;
@@ -52,11 +52,12 @@ button.position{
 }
 
 img{
-	width: 65%;
+	max-width: 65%;
 	height: auto;
 }
 
 table.table_img {
+	top: 0%;
 	width: 100%;
 	border-collapse: collapse;
 	text-align: center;
@@ -76,11 +77,12 @@ table.table_img td {
 	vertical-align: top;
 	border-bottom: 1px solid black;
 }
+
+.wrapper{position: relative;top: 0%;right: 1%;width: 15%;height: 100%;}
 div {*zoom: 1;}
 div:after {display: block;content: "";clear: both;}
-.tab {position: absolute;margin-bottom: 20%;right: 13%;top: 0%;width:25%;}
-.tab > div {float: left;width:300%;background:#666;color:#fff;text-align: center;padding:0.1% 0;cursor:pointer;}
+.tab {position: absolute;margin-bottom: 20%;right: 1%;top: 0%;width:85%;}
+.tab > div {float: left;width:40%;height: auto;background:#666;color:#fff;text-align: center;padding:3% 0;cursor:pointer;}
 .tab > div.select {background:#000;}
-.wrapper{position: relative;right: 11.4%;top: 0%; width: 7%;}
 .tab_content {display:none;padding:1% 0;}
-.tab_content.select {display:none;position: absolute;top: 32px;left:63%;width: 175%;}
+.tab_content.select {display:block;position: absolute;width: 95%;margin-top: 15%;left:13.5%;}
