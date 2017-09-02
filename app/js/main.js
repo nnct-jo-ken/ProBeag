@@ -12,7 +12,6 @@ var decompile_code;
 window.addEventListener("DOMContentLoaded", function(){
   var pres = document.getElementsByClassName("pre");
   for (var i = 0; i < pres.length; i++){
-    pres[i].firstChild.data = pres[i].firstChild.data.replace("/^ +/n","");
     pres[i].firstChild.data = pres[i].firstChild.data.replace(/^ +/gm,"");
   }
 },false);
