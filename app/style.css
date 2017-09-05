@@ -85,4 +85,11 @@ div:after {display: block;content: "";clear: both;}
 .tab > div {float: left;width:40%;height: auto;background:#666;color:#fff;text-align: center;padding:3% 0;cursor:pointer;}
 .tab > div.select {background:#000;}
 .tab_content {display:none;padding:1% 0;}
-.tab_content.select {display:block;position: absolute;width: 95%;margin-top: 15%;left:13.5%;}
+/*chrome,Operaだけに対応するcss*/
+@media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
+  .tab_content.select {display:block;position: absolute;width: 95%;margin-top: 15%;left:13.5%;}
+}
+/*fire foxのみに対応するcss*/
+@-moz-document url-prefix() {
+	.tab_content.select {display:block;position: absolute;width: 95%;margin-top: 13%;left:13.5%;}
+}

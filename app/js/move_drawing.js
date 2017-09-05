@@ -86,6 +86,7 @@ var fill_code_ell;
 var fill_code_tri;
 var fill_code_ply;
 var stroke_code_line;
+
 //Lineの第二座標をクリックで設定する関数
 function onClick(e) {
   //図形の絶対値座標を取得する
@@ -101,8 +102,7 @@ function onClick(e) {
 }
 canvas.addEventListener("click",onClick,false);
 
-
-//配列に入れてtoString()で文字列に直している
+//配列に入れて一番最後の要素をpreタグに入れる
 function literal(figures_code){
   //引数をfiguersの一番最後にぶちこむ
   figures.push(figures_code);
@@ -113,12 +113,9 @@ function literal(figures_code){
   }
   var count = figures.length;
 //preタグ内に書き込む
-        if(++load_figures == figures.length){
-          $("#source_code").append(figures[count-1]);
-        }
-//      }
-  //  });
-//  });
+  if(++load_figures == figures.length){
+    $("#source_code").append(figures[count-1]);
+  }
 }
 //四角形を描く
 rect.addEventListener("click",function(){
@@ -586,7 +583,6 @@ cicle.addEventListener("click",function(){
         $("#ellipse_y" + (i - 1)).val(layer.y);
       },
       mouseover:function(layer){
-        console.log(layer.groups);
         $(function(){
           change_text = setInterval(function(){
             $("#ellipse_x" + (i - 1)).val(layer.x);
@@ -757,7 +753,6 @@ triangle.addEventListener("click",function(){
          $("#triangle_y" + (i - 1)).val(layer.y);
        },
        mouseover:function(layer){
-         console.log(layer.groups);
          $(function(){
            change_text = setInterval(function(){
              $("#triangle_x" + (i - 1)).val(layer.x);
@@ -845,7 +840,6 @@ triangle.addEventListener("click",function(){
            $("#polygon_y" + (i - 1)).val(layer.y);
          },
          mouseover:function(layer){
-           console.log(layer.groups);
            $(function(){
              change_text = setInterval(function(){
                $("#polygon_x" + (i - 1)).val(layer.x);
@@ -872,14 +866,14 @@ triangle.addEventListener("click",function(){
           }
         });
        }
-      fill_code_ply = "<li id='ply_fill'><font color = '#f7f7f7' size = '3'>fill(255,0,0);</font></li>";
+      fill_code_ply = "<li id='ply_fill'><font color = '#f7f7f7' size = '3'>fill(163,73,164);</font></li>";
       literal(fill_code_ply);
       ply_code = "<li id = 'polygon_source'><font color = '#f7f7f7' size = '3'>polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" placeholder = "100">' + ",100,100);</font></li>";
       literal(ply_code);
       $("#polygon_x").attr("id","polygon_x" + (count_ply-1));
       $("#polygon_y").attr("id","polygon_y" + (count_ply-1));
       $("#polygon_source").attr("id","polygon_source" + (count_ply-1));
-      $("#polygon_source" + (count_tri-1)).addClass("polygon_source" + (count_ply-1));
+      $("#polygon_source" + (count_ply-1)).addClass("polygon_source" + (count_ply-1));
       $("#ply_fill").attr("id","ply_fill" + (count_ply-1));
       //forをクリックされた際の処理
       if(for_flag === true){
@@ -892,6 +886,7 @@ triangle.addEventListener("click",function(){
       rect_flag = false;
       ellipse_flag = false;
       tri_flag = false;
+      line_flag = false;
       ply_flag = true;
       //table内のfor_propertyに書き込む
       for_property.innerHTML = "多角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
@@ -923,7 +918,6 @@ line.addEventListener("click",function(){
          document.getElementById("line_stroke").innerHTML = "<li><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
        },
        mouseover:function(layer){
-         console.log(layer.groups);
          $(function(){
            change_text = setInterval(function(){
              $("#line2_x" + (i-1)).val(layer.x2);
@@ -946,7 +940,7 @@ line.addEventListener("click",function(){
        }
       });
      }
-    stroke_code_line = "<li id='line_stroke'><font color = '#f7f7f7' size = '3'>fill(255,0,0);</font></li>";
+    stroke_code_line = "<li id='line_stroke'><font color = '#f7f7f7' size = '3'>fill(255,174,201);</font></li>";
     literal(stroke_code_line);
     line_code = "<li id = 'line_source'><font color = '#f7f7f7' size = '3'>line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" placeholder = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" placeholder = "400">' + ");</font></li>";
     literal(line_code);

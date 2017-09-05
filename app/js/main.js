@@ -3,12 +3,7 @@ var source = document.getElementById("source_code");
 var canvas = document.getElementById("canvas");
 var decompile = document.getElementById("decompile");
 var angle = document.getElementById("angle");
-//ソースコードの中身の変数
-var code;
-var decompile_code;
-//逆コンパイル
 //preのインデントを消去
-
 window.addEventListener("DOMContentLoaded", function(){
   var pres = document.getElementsByClassName("pre");
   for (var i = 0; i < pres.length; i++){
