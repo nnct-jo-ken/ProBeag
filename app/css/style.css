@@ -36,6 +36,7 @@ font{
 	right:73%;
 	width:17.5%;
 }
+
 body{
 background:linear-gradient(90deg,#0b0023 0%,#0b0023 28%,#cfab3f 28%,#cfab3f 28.5%,#f7f7f7 28.5%,#f7f7f7 150%);
 }
@@ -49,6 +50,9 @@ button.position{
 
 .farbtastic{
 	margin: auto;
+}
+li{
+	 list-style:none;
 }
 
 img{
@@ -93,3 +97,31 @@ div:after {display: block;content: "";clear: both;}
 @-moz-document url-prefix() {
 	.tab_content.select {display:block;position: absolute;width: 95%;margin-top: 13%;left:13.5%;}
 }
+/*
+.tool {
+  position:relative;
+}
+.tool:hover {
+  background: #0b0023;
+}
+.sample3-tooltips {
+  position: absolute;
+  bottom: -2.8em;
+  left: 0.3em;
+  z-index: 9999;
+  padding: 0.3em 0.5em;
+  color: #0b0023;
+  background: #0b0023;
+  border-radius: 0.5em;
+}
+.sample3-tooltips:after {
+  width: 100%;
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0.5em;
+  top: -8px;
+  border-top:8px solid transparent;
+  border-left:8px solid #0b0023;
+}
+*/
