@@ -51,6 +51,7 @@ button.position{
 .farbtastic{
 	margin: auto;
 }
+
 li{
 	 list-style:none;
 }
@@ -98,30 +99,14 @@ div:after {display: block;content: "";clear: both;}
 	.tab_content.select {display:block;position: absolute;width: 95%;margin-top: 13%;left:13.5%;}
 }
 /*
-.tool {
-  position:relative;
+.tooltipster-sidetip.tooltipster-noir.tooltipster-noir-customized .tooltipster-box {
+	width: 40%;
+	border-radius: 6px;
+	box-shadow: 5px 5px 2px 0 rgba(0,0,0,0.4);
 }
-.tool:hover {
-  background: #0b0023;
-}
-.sample3-tooltips {
-  position: absolute;
-  bottom: -2.8em;
-  left: 0.3em;
-  z-index: 9999;
-  padding: 0.3em 0.5em;
-  color: #0b0023;
-  background: #0b0023;
-  border-radius: 0.5em;
-}
-.sample3-tooltips:after {
-  width: 100%;
-  content: "";
-  display: block;
-  position: absolute;
-  left: 0.5em;
-  top: -8px;
-  border-top:8px solid transparent;
-  border-left:8px solid #0b0023;
-}
-*/
+
+.tooltipster-sidetip.tooltipster-noir.tooltipster-noir-customized .tooltipster-content {
+	width: 100%;
+	color: #0b0023;
+	padding: 8px;
+}*/

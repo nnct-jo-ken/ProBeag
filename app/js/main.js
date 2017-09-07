@@ -3,21 +3,7 @@ var source = document.getElementById("source_code");
 var canvas = document.getElementById("canvas");
 var decompile = document.getElementById("decompile");
 var angle = document.getElementById("angle");
-$(document).ready(function() {
-  $('.tooltip').tooltipster();
-});
-/*
-$(".tool").on({
-  'mouseenter':function(){
-    alert("aaaaa");
-    var text = $(this).attr('data-text');
-    //console.log(text);
-    $(this).append('<div class="sample3-tooltips">'+text+'</div>');
-  },
-  'mouseleave':function(){
-    $(this).find(".sample3-tooltips").remove();
-  }
-});*/
+
 //preのインデントを消去
 window.addEventListener("DOMContentLoaded", function(){
   var pres = document.getElementsByClassName("pre");

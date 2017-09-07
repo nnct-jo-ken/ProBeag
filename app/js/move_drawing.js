@@ -87,6 +87,9 @@ var fill_code_tri;
 var fill_code_ply;
 var stroke_code_line;
 
+
+
+
 //Lineの第二座標をクリックで設定する関数
 function onClick(e) {
   //図形の絶対値座標を取得する
@@ -138,7 +141,7 @@ rect.addEventListener("click",function(){
        dblclick:function(layer){
 
          layer.fillStyle = $("#color").val();
-         document.getElementById('rec_fill' + (i-1)).innerHTML = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0~255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+         document.getElementById("rec_fill" + (i-1)).innerHTML = "<li class='tooltip' title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
        },
        draggable:true,
        drag:function(layer){
@@ -174,7 +177,7 @@ rect.addEventListener("click",function(){
       });
      }
 
-    fill_code_rec = "<li class = 'tooltip' title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0~255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id='rec_fill'><font color = '#f7f7f7' size = '3'>fill(255,0,0);</font></li>";
+    fill_code_rec = "<li class = 'tooltip' title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id='rec_fill' class='tooltip'><font color = '#f7f7f7' size = '3'>fill(255,0,0);</font></li>";
     literal(fill_code_rec);
     rect_code = "<li title='四角形を作る命令です." + "\n" + "rect(x座標,y座標,横幅,高さ) という形になっています." + "\n" + "x座標やy座標の数値を変えてCompileボタンを押すことで位置座標を変更できます.' id = 'rect_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>rect(" + '<input class="textbox" type="text" size="2"id ="rect_x" placeholder = 100>' + "," + '<input class="textbox" type="text" size="2"id ="rect_y" placeholder = 100>' + ",100,100);</font></li>";
     literal(rect_code);
@@ -205,6 +208,9 @@ rect.addEventListener("click",function(){
       visible:true
     }).drawLayers();
   }
+  $(".tooltip").tooltipster({
+    "maxWidth":400,
+  });
   },false);
 
 //ボタンを押して図形の位置を変更する
@@ -575,7 +581,7 @@ cicle.addEventListener("click",function(){
       draggable: true,
       dblclick:function(layer){
         layer.fillStyle = $("#color").val();
-        document.getElementById("ell_fill" + (i-1)).innerHTML = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0~255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+        document.getElementById("ell_fill" + (i-1)).innerHTML = "<li class='tooltip' title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
       },
       visible:true,
       drag:function(layer){
@@ -609,7 +615,7 @@ cicle.addEventListener("click",function(){
        }
     });
   }
-  fill_code_ell = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0~255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id='ell_fill'><font color ='#f7f7f7' size = '3'>fill(0,0,255)</font></li>";
+  fill_code_ell = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id='ell_fill' class='tooltip'><font color ='#f7f7f7' size = '3'>fill(0,0,255);</font></li>";
   literal(fill_code_ell);
   ellipse_code = "<li title = '楕円を作る命令です." + "\n" + "ellipse(x座標,y座標,横幅,高さ) という形になっています." + "\n" + "x座標やy座標の数値を変えてCompileボタンを押すことで位置座標を変更できます.' id = 'ellipse_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>ellipse(" + '<input class="textbox" type="text" size="2" id="ellipse_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2" id="ellipse_y" placeholder = "100">' + ",100,100); </font></li>";
   literal(ellipse_code);
@@ -638,6 +644,9 @@ cicle.addEventListener("click",function(){
         visible:true
       }).drawLayers();
     }
+    $(".tooltip").tooltipster({
+      "maxWidth":400,
+    });
 },false);
 
 //画像の緑のイベントリスナ
@@ -745,7 +754,7 @@ triangle.addEventListener("click",function(){
        sides: 3,
        dblclick:function(layer){
          layer.fillStyle = $("#color").val();
-         document.getElementById("tri_fill" + (i-1)).innerHTML = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0~255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+         document.getElementById("tri_fill" + (i-1)).innerHTML = "<li class='tooltip' title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
        },
        draggable:true,
        drag:function(layer){
@@ -779,7 +788,7 @@ triangle.addEventListener("click",function(){
         }
       });
      }
-    fill_code_tri = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0~255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id = 'tri_fill'><font color = '#f7f7f7' size = '3'>fill(255,201,14);</font></li>";
+    fill_code_tri = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id = 'tri_fill' class='tooltip'><font color = '#f7f7f7' size = '3'>fill(255,201,14);</font></li>";
     literal(fill_code_tri);
     tri_code = "<li title = '三角形を作る命令です." + "\n" + "triangle(x座標,y座標,横幅,高さ) という形になっています." + "\n" + "x座標やy座標の数値を変えてCompileボタンを押すことで位置座標を変更できます.' id = 'triangle_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" placeholder = "100">' + ",100,100);</font></li>";
     literal(tri_code);
@@ -810,6 +819,9 @@ triangle.addEventListener("click",function(){
       visible:true
     }).drawLayers();
   }
+  $(".tooltip").tooltipster({
+    "maxWidth":400,
+  });
   },false);
 
   //多角形を描く
@@ -832,7 +844,7 @@ triangle.addEventListener("click",function(){
          sides: angle.value,
          dblclick:function(layer){
            layer.fillStyle = $("#color").val();
-           document.getElementById("ply_fill" + (i-1)).innerHTML = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0~255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+           document.getElementById("ply_fill" + (i-1)).innerHTML = "<li class='tooltip' title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
          },
          draggable:true,
          drag:function(layer){
@@ -866,9 +878,9 @@ triangle.addEventListener("click",function(){
           }
         });
        }
-      fill_code_ply = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0~255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id='ply_fill'><font color = '#f7f7f7' size = '3'>fill(163,73,164);</font></li>";
+      fill_code_ply = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id='ply_fill' class='tooltip'><font color = '#f7f7f7' size = '3'>fill(163,73,164);</font></li>";
       literal(fill_code_ply);
-      ply_code = "<li title = '五角形以上を作る命令です." + "\n" + "polygon(x座標,y座標,横幅,高さ) という形になっています." + "\n" + "x座標やy座標の数値を変えてCompileボタンを押すことで位置座標を変更できます." + "\n" + "5~10の中で選択してから画像ボタンをクリックすることで頂点の数が変更します.' id = 'polygon_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" placeholder = "100">' + ",100,100);</font></li>";
+      ply_code = "<li title = '五角形以上を作る命令です." + "\n" + "polygon(x座標,y座標,横幅,高さ,頂点数) という形になっています." + "\n" + "x座標やy座標の数値を変えてCompileボタンを押すことで位置座標を変更できます." + "\n" + "5～10の中で選択してから画像ボタンをクリックすることで頂点数が変更します.' id = 'polygon_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" placeholder = "100">' + ",100,100," + angle.value + ");</font></li>";
       literal(ply_code);
       $("#polygon_x").attr("id","polygon_x" + (count_ply-1));
       $("#polygon_y").attr("id","polygon_y" + (count_ply-1));
@@ -897,13 +909,16 @@ triangle.addEventListener("click",function(){
         visible:true
       }).drawLayers();
     }
+    $(".tooltip").tooltipster({
+      "maxWidth":400,
+    });
     },false);
 
 line.addEventListener("click",function(){
   count_line++;
   count_groups++;
   for (var i = 1;i < count_line;i++){
-    //これがJcanvasの多角形を描くソース
+    //これがJcanvasの線を描くソース
      $("canvas").drawLine({
        layer:true,
        name:"Line" + i,
@@ -915,14 +930,27 @@ line.addEventListener("click",function(){
        fromCenter: false,
        dblclick:function(layer){
          layer.strokeStyle = $("#color").val();
-         document.getElementById("line_stroke" + (i-1)).innerHTML = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0~255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>stroke(" + parseInt(layer.strokeStyle.substring(1,3), 16) + ","
+         document.getElementById("line_stroke" + (i-1)).innerHTML = "<li class='tooltip' title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>stroke(" + parseInt(layer.strokeStyle.substring(1,3), 16) + ","
          + parseInt(layer.strokeStyle.substring(3,5),16) + "," + parseInt(layer.strokeStyle.substring(5,7), 16) + ");</font></li>";
        },
        mouseover:function(layer){
          $(function(){
            change_text = setInterval(function(){
-             $("#line2_x" + (i-1)).val(layer.x2);
-             $("#line2_y" + (i-1)).val(layer.y2);
+             if(layer.x1 < layer.x2){
+               $("#line1_x" + (i-1)).val(layer.x1);
+               $("#line2_x" + (i-1)).val(layer.x2);
+             }else if(layer.x1 > layer.x2){
+               $("#line1_x" + (i-1)).val(layer.x2);
+               $("#line2_x" + (i-1)).val(layer.x1);
+             }
+             if(layer.y1 < layer.y2){
+               $("#line1_y" + (i-1)).val(layer.y1);
+               $("#line2_y" + (i-1)).val(layer.y2);
+             }else if(layer.y1 > layer.y2){
+               $("#line1_y" + (i-1)).val(layer.y2);
+               $("#line2_y" + (i-1)).val(layer.y1);
+             }
+
            },10);
          });
          $(function(){
@@ -941,7 +969,7 @@ line.addEventListener("click",function(){
        }
       });
      }
-    stroke_code_line = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0~255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id='line_stroke'><font color = '#f7f7f7' size = '3'>stroke(255,174,201);</font></li>";
+    stroke_code_line = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id='line_stroke' class = 'tooltip'><font color = '#f7f7f7' size = '3'>stroke(255,174,201);</font></li>";
     literal(stroke_code_line);
     line_code = "<li title = '線を作る命令です." + "\n" + "line(x1座標,y1座標,x2座標,y2座標) という形になっています." + "\n" + "x1座標やy1座標(※x2,y2座標は対応してません)の数値を変えてCompileボタンを押すことで位置座標を変更できます." + "\n" + "線を左クリックすることでロックが解除され,右クリックすることでロックされます' id = 'line_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" placeholder = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" placeholder = "400">' + ");</font></li>";
     literal(line_code);
@@ -972,4 +1000,7 @@ line.addEventListener("click",function(){
       visible:true
     }).drawLayers();
   }
+  $(".tooltip").tooltipster({
+    "maxWidth":410,
+  });
 },false);
