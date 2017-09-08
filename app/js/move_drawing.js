@@ -53,6 +53,7 @@ var rect_code;
 var ellipse_code;
 var tri_code;
 var ply_code;
+var for_code;
 //図形が何回canvas内にあるか
 var count_groups = 0;
 //forの多角形の画数を決める
@@ -85,9 +86,10 @@ var fill_code_rec;
 var fill_code_ell;
 var fill_code_tri;
 var fill_code_ply;
+var fill_code_for;
 var stroke_code_line;
 
-
+var obj_fill;
 
 
 //Lineの第二座標をクリックで設定する関数
@@ -110,9 +112,11 @@ function literal(figures_code){
   //引数をfiguersの一番最後にぶちこむ
   figures.push(figures_code);
   //forを作る際のやり直しを行うもの
-  if(for_flag == true){
+ if(for_flag == true){
+
     //最後の要素を消す
     figures.pop();
+    --load_figures;
   }
   var count = figures.length;
 //preタグ内に書き込む
@@ -141,7 +145,7 @@ rect.addEventListener("click",function(){
        dblclick:function(layer){
 
          layer.fillStyle = $("#color").val();
-         document.getElementById("rec_fill" + (i-1)).innerHTML = "<li class='tooltip' title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+         document.getElementById("rec_fill" + (i-1)).innerHTML = "<li>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
        },
        draggable:true,
        drag:function(layer){
@@ -176,41 +180,39 @@ rect.addEventListener("click",function(){
         }
       });
      }
-
-    fill_code_rec = "<li class = 'tooltip' title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id='rec_fill' class='tooltip'><font color = '#f7f7f7' size = '3'>fill(255,0,0);</font></li>";
-    literal(fill_code_rec);
-    rect_code = "<li title='四角形を作る命令です." + "\n" + "rect(x座標,y座標,横幅,高さ) という形になっています." + "\n" + "x座標やy座標の数値を変えてCompileボタンを押すことで位置座標を変更できます.' id = 'rect_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>rect(" + '<input class="textbox" type="text" size="2"id ="rect_x" placeholder = 100>' + "," + '<input class="textbox" type="text" size="2"id ="rect_y" placeholder = 100>' + ",100,100);</font></li>";
-    literal(rect_code);
-    $("#rect_x").attr("id","rect_x" + (count_Rect-1));
-    $("#rect_y").attr("id","rect_y" + (count_Rect-1));
-    $("#rect_source").attr("id","rect_source" + (count_Rect-1));
-    $("#rect_source" + (count_Rect-1)).addClass("rect_source" + (count_Rect-1));
-    $("#rec_fill").attr("id","rec_fill" + (count_Rect-1));
+     if(for_flag == false){
+       fill_code_rec = "<li id='rec_fill' class='tooltip'><font color = '#f7f7f7' size = '3'>fill(255,0,0);</font></li>";
+       literal(fill_code_rec);
+       rect_code = "<li id = 'rect_source'><font color = '#f7f7f7' size = '3'>rect(" + '<input class="textbox" type="text" size="2"id ="rect_x" placeholder = 100>' + "," + '<input class="textbox" type="text" size="2"id ="rect_y" placeholder = 100>' + ",100,100);</font></li>";
+       literal(rect_code);
+       $("#rect_x").attr("id","rect_x" + (count_Rect-1));
+       $("#rect_y").attr("id","rect_y" + (count_Rect-1));
+       $("#rect_source").attr("id","rect_source" + (count_Rect-1));
+       $("#rect_source" + (count_Rect-1)).addClass("rect_source" + (count_Rect-1));
+       $("#rec_fill").attr("id","rec_fill" + (count_Rect-1));
+     }
     //forをクリックされた際の処理
-    if(for_flag === true){
+    if(for_flag == true){
       //nameプロパティがRect(最後)の図形を見えなくする
       $("canvas").setLayer("Rect" + (count_Rect -1),{
         visible:false
       }).drawLayers();
-    count_Rect--;
-    for_flag = false;
-    ellipse_flag = false;
-    ply_flag = false;
-    line_flag = false;
-    tri_flag = false;
-    rect_flag = true;
-    //table内のfor_propertyに書き込む
-    for_property.innerHTML = "四角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
-    + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
-    obj_judge = "rect";
-  }else{
-    $("canvas").setLayer("Rect" + (count_Rect -1),{
-      visible:true
-    }).drawLayers();
-  }
-  $(".tooltip").tooltipster({
-    "maxWidth":400,
-  });
+      count_Rect--;
+      for_flag = false;
+      ellipse_flag = false;
+      ply_flag = false;
+      line_flag = false;
+      tri_flag = false;
+      rect_flag = true;
+      //table内のfor_propertyに書き込む
+      for_property.innerHTML = "四角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
+      + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
+      obj_judge = "rect";
+    }else{
+      $("canvas").setLayer("Rect" + (count_Rect -1),{
+        visible:true
+      }).drawLayers();
+    }
   },false);
 
 //ボタンを押して図形の位置を変更する
@@ -354,13 +356,12 @@ $(function(){
  var num_x = (if_x - X)/(60*subpace);
  var num_y = (if_y - Y)/(60*subpace);
 
- var if_code = "<span id = 'if_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>" +
- "if( x " + comp_x + if_x + " && y "+ comp_y + if_y + "){" + "\n" +
+ var if_code = "<li id = 'if_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>if( x " + comp_x + if_x + " && y "+ comp_y + if_y + "){" + "\n" +
                                         //↓小数点を決める、この場合は第二位まで
    " x " + obj_ope_x + parseFloat(num_x).toFixed(2) + ";" + "\n" +
    " y " + obj_ope_y + parseFloat(num_y).toFixed(2) + ";" + "\n" +
  "}" + "\n" +
- "</font></span>" + "\n";
+ "</font></li>" + "\n";
   literal(if_code);
   if_flag = false;
 },false);
@@ -372,28 +373,28 @@ sample_for.addEventListener("click",function(){
     for_sizes = 1;
     //グループ化しているものを取得してプロパティを追加
     $("canvas").setLayerGroup("shapes" + (count_for-1),{
-      fillStyle:"#FF0000",
+      fillStyle:$("#color").val(),
     }).drawLayers();
   }
   if(ellipse_flag == true){
     for_obj("ellipse");
     for_sizes = 1;
     $("canvas").setLayerGroup("shapes" + (count_for-1),{
-      fillStyle:"#0000FF",
+      fillStyle:$("#color").val(),
     }).drawLayers();
   }
   if(tri_flag == true){
     for_obj("polygon");
     for_sizes = 3;
     $("canvas").setLayerGroup("shapes" + (count_for-1),{
-      fillStyle:"#FFC90E",
+      fillStyle:$("#color").val(),
     }).drawLayers();
   }
   if(ply_flag == true){
     for_obj("polygon");
     for_sizes = angle.value;
     $("canvas").setLayerGroup("shapes" + (count_for-1),{
-      fillStyle:"#A349A4",
+      fillStyle:$("#color").val(),
     }).drawLayers();
   }
   },false);
@@ -466,6 +467,10 @@ for(var ob_x = int; ob_x < ctrl; ob_x += rate){
     radius:32.5,
     sides:for_sizes,
     fromCenter: false,
+    dblclick:function(layer){
+      layer.fillStyle = $("#color").val();
+      document.getElementById("for_fill" + i).innerHTML = "<li><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+    },
     mouseover:function(layer){
       $(function(){
         $("pre > .for_source" + i).each(function(){
@@ -489,12 +494,15 @@ for(var ob_x = int; ob_x < ctrl; ob_x += rate){
   }).drawLayers();
   }
 }
-  var for_code = "<span id = 'for_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>" +
-  "for (int x = " + int + ";x < " + ctrl + "; x+=" + rate + "){" + "\n" +
-    obj_judge + "(x," + for_y + ",100,100);" + "\n" +
-  "}" + "\n" +
-  "</font></span>" + "\n";
-      literal(for_code);
+fill_code_for = "<li id='for_fill'><font color = '#f7f7f7' size = '3'>fill(" + parseInt($("#color").val().substring(1,3), 16) + "," + parseInt($("#color").val().substring(3,5), 16) + "," + parseInt($("#color").val().substring(5,7), 16) + ")</font></li>";
+literal(fill_code_for);
+  for_code = "<li id = 'for_source'><font color = '#f7f7f7' size = '3'>for (int x = " + int + ";x < " + ctrl + "; x+=" + rate + "){" + "\n" +
+  obj_judge + "(x," + for_y + ",100,100);" + "\n" +
+  "}</font></li>";
+  literal(for_code);
+  $("#for_source").attr("id","for_source" + count_for);
+  $("#for_source" + count_for).addClass("for_source" + count_for);
+  $("#for_fill").attr("id","for_fill" + count_for);
 }
 
 //図形の位置を変える
@@ -581,7 +589,7 @@ cicle.addEventListener("click",function(){
       draggable: true,
       dblclick:function(layer){
         layer.fillStyle = $("#color").val();
-        document.getElementById("ell_fill" + (i-1)).innerHTML = "<li class='tooltip' title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+        document.getElementById("ell_fill" + (i-1)).innerHTML = "<li><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
       },
       visible:true,
       drag:function(layer){
@@ -615,47 +623,46 @@ cicle.addEventListener("click",function(){
        }
     });
   }
-  fill_code_ell = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id='ell_fill' class='tooltip'><font color ='#f7f7f7' size = '3'>fill(0,0,255);</font></li>";
-  literal(fill_code_ell);
-  ellipse_code = "<li title = '楕円を作る命令です." + "\n" + "ellipse(x座標,y座標,横幅,高さ) という形になっています." + "\n" + "x座標やy座標の数値を変えてCompileボタンを押すことで位置座標を変更できます.' id = 'ellipse_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>ellipse(" + '<input class="textbox" type="text" size="2" id="ellipse_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2" id="ellipse_y" placeholder = "100">' + ",100,100); </font></li>";
-  literal(ellipse_code);
-  $("#ellipse_x").attr("id","ellipse_x" + (count_Ellipse-1));
-  $("#ellipse_y").attr("id","ellipse_y" + (count_Ellipse-1));
-  $("#ellipse_source").attr("id","ellipse_source" + (count_Ellipse-1));
-  $("#ellipse_source" + (count_Ellipse-1)).addClass("ellipse_source" + (count_Ellipse-1));
-  $("#ell_fill").attr("id","ell_fill" + (count_Ellipse-1));
-  //forがクリックされたときの処理
-  if(for_flag === true){
-    $("canvas").setLayer("Ellipse" + (count_Ellipse -1),{
-      visible:false
-    }).drawLayers();
-    count_Ellipse--;
-  for_flag = false;
-  rect_flag = false;
-  tri_flag = false;
-  ply_flag = false;
-  line_flag = false;
-  ellipse_flag = true;
-  for_property.innerHTML = "円の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
-  + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
-  obj_judge = "ellipse";
-  }else{
+  if(for_flag == false){
+    fill_code_ell = "<li id='ell_fill'><font color ='#f7f7f7' size = '3'>fill(0,0,255);</font></li>";
+    literal(fill_code_ell);
+    ellipse_code = "<li id = 'ellipse_source'><font color = '#f7f7f7' size = '3'>ellipse(" + '<input class="textbox" type="text" size="2" id="ellipse_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2" id="ellipse_y" placeholder = "100">' + ",100,100); </font></li>";
+    literal(ellipse_code);
+    $("#ellipse_x").attr("id","ellipse_x" + (count_Ellipse-1));
+    $("#ellipse_y").attr("id","ellipse_y" + (count_Ellipse-1));
+    $("#ellipse_source").attr("id","ellipse_source" + (count_Ellipse-1));
+    $("#ellipse_source" + (count_Ellipse-1)).addClass("ellipse_source" + (count_Ellipse-1));
+    $("#ell_fill").attr("id","ell_fill" + (count_Ellipse-1));
+  }
+    //forがクリックされたときの処理
+    if(for_flag == true){
+      $("canvas").setLayer("Ellipse" + (count_Ellipse -1),{
+        visible:false
+      }).drawLayers();
+      count_Ellipse--;
+      for_flag = false;
+      rect_flag = false;
+      tri_flag = false;
+      ply_flag = false;
+      line_flag = false;
+      ellipse_flag = true;
+      for_property.innerHTML = "円の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
+      + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
+      obj_judge = "ellipse";
+    }else{
       $("canvas").setLayer("Ellipse" + (count_Ellipse -1),{
         visible:true
       }).drawLayers();
     }
-    $(".tooltip").tooltipster({
-      "maxWidth":400,
-    });
-},false);
+  },false);
 
-//画像の緑のイベントリスナ
+//ifのイベントリスナ
 if_str.addEventListener("click",function(){
  if_property.innerHTML = "オブジェクトを選択してください.";
  if_flag = true;
 },false);
 
-//画像の黒のイベントリスナ
+//forのイベントリスナ
 for_str.addEventListener("click",function(){
   for_property.innerHTML = "オブジェクトを選択してください.";
   for_flag = true;
@@ -754,7 +761,7 @@ triangle.addEventListener("click",function(){
        sides: 3,
        dblclick:function(layer){
          layer.fillStyle = $("#color").val();
-         document.getElementById("tri_fill" + (i-1)).innerHTML = "<li class='tooltip' title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+         document.getElementById("tri_fill" + (i-1)).innerHTML = "<li><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
        },
        draggable:true,
        drag:function(layer){
@@ -788,41 +795,40 @@ triangle.addEventListener("click",function(){
         }
       });
      }
-    fill_code_tri = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id = 'tri_fill' class='tooltip'><font color = '#f7f7f7' size = '3'>fill(255,201,14);</font></li>";
-    literal(fill_code_tri);
-    tri_code = "<li title = '三角形を作る命令です." + "\n" + "triangle(x座標,y座標,横幅,高さ) という形になっています." + "\n" + "x座標やy座標の数値を変えてCompileボタンを押すことで位置座標を変更できます.' id = 'triangle_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" placeholder = "100">' + ",100,100);</font></li>";
-    literal(tri_code);
-    $("#triangle_x").attr("id","triangle_x" + (count_tri-1));
-    $("#triangle_y").attr("id","triangle_y" + (count_tri-1));
-    $("#triangle_source").attr("id","triangle_source" + (count_tri-1));
-    $("#triangle_source" + (count_tri-1)).addClass("triangle_source" + (count_tri-1));
-    $("#tri_fill").attr("id","tri_fill" + (count_tri-1));
-    //forをクリックされた際の処理
-    if(for_flag === true){
-      //nameプロパティがTriangle(最後)の図形を見えなくする
-      $("canvas").setLayer("Triangle" + (count_tri -1),{
-        visible:false
-      }).drawLayers();
-    count_tri--;
-    for_flag = false;
-    rect_flag = false;
-    line_flag = false;
-    ellipse_flag = false;
-    ply_flag = false;
-    tri_flag = true;
-    //table内のfor_propertyに書き込む
-    for_property.innerHTML = "三角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
-    + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
-    obj_judge = "triangle";
-  }else{
-    $("canvas").setLayer("Triangle" + (count_tri -1),{
-      visible:true
-    }).drawLayers();
-  }
-  $(".tooltip").tooltipster({
-    "maxWidth":400,
-  });
-  },false);
+     if(for_flag == false){
+       fill_code_tri = "<li id = 'tri_fill'><font color = '#f7f7f7' size = '3'>fill(255,201,14);</font></li>";
+       literal(fill_code_tri);
+       tri_code = "<li id = 'triangle_source'><font color = '#f7f7f7' size = '3'>triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" placeholder = "100">' + ",100,100);</font></li>";
+       literal(tri_code);
+       $("#triangle_x").attr("id","triangle_x" + (count_tri-1));
+       $("#triangle_y").attr("id","triangle_y" + (count_tri-1));
+       $("#triangle_source").attr("id","triangle_source" + (count_tri-1));
+       $("#triangle_source" + (count_tri-1)).addClass("triangle_source" + (count_tri-1));
+       $("#tri_fill").attr("id","tri_fill" + (count_tri-1));
+      }
+      //forをクリックされた際の処理
+     if(for_flag === true){
+       //nameプロパティがTriangle(最後)の図形を見えなくする
+       $("canvas").setLayer("Triangle" + (count_tri -1),{
+         visible:false
+       }).drawLayers();
+       count_tri--;
+       for_flag = false;
+       rect_flag = false;
+       line_flag = false;
+       ellipse_flag = false;
+       ply_flag = false;
+       tri_flag = true;
+       //table内のfor_propertyに書き込む
+       for_property.innerHTML = "三角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
+       + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
+       obj_judge = "triangle";
+     }else{
+       $("canvas").setLayer("Triangle" + (count_tri -1),{
+         visible:true
+       }).drawLayers();
+     }
+   },false);
 
   //多角形を描く
   polygon.addEventListener("click",function(){
@@ -844,7 +850,7 @@ triangle.addEventListener("click",function(){
          sides: angle.value,
          dblclick:function(layer){
            layer.fillStyle = $("#color").val();
-           document.getElementById("ply_fill" + (i-1)).innerHTML = "<li class='tooltip' title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+           document.getElementById("ply_fill" + (i-1)).innerHTML = "<li><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
          },
          draggable:true,
          drag:function(layer){
@@ -878,40 +884,39 @@ triangle.addEventListener("click",function(){
           }
         });
        }
-      fill_code_ply = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id='ply_fill' class='tooltip'><font color = '#f7f7f7' size = '3'>fill(163,73,164);</font></li>";
-      literal(fill_code_ply);
-      ply_code = "<li title = '五角形以上を作る命令です." + "\n" + "polygon(x座標,y座標,横幅,高さ,頂点数) という形になっています." + "\n" + "x座標やy座標の数値を変えてCompileボタンを押すことで位置座標を変更できます." + "\n" + "5～10の中で選択してから画像ボタンをクリックすることで頂点数が変更します.' id = 'polygon_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" placeholder = "100">' + ",100,100," + angle.value + ");</font></li>";
-      literal(ply_code);
-      $("#polygon_x").attr("id","polygon_x" + (count_ply-1));
-      $("#polygon_y").attr("id","polygon_y" + (count_ply-1));
-      $("#polygon_source").attr("id","polygon_source" + (count_ply-1));
-      $("#polygon_source" + (count_ply-1)).addClass("polygon_source" + (count_ply-1));
-      $("#ply_fill").attr("id","ply_fill" + (count_ply-1));
-      //forをクリックされた際の処理
-      if(for_flag === true){
+       if(for_flag == false){
+         fill_code_ply = "<li id='ply_fill'><font color = '#f7f7f7' size = '3'>fill(163,73,164);</font></li>";
+         literal(fill_code_ply);
+         ply_code = "<li id = 'polygon_source'><font color = '#f7f7f7' size = '3'>polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" placeholder = "100">' + ",100,100," + angle.value + ");</font></li>";
+         literal(ply_code);
+         $("#polygon_x").attr("id","polygon_x" + (count_ply-1));
+         $("#polygon_y").attr("id","polygon_y" + (count_ply-1));
+         $("#polygon_source").attr("id","polygon_source" + (count_ply-1));
+         $("#polygon_source" + (count_ply-1)).addClass("polygon_source" + (count_ply-1));
+         $("#ply_fill").attr("id","ply_fill" + (count_ply-1));
+       }
+       //forをクリックされた際の処理
+       if(for_flag === true){
         //nameプロパティがPolygon(最後)の図形を見えなくする
         $("canvas").setLayer("Polygon" + (count_ply -1),{
           visible:false
         }).drawLayers();
-      count_ply--;
-      for_flag = false;
-      rect_flag = false;
-      ellipse_flag = false;
-      tri_flag = false;
-      line_flag = false;
-      ply_flag = true;
-      //table内のfor_propertyに書き込む
-      for_property.innerHTML = "多角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
-      + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
-      obj_judge = "polygon";
-    }else{
-      $("canvas").setLayer("Polygon" + (count_ply -1),{
-        visible:true
-      }).drawLayers();
-    }
-    $(".tooltip").tooltipster({
-      "maxWidth":400,
-    });
+        count_ply--;
+        for_flag = false;
+        rect_flag = false;
+        ellipse_flag = false;
+        tri_flag = false;
+        line_flag = false;
+        ply_flag = true;
+        //table内のfor_propertyに書き込む
+        for_property.innerHTML = "多角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
+        + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
+        obj_judge = "polygon";
+      }else{
+        $("canvas").setLayer("Polygon" + (count_ply -1),{
+          visible:true
+        }).drawLayers();
+      }
     },false);
 
 line.addEventListener("click",function(){
@@ -930,7 +935,7 @@ line.addEventListener("click",function(){
        fromCenter: false,
        dblclick:function(layer){
          layer.strokeStyle = $("#color").val();
-         document.getElementById("line_stroke" + (i-1)).innerHTML = "<li class='tooltip' title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ><font color = '#f7f7f7' size = '3'>stroke(" + parseInt(layer.strokeStyle.substring(1,3), 16) + ","
+         document.getElementById("line_stroke" + (i-1)).innerHTML = "<li><font color = '#f7f7f7' size = '3'>stroke(" + parseInt(layer.strokeStyle.substring(1,3), 16) + ","
          + parseInt(layer.strokeStyle.substring(3,5),16) + "," + parseInt(layer.strokeStyle.substring(5,7), 16) + ");</font></li>";
        },
        mouseover:function(layer){
@@ -969,38 +974,37 @@ line.addEventListener("click",function(){
        }
       });
      }
-    stroke_code_line = "<li title = '色を決める命令です." + "\n" + "(赤,緑,青)という形になっています." + "\n" + "0～255の値の中で大きいほど各色が強くなります." + "\n" + "カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' id='line_stroke' class = 'tooltip'><font color = '#f7f7f7' size = '3'>stroke(255,174,201);</font></li>";
-    literal(stroke_code_line);
-    line_code = "<li title = '線を作る命令です." + "\n" + "line(x1座標,y1座標,x2座標,y2座標) という形になっています." + "\n" + "x1座標やy1座標(※x2,y2座標は対応してません)の数値を変えてCompileボタンを押すことで位置座標を変更できます." + "\n" + "線を左クリックすることでロックが解除され,右クリックすることでロックされます' id = 'line_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" placeholder = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" placeholder = "400">' + ");</font></li>";
-    literal(line_code);
-    $("#line1_x").attr("id","line1_x" + (count_line-1));
-    $("#line1_y").attr("id","line1_y" + (count_line-1));
-    $("#line2_x").attr("id","line2_x" + (count_line-1));
-    $("#line2_y").attr("id","line2_y" + (count_line-1));
-    $("#line_source").attr("id","line_source" + (count_line-1));
-    $("#line_source" + (count_line-1)).addClass("line_source" + (count_line-1));
-    $("#line_stroke").attr("id","line_stroke" + (count_line-1));
-    //forをクリックされた際の処理
-    if(for_flag === true){
-      //nameプロパティがLine(最後)の図形を見えなくする
-      $("canvas").setLayer("Line" + (count_line -1),{
-        visible:false
-      }).drawLayers();
-    count_line--;
-    for_flag = false;
-    rect_flag = false;
-    ellipse_flag = false;
-    tri_flag = false;
-    ply_flag = false;
-    line_flag = true;
-    //table内のfor_propertyに書き込む
-    for_property.innerHTML = "この図形には使えません";
-  }else{
-    $("canvas").setLayer("Line" + (count_line -1),{
-      visible:true
-    }).drawLayers();
-  }
-  $(".tooltip").tooltipster({
-    "maxWidth":410,
-  });
-},false);
+     if(for_flag == false){
+       stroke_code_line = "<li id='line_stroke'><font color = '#f7f7f7' size = '3'>stroke(255,174,201);</font></li>";
+       literal(stroke_code_line);
+       line_code = "<li id = 'line_source'><font color = '#f7f7f7' size = '3'>line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" placeholder = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" placeholder = "400">' + ");</font></li>";
+       literal(line_code);
+       $("#line1_x").attr("id","line1_x" + (count_line-1));
+       $("#line1_y").attr("id","line1_y" + (count_line-1));
+       $("#line2_x").attr("id","line2_x" + (count_line-1));
+       $("#line2_y").attr("id","line2_y" + (count_line-1));
+       $("#line_source").attr("id","line_source" + (count_line-1));
+       $("#line_source" + (count_line-1)).addClass("line_source" + (count_line-1));
+       $("#line_stroke").attr("id","line_stroke" + (count_line-1));
+     }
+     //forをクリックされた際の処理
+     if(for_flag === true){
+       //nameプロパティがLine(最後)の図形を見えなくする
+       $("canvas").setLayer("Line" + (count_line -1),{
+         visible:false
+       }).drawLayers();
+       count_line--;
+       for_flag = false;
+       rect_flag = false;
+       ellipse_flag = false;
+       tri_flag = false;
+       ply_flag = false;
+       line_flag = true;
+       //table内のfor_propertyに書き込む
+       for_property.innerHTML = "この図形には使えません";
+     }else{
+       $("canvas").setLayer("Line" + (count_line -1),{
+         visible:true
+       }).drawLayers();
+     }
+   },false);

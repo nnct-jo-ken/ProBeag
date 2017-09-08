@@ -7,11 +7,20 @@
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="farbtastic/farbtastic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="tooltipster/dist/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/jcanvas.min.js"></script>
     <script type="type/javascript" src="js/jquery-3.2.1.min.js"> </script>
     <script type="text/javascript" src="tooltipster/dist/js/tooltipster.bundle.min.js"></script>
     <script type="text/javascript" src="farbtastic/farbtastic.js"></script>
+    <script>
+    $(document).ready(function() {
+      $('.tooltip').tooltipster({
+        "maxWidth":410,
+        theme: 'tooltipster-noir'
+      });
+    });
+    </script>
 </head>
 <body>
 <div class="area">
@@ -28,23 +37,23 @@
         <table class="table_img">
             <tbody>
                     <tr>
-                        <td> <img src="img/blue_ellipse.png" width="65" height="65" id="cicle" class="img">
+                        <td> <img src="img/blue_ellipse.png" width="65" height="65" id="cicle" title = '楕円を作る命令です.ellipse(x座標,y座標,横幅,高さ) という形になっています.x座標やy座標の数値を変えてCompileボタンを押すことで位置座標を変更できます.'  class = 'tooltip img'>
                         </th>
-                        <td> <img src="img/red.png" width="65" height="65" id="rect" class="img">
+                        <td> <img  title='四角形を作る命令です.rect(x座標,y座標,横幅,高さ) という形になっています.x座標やy座標の数値を変えてCompileボタンを押すことで位置座標を変更できます.'  class = 'tooltip img' src="img/red.png" width="65" height="65" id="rect">
                         </th>
                     </tr>
                     <tr>
-                      <td><img src="img/orange.png" width="65" height="65" id="triangle" class="img">
+                      <td><img src="img/orange.png" width="65" height="65" id="triangle" title = '三角形を作る命令です.triangle(x座標,y座標,横幅,高さ) という形になっています.x座標やy座標の数値を変えてCompileボタンを押すことで位置座標を変更できます.' class = 'tooltip img'>
                       </th>
-                      <td><img src="img/purple.png" width="65" height="65" id="polygon" class="img">
+                      <td><img src="img/purple.png" width="65" height="65" id="polygon" title = '五角形以上を作る命令です.polygon(x座標,y座標,横幅,高さ,頂点数) という形になっています.x座標やy座標の数値を変えてCompileボタンを押すことで位置座標を変更できます.5～10の中で選択してから画像ボタンをクリックすることで頂点数が変更します.' class = 'tooltip img'>
                       </th>
                     </tr>
                     <tr>
-                      <td><img src="img/pink.png" width="65" height="65" id="line" class="img">
+                      <td><img src="img/pink.png" width="65" height="65" id="line" title = '線を作る命令です.line(x1座標,y1座標,x2座標,y2座標) という形になっています.x1座標やy1座標(※x2,y2座標は対応してません)の数値を変えてCompileボタンを押すことで位置座標を変更できます.線を左クリックすることでロックが解除され,右クリックすることでロックされます' class = 'tooltip img'>
                       </th>
                     </tr>
                   <tr><th scope="cols" colspan="2">
-                    <div id="colorpicker" class="colorpicker"></div>
+                    <div id="colorpicker" class="colorpicker tooltip" title = '色を決める命令です.(赤,緑,青)という形になっています.0～255の値の中で大きいほど各色が強くなります.カラーピッカーを回して図形をダブルクリックすることで色を変更できます.' ></div>
                       <form><input type="text" id="color" name="color" value="#000000" /></form>
 
                   </th></tr>
@@ -74,9 +83,9 @@
       <table class="table_img">
           <tbody>
                   <tr>
-                      <td><img src="img/black.png" width="65" height="65" id="for">
+                      <td><img src="img/black.png" class = 'tooltip' title='図形を複数作るときに使う命令です.FORを押して図形のアイコンをクリックするとFORの下に値を入力する箇所が現れます.それぞれに値を入力して「forを実行」を押すことにより図形が出現します.xはx座標のことを指しています.図形の色を変えたい場合は初めにカラーピッカーを指定してから実行することで色が変わります' width="65" height="65" id="for">
                       </th>
-                      <td><img src="img/green.png" width="65" height="65" id="if">
+                      <td><img src="img/green.png" class="tooltip" title="アニメーション効果を付けるときに使います.IFを押してキャンバス内の図形をクリックするとIFの下に値を入力する箇所が現れます.それぞれに値を入力して「IFを実行」を押すことにより図形が動きます." width="65" height="65" id="if">
                       </th>
                   </tr>
               <tr>
