@@ -145,7 +145,7 @@ rect.addEventListener("click",function(){
        dblclick:function(layer){
 
          layer.fillStyle = $("#color").val();
-         document.getElementById("rec_fill" + (i-1)).innerHTML = "<li>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+         document.getElementById("rec_fill" + (i-1)).innerHTML = "<li><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
        },
        draggable:true,
        drag:function(layer){
@@ -467,10 +467,6 @@ for(var ob_x = int; ob_x < ctrl; ob_x += rate){
     radius:32.5,
     sides:for_sizes,
     fromCenter: false,
-    dblclick:function(layer){
-      layer.fillStyle = $("#color").val();
-      document.getElementById("for_fill" + i).innerHTML = "<li><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
-    },
     mouseover:function(layer){
       $(function(){
         $("pre > .for_source" + i).each(function(){
