@@ -205,7 +205,7 @@ rect.addEventListener("click",function(){
       tri_flag = false;
       rect_flag = true;
       //table内のfor_propertyに書き込む
-      for_property.innerHTML = "四角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
+      for_property.innerHTML = "四角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
       + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
       obj_judge = "rect";
     }else{
@@ -452,53 +452,97 @@ function for_obj(Obj){
   rate = parseInt(subrate);
   for_y = parseInt(subfor_y);
 //for文を実行して図形を出す処理
-for(var ob_x = int; ob_x < ctrl; ob_x += rate){
-  for(var i = 0;i < count_for;i++){
-  $("canvas").addLayer({
-    type:Obj,
-    layer:true,
-    groups: ['shapes' + i],
-    strokeStyle: "black",
-    strokeWidth: 1,
-    x:ob_x,
-    y: for_y,
-    width: 65,
-    height: 65,
-    radius:32.5,
-    sides:for_sizes,
-    fromCenter: false,
-    mouseover:function(layer){
-      $(function(){
-        $("pre > .for_source" + i).each(function(){
+if($(".ver_hori").val() == 0){
+  for(var ob_x = int; ob_x < ctrl; ob_x += rate){
+    for(var i = 0;i < count_for;i++){
+      $("canvas").addLayer({
+        type:Obj,
+        layer:true,
+        groups: ['shapes' + i],
+        strokeStyle: "black",
+        strokeWidth: 1,
+        x:ob_x,
+        y: for_y,
+        width: 65,
+        height: 65,
+        radius:32.5,
+        sides:for_sizes,
+        fromCenter: false,
+        mouseover:function(layer){
           $(function(){
-            for_over = document.getElementById("for_source" + i);
-            for_over.style.backgroundColor = "rgba(127,255,212,0.55)";
+            $("pre > .for_source" + i).each(function(){
+              $(function(){
+              for_over = document.getElementById("for_source" + i);
+              for_over.style.backgroundColor = "rgba(127,255,212,0.55)";
+            });
           });
         });
-      });
-    },
-    mouseout:function(layer){
-      $(function(){
-        $("pre > .for_source" + i).each(function(){
-          $(function(){
-            for_out = document.getElementById("for_source" + i);
-            for_out.style.backgroundColor = "rgb(11, 0, 35)";
+      },
+      mouseout:function(layer){
+        $(function(){
+          $("pre > .for_source" + i).each(function(){
+            $(function(){
+              for_out = document.getElementById("for_source" + i);
+              for_out.style.backgroundColor = "rgb(11, 0, 35)";
+            });
           });
         });
-      });
+      }
+    }).drawLayers();
     }
-  }).drawLayers();
   }
+    for_code = "<li id = 'for_source'><font color = '#f7f7f7' size = '3'>for (x = " + int + ";x < " + ctrl + "; x+=" + rate + "){" + "\n" +
+    obj_judge + "(x," + for_y + ",100,100);" + "\n" +
+    "}</font></li>";
+}else if($(".ver_hori").val() == 1){
+  for(var ob_y = for_y; ob_y < ctrl; ob_y += rate){
+    for(var i = 0;i < count_for;i++){
+      $("canvas").addLayer({
+        type:Obj,
+        layer:true,
+        groups: ['shapes' + i],
+        strokeStyle: "black",
+        strokeWidth: 1,
+        x:int,
+        y: ob_y,
+        width: 65,
+        height: 65,
+        radius:32.5,
+        sides:for_sizes,
+        fromCenter: false,
+        mouseover:function(layer){
+          $(function(){
+            $("pre > .for_source" + i).each(function(){
+              $(function(){
+              for_over = document.getElementById("for_source" + i);
+              for_over.style.backgroundColor = "rgba(127,255,212,0.55)";
+            });
+          });
+        });
+      },
+      mouseout:function(layer){
+        $(function(){
+          $("pre > .for_source" + i).each(function(){
+            $(function(){
+              for_out = document.getElementById("for_source" + i);
+              for_out.style.backgroundColor = "rgb(11, 0, 35)";
+            });
+          });
+        });
+      }
+    }).drawLayers();
+    }
+  }
+  for_code = "<li id = 'for_source'><font color = '#f7f7f7' size = '3'>for (y = " + int + ";y < " + ctrl + "; y+=" + rate + "){" + "\n" +
+  obj_judge + "(" + int + ",y,100,100);" + "\n" +
+  "}</font></li>";
 }
 fill_code_for = "<li id='for_fill'><font color = '#f7f7f7' size = '3'>fill(" + parseInt($("#color").val().substring(1,3), 16) + "," + parseInt($("#color").val().substring(3,5), 16) + "," + parseInt($("#color").val().substring(5,7), 16) + ")</font></li>";
 literal(fill_code_for);
-  for_code = "<li id = 'for_source'><font color = '#f7f7f7' size = '3'>for (int x = " + int + ";x < " + ctrl + "; x+=" + rate + "){" + "\n" +
-  obj_judge + "(x," + for_y + ",100,100);" + "\n" +
-  "}</font></li>";
-  literal(for_code);
-  $("#for_source").attr("id","for_source" + count_for);
-  $("#for_source" + count_for).addClass("for_source" + count_for);
-  $("#for_fill").attr("id","for_fill" + count_for);
+literal(for_code);
+$("#for_source").attr("id","for_source" + count_for);
+$("#for_source" + count_for).addClass("for_source" + count_for);
+$("#for_fill").attr("id","for_fill" + count_for);
 }
 
 //図形の位置を変える
@@ -642,7 +686,7 @@ cicle.addEventListener("click",function(){
       ply_flag = false;
       line_flag = false;
       ellipse_flag = true;
-      for_property.innerHTML = "円の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
+      for_property.innerHTML = "円の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
       + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
       obj_judge = "ellipse";
     }else{
@@ -816,7 +860,7 @@ triangle.addEventListener("click",function(){
        ply_flag = false;
        tri_flag = true;
        //table内のfor_propertyに書き込む
-       for_property.innerHTML = "三角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
+       for_property.innerHTML = "三角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
        + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
        obj_judge = "triangle";
      }else{
@@ -905,7 +949,7 @@ triangle.addEventListener("click",function(){
         line_flag = false;
         ply_flag = true;
         //table内のfor_propertyに書き込む
-        for_property.innerHTML = "多角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から横に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
+        for_property.innerHTML = "多角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
         + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
         obj_judge = "polygon";
       }else{
