@@ -105,7 +105,9 @@ div:after {display: block;content: "";clear: both;}
 @-moz-document url-prefix() {
 	.tab_content.select {display:block;position: absolute;width: 95%;margin-top: 13%;left:13.5%;}
 }
-
+_::-webkit-full-page-media, _:future, :root .css_selector {
+  .tab_content.select {display:block;position: absolute;width: 95%;margin-top: 15%;left:13.5%;}
+}
 /*
 .tooltipster-sidetip.tooltipster-noir.tooltipster-noir-customized .tooltipster-box {
 	width: 40%;

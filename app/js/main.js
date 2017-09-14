@@ -4,10 +4,6 @@ var canvas = document.getElementById("canvas");
 var decompile = document.getElementById("decompile");
 var angle = document.getElementById("angle");
 
-var area = document.getElementById("area");
-console.log($("#area").width() * 0.575,$("#area").width());
-
-
 //preのインデントを消去
 window.addEventListener("DOMContentLoaded", function(){
   var pres = document.getElementsByClassName("pre");
