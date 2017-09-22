@@ -4,6 +4,15 @@ var canvas = document.getElementById("canvas");
 var decompile = document.getElementById("decompile");
 var angle = document.getElementById("angle");
 
+$(function(){
+  $(document).keydown(function(event){
+    var keyCode = event.keyCode;
+    if(keyCode == 116 || keyCode == 123){
+      return false;
+    }
+  });
+});
+
 //preのインデントを消去
 window.addEventListener("DOMContentLoaded", function(){
   var pres = document.getElementsByClassName("pre");

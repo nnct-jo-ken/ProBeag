@@ -21,12 +21,20 @@
       });
     });
     $(function(){
+      size_x = document.getElementById("size_x");
+      size_y = document.getElementById("size_y");
       window.addEventListener("load",function(){
         canvas.setAttribute("width",$("#area").width() * 0.577);
+        canvas.setAttribute("height",window.innerHeight * 0.95);
+        size_x.innerHTML = Math.ceil($("#area").width() * 0.577);
+        size_y.innerHTML = Math.ceil(window.innerHeight * 0.95);
         //  $("#canvas").css({"right":($(".table_img").width())});
       },false);
       window.addEventListener("resize",function(){
         canvas.setAttribute("width",$("#area").width() * 0.577);
+        canvas.setAttribute("height",window.innerHeight * 0.95);
+        size_x.innerHTML = Math.ceil($("#area").width() * 0.577);
+        size_y.innerHTML = Math.ceil(window.innerHeight * 0.95);
         //  $("#canvas").css({"right":($(".table_img").width())});
       },false);
     });
@@ -38,7 +46,7 @@
     <pre class="pre"> <font size = "3" color = "#f7f7f7">
 int x,y;
 void setup(){
-  size(<script>document.write(Math.ceil($("#area").width() * 0.577));</script>,610);
+  size(<span id="size_x"></span>,<span id="size_y"></span>);
 }
 void draw(){</font></pre><pre class="pre" id="source_code"><font size = "3" color = "#f7f7f7"></font></pre>
   <pre id = "close"><font size="3" color = "#f7f7f7">}</font></pre>
@@ -66,7 +74,7 @@ void draw(){</font></pre><pre class="pre" id="source_code"><font size = "3" colo
                       </th>
                     </tr>
                     <tr>
-                      <td><img src="img/pink.png" width="65" height="65" id="line" title = '線.パラメータ:line(x1座標,y1座標,x2座標,y2座標).x1座標やy1座標(※x2,y2座標は変更不可)の数値を変えてompileボタンで位置変更を反映.線を左クリックすることで位置ロックが解除され,右クリックすることでロックされます.ロックが解除された状態でキャンバス内の他の部分をクリックするとx1,y1が変更されます。' class = 'tooltip img'>
+                      <td><img src="img/pink.png" width="65" height="65" id="line" title = '線.パラメータ:line(x1座標,y1座標,x2座標,y2座標).x1座標やy1座標(※x2,y2座標は変更不可)の数値を変えてcompileボタンで位置変更を反映.線を左クリックすることで位置ロックが解除され,右クリックすることでロックされます.ロックが解除された状態でキャンバス内の他の部分をクリックするとx1,y1が変更されます。' class = 'tooltip img'>
                       </th>
                     </tr>
                   <tr><th scope="cols" colspan="2">
