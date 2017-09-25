@@ -56,6 +56,7 @@ void draw(){</font></pre><pre class="pre" id="source_code"><font size = "3" colo
       <div class="tab">
         <div class="figure select"><font>図形</font></div>
         <div class="image"><font>イメージ</font></div>
+        <div class="effect"><font>特殊効果</font></div>
       </div>
 
 <div class="tab_content figure select">
@@ -75,6 +76,8 @@ void draw(){</font></pre><pre class="pre" id="source_code"><font size = "3" colo
                     </tr>
                     <tr>
                       <td><img src="img/pink.png" width="65" height="65" id="line" title = '線.パラメータ:line(x1座標,y1座標,x2座標,y2座標).x1座標やy1座標(※x2,y2座標は変更不可)の数値を変えてcompileボタンで位置変更を反映.線を左クリックすることで位置ロックが解除され,右クリックすることでロックされます.ロックが解除された状態でキャンバス内の他の部分をクリックするとx1,y1が変更されます。' class = 'tooltip img'>
+                      </th>
+                      <td><img src="img/pac-man.png" width="65" height="65" id = "pac" class="tooltip img" title="円を閉じない命令です.arc(x座標,y座標,横幅,高さ,始めの角度,終わりの角度);.ボックス内の数値を変えてCompileボタンで位置変更を反映することができます.">
                       </th>
                     </tr>
                   <tr><th scope="cols" colspan="2">
@@ -101,10 +104,25 @@ void draw(){</font></pre><pre class="pre" id="source_code"><font size = "3" colo
 
             </tbody>
         </table>
-
-
-</div>
-    <div class="tab_content image">
+      </div>
+      <div class ="tab_content image">
+        <table class="table_img">
+            <tbody>
+                    <tr>
+                        <td> <img src="img/animal_butterfly07.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.'  class = 'tooltip img' id="butt_red">
+                        </th>
+                        <td> <img  title = 'イメージ画像です.画像を動かすことができます.'  class = 'tooltip img' src="img/animal_butterfly08.png" width="65" height="65" id="butt_yellow">
+                        </th>
+                    </tr>
+                    <tr>
+                      <td><img src="img/animal_butterfly09.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="butt_blue">
+                      </th>
+                    </tr>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+    <div class="tab_content effect">
       <table class="table_img">
           <tbody>
                   <tr>

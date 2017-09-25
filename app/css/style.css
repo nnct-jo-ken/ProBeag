@@ -4,6 +4,7 @@ canvas.canvas_1{
   margin-left: 10px;
 	margin-right: 0px;
 	right: 13.9%;
+	border: solid black;
 }
 
 .textbox{
@@ -32,7 +33,7 @@ font{
 .source{
 	position: absolute;
 	top: 0%;
-	right:73%;
+	right:78%;
 	width:17.5%;
 }
 .pre{
@@ -89,24 +90,24 @@ table.table_img td {
 	border-bottom: 1px solid black;
 }
 
-.wrapper{position: relative;top: 0%;right: 1%;width: 15%;height: 100%;}
+.wrapper{position: relative;top: 0%;right: -1%;width: 17%;}
 div {*zoom: 1;}
 div:after {display: block;content: "";clear: both;}
-.tab {position: absolute;margin-bottom: 20%;right: 1%;top: 0%;width:85%;}
-.tab > div {float: left;width:40%;height: auto;background:#666;color:#fff;text-align: center;padding:3% 0;cursor:pointer;}
+.tab {position: absolute;margin-bottom: 20%;right: 3%;top: 0%;width:85%;}
+.tab > div {float: left;width:30%;height: auto;background:#666;color:#fff;text-align: center;padding:3% 0;cursor:pointer;}
 .tab > div.select {background:#000;}
 .tab_content {display:none;padding:1% 0;}
-.tab_content.select {display:block;position: absolute;width: 95%;margin-top: 13%;left:13.5%;}
+.tab_content.select {display:block;position: absolute;width: 82%;margin-top: 13%;left:13.5%;}
 /*chrome,Operaだけに対応するcss*/
 @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
-  .tab_content.select {display:block;position: absolute;width: 95%;margin-top: 15%;left:13.5%;}
+  .tab_content.select {display:block;position: absolute;width: 78%;margin-top: 15%;left:13.5%;}
 }
 /*fire foxのみに対応するcss*/
 @-moz-document url-prefix() {
-	.tab_content.select {display:block;position: absolute;width: 95%;margin-top: 13%;left:13.5%;}
-}
+	.tab_content.select {display:block;position: absolute;width: 82%;margin-top: 13%;left:13.5%;}
+}/*safariのみに対応するcss*/
 _::-webkit-full-page-media, _:future, :root .css_selector {
-  .tab_content.select {display:block;position: absolute;width: 95%;margin-top: 15%;left:13.5%;}
+  .tab_content.select {display:block;position: absolute;width: 82%;margin-top: 15%;left:13.5%;}
 }
 /*
 .tooltipster-sidetip.tooltipster-noir.tooltipster-noir-customized .tooltipster-box {

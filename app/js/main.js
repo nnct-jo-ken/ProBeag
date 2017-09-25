@@ -3,7 +3,7 @@ var source = document.getElementById("source_code");
 var canvas = document.getElementById("canvas");
 var decompile = document.getElementById("decompile");
 var angle = document.getElementById("angle");
-
+/*
 $(function(){
   $(document).keydown(function(event){
     var keyCode = event.keyCode;
@@ -12,7 +12,7 @@ $(function(){
     }
   });
 });
-
+*/
 //preのインデントを消去
 window.addEventListener("DOMContentLoaded", function(){
   var pres = document.getElementsByClassName("pre");
@@ -44,9 +44,6 @@ if (document.attachEvent) {
 	document.addEventListener('contextmenu', disableContextMenu, false);
 }
 $(function(){
-	/*=======================================
-	タブ切り替え
-	=========================================*/
 	// タブメニューをクリックしたとき
 	$('.tab > div').click(function(){
 		// タブメニューとタブコンテンツのクラス「select」を削除

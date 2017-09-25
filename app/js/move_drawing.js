@@ -8,6 +8,10 @@ var if_str = document.getElementById("if");
 var triangle = document.getElementById("triangle");
 var polygon = document.getElementById("polygon");
 var line = document.getElementById("line");
+var pac = document.getElementById("pac");
+var butt_red = document.getElementById("butt_red");
+var butt_yellow = document.getElementById("butt_yellow");
+var butt_blue = document.getElementById("butt_blue");
 var compile = document.getElementById("compile");
 var for_property = document.getElementById("for_property");
 var sample_for = document.getElementById("sample_for");
@@ -24,6 +28,10 @@ var count_Ellipse = 1;
 var count_tri = 1;
 var count_ply = 1;
 var count_line = 1;
+var count_pac = 1;
+var count_img_1 = 1;
+var count_img_2 = 1;
+var count_img_3 = 1;
 var count_for = 0;
 //forを作る判定
 var ellipse_flag = false;
@@ -33,6 +41,10 @@ var ply_flag = false;
 var for_flag = false;
 var if_flag = false;
 var line_flag = false;
+var pac_flag = false;
+var img1_flag = false;
+var img2_flag = false;
+var img3_flag = false;
 //図形のtextboxの値を取得する変数
 var obj_x;
 var obj_y;
@@ -54,6 +66,10 @@ var ellipse_code;
 var tri_code;
 var ply_code;
 var for_code;
+var pac_code;
+var img_code_1;
+var img_code_2;
+var img_code_3;
 //図形が何回canvas内にあるか
 var count_groups = 0;
 //forの多角形の画数を決める
@@ -88,6 +104,7 @@ var fill_code_tri;
 var fill_code_ply;
 var fill_code_for;
 var stroke_code_line;
+var fill_code_pac;
 
 var obj_fill;
 
@@ -203,6 +220,10 @@ rect.addEventListener("click",function(){
       ply_flag = false;
       line_flag = false;
       tri_flag = false;
+      pac_flag = false;
+      img1_flag = false;
+      img2_flag = false;
+      img3_flag = false;
       rect_flag = true;
       //table内のfor_propertyに書き込む
       for_property.innerHTML = "四角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
@@ -223,6 +244,7 @@ rect.addEventListener("click",function(){
     Compile("triangle","Triangle",count_tri);
     Compile("polygon","Polygon",count_ply);
     Compile_Line("line1","Line",count_line);
+    Compile("pac","Pac",count_pac);
   },false);
 
 //Lineだけの変更処理
@@ -684,7 +706,11 @@ cicle.addEventListener("click",function(){
       rect_flag = false;
       tri_flag = false;
       ply_flag = false;
+      pac_flag = false;
       line_flag = false;
+      img1_flag = false;
+      img2_flag = false;
+      img3_flag = false;
       ellipse_flag = true;
       for_property.innerHTML = "円の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
       + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
@@ -750,6 +776,10 @@ back.addEventListener("click",function(){
     else if(object_name == "Line" + (count_line-1)){
       $("canvas").removeLayer("Line" + (count_line - 1));
       count_line--;
+    }else if(object_name == "Pac" + (count_pac - 1)){
+      $("canvas").removeLayer("Pac" + (count_pac - 1));
+    }else if(object_name == "Image1" + (count_img_1-1)){
+      $("canvas").removeLayer("Image1" + (count_img_1-1));
     }
     if(count_for != 0){
       $("canvas").removeLayerGroup("shapes" + (count_for - 1));
@@ -769,6 +799,10 @@ store.addEventListener("click",function(){
   count_Ellipse = 1;
   count_ply = 1;
   count_line = 1;
+  count_pac = 1;
+  count_img_1 = 1;
+  count_img_2 = 1;
+  count_img_3 = 1;
   count_groups = 0;
   count_for = 0;
   for_flag = false;
@@ -858,6 +892,10 @@ triangle.addEventListener("click",function(){
        line_flag = false;
        ellipse_flag = false;
        ply_flag = false;
+       pac_flag = false;
+       img1_flag = false;
+       img2_flag = false;
+       img3_flag = false;
        tri_flag = true;
        //table内のfor_propertyに書き込む
        for_property.innerHTML = "三角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
@@ -947,6 +985,10 @@ triangle.addEventListener("click",function(){
         ellipse_flag = false;
         tri_flag = false;
         line_flag = false;
+        pac_flag = false;
+        img1_flag = false;
+        img2_flag = false;
+        img3_flag = false;
         ply_flag = true;
         //table内のfor_propertyに書き込む
         for_property.innerHTML = "多角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
@@ -1039,6 +1081,10 @@ line.addEventListener("click",function(){
        ellipse_flag = false;
        tri_flag = false;
        ply_flag = false;
+       pac_flag = false;
+       img1_flag = false;
+       img2_flag = false;
+       img3_flag = false;
        line_flag = true;
        //table内のfor_propertyに書き込む
        for_property.innerHTML = "この図形には使えません";
@@ -1048,3 +1094,327 @@ line.addEventListener("click",function(){
        }).drawLayers();
      }
    },false);
+
+   pac.addEventListener("click",function(){
+     ++count_groups;
+     ++count_pac;
+     for (var i = 1;i < count_pac;i++){
+       //これがJcanvasの多角形を描くソース
+        $("canvas").drawSlice({
+          layer:true,
+          name:"Pac" + i,
+          groups:["obj" + count_groups],
+          strokeStyle: "black",
+          fillStyle:"#fff171",
+          strokeWidth: 1,
+          x: 100,
+          y: 100,
+          radius:32.5,
+          fromCenter: false,
+          start:120,end:420,
+          dblclick:function(layer){
+            layer.fillStyle = $("#color").val();
+            document.getElementById("pac_fill" + (i-1)).innerHTML = "<li><font color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+          },
+          draggable:true,
+          drag:function(layer){
+            $("#pac_x" + (i - 1)).val(layer.x);
+            $("#pac_y" + (i - 1)).val(layer.y);
+          },
+          mouseover:function(layer){
+            $(function(){
+              change_text = setInterval(function(){
+                $("#pac_x" + (i - 1)).val(layer.x);
+                $("#pac_y" + (i - 1)).val(layer.y);
+              },10);
+            });
+            $(function(){
+              MOver("pac_source" + (i-1));
+            });
+          },
+          mouseout:function(layer){
+            clearInterval(change_text);
+            $(function(){
+              MOut("pac_source" + (i-1));
+            });
+          },
+          click:function(layer){
+            obj_flag = layer.name;
+            if(if_flag === true){
+              X = layer.x;
+              Y = layer.y;
+              if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+            }
+           }
+         });
+        }
+        if(for_flag == false){
+          fill_code_pac = "<li id='pac_fill'><font color = '#f7f7f7' size = '3'>fill(163,73,164);</font></li>";
+          literal(fill_code_pac);
+          pac_code = "<li id = 'pac_source'><font color = '#f7f7f7' size = '3'>arc(" + '<input class="textbox" type="text" size="2"id ="pac_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="pac_y" placeholder = "100">' + ",100,100,0.5,5.8);</font></li>";
+          literal(pac_code);
+          $("#pac_x").attr("id","pac_x" + (count_pac-1));
+          $("#pac_y").attr("id","pac_y" + (count_pac-1));
+          $("#pac_source").attr("id","pac_source" + (count_pac-1));
+          $("#pac_source" + (count_pac-1)).addClass("pac_source" + (count_pac-1));
+          $("#pac_fill").attr("id","pac_fill" + (count_pac-1));
+        }
+        //forをクリックされた際の処理
+        if(for_flag === true){
+         //nameプロパティがPolygon(最後)の図形を見えなくする
+         $("canvas").setLayer("Pac" + (count_pac -1),{
+           visible:false
+         }).drawLayers();
+         count_pac--;
+         for_flag = false;
+         rect_flag = false;
+         ellipse_flag = false;
+         tri_flag = false;
+         line_flag = false;
+         ply_flag = false;
+         img1_flag = false;
+         img2_flag = false;
+         img3_flag = false;
+         pac_flag = true;
+         //table内のfor_propertyに書き込む
+         for_property.innerHTML = "この図形には使えません";
+       }else{
+         $("canvas").setLayer("Pac" + (count_pac -1),{
+           visible:true
+         }).drawLayers();
+       }
+     },false);
+
+     butt_red.addEventListener("click",function(){
+       ++count_groups;
+       ++count_img_1;
+       for (var i = 1;i < count_img_1;i++){
+         //これがJcanvasの多角形を描くソース
+          $("canvas").drawImage({
+            layer:true,
+            name:"Image1" + i,
+            source:"img/animal_butterfly07.png",
+            groups:["obj" + count_groups],
+            x: 100,
+            y: 100,
+            draggable:true,
+            drag:function(layer){
+              $("#img1_x" + (i - 1)).val(layer.x);
+              $("#img1_y" + (i - 1)).val(layer.y);
+            },
+            mouseover:function(layer){
+              $(function(){
+                change_text = setInterval(function(){
+                  $("#img1_x" + (i - 1)).val(layer.x);
+                  $("#img1_y" + (i - 1)).val(layer.y);
+                },10);
+              });
+              $(function(){
+                MOver("img1_source" + (i-1));
+              });
+            },
+            mouseout:function(layer){
+              clearInterval(change_text);
+              $(function(){
+                MOut("img1_source" + (i-1));
+              });
+            },
+            click:function(layer){
+              obj_flag = layer.name;
+              if(if_flag === true){
+                X = layer.x;
+                Y = layer.y;
+                if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+              }
+             }
+           });
+          }
+          if(for_flag == false){
+            img_code_1 = "<li id = 'img1_source'><font color = '#f7f7f7' size = '3'>Image(Butterfly_red.png," + '<input class="textbox" type="text" size="2"id ="img1_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img1_y" placeholder = "100">' + ");</font></li>";
+            literal(img_code_1);
+            $("#img1_x").attr("id","img1_x" + (count_img_1-1));
+            $("#img1_y").attr("id","img1_y" + (count_img_1-1));
+            $("#img1_source").attr("id","img1_source" + (count_img_1-1));
+            $("#img1_source" + (count_img_1-1)).addClass("img1_source" + (count_img_1-1));
+          }
+          //forをクリックされた際の処理
+          if(for_flag === true){
+           //nameプロパティがPolygon(最後)の図形を見えなくする
+           $("canvas").setLayer("Image1" + (count_img_1 -1),{
+             visible:false
+           }).drawLayers();
+           count_img_1--;
+           for_flag = false;
+           rect_flag = false;
+           ellipse_flag = false;
+           tri_flag = false;
+           line_flag = false;
+           ply_flag = false;
+           pac_flag = false;
+           img2_flag = false;
+           img3_flag = false;
+           img1_flag = true;
+           //table内のfor_propertyに書き込む
+           for_property.innerHTML = "この図形には使えません";
+         }else{
+           $("canvas").setLayer("Image1" + (count_img_1 -1),{
+             visible:true
+           }).drawLayers();
+         }
+       },false);
+
+       butt_yellow.addEventListener("click",function(){
+         ++count_groups;
+         ++count_img_2;
+         for (var i = 1;i < count_img_2;i++){
+           //これがJcanvasの多角形を描くソース
+            $("canvas").drawImage({
+              layer:true,
+              name:"Image2" + i,
+              source:"img/animal_butterfly08.png",
+              groups:["obj" + count_groups],
+              x: 100,
+              y: 100,
+              draggable:true,
+              drag:function(layer){
+                $("#img2_x" + (i - 1)).val(layer.x);
+                $("#img2_y" + (i - 1)).val(layer.y);
+              },
+              mouseover:function(layer){
+                $(function(){
+                  change_text = setInterval(function(){
+                    $("#img2_x" + (i - 1)).val(layer.x);
+                    $("#img2_y" + (i - 1)).val(layer.y);
+                  },10);
+                });
+                $(function(){
+                  MOver("img2_source" + (i-1));
+                });
+              },
+              mouseout:function(layer){
+                clearInterval(change_text);
+                $(function(){
+                  MOut("img2_source" + (i-1));
+                });
+              },
+              click:function(layer){
+                obj_flag = layer.name;
+                if(if_flag === true){
+                  X = layer.x;
+                  Y = layer.y;
+                  if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                }
+               }
+             });
+            }
+            if(for_flag == false){
+              img_code_2 = "<li id = 'img2_source'><font color = '#f7f7f7' size = '3'>Image(Butterfly_yellow.png," + '<input class="textbox" type="text" size="2"id ="img2_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img2_y" placeholder = "100">' + ");</font></li>";
+              literal(img_code_2);
+              $("#img2_x").attr("id","img2_x" + (count_img_2-1));
+              $("#img2_y").attr("id","img2_y" + (count_img_2-1));
+              $("#img2_source").attr("id","img2_source" + (count_img_2-1));
+              $("#img2_source" + (count_img_2-1)).addClass("img2_source" + (count_img_2-1));
+            }
+            //forをクリックされた際の処理
+            if(for_flag === true){
+             //nameプロパティがPolygon(最後)の図形を見えなくする
+             $("canvas").setLayer("Image2" + (count_img_2 -1),{
+               visible:false
+             }).drawLayers();
+             count_img_1--;
+             for_flag = false;
+             rect_flag = false;
+             ellipse_flag = false;
+             tri_flag = false;
+             line_flag = false;
+             ply_flag = false;
+             pac_flag = false;
+             img1_flag = false;
+             img3_flag = false;
+             img2_flag = true;
+             //table内のfor_propertyに書き込む
+             for_property.innerHTML = "この図形には使えません";
+           }else{
+             $("canvas").setLayer("Image2" + (count_img_2 -1),{
+               visible:true
+             }).drawLayers();
+           }
+         },false);
+
+         butt_blue.addEventListener("click",function(){
+           ++count_groups;
+           ++count_img_3;
+           for (var i = 1;i < count_img_3;i++){
+             //これがJcanvasの多角形を描くソース
+              $("canvas").drawImage({
+                layer:true,
+                name:"Image3" + i,
+                source:"img/animal_butterfly09.png",
+                groups:["obj" + count_groups],
+                x: 100,
+                y: 100,
+                draggable:true,
+                drag:function(layer){
+                  $("#img3_x" + (i - 1)).val(layer.x);
+                  $("#img3_y" + (i - 1)).val(layer.y);
+                },
+                mouseover:function(layer){
+                  $(function(){
+                    change_text = setInterval(function(){
+                      $("#img3_x" + (i - 1)).val(layer.x);
+                      $("#img3_y" + (i - 1)).val(layer.y);
+                    },10);
+                  });
+                  $(function(){
+                    MOver("img3_source" + (i-1));
+                  });
+                },
+                mouseout:function(layer){
+                  clearInterval(change_text);
+                  $(function(){
+                    MOut("img3_source" + (i-1));
+                  });
+                },
+                click:function(layer){
+                  obj_flag = layer.name;
+                  if(if_flag === true){
+                    X = layer.x;
+                    Y = layer.y;
+                    if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                  }
+                 }
+               });
+              }
+              if(for_flag == false){
+                img_code_3 = "<li id = 'img3_source'><font color = '#f7f7f7' size = '3'>Image(Butterfly_blue.png," + '<input class="textbox" type="text" size="2"id ="img3_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img3_y" placeholder = "100">' + ");</font></li>";
+                literal(img_code_3);
+                $("#img3_x").attr("id","img3_x" + (count_img_3-1));
+                $("#img3_y").attr("id","img3_y" + (count_img_3-1));
+                $("#img3_source").attr("id","img3_source" + (count_img_3-1));
+                $("#img3_source" + (count_img_3-1)).addClass("img3_source" + (count_img_3-1));
+              }
+              //forをクリックされた際の処理
+              if(for_flag === true){
+               //nameプロパティがPolygon(最後)の図形を見えなくする
+               $("canvas").setLayer("Image3" + (count_img_3 -1),{
+                 visible:false
+               }).drawLayers();
+               count_img_1--;
+               for_flag = false;
+               rect_flag = false;
+               ellipse_flag = false;
+               tri_flag = false;
+               line_flag = false;
+               ply_flag = false;
+               pac_flag = false;
+               img1_flag = false;
+               img2_flag = false;
+               img3_flag = true;
+               //table内のfor_propertyに書き込む
+               for_property.innerHTML = "この図形には使えません";
+             }else{
+               $("canvas").setLayer("Image3" + (count_img_3 -1),{
+                 visible:true
+               }).drawLayers();
+             }
+           },false);
