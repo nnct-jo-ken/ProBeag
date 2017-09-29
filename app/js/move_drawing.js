@@ -9,9 +9,23 @@ var triangle = document.getElementById("triangle");
 var polygon = document.getElementById("polygon");
 var line = document.getElementById("line");
 var pac = document.getElementById("pac");
+//画像
 var butt_red = document.getElementById("butt_red");
 var butt_yellow = document.getElementById("butt_yellow");
 var butt_blue = document.getElementById("butt_blue");
+var pink_candy = document.getElementById("pink_candy");
+var blue_candy = document.getElementById("blue_candy");
+var orange_candy = document.getElementById("orange_candy");
+var blue_umbrella = document.getElementById("blue_umbrella");
+var orange_umbrella = document.getElementById("orange_umbrella");
+var green_umbrella = document.getElementById("green_umbrella");
+var orange_flower = document.getElementById("orange_flower");
+var pink_flower = document.getElementById("pink_flower");
+var yellow_flower = document.getElementById("yellow_flower");
+var giraffe = document.getElementById("giraffe");
+var star = document.getElementById("star");
+var tank = document.getElementById("tank");
+
 var compile = document.getElementById("compile");
 var for_property = document.getElementById("for_property");
 var sample_for = document.getElementById("sample_for");
@@ -21,8 +35,11 @@ var if_property = document.getElementById("if_property");
 var sample_if = document.getElementById("sample_if");
 //表示するコードをいれる配列
 var figures = [];
+var pImage = [];
+var Image_array = [];
 //何回関数が読みだされたかカウント
 var load_figures = 0;
+var load_Image = 0;
 var count_Rect = 1;
 var count_Ellipse = 1;
 var count_tri = 1;
@@ -32,6 +49,18 @@ var count_pac = 1;
 var count_img_1 = 1;
 var count_img_2 = 1;
 var count_img_3 = 1;
+var count_img_4 = 1;
+var count_img_5 = 1;
+var count_img_6 = 1;
+var count_img_7 = 1;
+var count_img_8 = 1;
+var count_img_9 = 1;
+var count_img_10 = 1;
+var count_img_11 = 1;
+var count_img_12 = 1;
+var count_img_13 = 1;
+var count_img_14 = 1;
+var count_img_15 = 1;
 var count_for = 0;
 //forを作る判定
 var ellipse_flag = false;
@@ -45,6 +74,18 @@ var pac_flag = false;
 var img1_flag = false;
 var img2_flag = false;
 var img3_flag = false;
+var img4_flag = false;
+var img5_flag = false;
+var img6_flag = false;
+var img7_flag = false;
+var img8_flag = false;
+var img9_flag = false;
+var img10_flag = false;
+var img11_flag = false;
+var img12_flag = false;
+var img13_flag = false;
+var img14_flag = false;
+var img15_flag = false;
 //図形のtextboxの値を取得する変数
 var obj_x;
 var obj_y;
@@ -70,6 +111,18 @@ var pac_code;
 var img_code_1;
 var img_code_2;
 var img_code_3;
+var img_code_4;
+var img_code_5;
+var img_code_6;
+var img_code_7;
+var img_code_8;
+var img_code_9;
+var img_code_10;
+var img_code_11;
+var img_code_12;
+var img_code_13;
+var img_code_14;
+var img_code_15;
 //図形が何回canvas内にあるか
 var count_groups = 0;
 //forの多角形の画数を決める
@@ -108,7 +161,10 @@ var fill_code_pac;
 
 var obj_fill;
 
+var poly_angle;
 
+var triangle_x;
+var triangle_y;
 //Lineの第二座標をクリックで設定する関数
 function onClick(e) {
   //図形の絶対値座標を取得する
@@ -124,13 +180,27 @@ function onClick(e) {
 }
 canvas.addEventListener("click",onClick,false);
 
+function PImage_literal(PImage_code,img_count,Pimage_inst){
+  if(img_count == 2){
+    pImage.push(PImage_code);
+    Image_array.push(Pimage_inst);
+    if(for_flag == true){
+      pImage.pop();
+      Image_array.pop();
+      load_Image--;
+    }
+    if(++load_Image == pImage.length){
+      $("#PImage").append(pImage[pImage.length-1]);
+      $("#open").append(Image_array[Image_array.length-1]);
+    }
+  }
+}
 //配列に入れて一番最後の要素をpreタグに入れる
 function literal(figures_code){
   //引数をfiguersの一番最後にぶちこむ
   figures.push(figures_code);
   //forを作る際のやり直しを行うもの
  if(for_flag == true){
-
     //最後の要素を消す
     figures.pop();
     --load_figures;
@@ -225,6 +295,19 @@ rect.addEventListener("click",function(){
       img2_flag = false;
       img3_flag = false;
       rect_flag = true;
+      img3_flag = false;
+      img4_flag = false;
+      img5_flag = false;
+      img6_flag = false;
+      img7_flag = false;
+      img8_flag = false;
+      img9_flag = false;
+      img10_flag = false;
+      img11_flag = false;
+      img12_flag = false;
+      img13_flag = false;
+      img14_flag = false;
+      img15_flag = false;
       //table内のfor_propertyに書き込む
       for_property.innerHTML = "四角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
       + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
@@ -712,6 +795,19 @@ cicle.addEventListener("click",function(){
       img2_flag = false;
       img3_flag = false;
       ellipse_flag = true;
+      img3_flag = false;
+      img4_flag = false;
+      img5_flag = false;
+      img6_flag = false;
+      img7_flag = false;
+      img8_flag = false;
+      img9_flag = false;
+      img10_flag = false;
+      img11_flag = false;
+      img12_flag = false;
+      img13_flag = false;
+      img14_flag = false;
+      img15_flag = false;
       for_property.innerHTML = "円の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
       + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
       obj_judge = "ellipse";
@@ -738,8 +834,15 @@ for_str.addEventListener("click",function(){
 //前に戻るのイベントリスナ
 back.addEventListener("click",function(){
   //一番最後の要素消去
-  $("li:last").remove();
-  $("li:last").remove();
+  var object = $('canvas').getLayerGroup('obj' + (count_groups));
+  var object_name = object[0].name;
+
+  if($("#source_code").find("li").filter(":last").hasClass("Img")){
+    $("li:last").remove();
+  }else{
+    $("li:last").remove();
+    $("li:last").remove();
+  }
   //それぞれのプロパティを消す
   if(for_flag === true){
     for_property.innerHTML = "";
@@ -748,8 +851,6 @@ back.addEventListener("click",function(){
     if_property.innerHTML = "";
   }
 
- var object = $('canvas').getLayerGroup('obj' + (count_groups));
- var object_name = object[0].name;
   //図形を消してレイヤーごと消去
   if (count_groups != 0){
     $("canvas").setLayerGroup("obj" + (count_groups),{
@@ -776,10 +877,115 @@ back.addEventListener("click",function(){
     else if(object_name == "Line" + (count_line-1)){
       $("canvas").removeLayer("Line" + (count_line - 1));
       count_line--;
-    }else if(object_name == "Pac" + (count_pac - 1)){
+    }
+    else if(object_name == "Pac" + (count_pac - 1)){
       $("canvas").removeLayer("Pac" + (count_pac - 1));
+      count_pac--;
     }else if(object_name == "Image1" + (count_img_1-1)){
       $("canvas").removeLayer("Image1" + (count_img_1-1));
+      count_img_1--;
+      if(count_img_1 == 1){
+        $(".class1").remove();
+        $(".class_1").remove();
+      }
+    }else if(object_name == "Image2" + (count_img_2-1)){
+      $("canvas").removeLayer("Image2" + (count_img_2-1));
+      count_img_2--;
+      if(count_img_2 == 1){
+        $(".class2").remove();
+        $(".class_2").remove();
+      }
+    }else if(object_name == "Image3" + (count_img_3-1)){
+      $("canvas").removeLayer("Image3" + (count_img_3-1));
+      count_img_3--;
+      if(count_img_3 == 1){
+        $(".class3").remove();
+        $(".class_3").remove();
+      }
+    }else if(object_name == "Image4" + (count_img_4-1)){
+      $("canvas").removeLayer("Image4" + (count_img_4-1));
+      count_img_4--;
+      if(count_img_4 == 1){
+        $(".class4").remove();
+        $(".class_4").remove();
+      }
+    }else if(object_name == "Image5" + (count_img_5-1)){
+      $("canvas").removeLayer("Image5" + (count_img_5-1));
+      count_img_5--;
+      if(count_img_5 == 1){
+        $(".class5").remove();
+        $(".class_5").remove();
+      }
+    }else if(object_name == "Image6" + (count_img_6-1)){
+      $("canvas").removeLayer("Image6" + (count_img_6-1));
+      count_img_6--;
+      if(count_img_6 == 1){
+        $(".class6").remove();
+        $(".class_6").remove();
+      }
+    }else if(object_name == "Image7" + (count_img_7-1)){
+      $("canvas").removeLayer("Image7" + (count_img_7-1));
+      count_img_7--;
+      if(count_img_7 == 1){
+        $(".class7").remove();
+        $(".class_7").remove();
+      }
+    }else if(object_name == "Image8" + (count_img_8-1)){
+      $("canvas").removeLayer("Image8" + (count_img_8-1));
+      count_img_8--;
+      if(count_img_8 == 1){
+        $(".class8").remove();
+        $(".class_8").remove();
+      }
+    }else if(object_name == "Image9" + (count_img_9-1)){
+      $("canvas").removeLayer("Image9" + (count_img_9-1));
+      count_img_9--;
+      if(count_img_9 == 1){
+        $(".class9").remove();
+        $(".class_9").remove();
+      }
+    }else if(object_name == "Image10" + (count_img_10-1)){
+      $("canvas").removeLayer("Image10" + (count_img_10-1));
+      count_img_10--;
+      if(count_img_10 == 1){
+        $(".class10").remove();
+        $(".class_10").remove();
+      }
+    }else if(object_name == "Image11" + (count_img_11-1)){
+      $("canvas").removeLayer("Image11" + (count_img_11-1));
+      count_img_11--;
+      if(count_img_11 == 1){
+        $(".class11").remove();
+        $(".class_11").remove();
+      }
+    }else if(object_name == "Image12" + (count_img_12-1)){
+      $("canvas").removeLayer("Image12" + (count_img_12-1));
+      count_img_12--;
+      if(count_img_12 == 1){
+        $(".class12").remove();
+        $(".class_12").remove();
+      }
+    }else if(object_name == "Image13" + (count_img_13-1)){
+      $("canvas").removeLayer("Image13" + (count_img_13-1));
+      count_img_13--;
+      if(count_img_13 == 1){
+        $(".class13").remove();
+        $(".class_13").remove();
+      }
+    }else if(object_name == "Image14" + (count_img_14-1)){
+      $("canvas").removeLayer("Image14" + (count_img_14-1));
+      count_img_14--;
+      if(count_img_14 == 1){
+        $(".class14").remove();
+        $(".class_14").remove();
+      }
+    }else if(object_name == "Image15" + (count_img_15-1)){
+      $("canvas").removeLayer("Image15" + (count_img_15-1));
+      count_img_15--;
+      if(count_img_15 == 1){
+        $(".class15").remove();
+        $(".class_15").remove();
+      }
     }
     if(count_for != 0){
       $("canvas").removeLayerGroup("shapes" + (count_for - 1));
@@ -794,6 +1000,7 @@ back.addEventListener("click",function(){
 //全消去のイベントリスナ
 store.addEventListener("click",function(){
   $("#source_code").html("");
+  $("#PImage").html("");
   count_Rect = 1;
   count_tri = 1;
   count_Ellipse = 1;
@@ -803,6 +1010,18 @@ store.addEventListener("click",function(){
   count_img_1 = 1;
   count_img_2 = 1;
   count_img_3 = 1;
+  count_img_4 = 1;
+  count_img_5 = 1;
+  count_img_6 = 1;
+  count_img_7 = 1;
+  count_img_8 = 1;
+  count_img_9 = 1;
+  count_img_10 = 1;
+  count_img_11 = 1;
+  count_img_12 = 1;
+  count_img_13 = 1;
+  count_img_14 = 1;
+  count_img_15 = 1;
   count_groups = 0;
   count_for = 0;
   for_flag = false;
@@ -841,12 +1060,20 @@ triangle.addEventListener("click",function(){
        drag:function(layer){
          $("#triangle_x" + (i - 1)).val(layer.x);
          $("#triangle_y" + (i - 1)).val(layer.y);
+         $("#triangle2_x" + (i - 1)).html(layer.x+30);
+         $("#triangle2_y" + (i - 1)).html(layer.y+50);
+         $("#triangle3_x" + (i - 1)).html(layer.x-30);
+         $("#triangle3_y" + (i - 1)).html(layer.y+50);
        },
        mouseover:function(layer){
          $(function(){
            change_text = setInterval(function(){
              $("#triangle_x" + (i - 1)).val(layer.x);
              $("#triangle_y" + (i - 1)).val(layer.y);
+             $("#triangle2_x" + (i - 1)).html(layer.x+30);
+             $("#triangle2_y" + (i - 1)).html(layer.y+50);
+             $("#triangle3_x" + (i - 1)).html(layer.x-30);
+             $("#triangle3_y" + (i - 1)).html(layer.y+50);
            },10);
          });
          $(function(){
@@ -870,12 +1097,17 @@ triangle.addEventListener("click",function(){
       });
      }
      if(for_flag == false){
+       var triangle_obj = $("canvas").getLayer("Triangle" + (count_tri-1));
        fill_code_tri = "<li id = 'tri_fill'><font color = '#f7f7f7' size = '3'>fill(255,201,14);</font></li>";
        literal(fill_code_tri);
-       tri_code = "<li id = 'triangle_source'><font color = '#f7f7f7' size = '3'>triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" placeholder = "100">' + ",100,100);</font></li>";
+       tri_code = "<li id = 'triangle_source'><font color = '#f7f7f7' size = '3'>triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" placeholder = "100">' + ",<span id = 'triangle2_x'>" + (triangle_obj.x + 30) + "</span>,<span id = 'triangle2_y'>" + (triangle_obj.y + 50) + "</span>,<span id = 'triangle3_x'>" + (triangle_obj.x-30) + "</span>,<span id = 'triangle3_y'>" + (triangle_obj.y+50) + "</span>);</font></li>";
        literal(tri_code);
        $("#triangle_x").attr("id","triangle_x" + (count_tri-1));
        $("#triangle_y").attr("id","triangle_y" + (count_tri-1));
+       $("#triangle2_x").attr("id","triangle2_x" + (count_tri-1));
+       $("#triangle2_y").attr("id","triangle2_y" + (count_tri-1));
+       $("#triangle3_x").attr("id","triangle3_x" + (count_tri-1));
+       $("#triangle3_y").attr("id","triangle3_y" + (count_tri-1));
        $("#triangle_source").attr("id","triangle_source" + (count_tri-1));
        $("#triangle_source" + (count_tri-1)).addClass("triangle_source" + (count_tri-1));
        $("#tri_fill").attr("id","tri_fill" + (count_tri-1));
@@ -897,6 +1129,19 @@ triangle.addEventListener("click",function(){
        img2_flag = false;
        img3_flag = false;
        tri_flag = true;
+       img3_flag = false;
+       img4_flag = false;
+       img5_flag = false;
+       img6_flag = false;
+       img7_flag = false;
+       img8_flag = false;
+       img9_flag = false;
+       img10_flag = false;
+       img11_flag = false;
+       img12_flag = false;
+       img13_flag = false;
+       img14_flag = false;
+       img15_flag = false;
        //table内のfor_propertyに書き込む
        for_property.innerHTML = "三角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
        + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
@@ -962,6 +1207,12 @@ triangle.addEventListener("click",function(){
           }
         });
        }
+       if(angle.value % 2 == 0){
+         poly_angle = 360/(angle.value*2);
+         $("canvas").setLayer("Polygon" + (i-1),{
+           rotate:poly_angle
+         }).drawLayers();
+       }
        if(for_flag == false){
          fill_code_ply = "<li id='ply_fill'><font color = '#f7f7f7' size = '3'>fill(163,73,164);</font></li>";
          literal(fill_code_ply);
@@ -990,6 +1241,19 @@ triangle.addEventListener("click",function(){
         img2_flag = false;
         img3_flag = false;
         ply_flag = true;
+        img3_flag = false;
+        img4_flag = false;
+        img5_flag = false;
+        img6_flag = false;
+        img7_flag = false;
+        img8_flag = false;
+        img9_flag = false;
+        img10_flag = false;
+        img11_flag = false;
+        img12_flag = false;
+        img13_flag = false;
+        img14_flag = false;
+        img15_flag = false;
         //table内のfor_propertyに書き込む
         for_property.innerHTML = "多角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
         + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
@@ -1086,6 +1350,19 @@ line.addEventListener("click",function(){
        img2_flag = false;
        img3_flag = false;
        line_flag = true;
+       img3_flag = false;
+       img4_flag = false;
+       img5_flag = false;
+       img6_flag = false;
+       img7_flag = false;
+       img8_flag = false;
+       img9_flag = false;
+       img10_flag = false;
+       img11_flag = false;
+       img12_flag = false;
+       img13_flag = false;
+       img14_flag = false;
+       img15_flag = false;
        //table内のfor_propertyに書き込む
        for_property.innerHTML = "この図形には使えません";
      }else{
@@ -1176,6 +1453,19 @@ line.addEventListener("click",function(){
          img2_flag = false;
          img3_flag = false;
          pac_flag = true;
+         img3_flag = false;
+         img4_flag = false;
+         img5_flag = false;
+         img6_flag = false;
+         img7_flag = false;
+         img8_flag = false;
+         img9_flag = false;
+         img10_flag = false;
+         img11_flag = false;
+         img12_flag = false;
+         img13_flag = false;
+         img14_flag = false;
+         img15_flag = false;
          //table内のfor_propertyに書き込む
          for_property.innerHTML = "この図形には使えません";
        }else{
@@ -1193,7 +1483,7 @@ line.addEventListener("click",function(){
           $("canvas").drawImage({
             layer:true,
             name:"Image1" + i,
-            source:"img/animal_butterfly07.png",
+            source:"img/red_butterfly.png",
             groups:["obj" + count_groups],
             x: 100,
             y: 100,
@@ -1230,7 +1520,10 @@ line.addEventListener("click",function(){
            });
           }
           if(for_flag == false){
-            img_code_1 = "<li id = 'img1_source'><font color = '#f7f7f7' size = '3'>Image(Butterfly_red.png," + '<input class="textbox" type="text" size="2"id ="img1_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img1_y" placeholder = "100">' + ");</font></li>";
+            var red_butt_inst = "<li class = 'class1'>PImage <a href = 'img/red_butterfly.png' download='red_butterfly.png'>red_butterfly</a></li>"
+            var red_butt = "<li class = 'class_1'><font color = '#f7f7f7' size = '3'>  red_butterfly=loadImage('red_butterfly.png');</font></li>"
+            PImage_literal(red_butt,count_img_1,red_butt_inst);
+            img_code_1 = "<li id = 'img1_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(red_butterfly," + '<input class="textbox" type="text" size="2"id ="img1_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img1_y" placeholder = "100">' + ");</font></li>";
             literal(img_code_1);
             $("#img1_x").attr("id","img1_x" + (count_img_1-1));
             $("#img1_y").attr("id","img1_y" + (count_img_1-1));
@@ -1254,6 +1547,19 @@ line.addEventListener("click",function(){
            img2_flag = false;
            img3_flag = false;
            img1_flag = true;
+           img3_flag = false;
+           img4_flag = false;
+           img5_flag = false;
+           img6_flag = false;
+           img7_flag = false;
+           img8_flag = false;
+           img9_flag = false;
+           img10_flag = false;
+           img11_flag = false;
+           img12_flag = false;
+           img13_flag = false;
+           img14_flag = false;
+           img15_flag = false;
            //table内のfor_propertyに書き込む
            for_property.innerHTML = "この図形には使えません";
          }else{
@@ -1271,7 +1577,7 @@ line.addEventListener("click",function(){
             $("canvas").drawImage({
               layer:true,
               name:"Image2" + i,
-              source:"img/animal_butterfly08.png",
+              source:"img/ylw_butterfly.png",
               groups:["obj" + count_groups],
               x: 100,
               y: 100,
@@ -1308,7 +1614,10 @@ line.addEventListener("click",function(){
              });
             }
             if(for_flag == false){
-              img_code_2 = "<li id = 'img2_source'><font color = '#f7f7f7' size = '3'>Image(Butterfly_yellow.png," + '<input class="textbox" type="text" size="2"id ="img2_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img2_y" placeholder = "100">' + ");</font></li>";
+              var yellow_butt_inst = "<li class = 'class2'>PImage <a href = 'img/ylw_butterfly.png' download='ylw_butterfly.png'>yellow_butterfly</a></li>"
+              var yellow_butt = "<li class = 'class_2'><font color = '#f7f7f7' size = '3'>  yellow_butterfly=loadImage('ylw_butterfly.png');</font></li>"
+              PImage_literal(yellow_butt,count_img_2,yellow_butt_inst);
+              img_code_2 = "<li id = 'img2_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(yellow_butterfly," + '<input class="textbox" type="text" size="2"id ="img2_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img2_y" placeholder = "100">' + ");</font></li>";
               literal(img_code_2);
               $("#img2_x").attr("id","img2_x" + (count_img_2-1));
               $("#img2_y").attr("id","img2_y" + (count_img_2-1));
@@ -1321,7 +1630,7 @@ line.addEventListener("click",function(){
              $("canvas").setLayer("Image2" + (count_img_2 -1),{
                visible:false
              }).drawLayers();
-             count_img_1--;
+             count_img_2--;
              for_flag = false;
              rect_flag = false;
              ellipse_flag = false;
@@ -1332,6 +1641,19 @@ line.addEventListener("click",function(){
              img1_flag = false;
              img3_flag = false;
              img2_flag = true;
+             img3_flag = false;
+             img4_flag = false;
+             img5_flag = false;
+             img6_flag = false;
+             img7_flag = false;
+             img8_flag = false;
+             img9_flag = false;
+             img10_flag = false;
+             img11_flag = false;
+             img12_flag = false;
+             img13_flag = false;
+             img14_flag = false;
+             img15_flag = false;
              //table内のfor_propertyに書き込む
              for_property.innerHTML = "この図形には使えません";
            }else{
@@ -1349,7 +1671,7 @@ line.addEventListener("click",function(){
               $("canvas").drawImage({
                 layer:true,
                 name:"Image3" + i,
-                source:"img/animal_butterfly09.png",
+                source:"img/blue_butterfly.png",
                 groups:["obj" + count_groups],
                 x: 100,
                 y: 100,
@@ -1386,7 +1708,10 @@ line.addEventListener("click",function(){
                });
               }
               if(for_flag == false){
-                img_code_3 = "<li id = 'img3_source'><font color = '#f7f7f7' size = '3'>Image(Butterfly_blue.png," + '<input class="textbox" type="text" size="2"id ="img3_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img3_y" placeholder = "100">' + ");</font></li>";
+                var blue_butt_inst = "<li class = 'class3'>PImage <a href = 'img/blue_butterfly.png' download='blue_butterfly.png'>blue_butterfly</a></li>"
+                var blue_butt = "<li class = 'class_3'><font color = '#f7f7f7' size = '3'>  blue_butterfly=loadImage('blue_butterfly.png');</font></li>"
+                PImage_literal(blue_butt,count_img_3,blue_butt_inst);
+                img_code_3 = "<li id = 'img3_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(blue_butterfly," + '<input class="textbox" type="text" size="2"id ="img3_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img3_y" placeholder = "100">' + ");</font></li>";
                 literal(img_code_3);
                 $("#img3_x").attr("id","img3_x" + (count_img_3-1));
                 $("#img3_y").attr("id","img3_y" + (count_img_3-1));
@@ -1399,7 +1724,7 @@ line.addEventListener("click",function(){
                $("canvas").setLayer("Image3" + (count_img_3 -1),{
                  visible:false
                }).drawLayers();
-               count_img_1--;
+               count_img_3--;
                for_flag = false;
                rect_flag = false;
                ellipse_flag = false;
@@ -1410,6 +1735,19 @@ line.addEventListener("click",function(){
                img1_flag = false;
                img2_flag = false;
                img3_flag = true;
+               img3_flag = false;
+               img4_flag = false;
+               img5_flag = false;
+               img6_flag = false;
+               img7_flag = false;
+               img8_flag = false;
+               img9_flag = false;
+               img10_flag = false;
+               img11_flag = false;
+               img12_flag = false;
+               img13_flag = false;
+               img14_flag = false;
+               img15_flag = false;
                //table内のfor_propertyに書き込む
                for_property.innerHTML = "この図形には使えません";
              }else{
@@ -1418,3 +1756,1118 @@ line.addEventListener("click",function(){
                }).drawLayers();
              }
            },false);
+
+           blue_candy.addEventListener("click",function(){
+             ++count_groups;
+             ++count_img_4;
+             for (var i = 1;i < count_img_4;i++){
+               //これがJcanvasの多角形を描くソース
+                $("canvas").drawImage({
+                  layer:true,
+                  name:"Image4" + i,
+                  source:"img/blue_candy.png",
+                  groups:["obj" + count_groups],
+                  x: 100,
+                  y: 100,
+                  draggable:true,
+                  drag:function(layer){
+                    $("#img4_x" + (i - 1)).val(layer.x);
+                    $("#img4_y" + (i - 1)).val(layer.y);
+                  },
+                  mouseover:function(layer){
+                    $(function(){
+                      change_text = setInterval(function(){
+                        $("#img4_x" + (i - 1)).val(layer.x);
+                        $("#img4_y" + (i - 1)).val(layer.y);
+                      },10);
+                    });
+                    $(function(){
+                      MOver("img4_source" + (i-1));
+                    });
+                  },
+                  mouseout:function(layer){
+                    clearInterval(change_text);
+                    $(function(){
+                      MOut("img4_source" + (i-1));
+                    });
+                  },
+                  click:function(layer){
+                    obj_flag = layer.name;
+                    if(if_flag === true){
+                      X = layer.x;
+                      Y = layer.y;
+                      if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                    }
+                   }
+                 });
+                }
+                if(for_flag == false){
+                  var blue_candy_inst = "<li class = 'class4'>PImage <a href = 'img/blue_candy.png' download='blue_candy.png'>blue_candy</a></li>"
+                  var blue_candy = "<li class = 'class_4'><font color = '#f7f7f7' size = '3'>  blue_candy=loadImage('blue_candy.png');</font></li>"
+                  PImage_literal(blue_candy,count_img_4,blue_candy_inst);
+                  img_code_4 = "<li id = 'img4_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(blue_candy," + '<input class="textbox" type="text" size="2"id ="img4_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img4_y" placeholder = "100">' + ");</font></li>";
+                  literal(img_code_4);
+                  $("#img4_x").attr("id","img4_x" + (count_img_4-1));
+                  $("#img4_y").attr("id","img4_y" + (count_img_4-1));
+                  $("#img4_source").attr("id","img4_source" + (count_img_4-1));
+                  $("#img4_source" + (count_img_4-1)).addClass("img4_source" + (count_img_4-1));
+                }
+                //forをクリックされた際の処理
+                if(for_flag === true){
+                 //nameプロパティがPolygon(最後)の図形を見えなくする
+                 $("canvas").setLayer("Image4" + (count_img_4 -1),{
+                   visible:false
+                 }).drawLayers();
+                 count_img_4--;
+                 for_flag = false;
+                 rect_flag = false;
+                 ellipse_flag = false;
+                 tri_flag = false;
+                 line_flag = false;
+                 ply_flag = false;
+                 pac_flag = false;
+                 img1_flag = false;
+                 img2_flag = false;
+                 img3_flag = false;
+                 img4_flag = true;
+                 img5_flag = false;
+                 img6_flag = false;
+                 img7_flag = false;
+                 img8_flag = false;
+                 img9_flag = false;
+                 img10_flag = false;
+                 img11_flag = false;
+                 img12_flag = false;
+                 img13_flag = false;
+                 img14_flag = false;
+                 img15_flag = false;
+                 //table内のfor_propertyに書き込む
+                 for_property.innerHTML = "この図形には使えません";
+               }else{
+                 $("canvas").setLayer("Image4" + (count_img_4 -1),{
+                   visible:true
+                 }).drawLayers();
+               }
+             },false);
+
+             orange_candy.addEventListener("click",function(){
+               ++count_groups;
+               ++count_img_5;
+               for (var i = 1;i < count_img_5;i++){
+                 //これがJcanvasの多角形を描くソース
+                  $("canvas").drawImage({
+                    layer:true,
+                    name:"Image5" + i,
+                    source:"img/orange_candy.png",
+                    groups:["obj" + count_groups],
+                    x: 100,
+                    y: 100,
+                    draggable:true,
+                    drag:function(layer){
+                      $("#img5_x" + (i - 1)).val(layer.x);
+                      $("#img5_y" + (i - 1)).val(layer.y);
+                    },
+                    mouseover:function(layer){
+                      $(function(){
+                        change_text = setInterval(function(){
+                          $("#img5_x" + (i - 1)).val(layer.x);
+                          $("#img5_y" + (i - 1)).val(layer.y);
+                        },10);
+                      });
+                      $(function(){
+                        MOver("img5_source" + (i-1));
+                      });
+                    },
+                    mouseout:function(layer){
+                      clearInterval(change_text);
+                      $(function(){
+                        MOut("img5_source" + (i-1));
+                      });
+                    },
+                    click:function(layer){
+                      obj_flag = layer.name;
+                      if(if_flag === true){
+                        X = layer.x;
+                        Y = layer.y;
+                        if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                      }
+                     }
+                   });
+                  }
+                  if(for_flag == false){
+                    var orange_candy_inst = "<li class = 'class5'>PImage <a href = 'img/orange_candy.png' download='orange_candy.png'>orange_candy</a></li>"
+                    var orange_candy = "<li class = 'class_5'><font color = '#f7f7f7' size = '3'>  orange_candy=loadImage('orange_candy.png');</font></li>"
+                    PImage_literal(orange_candy,count_img_5,orange_candy_inst);
+                    img_code_5 = "<li id = 'img5_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(orange_candy," + '<input class="textbox" type="text" size="2"id ="img5_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img5_y" placeholder = "100">' + ");</font></li>";
+                    literal(img_code_5);
+                    $("#img5_x").attr("id","img5_x" + (count_img_5-1));
+                    $("#img5_y").attr("id","img5_y" + (count_img_5-1));
+                    $("#img5_source").attr("id","img5_source" + (count_img_5-1));
+                    $("#img5_source" + (count_img_5-1)).addClass("img5_source" + (count_img_5-1));
+                  }
+                  //forをクリックされた際の処理
+                  if(for_flag === true){
+                   //nameプロパティがPolygon(最後)の図形を見えなくする
+                   $("canvas").setLayer("Image5" + (count_img_5 -1),{
+                     visible:false
+                   }).drawLayers();
+                   count_img_5--;
+                   for_flag = false;
+                   rect_flag = false;
+                   ellipse_flag = false;
+                   tri_flag = false;
+                   line_flag = false;
+                   ply_flag = false;
+                   pac_flag = false;
+                   img1_flag = false;
+                   img2_flag = false;
+                   img3_flag = false;
+                   img4_flag = false;
+                   img5_flag = true;
+                   img6_flag = false;
+                   img7_flag = false;
+                   img8_flag = false;
+                   img9_flag = false;
+                   img10_flag = false;
+                   img11_flag = false;
+                   img12_flag = false;
+                   img13_flag = false;
+                   img14_flag = false;
+                   img15_flag = false;
+                   //table内のfor_propertyに書き込む
+                   for_property.innerHTML = "この図形には使えません";
+                 }else{
+                   $("canvas").setLayer("Image5" + (count_img_5 -1),{
+                     visible:true
+                   }).drawLayers();
+                 }
+               },false);
+
+               pink_candy.addEventListener("click",function(){
+                 ++count_groups;
+                 ++count_img_6;
+                 for (var i = 1;i < count_img_6;i++){
+                   //これがJcanvasの多角形を描くソース
+                    $("canvas").drawImage({
+                      layer:true,
+                      name:"Image6" + i,
+                      source:"img/pink_candy.png",
+                      groups:["obj" + count_groups],
+                      x: 100,
+                      y: 100,
+                      draggable:true,
+                      drag:function(layer){
+                        $("#img6_x" + (i - 1)).val(layer.x);
+                        $("#img6_y" + (i - 1)).val(layer.y);
+                      },
+                      mouseover:function(layer){
+                        $(function(){
+                          change_text = setInterval(function(){
+                            $("#img6_x" + (i - 1)).val(layer.x);
+                            $("#img6_y" + (i - 1)).val(layer.y);
+                          },10);
+                        });
+                        $(function(){
+                          MOver("img6_source" + (i-1));
+                        });
+                      },
+                      mouseout:function(layer){
+                        clearInterval(change_text);
+                        $(function(){
+                          MOut("img6_source" + (i-1));
+                        });
+                      },
+                      click:function(layer){
+                        obj_flag = layer.name;
+                        if(if_flag === true){
+                          X = layer.x;
+                          Y = layer.y;
+                          if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                        }
+                       }
+                     });
+                    }
+                    if(for_flag == false){
+                      var pink_candy_inst = "<li class = 'class6'>PImage <a href = 'img/pink_candy.png' download='pink_candy.png'>pink_candy</a></li>"
+                      var pink_candy = "<li class = 'class_6'><font color = '#f7f7f7' size = '3'>  pink_candy=loadImage('pink_candy.png');</font></li>"
+                      PImage_literal(pink_candy,count_img_6,pink_candy_inst);
+                      img_code_6 = "<li id = 'img6_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(pink_candy," + '<input class="textbox" type="text" size="2"id ="img6_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img6_y" placeholder = "100">' + ");</font></li>";
+                      literal(img_code_6);
+                      $("#img6_x").attr("id","img6_x" + (count_img_6-1));
+                      $("#img6_y").attr("id","img6_y" + (count_img_6-1));
+                      $("#img6_source").attr("id","img6_source" + (count_img_6-1));
+                      $("#img6_source" + (count_img_6-1)).addClass("img6_source" + (count_img_6-1));
+                    }
+                    //forをクリックされた際の処理
+                    if(for_flag === true){
+                     //nameプロパティがPolygon(最後)の図形を見えなくする
+                     $("canvas").setLayer("Image6" + (count_img_6 -1),{
+                       visible:false
+                     }).drawLayers();
+                     count_img_6--;
+                     for_flag = false;
+                     rect_flag = false;
+                     ellipse_flag = false;
+                     tri_flag = false;
+                     line_flag = false;
+                     ply_flag = false;
+                     pac_flag = false;
+                     img1_flag = false;
+                     img2_flag = false;
+                     img3_flag = false;
+                     img4_flag = false;
+                     img5_flag = false;
+                     img6_flag = true;
+                     img7_flag = false;
+                     img8_flag = false;
+                     img9_flag = false;
+                     img10_flag = false;
+                     img11_flag = false;
+                     img12_flag = false;
+                     img13_flag = false;
+                     img14_flag = false;
+                     img15_flag = false;
+                     //table内のfor_propertyに書き込む
+                     for_property.innerHTML = "この図形には使えません";
+                   }else{
+                     $("canvas").setLayer("Image6" + (count_img_6 -1),{
+                       visible:true
+                     }).drawLayers();
+                   }
+                 },false);
+
+                 blue_umbrella.addEventListener("click",function(){
+                   ++count_groups;
+                   ++count_img_7;
+                   for (var i = 1;i < count_img_7;i++){
+                     //これがJcanvasの多角形を描くソース
+                      $("canvas").drawImage({
+                        layer:true,
+                        name:"Image7" + i,
+                        source:"img/blue_umbrella.png",
+                        groups:["obj" + count_groups],
+                        x: 100,
+                        y: 100,
+                        draggable:true,
+                        drag:function(layer){
+                          $("#img7_x" + (i - 1)).val(layer.x);
+                          $("#img7_y" + (i - 1)).val(layer.y);
+                        },
+                        mouseover:function(layer){
+                          $(function(){
+                            change_text = setInterval(function(){
+                              $("#img7_x" + (i - 1)).val(layer.x);
+                              $("#img7_y" + (i - 1)).val(layer.y);
+                            },10);
+                          });
+                          $(function(){
+                            MOver("img7_source" + (i-1));
+                          });
+                        },
+                        mouseout:function(layer){
+                          clearInterval(change_text);
+                          $(function(){
+                            MOut("img7_source" + (i-1));
+                          });
+                        },
+                        click:function(layer){
+                          obj_flag = layer.name;
+                          if(if_flag === true){
+                            X = layer.x;
+                            Y = layer.y;
+                            if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                          }
+                         }
+                       });
+                      }
+                      if(for_flag == false){
+                        var blue_umbrella_inst = "<li class = 'class7'>PImage <a href = 'img/blue_umbrella.png' download='blue_umbrella.png'>blue_umbrella</a></li>"
+                        var blue_umbrella = "<li class = 'class_7'><font color = '#f7f7f7' size = '3'>  blue_umbrella=loadImage('blue_umbrella.png');</font></li>"
+                        PImage_literal(blue_umbrella,count_img_7,blue_umbrella_inst);
+                        img_code_7 = "<li id = 'img7_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(blue_umbrella," + '<input class="textbox" type="text" size="2"id ="img7_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img7_y" placeholder = "100">' + ");</font></li>";
+                        literal(img_code_7);
+                        $("#img7_x").attr("id","img7_x" + (count_img_7-1));
+                        $("#img7_y").attr("id","img7_y" + (count_img_7-1));
+                        $("#img7_source").attr("id","img7_source" + (count_img_7-1));
+                        $("#img7_source" + (count_img_7-1)).addClass("img7_source" + (count_img_7-1));
+                      }
+                      //forをクリックされた際の処理
+                      if(for_flag === true){
+                       //nameプロパティがPolygon(最後)の図形を見えなくする
+                       $("canvas").setLayer("Image7" + (count_img_7 -1),{
+                         visible:false
+                       }).drawLayers();
+                       count_img_7--;
+                       for_flag = false;
+                       rect_flag = false;
+                       ellipse_flag = false;
+                       tri_flag = false;
+                       line_flag = false;
+                       ply_flag = false;
+                       pac_flag = false;
+                       img1_flag = false;
+                       img2_flag = false;
+                       img3_flag = false;
+                       img4_flag = false;
+                       img5_flag = false;
+                       img6_flag = false;
+                       img7_flag = true;
+                       img8_flag = false;
+                       img9_flag = false;
+                       img10_flag = false;
+                       img11_flag = false;
+                       img12_flag = false;
+                       img13_flag = false;
+                       img14_flag = false;
+                       img15_flag = false;
+                       //table内のfor_propertyに書き込む
+                       for_property.innerHTML = "この図形には使えません";
+                     }else{
+                       $("canvas").setLayer("Image7" + (count_img_7 -1),{
+                         visible:true
+                       }).drawLayers();
+                     }
+                   },false);
+                   green_umbrella.addEventListener("click",function(){
+                     ++count_groups;
+                     ++count_img_8;
+                     for (var i = 1;i < count_img_8;i++){
+                       //これがJcanvasの多角形を描くソース
+                        $("canvas").drawImage({
+                          layer:true,
+                          name:"Image8" + i,
+                          source:"img/green_umbrella.png",
+                          groups:["obj" + count_groups],
+                          x: 100,
+                          y: 100,
+                          draggable:true,
+                          drag:function(layer){
+                            $("#img8_x" + (i - 1)).val(layer.x);
+                            $("#img8_y" + (i - 1)).val(layer.y);
+                          },
+                          mouseover:function(layer){
+                            $(function(){
+                              change_text = setInterval(function(){
+                                $("#img8_x" + (i - 1)).val(layer.x);
+                                $("#img8_y" + (i - 1)).val(layer.y);
+                              },10);
+                            });
+                            $(function(){
+                              MOver("img8_source" + (i-1));
+                            });
+                          },
+                          mouseout:function(layer){
+                            clearInterval(change_text);
+                            $(function(){
+                              MOut("img8_source" + (i-1));
+                            });
+                          },
+                          click:function(layer){
+                            obj_flag = layer.name;
+                            if(if_flag === true){
+                              X = layer.x;
+                              Y = layer.y;
+                              if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                            }
+                           }
+                         });
+                        }
+                        if(for_flag == false){
+                          var green_umbrella_inst = "<li class = 'class8'>PImage <a href = 'img/green_umbrella.png' download='green_umbrella.png'>green_umbrella</a></li>"
+                          var green_umbrella = "<li class = 'class_8'><font color = '#f7f7f7' size = '3'>  green_umbrella=loadImage('green_umbrella.png');</font></li>"
+                          PImage_literal(green_umbrella,count_img_8,green_umbrella_inst);
+                          img_code_8 = "<li id = 'img8_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(green_umbrella," + '<input class="textbox" type="text" size="2"id ="img8_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img8_y" placeholder = "100">' + ");</font></li>";
+                          literal(img_code_8);
+                          $("#img8_x").attr("id","img8_x" + (count_img_8-1));
+                          $("#img8_y").attr("id","img8_y" + (count_img_8-1));
+                          $("#img8_source").attr("id","img8_source" + (count_img_8-1));
+                          $("#img8_source" + (count_img_8-1)).addClass("img8_source" + (count_img_8-1));
+                        }
+                        //forをクリックされた際の処理
+                        if(for_flag === true){
+                         //nameプロパティがPolygon(最後)の図形を見えなくする
+                         $("canvas").setLayer("Image8" + (count_img_8 -1),{
+                           visible:false
+                         }).drawLayers();
+                         count_img_8--;
+                         for_flag = false;
+                         rect_flag = false;
+                         ellipse_flag = false;
+                         tri_flag = false;
+                         line_flag = false;
+                         ply_flag = false;
+                         pac_flag = false;
+                         img1_flag = false;
+                         img2_flag = false;
+                         img3_flag = false;
+                         img4_flag = false;
+                         img5_flag = false;
+                         img6_flag = false;
+                         img7_flag = false;
+                         img8_flag = true;
+                         img9_flag = false;
+                         img10_flag = false;
+                         img11_flag = false;
+                         img12_flag = false;
+                         img13_flag = false;
+                         img14_flag = false;
+                         img15_flag = false;
+                         //table内のfor_propertyに書き込む
+                         for_property.innerHTML = "この図形には使えません";
+                       }else{
+                         $("canvas").setLayer("Image8" + (count_img_8 -1),{
+                           visible:true
+                         }).drawLayers();
+                       }
+                     },false);
+
+                     orange_umbrella.addEventListener("click",function(){
+                       ++count_groups;
+                       ++count_img_9;
+                       for (var i = 1;i < count_img_9;i++){
+                         //これがJcanvasの多角形を描くソース
+                          $("canvas").drawImage({
+                            layer:true,
+                            name:"Image9" + i,
+                            source:"img/orange_umbrella.png",
+                            groups:["obj" + count_groups],
+                            x: 100,
+                            y: 100,
+                            draggable:true,
+                            drag:function(layer){
+                              $("#img9_x" + (i - 1)).val(layer.x);
+                              $("#img9_y" + (i - 1)).val(layer.y);
+                            },
+                            mouseover:function(layer){
+                              $(function(){
+                                change_text = setInterval(function(){
+                                  $("#img9_x" + (i - 1)).val(layer.x);
+                                  $("#img9_y" + (i - 1)).val(layer.y);
+                                },10);
+                              });
+                              $(function(){
+                                MOver("img9_source" + (i-1));
+                              });
+                            },
+                            mouseout:function(layer){
+                              clearInterval(change_text);
+                              $(function(){
+                                MOut("img9_source" + (i-1));
+                              });
+                            },
+                            click:function(layer){
+                              obj_flag = layer.name;
+                              if(if_flag === true){
+                                X = layer.x;
+                                Y = layer.y;
+                                if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                              }
+                             }
+                           });
+                          }
+                          if(for_flag == false){
+                            var orange_umbrella_inst = "<li class = 'class9'>PImage <a href = 'img/orange_umbrella.png' download='orange_umbrella.png'>orange_umbrella</a></li>"
+                            var orange_umbrella = "<li class = 'class_9'><font color = '#f7f7f7' size = '3'>  orange_umbrella=loadImage('orange_umbrella.png');</font></li>"
+                            PImage_literal(orange_umbrella,count_img_9,orange_umbrella_inst);
+                            img_code_9 = "<li id = 'img9_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(orange_umbrella," + '<input class="textbox" type="text" size="2"id ="img9_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img9_y" placeholder = "100">' + ");</font></li>";
+                            literal(img_code_9);
+                            $("#img9_x").attr("id","img9_x" + (count_img_9-1));
+                            $("#img9_y").attr("id","img9_y" + (count_img_9-1));
+                            $("#img9_source").attr("id","img9_source" + (count_img_9-1));
+                            $("#img9_source" + (count_img_9-1)).addClass("img9_source" + (count_img_9-1));
+                          }
+                          //forをクリックされた際の処理
+                          if(for_flag === true){
+                           //nameプロパティがPolygon(最後)の図形を見えなくする
+                           $("canvas").setLayer("Image9" + (count_img_9 -1),{
+                             visible:false
+                           }).drawLayers();
+                           count_img_9--;
+                           for_flag = false;
+                           rect_flag = false;
+                           ellipse_flag = false;
+                           tri_flag = false;
+                           line_flag = false;
+                           ply_flag = false;
+                           pac_flag = false;
+                           img1_flag = false;
+                           img2_flag = false;
+                           img3_flag = false;
+                           img4_flag = false;
+                           img5_flag = false;
+                           img6_flag = false;
+                           img7_flag = false;
+                           img8_flag = false;
+                           img9_flag = true;
+                           img10_flag = false;
+                           img11_flag = false;
+                           img12_flag = false;
+                           img13_flag = false;
+                           img14_flag = false;
+                           img15_flag = false;
+                           //table内のfor_propertyに書き込む
+                           for_property.innerHTML = "この図形には使えません";
+                         }else{
+                           $("canvas").setLayer("Image9" + (count_img_9 -1),{
+                             visible:true
+                           }).drawLayers();
+                         }
+                       },false);
+
+                       orange_flower.addEventListener("click",function(){
+                         ++count_groups;
+                         ++count_img_10;
+                         for (var i = 1;i < count_img_10;i++){
+                           //これがJcanvasの多角形を描くソース
+                            $("canvas").drawImage({
+                              layer:true,
+                              name:"Image10" + i,
+                              source:"img/orange_flower.png",
+                              groups:["obj" + count_groups],
+                              x: 100,
+                              y: 100,
+                              draggable:true,
+                              drag:function(layer){
+                                $("#img10_x" + (i - 1)).val(layer.x);
+                                $("#img10_y" + (i - 1)).val(layer.y);
+                              },
+                              mouseover:function(layer){
+                                $(function(){
+                                  change_text = setInterval(function(){
+                                    $("#img10_x" + (i - 1)).val(layer.x);
+                                    $("#img10_y" + (i - 1)).val(layer.y);
+                                  },10);
+                                });
+                                $(function(){
+                                  MOver("img10_source" + (i-1));
+                                });
+                              },
+                              mouseout:function(layer){
+                                clearInterval(change_text);
+                                $(function(){
+                                  MOut("img10_source" + (i-1));
+                                });
+                              },
+                              click:function(layer){
+                                obj_flag = layer.name;
+                                if(if_flag === true){
+                                  X = layer.x;
+                                  Y = layer.y;
+                                  if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                                }
+                               }
+                             });
+                            }
+                            if(for_flag == false){
+                              var orange_flower_inst = "<li class = 'class10'>PImage <a href = 'img/orange_flower.png' download='orange_flower.png'>orange_flower</a></li>"
+                              var orange_flower = "<li class = 'class_10'><font color = '#f7f7f7' size = '3'>  orange_flower=loadImage('orange_flower.png');</font></li>"
+                              PImage_literal(orange_flower,count_img_10,orange_flower_inst);
+                              img_code_10 = "<li id = 'img10_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(orange_flower," + '<input class="textbox" type="text" size="2"id ="img10_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img10_y" placeholder = "100">' + ");</font></li>";
+                              literal(img_code_10);
+                              $("#img10_x").attr("id","img10_x" + (count_img_10-1));
+                              $("#img10_y").attr("id","img10_y" + (count_img_10-1));
+                              $("#img10_source").attr("id","img10_source" + (count_img_10-1));
+                              $("#img10_source" + (count_img_10-1)).addClass("img10_source" + (count_img_10-1));
+                            }
+                            //forをクリックされた際の処理
+                            if(for_flag === true){
+                             //nameプロパティがPolygon(最後)の図形を見えなくする
+                             $("canvas").setLayer("Image10" + (count_img_10 -1),{
+                               visible:false
+                             }).drawLayers();
+                             count_img_10--;
+                             for_flag = false;
+                             rect_flag = false;
+                             ellipse_flag = false;
+                             tri_flag = false;
+                             line_flag = false;
+                             ply_flag = false;
+                             pac_flag = false;
+                             img1_flag = false;
+                             img2_flag = false;
+                             img3_flag = false;
+                             img4_flag = false;
+                             img5_flag = false;
+                             img6_flag = false;
+                             img7_flag = false;
+                             img8_flag = false;
+                             img9_flag = false;
+                             img10_flag = true;
+                             img11_flag = false;
+                             img12_flag = false;
+                             img13_flag = false;
+                             img14_flag = false;
+                             img15_flag = false;
+                             //table内のfor_propertyに書き込む
+                             for_property.innerHTML = "この図形には使えません";
+                           }else{
+                             $("canvas").setLayer("Image10" + (count_img_10 -1),{
+                               visible:true
+                             }).drawLayers();
+                           }
+                         },false);
+
+                         pink_flower.addEventListener("click",function(){
+                           ++count_groups;
+                           ++count_img_11;
+                           for (var i = 1;i < count_img_11;i++){
+                             //これがJcanvasの多角形を描くソース
+                              $("canvas").drawImage({
+                                layer:true,
+                                name:"Image11" + i,
+                                source:"img/pink_flower.png",
+                                groups:["obj" + count_groups],
+                                x: 100,
+                                y: 100,
+                                draggable:true,
+                                drag:function(layer){
+                                  $("#img11_x" + (i - 1)).val(layer.x);
+                                  $("#img11_y" + (i - 1)).val(layer.y);
+                                },
+                                mouseover:function(layer){
+                                  $(function(){
+                                    change_text = setInterval(function(){
+                                      $("#img11_x" + (i - 1)).val(layer.x);
+                                      $("#img11_y" + (i - 1)).val(layer.y);
+                                    },10);
+                                  });
+                                  $(function(){
+                                    MOver("img11_source" + (i-1));
+                                  });
+                                },
+                                mouseout:function(layer){
+                                  clearInterval(change_text);
+                                  $(function(){
+                                    MOut("img11_source" + (i-1));
+                                  });
+                                },
+                                click:function(layer){
+                                  obj_flag = layer.name;
+                                  if(if_flag === true){
+                                    X = layer.x;
+                                    Y = layer.y;
+                                    if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                                  }
+                                 }
+                               });
+                              }
+                              if(for_flag == false){
+                                var pink_flower_inst = "<li class = 'class11'>PImage <a href = 'img/pink_flower.png' download='pink_flower.png'>pink_flower</a></li>"
+                                var pink_flower = "<li class = 'class_11'><font color = '#f7f7f7' size = '3'>  pink_flower=loadImage('pink_flower.png');</font></li>"
+                                PImage_literal(pink_flower,count_img_11,pink_flower_inst);
+                                img_code_11 = "<li id = 'img11_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(pink_flower," + '<input class="textbox" type="text" size="2"id ="img11_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img11_y" placeholder = "100">' + ");</font></li>";
+                                literal(img_code_11);
+                                $("#img11_x").attr("id","img11_x" + (count_img_11-1));
+                                $("#img11_y").attr("id","img11_y" + (count_img_11-1));
+                                $("#img11_source").attr("id","img11_source" + (count_img_11-1));
+                                $("#img11_source" + (count_img_11-1)).addClass("img11_source" + (count_img_11-1));
+                              }
+                              //forをクリックされた際の処理
+                              if(for_flag === true){
+                               //nameプロパティがPolygon(最後)の図形を見えなくする
+                               $("canvas").setLayer("Image11" + (count_img_11 -1),{
+                                 visible:false
+                               }).drawLayers();
+                               count_img_11--;
+                               for_flag = false;
+                               rect_flag = false;
+                               ellipse_flag = false;
+                               tri_flag = false;
+                               line_flag = false;
+                               ply_flag = false;
+                               pac_flag = false;
+                               img1_flag = false;
+                               img2_flag = false;
+                               img3_flag = false;
+                               img4_flag = false;
+                               img5_flag = false;
+                               img6_flag = false;
+                               img7_flag = false;
+                               img8_flag = false;
+                               img9_flag = false;
+                               img10_flag = false;
+                               img11_flag = true;
+                               img12_flag = false;
+                               img13_flag = false;
+                               img14_flag = false;
+                               img15_flag = false;
+                               //table内のfor_propertyに書き込む
+                               for_property.innerHTML = "この図形には使えません";
+                             }else{
+                               $("canvas").setLayer("Image11" + (count_img_11 -1),{
+                                 visible:true
+                               }).drawLayers();
+                             }
+                           },false);
+
+                           yellow_flower.addEventListener("click",function(){
+                             ++count_groups;
+                             ++count_img_12;
+                             for (var i = 1;i < count_img_12;i++){
+                               //これがJcanvasの多角形を描くソース
+                                $("canvas").drawImage({
+                                  layer:true,
+                                  name:"Image12" + i,
+                                  source:"img/yellow_flower.png",
+                                  groups:["obj" + count_groups],
+                                  x: 100,
+                                  y: 100,
+                                  draggable:true,
+                                  drag:function(layer){
+                                    $("#img12_x" + (i - 1)).val(layer.x);
+                                    $("#img12_y" + (i - 1)).val(layer.y);
+                                  },
+                                  mouseover:function(layer){
+                                    $(function(){
+                                      change_text = setInterval(function(){
+                                        $("#img12_x" + (i - 1)).val(layer.x);
+                                        $("#img12_y" + (i - 1)).val(layer.y);
+                                      },10);
+                                    });
+                                    $(function(){
+                                      MOver("img12_source" + (i-1));
+                                    });
+                                  },
+                                  mouseout:function(layer){
+                                    clearInterval(change_text);
+                                    $(function(){
+                                      MOut("img12_source" + (i-1));
+                                    });
+                                  },
+                                  click:function(layer){
+                                    obj_flag = layer.name;
+                                    if(if_flag === true){
+                                      X = layer.x;
+                                      Y = layer.y;
+                                      if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                                    }
+                                   }
+                                 });
+                                }
+                                if(for_flag == false){
+                                  var yellow_flower_inst = "<li class = 'class12'>PImage <a href = 'img/yellow_flower.png' download='yellow_flower.png'>yellow_flower</a></li>"
+                                  var yellow_flower = "<li class = 'class_12'><font color = '#f7f7f7' size = '3'>  yellow_flower=loadImage('yellow_flower.png');</font></li>"
+                                  PImage_literal(yellow_flower,count_img_12,yellow_flower_inst);
+                                  img_code_12 = "<li id = 'img12_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(yellow_flower," + '<input class="textbox" type="text" size="2"id ="img12_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img12_y" placeholder = "100">' + ");</font></li>";
+                                  literal(img_code_12);
+                                  $("#img12_x").attr("id","img12_x" + (count_img_12-1));
+                                  $("#img12_y").attr("id","img12_y" + (count_img_12-1));
+                                  $("#img12_source").attr("id","img12_source" + (count_img_12-1));
+                                  $("#img12_source" + (count_img_12-1)).addClass("img12_source" + (count_img_12-1));
+                                }
+                                //forをクリックされた際の処理
+                                if(for_flag === true){
+                                 //nameプロパティがPolygon(最後)の図形を見えなくする
+                                 $("canvas").setLayer("Image12" + (count_img_12 -1),{
+                                   visible:false
+                                 }).drawLayers();
+                                 count_img_12--;
+                                 for_flag = false;
+                                 rect_flag = false;
+                                 ellipse_flag = false;
+                                 tri_flag = false;
+                                 line_flag = false;
+                                 ply_flag = false;
+                                 pac_flag = false;
+                                 img1_flag = false;
+                                 img2_flag = false;
+                                 img3_flag = false;
+                                 img4_flag = false;
+                                 img5_flag = false;
+                                 img6_flag = false;
+                                 img7_flag = false;
+                                 img8_flag = false;
+                                 img9_flag = false;
+                                 img10_flag = false;
+                                 img11_flag = false;
+                                 img12_flag = true;
+                                 img13_flag = false;
+                                 img14_flag = false;
+                                 img15_flag = false;
+                                 //table内のfor_propertyに書き込む
+                                 for_property.innerHTML = "この図形には使えません";
+                               }else{
+                                 $("canvas").setLayer("Image12" + (count_img_12 -1),{
+                                   visible:true
+                                 }).drawLayers();
+                               }
+                             },false);
+
+                             tank.addEventListener("click",function(){
+                               ++count_groups;
+                               ++count_img_13;
+                               for (var i = 1;i < count_img_13;i++){
+                                 //これがJcanvasの多角形を描くソース
+                                  $("canvas").drawImage({
+                                    layer:true,
+                                    name:"Image13" + i,
+                                    source:"img/tank.png",
+                                    groups:["obj" + count_groups],
+                                    x: 100,
+                                    y: 100,
+                                    draggable:true,
+                                    drag:function(layer){
+                                      $("#img13_x" + (i - 1)).val(layer.x);
+                                      $("#img13_y" + (i - 1)).val(layer.y);
+                                    },
+                                    mouseover:function(layer){
+                                      $(function(){
+                                        change_text = setInterval(function(){
+                                          $("#img13_x" + (i - 1)).val(layer.x);
+                                          $("#img13_y" + (i - 1)).val(layer.y);
+                                        },10);
+                                      });
+                                      $(function(){
+                                        MOver("img13_source" + (i-1));
+                                      });
+                                    },
+                                    mouseout:function(layer){
+                                      clearInterval(change_text);
+                                      $(function(){
+                                        MOut("img13_source" + (i-1));
+                                      });
+                                    },
+                                    click:function(layer){
+                                      obj_flag = layer.name;
+                                      if(if_flag === true){
+                                        X = layer.x;
+                                        Y = layer.y;
+                                        if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                                      }
+                                     }
+                                   });
+                                  }
+                                  if(for_flag == false){
+                                    var tank_inst = "<li class = 'class13'>PImage <a href = 'img/tank.png' download='tank.png'>tank</a></li>"
+                                    var tank = "<li class = 'class_13'><font color = '#f7f7f7' size = '3'>  tank=loadImage('tank.png');</font></li>"
+                                    PImage_literal(tank,count_img_13,tank_inst);
+                                    img_code_13 = "<li id = 'img13_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(tank," + '<input class="textbox" type="text" size="2"id ="img13_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img13_y" placeholder = "100">' + ");</font></li>";
+                                    literal(img_code_13);
+                                    $("#img13_x").attr("id","img13_x" + (count_img_13-1));
+                                    $("#img13_y").attr("id","img13_y" + (count_img_13-1));
+                                    $("#img13_source").attr("id","img13_source" + (count_img_13-1));
+                                    $("#img13_source" + (count_img_13-1)).addClass("img13_source" + (count_img_13-1));
+                                  }
+                                  //forをクリックされた際の処理
+                                  if(for_flag === true){
+                                   //nameプロパティがPolygon(最後)の図形を見えなくする
+                                   $("canvas").setLayer("Image13" + (count_img_13 -1),{
+                                     visible:false
+                                   }).drawLayers();
+                                   count_img_13--;
+                                   for_flag = false;
+                                   rect_flag = false;
+                                   ellipse_flag = false;
+                                   tri_flag = false;
+                                   line_flag = false;
+                                   ply_flag = false;
+                                   pac_flag = false;
+                                   img1_flag = false;
+                                   img2_flag = false;
+                                   img3_flag = false;
+                                   img4_flag = false;
+                                   img5_flag = false;
+                                   img6_flag = false;
+                                   img7_flag = false;
+                                   img8_flag = false;
+                                   img9_flag = false;
+                                   img10_flag = false;
+                                   img11_flag = false;
+                                   img12_flag = false;
+                                   img13_flag = true;
+                                   img14_flag = false;
+                                   img15_flag = false;
+                                   //table内のfor_propertyに書き込む
+                                   for_property.innerHTML = "この図形には使えません";
+                                 }else{
+                                   $("canvas").setLayer("Image13" + (count_img_13 -1),{
+                                     visible:true
+                                   }).drawLayers();
+                                 }
+                               },false);
+
+                               star.addEventListener("click",function(){
+                                 ++count_groups;
+                                 ++count_img_14;
+                                 for (var i = 1;i < count_img_14;i++){
+                                   //これがJcanvasの多角形を描くソース
+                                    $("canvas").drawImage({
+                                      layer:true,
+                                      name:"Image14" + i,
+                                      source:"img/star.png",
+                                      groups:["obj" + count_groups],
+                                      x: 100,
+                                      y: 100,
+                                      draggable:true,
+                                      drag:function(layer){
+                                        $("#img14_x" + (i - 1)).val(layer.x);
+                                        $("#img14_y" + (i - 1)).val(layer.y);
+                                      },
+                                      mouseover:function(layer){
+                                        $(function(){
+                                          change_text = setInterval(function(){
+                                            $("#img14_x" + (i - 1)).val(layer.x);
+                                            $("#img14_y" + (i - 1)).val(layer.y);
+                                          },10);
+                                        });
+                                        $(function(){
+                                          MOver("img14_source" + (i-1));
+                                        });
+                                      },
+                                      mouseout:function(layer){
+                                        clearInterval(change_text);
+                                        $(function(){
+                                          MOut("img14_source" + (i-1));
+                                        });
+                                      },
+                                      click:function(layer){
+                                        obj_flag = layer.name;
+                                        if(if_flag === true){
+                                          X = layer.x;
+                                          Y = layer.y;
+                                          if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                                        }
+                                       }
+                                     });
+                                    }
+                                    if(for_flag == false){
+                                      var star_inst = "<li class = 'class14'>PImage <a href = 'img/star.png' download='star.png'>star</a></li>"
+                                      var star = "<li class = 'class_14'><font color = '#f7f7f7' size = '3'>  star=loadImage('star.png');</font></li>"
+                                      PImage_literal(star,count_img_14,star_inst);
+                                      img_code_14 = "<li id = 'img14_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(star," + '<input class="textbox" type="text" size="2"id ="img14_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img14_y" placeholder = "100">' + ");</font></li>";
+                                      literal(img_code_14);
+                                      $("#img14_x").attr("id","img14_x" + (count_img_14-1));
+                                      $("#img14_y").attr("id","img14_y" + (count_img_14-1));
+                                      $("#img14_source").attr("id","img14_source" + (count_img_14-1));
+                                      $("#img14_source" + (count_img_14-1)).addClass("img14_source" + (count_img_14-1));
+                                    }
+                                    //forをクリックされた際の処理
+                                    if(for_flag === true){
+                                     //nameプロパティがPolygon(最後)の図形を見えなくする
+                                     $("canvas").setLayer("Image14" + (count_img_14 -1),{
+                                       visible:false
+                                     }).drawLayers();
+                                     count_img_14--;
+                                     for_flag = false;
+                                     rect_flag = false;
+                                     ellipse_flag = false;
+                                     tri_flag = false;
+                                     line_flag = false;
+                                     ply_flag = false;
+                                     pac_flag = false;
+                                     img1_flag = false;
+                                     img2_flag = false;
+                                     img3_flag = false;
+                                     img4_flag = false;
+                                     img5_flag = false;
+                                     img6_flag = false;
+                                     img7_flag = false;
+                                     img8_flag = false;
+                                     img9_flag = false;
+                                     img10_flag = false;
+                                     img11_flag = false;
+                                     img12_flag = false;
+                                     img13_flag = false;
+                                     img14_flag = true;
+                                     img15_flag = false;
+                                     //table内のfor_propertyに書き込む
+                                     for_property.innerHTML = "この図形には使えません";
+                                   }else{
+                                     $("canvas").setLayer("Image14" + (count_img_14 -1),{
+                                       visible:true
+                                     }).drawLayers();
+                                   }
+                                 },false);
+
+                                 giraffe.addEventListener("click",function(){
+                                   ++count_groups;
+                                   ++count_img_15;
+                                   for (var i = 1;i < count_img_15;i++){
+                                     //これがJcanvasの多角形を描くソース
+                                      $("canvas").drawImage({
+                                        layer:true,
+                                        name:"Image15" + i,
+                                        source:"img/giraffe.png",
+                                        groups:["obj" + count_groups],
+                                        x: 100,
+                                        y: 100,
+                                        draggable:true,
+                                        drag:function(layer){
+                                          $("#img15_x" + (i - 1)).val(layer.x);
+                                          $("#img15_y" + (i - 1)).val(layer.y);
+                                        },
+                                        mouseover:function(layer){
+                                          $(function(){
+                                            change_text = setInterval(function(){
+                                              $("#img15_x" + (i - 1)).val(layer.x);
+                                              $("#img15_y" + (i - 1)).val(layer.y);
+                                            },10);
+                                          });
+                                          $(function(){
+                                            MOver("img15_source" + (i-1));
+                                          });
+                                        },
+                                        mouseout:function(layer){
+                                          clearInterval(change_text);
+                                          $(function(){
+                                            MOut("img15_source" + (i-1));
+                                          });
+                                        },
+                                        click:function(layer){
+                                          obj_flag = layer.name;
+                                          if(if_flag === true){
+                                            X = layer.x;
+                                            Y = layer.y;
+                                            if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                                          }
+                                         }
+                                       });
+                                      }
+                                      if(for_flag == false){
+                                        var giraffe_inst = "<li class = 'class15'>PImage <a href = 'img/giraffe.png' download='giraffe.png'>giraffe</a></li>"
+                                        var giraffe = "<li class = 'class_15'><font color = '#f7f7f7' size = '3'>  giraffe=loadImage('giraffe.png');</font></li>"
+                                        PImage_literal(giraffe,count_img_15,giraffe_inst);
+                                        img_code_15 = "<li id = 'img15_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(giraffe," + '<input class="textbox" type="text" size="2"id ="img15_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img15_y" placeholder = "100">' + ");</font></li>";
+                                        literal(img_code_15);
+                                        $("#img15_x").attr("id","img15_x" + (count_img_15-1));
+                                        $("#img15_y").attr("id","img15_y" + (count_img_15-1));
+                                        $("#img15_source").attr("id","img15_source" + (count_img_15-1));
+                                        $("#img15_source" + (count_img_15-1)).addClass("img15_source" + (count_img_15-1));
+                                      }
+                                      //forをクリックされた際の処理
+                                      if(for_flag === true){
+                                       //nameプロパティがPolygon(最後)の図形を見えなくする
+                                       $("canvas").setLayer("Image15" + (count_img_15 -1),{
+                                         visible:false
+                                       }).drawLayers();
+                                       count_img_15--;
+                                       for_flag = false;
+                                       rect_flag = false;
+                                       ellipse_flag = false;
+                                       tri_flag = false;
+                                       line_flag = false;
+                                       ply_flag = false;
+                                       pac_flag = false;
+                                       img1_flag = false;
+                                       img2_flag = false;
+                                       img3_flag = false;
+                                       img4_flag = false;
+                                       img5_flag = false;
+                                       img6_flag = false;
+                                       img7_flag = false;
+                                       img8_flag = false;
+                                       img9_flag = false;
+                                       img10_flag = false;
+                                       img11_flag = false;
+                                       img12_flag = false;
+                                       img13_flag = false;
+                                       img14_flag = false;
+                                       img15_flag = true;
+                                       //table内のfor_propertyに書き込む
+                                       for_property.innerHTML = "この図形には使えません";
+                                     }else{
+                                       $("canvas").setLayer("Image15" + (count_img_15 -1),{
+                                         visible:true
+                                       }).drawLayers();
+                                     }
+                                   },false);

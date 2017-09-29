@@ -43,13 +43,31 @@
 <body>
 <div class="area" id="area">
   <div class="source">
-    <pre class="pre"> <font size = "3" color = "#f7f7f7">
+    <font size = "3" color = "#f7f7f7"><pre class="pre" id = "open"></pre></font>
+    <font size = "3" color = "#f7f7f7"><pre class="pre">
 int x,y;
 void setup(){
-  size(<span id="size_x"></span>,<span id="size_y"></span>);
-}
-void draw(){</font></pre><pre class="pre" id="source_code"><font size = "3" color = "#f7f7f7"></font></pre>
-  <pre id = "close"><font size="3" color = "#f7f7f7">}</font></pre>
+  size(<span id="size_x"></span>,<span id="size_y"></span>);</pre></font>
+  <font size = "3" color = "#f7f7f7"><pre class="pre" id ="PImage"></pre></font>
+  <font size = "3" color = "#f7f7f7"><pre class="pre">}</pre></font>
+  <font size = "3" color = "#f7f7f7"><pre class="pre">
+void draw(){</pre></font><font size = "3" color = "#f7f7f7"><pre class="pre" id="source_code"></pre></font>
+  <font size="3" color = "#f7f7f7"><pre id = "close" class="pre">}
+
+
+
+void polygon(float x,float y,float r,int n){
+  pushMatrix();
+  translate(x, y);
+  scale(1, -1);
+  rotate(HALF_PI);
+  beginShape();
+  for (int i = 0; i < n; i++) {
+   vertex(r*cos(TWO_PI * i/n),r*sin(TWO_PI * i/n));
+  }
+  endShape(CLOSE);
+  popMatrix();
+}</pre></font>
 </div>
         <canvas width="863" height="610" class="canvas_1" id="canvas"> </canvas>
         <div class="wrapper">
@@ -109,14 +127,51 @@ void draw(){</font></pre><pre class="pre" id="source_code"><font size = "3" colo
         <table class="table_img">
             <tbody>
                     <tr>
-                        <td> <img src="img/animal_butterfly07.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.'  class = 'tooltip img' id="butt_red">
+                        <td> <img src="img/red_butterfly.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.'  class = 'tooltip img' id="butt_red">
                         </th>
-                        <td> <img  title = 'イメージ画像です.画像を動かすことができます.'  class = 'tooltip img' src="img/animal_butterfly08.png" width="65" height="65" id="butt_yellow">
+                        <td> <img  title = 'イメージ画像です.画像を動かすことができます.'  class = 'tooltip img' src="img/ylw_butterfly.png" width="65" height="65" id="butt_yellow">
                         </th>
                     </tr>
                     <tr>
-                      <td><img src="img/animal_butterfly09.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="butt_blue">
+                      <td><img src="img/blue_butterfly.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="butt_blue">
                       </th>
+                      <td><img src="img/pink_candy.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="pink_candy">
+                      </th>
+                    </tr>
+                    <tr>
+                      <td><img src="img/blue_candy.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="blue_candy">
+                      </th>
+                      <td><img src="img/orange_candy.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="orange_candy">
+                      </th>
+                    </tr>
+                    <tr>
+                      <td><img src="img/blue_umbrella.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="blue_umbrella">
+                      </th>
+                      <td><img src="img/green_umbrella.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="green_umbrella">
+                      </th>
+                    </tr>
+                    <tr>
+                      <td><img src="img/orange_umbrella.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="orange_umbrella">
+                      </th>
+                      <td><img src="img/orange_flower.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="orange_flower">
+                      </th>
+                    </tr>
+                    <tr>
+                      <td><img src="img/pink_flower.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="pink_flower">
+                      </th>
+                      <td><img src="img/yellow_flower.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="yellow_flower">
+                      </th>
+                    </tr>
+                    <tr>
+                      <td><img src="img/star.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="star">
+                      </th>
+                      <td><img src="img/tank.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="tank">
+                      </th>
+                    </tr>
+                    <tr>
+                      <td><img src="img/giraffe.png" width="65" height="65" title = 'イメージ画像です.画像を動かすことができます.' class = 'tooltip img' id="giraffe">
+                      </th>
+
                     </tr>
                 </tr>
             </tbody>

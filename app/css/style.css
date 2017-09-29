@@ -4,7 +4,6 @@ canvas.canvas_1{
   margin-left: 10px;
 	margin-right: 0px;
 	right: 13.9%;
-	border: solid black;
 }
 
 .textbox{
@@ -33,7 +32,7 @@ font{
 .source{
 	position: absolute;
 	top: 0%;
-	right:78%;
+	right:82%;
 	width:17.5%;
 }
 .pre{
