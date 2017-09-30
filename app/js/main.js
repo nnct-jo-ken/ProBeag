@@ -32,6 +32,7 @@ for(var i = 0;i < 6;i++){
 
 function disableContextMenu(e) {
   Line_name = "";
+  key.src = "img/key_close.png";
 	if (e.preventDefault) {
 		e.preventDefault();	// Firefox, Opera用
 	} else {

@@ -33,6 +33,7 @@ var back = document.getElementById("back");
 var store = document.getElementById("store");
 var if_property = document.getElementById("if_property");
 var sample_if = document.getElementById("sample_if");
+var key = document.getElementById("key");
 //表示するコードをいれる配列
 var figures = [];
 var pImage = [];
@@ -1001,6 +1002,7 @@ back.addEventListener("click",function(){
 store.addEventListener("click",function(){
   $("#source_code").html("");
   $("#PImage").html("");
+  $("#open").html("");
   count_Rect = 1;
   count_tri = 1;
   count_Ellipse = 1;
@@ -1317,6 +1319,7 @@ line.addEventListener("click",function(){
 
        click:function(layer){
          Line_name = layer.name;
+         key.src = "img/key_open.png";
        }
       });
      }
