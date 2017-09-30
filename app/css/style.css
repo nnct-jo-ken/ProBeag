@@ -46,9 +46,80 @@ font{
 body{
 background:linear-gradient(90deg,#0b0023 0%,#0b0023 28%,#cfab3f 28%,#cfab3f 28.5%,#f7f7f7 28.5%,#f7f7f7 150%);
 }
-button.position{
-  width:100%;
+
+.square_btn {
+	width:90%;
+	display: inline-block;
+	padding: 0.3em 0.1em;
+	text-decoration: none;
+	color: #f7f7f7;
+	background: #67c5ff;
+	border: solid 1px #67c5ff;
+	border-radius: 3px;
+	transition: .4s;
+}.square_btn:hover {
+	background: #f7f7f7;
+	color: #67c5ff;
 }
+/*
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  width: 95%;
+  margin: 0 auto;
+	background-color: #67c5ff;
+}
+
+.square_btn {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  padding: 1px;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  -webkit-transition: .3s;
+  transition: .3s;
+  color: #67c5ff;
+}
+.square_btn:after {
+  position: absolute;
+  -webkit-transition: .3s;
+  transition: .3s;
+  content: '';
+  width: 0;
+  left: 50%;
+  bottom: 0;
+  height: 3px;
+  background: #67c5ff;
+  height: 120%;
+  left: -10%;
+  -webkit-transform: skewX(15deg);
+          transform: skewX(15deg);
+  z-index: -1;
+}
+.square_btn:hover {
+  cursor: pointer;
+	color: #f7f7f7;
+}
+.square_btn:hover:after {
+  width: 100%;
+  left: 0;
+  left: -10%;
+  width: 120%;
+}*/
 
 #color{
 	width: 80%;

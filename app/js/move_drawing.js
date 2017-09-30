@@ -269,9 +269,9 @@ rect.addEventListener("click",function(){
       });
      }
      if(for_flag == false){
-       fill_code_rec = "<li id='rec_fill' class='tooltip'><font color = '#f7f7f7' size = '3'>fill(255,0,0);</font></li>";
+       fill_code_rec = "<li id='rec_fill' class='tooltip'><font color = '#f7f7f7' size = '3'>  fill(255,0,0);</font></li>";
        literal(fill_code_rec);
-       rect_code = "<li id = 'rect_source'><font color = '#f7f7f7' size = '3'>rect(" + '<input class="textbox" type="text" size="2"id ="rect_x" placeholder = 100>' + "," + '<input class="textbox" type="text" size="2"id ="rect_y" placeholder = 100>' + ",100,100);</font></li>";
+       rect_code = "<li id = 'rect_source'><font color = '#f7f7f7' size = '3'>  rect(" + '<input class="textbox" type="text" size="2"id ="rect_x" placeholder = 100>' + "," + '<input class="textbox" type="text" size="2"id ="rect_y" placeholder = 100>' + ",100,100);</font></li>";
        literal(rect_code);
        $("#rect_x").attr("id","rect_x" + (count_Rect-1));
        $("#rect_y").attr("id","rect_y" + (count_Rect-1));
@@ -429,12 +429,10 @@ $(function(){
     if_x = parseInt(subif_x);
  	  if_y = parseInt(subif_y);
 //ifのときにクリックされた図形に対して行うアニメーション
- if(if_flag === true){
   $("canvas").animateLayer(obj_flag,{
    x:if_x,
    y:if_y
   },pace).drawLayers();
- }
 
  if(X <= if_x && Y <= if_y){
    comp_x = "<=";
@@ -461,15 +459,16 @@ $(function(){
  //x,yに+=か-=する数値
  var num_x = (if_x - X)/(60*subpace);
  var num_y = (if_y - Y)/(60*subpace);
-
- var if_code = "<li id = 'if_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>if( x " + comp_x + if_x + " && y "+ comp_y + if_y + "){" + "\n" +
+if(if_flag == true){
+ var if_code = "<li id = 'if_source' class = 'tooltip'><font color = '#f7f7f7' size = '3'>  if( x " + comp_x + if_x + " && y "+ comp_y + if_y + "){" + "\n" +
                                         //↓小数点を決める、この場合は第二位まで
-   " x " + obj_ope_x + parseFloat(num_x).toFixed(2) + ";" + "\n" +
-   " y " + obj_ope_y + parseFloat(num_y).toFixed(2) + ";" + "\n" +
- "}" + "\n" +
+   "  x " + obj_ope_x + parseFloat(num_x).toFixed(2) + ";" + "\n" +
+   "  y " + obj_ope_y + parseFloat(num_y).toFixed(2) + ";" + "\n" +
+ "  }" + "\n" +
  "</font></li>" + "\n";
   literal(if_code);
-  if_flag = false;
+}
+if_flag == true;
 },false);
 
 //for文を実行のイベントリスナ
@@ -639,9 +638,9 @@ if($(".ver_hori").val() == 0){
     }).drawLayers();
     }
   }
-  for_code = "<li id = 'for_source'><font color = '#f7f7f7' size = '3'>for (y = " + int + ";y < " + ctrl + "; y+=" + rate + "){" + "\n" +
-  obj_judge + "(" + int + ",y,100,100);" + "\n" +
-  "}</font></li>";
+  for_code = "<li id = 'for_source'><font color = '#f7f7f7' size = '3'>  for (y = " + int + ";y < " + ctrl + "; y+=" + rate + "){" + "\n" +
+  "  " + obj_judge + "(" + int + ",y,100,100);" + "\n" +
+  "  }</font></li>";
 }
 fill_code_for = "<li id='for_fill'><font color = '#f7f7f7' size = '3'>fill(" + parseInt($("#color").val().substring(1,3), 16) + "," + parseInt($("#color").val().substring(3,5), 16) + "," + parseInt($("#color").val().substring(5,7), 16) + ")</font></li>";
 literal(fill_code_for);
@@ -770,9 +769,9 @@ cicle.addEventListener("click",function(){
     });
   }
   if(for_flag == false){
-    fill_code_ell = "<li id='ell_fill'><font color ='#f7f7f7' size = '3'>fill(0,0,255);</font></li>";
+    fill_code_ell = "<li id='ell_fill'><font color ='#f7f7f7' size = '3'>  fill(0,0,255);</font></li>";
     literal(fill_code_ell);
-    ellipse_code = "<li id = 'ellipse_source'><font color = '#f7f7f7' size = '3'>ellipse(" + '<input class="textbox" type="text" size="2" id="ellipse_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2" id="ellipse_y" placeholder = "100">' + ",100,100); </font></li>";
+    ellipse_code = "<li id = 'ellipse_source'><font color = '#f7f7f7' size = '3'>  ellipse(" + '<input class="textbox" type="text" size="2" id="ellipse_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2" id="ellipse_y" placeholder = "100">' + ",100,100); </font></li>";
     literal(ellipse_code);
     $("#ellipse_x").attr("id","ellipse_x" + (count_Ellipse-1));
     $("#ellipse_y").attr("id","ellipse_y" + (count_Ellipse-1));
@@ -1100,9 +1099,9 @@ triangle.addEventListener("click",function(){
      }
      if(for_flag == false){
        var triangle_obj = $("canvas").getLayer("Triangle" + (count_tri-1));
-       fill_code_tri = "<li id = 'tri_fill'><font color = '#f7f7f7' size = '3'>fill(255,201,14);</font></li>";
+       fill_code_tri = "<li id = 'tri_fill'><font color = '#f7f7f7' size = '3'>  fill(255,201,14);</font></li>";
        literal(fill_code_tri);
-       tri_code = "<li id = 'triangle_source'><font color = '#f7f7f7' size = '3'>triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" placeholder = "100">' + ",<span id = 'triangle2_x'>" + (triangle_obj.x + 30) + "</span>,<span id = 'triangle2_y'>" + (triangle_obj.y + 50) + "</span>,<span id = 'triangle3_x'>" + (triangle_obj.x-30) + "</span>,<span id = 'triangle3_y'>" + (triangle_obj.y+50) + "</span>);</font></li>";
+       tri_code = "<li id = 'triangle_source'><font color = '#f7f7f7' size = '3'>  triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" placeholder = "100">' + ",<span id = 'triangle2_x'>" + (triangle_obj.x + 30) + "</span>,<span id = 'triangle2_y'>" + (triangle_obj.y + 50) + "</span>,<span id = 'triangle3_x'>" + (triangle_obj.x-30) + "</span>,<span id = 'triangle3_y'>" + (triangle_obj.y+50) + "</span>);</font></li>";
        literal(tri_code);
        $("#triangle_x").attr("id","triangle_x" + (count_tri-1));
        $("#triangle_y").attr("id","triangle_y" + (count_tri-1));
@@ -1216,9 +1215,9 @@ triangle.addEventListener("click",function(){
          }).drawLayers();
        }
        if(for_flag == false){
-         fill_code_ply = "<li id='ply_fill'><font color = '#f7f7f7' size = '3'>fill(163,73,164);</font></li>";
+         fill_code_ply = "<li id='ply_fill'><font color = '#f7f7f7' size = '3'>  fill(163,73,164);</font></li>";
          literal(fill_code_ply);
-         ply_code = "<li id = 'polygon_source'><font color = '#f7f7f7' size = '3'>polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" placeholder = "100">' + ",100,100," + angle.value + ");</font></li>";
+         ply_code = "<li id = 'polygon_source'><font color = '#f7f7f7' size = '3'>  polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" placeholder = "100">' + ",100," + angle.value + ");</font></li>";
          literal(ply_code);
          $("#polygon_x").attr("id","polygon_x" + (count_ply-1));
          $("#polygon_y").attr("id","polygon_y" + (count_ply-1));
@@ -1324,9 +1323,9 @@ line.addEventListener("click",function(){
       });
      }
      if(for_flag == false){
-       stroke_code_line = "<li id='line_stroke'><font color = '#f7f7f7' size = '3'>stroke(255,174,201);</font></li>";
+       stroke_code_line = "<li id='line_stroke'><font color = '#f7f7f7' size = '3'>  stroke(255,174,201);</font></li>";
        literal(stroke_code_line);
-       line_code = "<li id = 'line_source'><font color = '#f7f7f7' size = '3'>line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" placeholder = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" placeholder = "400">' + ");</font></li>";
+       line_code = "<li id = 'line_source'><font color = '#f7f7f7' size = '3'>  line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" placeholder = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" placeholder = "400">' + ");</font></li>";
        literal(line_code);
        $("#line1_x").attr("id","line1_x" + (count_line-1));
        $("#line1_y").attr("id","line1_y" + (count_line-1));
@@ -1429,9 +1428,9 @@ line.addEventListener("click",function(){
          });
         }
         if(for_flag == false){
-          fill_code_pac = "<li id='pac_fill'><font color = '#f7f7f7' size = '3'>fill(163,73,164);</font></li>";
+          fill_code_pac = "<li id='pac_fill'><font color = '#f7f7f7' size = '3'>  fill(163,73,164);</font></li>";
           literal(fill_code_pac);
-          pac_code = "<li id = 'pac_source'><font color = '#f7f7f7' size = '3'>arc(" + '<input class="textbox" type="text" size="2"id ="pac_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="pac_y" placeholder = "100">' + ",100,100,0.5,5.8);</font></li>";
+          pac_code = "<li id = 'pac_source'><font color = '#f7f7f7' size = '3'>  arc(" + '<input class="textbox" type="text" size="2"id ="pac_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="pac_y" placeholder = "100">' + ",100,100,0.5,5.8);</font></li>";
           literal(pac_code);
           $("#pac_x").attr("id","pac_x" + (count_pac-1));
           $("#pac_y").attr("id","pac_y" + (count_pac-1));
@@ -1526,7 +1525,7 @@ line.addEventListener("click",function(){
             var red_butt_inst = "<li class = 'class1'>PImage <a href = 'img/red_butterfly.png' download='red_butterfly.png' class='tooltip' title='クリックしてダウンロードしてください.'>red_butterfly</a></li>"
             var red_butt = "<li class = 'class_1'><font color = '#f7f7f7' size = '3'>  red_butterfly=loadImage('red_butterfly.png');</font></li>"
             PImage_literal(red_butt,count_img_1,red_butt_inst);
-            img_code_1 = "<li id = 'img1_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(red_butterfly," + '<input class="textbox" type="text" size="2"id ="img1_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img1_y" placeholder = "100">' + ");</font></li>";
+            img_code_1 = "<li id = 'img1_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(red_butterfly," + '<input class="textbox" type="text" size="2"id ="img1_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img1_y" placeholder = "100">' + ");</font></li>";
             literal(img_code_1);
             $("#img1_x").attr("id","img1_x" + (count_img_1-1));
             $("#img1_y").attr("id","img1_y" + (count_img_1-1));
@@ -1620,7 +1619,7 @@ line.addEventListener("click",function(){
               var yellow_butt_inst = "<li class = 'class2'>PImage <a href = 'img/ylw_butterfly.png' download='ylw_butterfly.png' class='tooltip' title='クリックしてダウンロードしてください.'>yellow_butterfly</a></li>"
               var yellow_butt = "<li class = 'class_2'><font color = '#f7f7f7' size = '3'>  yellow_butterfly=loadImage('ylw_butterfly.png');</font></li>"
               PImage_literal(yellow_butt,count_img_2,yellow_butt_inst);
-              img_code_2 = "<li id = 'img2_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(yellow_butterfly," + '<input class="textbox" type="text" size="2"id ="img2_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img2_y" placeholder = "100">' + ");</font></li>";
+              img_code_2 = "<li id = 'img2_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(yellow_butterfly," + '<input class="textbox" type="text" size="2"id ="img2_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img2_y" placeholder = "100">' + ");</font></li>";
               literal(img_code_2);
               $("#img2_x").attr("id","img2_x" + (count_img_2-1));
               $("#img2_y").attr("id","img2_y" + (count_img_2-1));
@@ -1714,7 +1713,7 @@ line.addEventListener("click",function(){
                 var blue_butt_inst = "<li class = 'class3'>PImage <a href = 'img/blue_butterfly.png' download='blue_butterfly.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_butterfly</a></li>"
                 var blue_butt = "<li class = 'class_3'><font color = '#f7f7f7' size = '3'>  blue_butterfly=loadImage('blue_butterfly.png');</font></li>"
                 PImage_literal(blue_butt,count_img_3,blue_butt_inst);
-                img_code_3 = "<li id = 'img3_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(blue_butterfly," + '<input class="textbox" type="text" size="2"id ="img3_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img3_y" placeholder = "100">' + ");</font></li>";
+                img_code_3 = "<li id = 'img3_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(blue_butterfly," + '<input class="textbox" type="text" size="2"id ="img3_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img3_y" placeholder = "100">' + ");</font></li>";
                 literal(img_code_3);
                 $("#img3_x").attr("id","img3_x" + (count_img_3-1));
                 $("#img3_y").attr("id","img3_y" + (count_img_3-1));
@@ -1808,7 +1807,7 @@ line.addEventListener("click",function(){
                   var blue_candy_inst = "<li class = 'class4'>PImage <a href = 'img/blue_candy.png' download='blue_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_candy</a></li>"
                   var blue_candy = "<li class = 'class_4'><font color = '#f7f7f7' size = '3'>  blue_candy=loadImage('blue_candy.png');</font></li>"
                   PImage_literal(blue_candy,count_img_4,blue_candy_inst);
-                  img_code_4 = "<li id = 'img4_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(blue_candy," + '<input class="textbox" type="text" size="2"id ="img4_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img4_y" placeholder = "100">' + ");</font></li>";
+                  img_code_4 = "<li id = 'img4_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(blue_candy," + '<input class="textbox" type="text" size="2"id ="img4_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img4_y" placeholder = "100">' + ");</font></li>";
                   literal(img_code_4);
                   $("#img4_x").attr("id","img4_x" + (count_img_4-1));
                   $("#img4_y").attr("id","img4_y" + (count_img_4-1));
@@ -1901,7 +1900,7 @@ line.addEventListener("click",function(){
                     var orange_candy_inst = "<li class = 'class5'>PImage <a href = 'img/orange_candy.png' download='orange_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_candy</a></li>"
                     var orange_candy = "<li class = 'class_5'><font color = '#f7f7f7' size = '3'>  orange_candy=loadImage('orange_candy.png');</font></li>"
                     PImage_literal(orange_candy,count_img_5,orange_candy_inst);
-                    img_code_5 = "<li id = 'img5_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(orange_candy," + '<input class="textbox" type="text" size="2"id ="img5_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img5_y" placeholder = "100">' + ");</font></li>";
+                    img_code_5 = "<li id = 'img5_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(orange_candy," + '<input class="textbox" type="text" size="2"id ="img5_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img5_y" placeholder = "100">' + ");</font></li>";
                     literal(img_code_5);
                     $("#img5_x").attr("id","img5_x" + (count_img_5-1));
                     $("#img5_y").attr("id","img5_y" + (count_img_5-1));
@@ -1994,7 +1993,7 @@ line.addEventListener("click",function(){
                       var pink_candy_inst = "<li class = 'class6'>PImage <a href = 'img/pink_candy.png' download='pink_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>pink_candy</a></li>"
                       var pink_candy = "<li class = 'class_6'><font color = '#f7f7f7' size = '3'>  pink_candy=loadImage('pink_candy.png');</font></li>"
                       PImage_literal(pink_candy,count_img_6,pink_candy_inst);
-                      img_code_6 = "<li id = 'img6_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(pink_candy," + '<input class="textbox" type="text" size="2"id ="img6_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img6_y" placeholder = "100">' + ");</font></li>";
+                      img_code_6 = "<li id = 'img6_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(pink_candy," + '<input class="textbox" type="text" size="2"id ="img6_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img6_y" placeholder = "100">' + ");</font></li>";
                       literal(img_code_6);
                       $("#img6_x").attr("id","img6_x" + (count_img_6-1));
                       $("#img6_y").attr("id","img6_y" + (count_img_6-1));
@@ -2087,7 +2086,7 @@ line.addEventListener("click",function(){
                         var blue_umbrella_inst = "<li class = 'class7'>PImage <a href = 'img/blue_umbrella.png' download='blue_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_umbrella</a></li>"
                         var blue_umbrella = "<li class = 'class_7'><font color = '#f7f7f7' size = '3'>  blue_umbrella=loadImage('blue_umbrella.png');</font></li>"
                         PImage_literal(blue_umbrella,count_img_7,blue_umbrella_inst);
-                        img_code_7 = "<li id = 'img7_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(blue_umbrella," + '<input class="textbox" type="text" size="2"id ="img7_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img7_y" placeholder = "100">' + ");</font></li>";
+                        img_code_7 = "<li id = 'img7_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(blue_umbrella," + '<input class="textbox" type="text" size="2"id ="img7_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img7_y" placeholder = "100">' + ");</font></li>";
                         literal(img_code_7);
                         $("#img7_x").attr("id","img7_x" + (count_img_7-1));
                         $("#img7_y").attr("id","img7_y" + (count_img_7-1));
@@ -2179,7 +2178,7 @@ line.addEventListener("click",function(){
                           var green_umbrella_inst = "<li class = 'class8'>PImage <a href = 'img/green_umbrella.png' download='green_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>green_umbrella</a></li>"
                           var green_umbrella = "<li class = 'class_8'><font color = '#f7f7f7' size = '3'>  green_umbrella=loadImage('green_umbrella.png');</font></li>"
                           PImage_literal(green_umbrella,count_img_8,green_umbrella_inst);
-                          img_code_8 = "<li id = 'img8_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(green_umbrella," + '<input class="textbox" type="text" size="2"id ="img8_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img8_y" placeholder = "100">' + ");</font></li>";
+                          img_code_8 = "<li id = 'img8_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(green_umbrella," + '<input class="textbox" type="text" size="2"id ="img8_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img8_y" placeholder = "100">' + ");</font></li>";
                           literal(img_code_8);
                           $("#img8_x").attr("id","img8_x" + (count_img_8-1));
                           $("#img8_y").attr("id","img8_y" + (count_img_8-1));
@@ -2272,7 +2271,7 @@ line.addEventListener("click",function(){
                             var orange_umbrella_inst = "<li class = 'class9'>PImage <a href = 'img/orange_umbrella.png' download='orange_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_umbrella</a></li>"
                             var orange_umbrella = "<li class = 'class_9'><font color = '#f7f7f7' size = '3'>  orange_umbrella=loadImage('orange_umbrella.png');</font></li>"
                             PImage_literal(orange_umbrella,count_img_9,orange_umbrella_inst);
-                            img_code_9 = "<li id = 'img9_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(orange_umbrella," + '<input class="textbox" type="text" size="2"id ="img9_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img9_y" placeholder = "100">' + ");</font></li>";
+                            img_code_9 = "<li id = 'img9_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(orange_umbrella," + '<input class="textbox" type="text" size="2"id ="img9_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img9_y" placeholder = "100">' + ");</font></li>";
                             literal(img_code_9);
                             $("#img9_x").attr("id","img9_x" + (count_img_9-1));
                             $("#img9_y").attr("id","img9_y" + (count_img_9-1));
@@ -2365,7 +2364,7 @@ line.addEventListener("click",function(){
                               var orange_flower_inst = "<li class = 'class10'>PImage <a href = 'img/orange_flower.png' download='orange_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_flower</a></li>"
                               var orange_flower = "<li class = 'class_10'><font color = '#f7f7f7' size = '3'>  orange_flower=loadImage('orange_flower.png');</font></li>"
                               PImage_literal(orange_flower,count_img_10,orange_flower_inst);
-                              img_code_10 = "<li id = 'img10_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(orange_flower," + '<input class="textbox" type="text" size="2"id ="img10_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img10_y" placeholder = "100">' + ");</font></li>";
+                              img_code_10 = "<li id = 'img10_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(orange_flower," + '<input class="textbox" type="text" size="2"id ="img10_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img10_y" placeholder = "100">' + ");</font></li>";
                               literal(img_code_10);
                               $("#img10_x").attr("id","img10_x" + (count_img_10-1));
                               $("#img10_y").attr("id","img10_y" + (count_img_10-1));
@@ -2458,7 +2457,7 @@ line.addEventListener("click",function(){
                                 var pink_flower_inst = "<li class = 'class11'>PImage <a href = 'img/pink_flower.png' download='pink_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>pink_flower</a></li>"
                                 var pink_flower = "<li class = 'class_11'><font color = '#f7f7f7' size = '3'>  pink_flower=loadImage('pink_flower.png');</font></li>"
                                 PImage_literal(pink_flower,count_img_11,pink_flower_inst);
-                                img_code_11 = "<li id = 'img11_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(pink_flower," + '<input class="textbox" type="text" size="2"id ="img11_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img11_y" placeholder = "100">' + ");</font></li>";
+                                img_code_11 = "<li id = 'img11_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(pink_flower," + '<input class="textbox" type="text" size="2"id ="img11_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img11_y" placeholder = "100">' + ");</font></li>";
                                 literal(img_code_11);
                                 $("#img11_x").attr("id","img11_x" + (count_img_11-1));
                                 $("#img11_y").attr("id","img11_y" + (count_img_11-1));
@@ -2551,7 +2550,7 @@ line.addEventListener("click",function(){
                                   var yellow_flower_inst = "<li class = 'class12'>PImage <a href = 'img/yellow_flower.png' download='yellow_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>yellow_flower</a></li>"
                                   var yellow_flower = "<li class = 'class_12'><font color = '#f7f7f7' size = '3'>  yellow_flower=loadImage('yellow_flower.png');</font></li>"
                                   PImage_literal(yellow_flower,count_img_12,yellow_flower_inst);
-                                  img_code_12 = "<li id = 'img12_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(yellow_flower," + '<input class="textbox" type="text" size="2"id ="img12_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img12_y" placeholder = "100">' + ");</font></li>";
+                                  img_code_12 = "<li id = 'img12_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(yellow_flower," + '<input class="textbox" type="text" size="2"id ="img12_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img12_y" placeholder = "100">' + ");</font></li>";
                                   literal(img_code_12);
                                   $("#img12_x").attr("id","img12_x" + (count_img_12-1));
                                   $("#img12_y").attr("id","img12_y" + (count_img_12-1));
@@ -2644,7 +2643,7 @@ line.addEventListener("click",function(){
                                     var tank_inst = "<li class = 'class13'>PImage <a href = 'img/tank.png' download='tank.png' class='tooltip' title='クリックしてダウンロードしてください.'>tank</a></li>"
                                     var tank = "<li class = 'class_13'><font color = '#f7f7f7' size = '3'>  tank=loadImage('tank.png');</font></li>"
                                     PImage_literal(tank,count_img_13,tank_inst);
-                                    img_code_13 = "<li id = 'img13_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(tank," + '<input class="textbox" type="text" size="2"id ="img13_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img13_y" placeholder = "100">' + ");</font></li>";
+                                    img_code_13 = "<li id = 'img13_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(tank," + '<input class="textbox" type="text" size="2"id ="img13_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img13_y" placeholder = "100">' + ");</font></li>";
                                     literal(img_code_13);
                                     $("#img13_x").attr("id","img13_x" + (count_img_13-1));
                                     $("#img13_y").attr("id","img13_y" + (count_img_13-1));
@@ -2737,7 +2736,7 @@ line.addEventListener("click",function(){
                                       var star_inst = "<li class = 'class14'>PImage <a href = 'img/star.png' download='star.png' class='tooltip' title='クリックしてダウンロードしてください.'>star</a></li>"
                                       var star = "<li class = 'class_14'><font color = '#f7f7f7' size = '3'>  star=loadImage('star.png');</font></li>"
                                       PImage_literal(star,count_img_14,star_inst);
-                                      img_code_14 = "<li id = 'img14_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(star," + '<input class="textbox" type="text" size="2"id ="img14_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img14_y" placeholder = "100">' + ");</font></li>";
+                                      img_code_14 = "<li id = 'img14_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(star," + '<input class="textbox" type="text" size="2"id ="img14_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img14_y" placeholder = "100">' + ");</font></li>";
                                       literal(img_code_14);
                                       $("#img14_x").attr("id","img14_x" + (count_img_14-1));
                                       $("#img14_y").attr("id","img14_y" + (count_img_14-1));
@@ -2830,7 +2829,7 @@ line.addEventListener("click",function(){
                                         var giraffe_inst = "<li class = 'class15'>PImage <a href = 'img/giraffe.png' download='giraffe.png' class='tooltip' title='クリックしてダウンロードしてください.'>giraffe</a></li>"
                                         var giraffe = "<li class = 'class_15'><font color = '#f7f7f7' size = '3'>  giraffe=loadImage('giraffe.png');</font></li>"
                                         PImage_literal(giraffe,count_img_15,giraffe_inst);
-                                        img_code_15 = "<li id = 'img15_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(giraffe," + '<input class="textbox" type="text" size="2"id ="img15_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img15_y" placeholder = "100">' + ");</font></li>";
+                                        img_code_15 = "<li id = 'img15_source' class = 'Img'><font color = '#f7f7f7' size = '3'>  img(giraffe," + '<input class="textbox" type="text" size="2"id ="img15_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img15_y" placeholder = "100">' + ");</font></li>";
                                         literal(img_code_15);
                                         $("#img15_x").attr("id","img15_x" + (count_img_15-1));
                                         $("#img15_y").attr("id","img15_y" + (count_img_15-1));

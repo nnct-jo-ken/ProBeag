@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="farbtastic/farbtastic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="tooltipster/dist/css/tooltipster.bundle.min.css" />
-    <link rel="stylesheet" type="text/css" href="tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css">
+    <link rel="stylesheet" type="text/css" href="tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css" />
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/jcanvas.min.js"></script>
     <script type="type/javascript" src="js/jquery-3.2.1.min.js"> </script>
@@ -105,19 +105,19 @@ void polygon(float x,float y,float r,int n){
                   </th></tr>
 
                 <tr>
-                    <th><button type="button" id="store"><font>全消去</font>
-                 </button></th>
-                    <th><button type="button" id="back"><font>前に戻る</font>
-                 </button></th>
+                    <th><div class="container"><a href="#" id="store" class="square_btn"><font>全消去</font>
+                 </a></div></th>
+                    <th><div class="container"><a href="#" id="back" class="square_btn"><font>前に戻る</font>
+                 </a></div></th>
                 </tr>
                 <tr>
                   <th><select id="angle"name="angle"></select>
                   </th>
                 </tr>
-                <th scope="cols" colspan="2">
-                    <button type="button" name="compile" value="compile" class="position" id="compile">
+                <th scope="cols" colspan="2"><div class="container">
+                    <a href="#" name="compile" value="compile" class="position square_btn" id="compile">
                    <font size="3" face="Century">compile</font>
-                   </button>
+                 </a></div>
                 </th>
                 <tr>
                   <th scope="cols" colspan="2" height="65" class="tooltip" title="Lineのロックが外れてるか、ロックされているかが分かります."><img src="img/key_close.png" id="key" height = "50" width = "50">
@@ -186,7 +186,7 @@ void polygon(float x,float y,float r,int n){
                   <tr>
                       <td><img src="img/black.png" class = 'tooltip' title='図形を複数作るときに使う命令です.FORを押してボックス内の任意の図形アイコンをクリックするとFORの下に入力フォームが現れます.それぞれに値を入力して「forを実行」を押すことにより図形が出現します.xはx座標のことを指しています.' width="65" height="65" id="for">
                       </th>
-                      <td><img src="img/green.png" class="tooltip" title="アニメーション効果を付けるときに使います.IFを押してキャンバス内の任意の図形をクリックするとIFの下に値を入力する箇所が現れます.それぞれに値を入力して「IFを実行」を押すことにより図形が動きます." width="65" height="65" id="if">
+                      <td><img src="img/green.png" class="tooltip" title="アニメーション効果を付けるときに使います.IFを押してキャンバス内の任意の図形をクリックするとIFの下に値を入力する箇所が現れます.それぞれに値を入力して「IFを実行」を押すことにより図形が動きます.もう一度実行したい場合は再度アニメーション効果をつけてください." width="65" height="65" id="if">
                       </th>
                   </tr>
               <tr>
@@ -196,10 +196,10 @@ void polygon(float x,float y,float r,int n){
               </th></tr>
               </tr>
               <tr>
-                  <th><button type="button" id="sample_for"><font>forを実行</font>
-               </button></th>
-               <th><button type="button" id="sample_if"><font>ifを実行</font>
-               </button></th>
+                  <th><div class="container"><a href="#" id="sample_for" class="square_btn"><font>forを実行</font>
+               </a></div></th>
+               <th><div class="container"><a href="#" id="sample_if" class="square_btn"><font>ifを実行</font>
+               </a></div></th>
               </tr>
           </tbody>
       </table>
