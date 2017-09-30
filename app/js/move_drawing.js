@@ -1523,7 +1523,7 @@ line.addEventListener("click",function(){
            });
           }
           if(for_flag == false){
-            var red_butt_inst = "<li class = 'class1'>PImage <a href = 'img/red_butterfly.png' download='red_butterfly.png' class='tooltip' title='クリックしてダウンロードしてください.'>red_butterfly</a></li>"
+            var red_butt_inst = "<li class = 'class1'>PImage <a href = 'img/red_butterfly.png' download='red_butterfly.png' class='tooltip' title='クリックしてダウンロード.'>red_butterfly</a></li>"
             var red_butt = "<li class = 'class_1'><font color = '#f7f7f7' size = '3'>  red_butterfly=loadImage('red_butterfly.png');</font></li>"
             PImage_literal(red_butt,count_img_1,red_butt_inst);
             img_code_1 = "<li id = 'img1_source' class = 'Img'><font color = '#f7f7f7' size = '3'>img(red_butterfly," + '<input class="textbox" type="text" size="2"id ="img1_x" placeholder = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img1_y" placeholder = "100">' + ");</font></li>";
