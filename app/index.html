@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="farbtastic/farbtastic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="tooltipster/dist/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/font-face_note-sans.css" />
     <link rel="stylesheet" type="text/css" href="tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css" />
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/jcanvas.min.js"></script>
@@ -43,16 +44,16 @@
 <body>
 <div class="area" id="area">
   <div class="source">
-    <font size = "3" color = "#f7f7f7"><pre class="pre" id = "open"></pre></font>
-    <font size = "3" color = "#f7f7f7"><pre class="pre">
+    <font class = "light" size = "3" color = "#f7f7f7"><pre class="pre" id = "open"></pre></font>
+    <font class = "light" size = "3" color = "#f7f7f7"><pre class="pre">
 int x,y;
 void setup(){
-  size(<span id="size_x"></span>,<span id="size_y"></span>);</pre></font>
-  <font size = "3" color = "#f7f7f7"><pre class="pre" id ="PImage"></pre></font>
-  <font size = "3" color = "#f7f7f7"><pre class="pre">}</pre></font>
-  <font size = "3" color = "#f7f7f7"><pre class="pre">
-void draw(){</pre></font><font size = "3" color = "#f7f7f7"><pre class="pre" id="source_code"></pre></font>
-  <font size="3" color = "#f7f7f7"><pre id = "close" class="pre">}
+  size(<span class="light" id="size_x"></span>,<span class="light" id="size_y"></span>);</pre></font>
+  <font class = "light"size = "3" color = "#f7f7f7"><pre class="pre" id ="PImage"></pre></font>
+  <font class = "light"size = "3" color = "#f7f7f7"><pre class="pre">}</pre></font>
+  <font class = "light"size = "3" color = "#f7f7f7"><pre class="pre">
+void draw(){</pre></font><font class = "light"size = "3" color = "#f7f7f7"><pre class="pre" id="source_code"></pre></font>
+  <font class = "light"size="3" color = "#f7f7f7"><pre id = "close" class="pre">}
 
 
 
@@ -72,9 +73,9 @@ void polygon(float x,float y,float r,int n){
         <canvas width="863" height="610" class="canvas_1" id="canvas"> </canvas>
         <div class="wrapper">
       <div class="tab">
-        <div class="figure select"><font>図形</font></div>
-        <div class="image"><font>イメージ</font></div>
-        <div class="effect"><font>特殊効果</font></div>
+        <div class="figure select"><font class = "light">図形</font></div>
+        <div class="image"><font class = "light">イメージ</font></div>
+        <div class="effect"><font class = "light">特殊効果</font></div>
       </div>
 
 <div class="tab_content figure select">
@@ -105,10 +106,10 @@ void polygon(float x,float y,float r,int n){
                   </th></tr>
 
                 <tr>
-                    <th><div class="container"><a href="#" id="store" class="square_btn"><font>全消去</font>
-                 </a></div></th>
-                    <th><div class="container"><a href="#" id="back" class="square_btn"><font>前に戻る</font>
-                 </a></div></th>
+                    <th><div class="container"><a href="#" id="store" class="square_btn"><font class = "light">全消去</font>
+                 </a></div></th><!-- 赤　-->
+                    <th><div class="container"><a href="#" id="back" class="square_btn"><font class = "light">前に戻る</font>
+                 </a></div></th><!-- 青 -->
                 </tr>
                 <tr>
                   <th><select id="angle"name="angle"></select>
@@ -116,7 +117,7 @@ void polygon(float x,float y,float r,int n){
                 </tr>
                 <th scope="cols" colspan="2"><div class="container">
                     <a href="#" name="compile" value="compile" class="position square_btn" id="compile">
-                   <font size="3" face="Century">compile</font>
+                   <font class = "light"size="3" face="Century">Run</font><!-- 緑 -->
                  </a></div>
                 </th>
                 <tr>
@@ -197,9 +198,9 @@ void polygon(float x,float y,float r,int n){
               </th></tr>
               </tr>
               <tr>
-                  <th><div class="container"><a href="#" id="sample_for" class="square_btn"><font>forを実行</font>
+                  <th><div class="container"><a href="#" id="sample_for" class="square_btn"><font class = "light">forを実行</font>
                </a></div></th>
-               <th><div class="container"><a href="#" id="sample_if" class="square_btn"><font>ifを実行</font>
+               <th><div class="container"><a href="#" id="sample_if" class="square_btn"><font class = "light">ifを実行</font>
                </a></div></th>
               </tr>
           </tbody>
