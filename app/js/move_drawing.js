@@ -223,7 +223,7 @@ rect.addEventListener("click",function(){
        name:"Rect" + i,
        groups:["obj" + count_groups],
        strokeStyle: "black",
-       fillStyle:"#FF0000",
+       fillStyle:"#666666",
        strokeWidth: 1,
        x: 100,
        y: 100,
@@ -233,7 +233,7 @@ rect.addEventListener("click",function(){
        dblclick:function(layer){
 
          layer.fillStyle = $("#color").val();
-         document.getElementById("rec_fill" + (i-1)).innerHTML = "<li><font class = 'light'color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+         document.getElementById("rec_fill" + (i-1)).innerHTML = "<li><font class = 'light'color = '#f7f7f7' size = '3'>  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
        },
        draggable:true,
        drag:function(layer){
@@ -612,7 +612,7 @@ if($(".ver_hori").val() == 0){
     }).drawLayers();
     }
   }
-    for_code = "<li id = 'for_source'><font class = 'light'color = '#f7f7f7' size = '3'>for (x = " + int + ";x < " + ctrl + "; x+=" + rate + "){" + "\n" +
+    for_code = "<li id = 'for_source'><font class = 'light'color = '#f7f7f7' size = '3'>  for (x = " + int + ";x < " + ctrl + "; x+=" + rate + "){" + "\n" +
     obj_judge + "(x," + for_y + ",100,100);" + "\n" +
     "}</font></li>";
 }else if($(".ver_hori").val() == 1){
@@ -658,7 +658,7 @@ if($(".ver_hori").val() == 0){
   "  " + obj_judge + "(" + int + ",y,100,100);" + "\n" +
   "  }</font></li>";
 }
-fill_code_for = "<li id='for_fill'><font class = 'light'color = '#f7f7f7' size = '3'>fill(" + parseInt($("#color").val().substring(1,3), 16) + "," + parseInt($("#color").val().substring(3,5), 16) + "," + parseInt($("#color").val().substring(5,7), 16) + ")</font></li>";
+fill_code_for = "<li id='for_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(" + parseInt($("#color").val().substring(1,3), 16) + "," + parseInt($("#color").val().substring(3,5), 16) + "," + parseInt($("#color").val().substring(5,7), 16) + ")</font></li>";
 literal(fill_code_for);
 literal(for_code);
 $("#for_source").attr("id","for_source" + count_for);
@@ -740,7 +740,7 @@ cicle.addEventListener("click",function(){
       name:"Ellipse" + i,
       groups:["obj" + count_groups],
       strokeStyle: "black",
-      fillStyle: "#0000FF",
+      fillStyle: "#666666",
       strokeWidth: 1,
       x: 100,
       y: 100,
@@ -750,7 +750,7 @@ cicle.addEventListener("click",function(){
       draggable: true,
       dblclick:function(layer){
         layer.fillStyle = $("#color").val();
-        document.getElementById("ell_fill" + (i-1)).innerHTML = "<li><font class = 'light'color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+        document.getElementById("ell_fill" + (i-1)).innerHTML = "<li><font class = 'light'color = '#f7f7f7' size = '3'>  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
       },
       visible:true,
       drag:function(layer){
@@ -1062,7 +1062,7 @@ triangle.addEventListener("click",function(){
        name:"Triangle" + i,
        groups:["obj" + count_groups],
        strokeStyle: "black",
-       fillStyle:"#FFC90E",
+       fillStyle:"#666666",
        strokeWidth: 1,
        x: 100,
        y: 100,
@@ -1071,7 +1071,7 @@ triangle.addEventListener("click",function(){
        sides: 3,
        dblclick:function(layer){
          layer.fillStyle = $("#color").val();
-         document.getElementById("tri_fill" + (i-1)).innerHTML = "<li><font class = 'light'color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+         document.getElementById("tri_fill" + (i-1)).innerHTML = "<li><font class = 'light'color = '#f7f7f7' size = '3'>  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
        },
        draggable:true,
        drag:function(layer){
@@ -1181,7 +1181,7 @@ triangle.addEventListener("click",function(){
          name:"Polygon" + i,
          groups:["obj" + count_groups],
          strokeStyle: "black",
-         fillStyle:"#A349A4",
+         fillStyle:"#666666",
          strokeWidth: 1,
          x: 100,
          y: 100,
@@ -1190,7 +1190,7 @@ triangle.addEventListener("click",function(){
          sides: angle.value,
          dblclick:function(layer){
            layer.fillStyle = $("#color").val();
-           document.getElementById("ply_fill" + (i-1)).innerHTML = "<li><font class = 'light'color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+           document.getElementById("ply_fill" + (i-1)).innerHTML = "<li><font class = 'light'color = '#f7f7f7' size = '3'>  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
          },
          draggable:true,
          drag:function(layer){
@@ -1291,14 +1291,14 @@ line.addEventListener("click",function(){
        layer:true,
        name:"Line" + i,
        groups:["obj" + count_groups],
-       strokeStyle:"#FFAEC9",
+       strokeStyle:"#666666",
        strokeWidth: 10,
        x1: 100,y1: 100,
        x2: 400,y2: 400,
        fromCenter: false,
        dblclick:function(layer){
          layer.strokeStyle = $("#color").val();
-         document.getElementById("line_stroke" + (i-1)).innerHTML = "<li><font class = 'light'color = '#f7f7f7' size = '3'>stroke(" + parseInt(layer.strokeStyle.substring(1,3), 16) + ","
+         document.getElementById("line_stroke" + (i-1)).innerHTML = "<li><font class = 'light'color = '#f7f7f7' size = '3'>  stroke(" + parseInt(layer.strokeStyle.substring(1,3), 16) + ","
          + parseInt(layer.strokeStyle.substring(3,5),16) + "," + parseInt(layer.strokeStyle.substring(5,7), 16) + ");</font></li>";
        },
        mouseover:function(layer){
@@ -1400,7 +1400,7 @@ line.addEventListener("click",function(){
           name:"Pac" + i,
           groups:["obj" + count_groups],
           strokeStyle: "black",
-          fillStyle:"#fff171",
+          fillStyle:"#666666",
           strokeWidth: 1,
           x: 100,
           y: 100,
