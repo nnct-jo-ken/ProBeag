@@ -47,9 +47,12 @@ font{
 #close{
 	margin: 1px;
 }
+a{
+	color:#67c5ff;
+}
 
 body{
-background:linear-gradient(90deg,#0b0023 0%,#0b0023 28%,#cfab3f 28%,#cfab3f 28.5%,#f7f7f7 28.5%,#f7f7f7 150%);
+background:repeating-linear-gradient(90deg,#0b0023 0%,#0b0023 28%,#cfab3f 28%,#cfab3f 28.5%,#f7f7f7 28.5%,#f7f7f7 100%);
 }
 
 .square_btn {
