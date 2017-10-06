@@ -1,0 +1,125 @@
+
+/*
+.news_wrapper  dl.news {
+  width: 380px;
+  height: auto;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+.news_wrapper  dl.news dt {
+  width: 365px;
+  height: auto;
+  padding: 0px 0px 0px 0px;
+  color: #3261ab;
+}
+
+.news_wrapper  dl.news dd {
+  width: 365px;
+  height: auto;
+  margin: 0px 0px 5px 0px;
+  padding: 0px 0px 5px 0px;
+  border-bottom: 1px dotted #dcdcdc;
+}
+
+.news_wrapper  dl.news dd a {
+  color: #111111;
+  text-decoration: underline;
+}
+
+.news_wrapper  dl.news dd a:hover {
+  text-decoration: none;
+}
+/*
+----------------------------------------------------------- */
+.jspContainer {
+  overflow: hidden;
+  position: relative;
+}
+
+.jspPane {
+  position: absolute;
+}
+
+.jspVerticalBar {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 10px;     /* �c�X�N���[���o�[�̕����w�� */
+  height: 100%;
+  background: #ffffff;
+}
+
+.jspHorizontalBar {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 10px;     /* ���X�N���[���o�[�̕����w�� */
+  background: #ffffff;
+}
+
+.jspCap {
+  display: none;
+}
+
+.jspHorizontalBar .jspCap {
+  float: left;
+}
+
+.jspTrack {
+  background: #eeeeee;     /* �X�N���[���o�[�̔w�i�F���w�� */
+  position: relative;
+}
+
+.jspDrag {
+  background: #315fa8;     /* �X�N���[���o�[�̐F���w�� */
+  position: relative;
+  top: 0px;
+  left: 0px;
+  cursor: pointer;
+}
+
+.jspHorizontalBar .jspTrack, .jspHorizontalBar .jspDrag {
+  float: left;
+  height: 100%;
+}
+
+.jspArrow {
+  background: #50506d;
+  text-indent: -20000px;
+  display: block;
+  cursor: pointer;
+  padding: 0px;
+  margin: 0px;
+}
+
+.jspArrow.jspDisabled {
+  cursor: default;
+  background: #80808d;
+}
+
+.jspVerticalBar .jspArrow {
+  height: 16px;
+}
+
+.jspHorizontalBar .jspArrow {
+  width: 16px;
+  float: left;
+  height: 100%;
+}
+
+.jspVerticalBar .jspArrow:focus {
+  outline: none;
+}
+
+.jspCorner {
+  background: #eeeef4;
+  float: left;
+  height: 100%;
+}
+
+/* IE6 3 pixel bug :( */
+* html .jspCorner {
+  margin: 0px -3px 0px 0px;
+}

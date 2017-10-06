@@ -3,9 +3,12 @@ canvas.canvas_1{
 	display: block;
   margin-left: 10px;
 	margin-right: 0px;
-	right: 13.9%;
+	right: 14.8%;
+	border: solid black;
 }
-
+html{
+	overflow : hidden;
+}
 .textbox{
     width: 15%;
 }
@@ -33,11 +36,13 @@ font{
 	-moz-box-align:start;
 }
 .source{
-
+	overflow-y: auto;
+	overflow-x: hidden;
 	position: absolute;
 	top: 0%;
-	right:82%;
-	width:17.5%;
+	right:75%;
+	width:23.5%;
+	height:750px;
 }
 .pre{
 	font-family: 'Noto Sans Japanese';
@@ -56,9 +61,9 @@ background:repeating-linear-gradient(90deg,#0b0023 0%,#0b0023 28%,#cfab3f 28%,#c
 }
 
 .square_btn {
-	width:90%;
+	width:98%;
 	display: inline-block;
-	padding: 0.3em 0.1em;
+	padding: 0.2em 0.05em;
 	text-decoration: none;
 	color: #f7f7f7;
 	background: #666;
@@ -69,6 +74,9 @@ background:repeating-linear-gradient(90deg,#0b0023 0%,#0b0023 28%,#cfab3f 28%,#c
 	background: #f7f7f7;
 	color: #666;
 }
+
+
+
 /*
 .container {
   display: -webkit-box;
@@ -168,21 +176,41 @@ table.table_img td {
 	border-bottom: 1px solid black;
 }
 
-.wrapper{position: relative;top: 0%;right: -1%;width: 17%;}
+.wrapper{position: relative;top: 0%;right: -1%;width: 18%;}
 div {*zoom: 1;}
 div:after {display: block;content: "";clear: both;}
 .tab {position: absolute;margin-bottom: 20%;right: 3%;top: 0%;width:85%;}
 .tab > div {float: left;width:30%;height: auto;background:#666;color:#fff;text-align: center;padding:3% 0;cursor:pointer;}
 .tab > div.select {background:#000;}
 .tab_content {display:none;padding:1% 0;}
-.tab_content.select {display:block;position: absolute;width: 82%;margin-top: 13%;left:13.5%;}
+.tab_content.select {display:block;position: absolute;width: 82%;margin-top: 13%;left:13.3%;}
 /*chrome,Operaだけに対応するcss*/
 @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
-  .tab_content.select {display:block;position: absolute;width: 78%;margin-top: 15%;left:13.5%;}
+  .tab_content.select {display:block;position: absolute;width: 78%;margin-top: 15%;left:13.3%;}
+	.source::-webkit-scrollbar-track
+	{
+		-webkit-box-shadow: inset 0 0 6px rgba(102,102,102,0.3);
+		border-radius: 10px;
+		background-color: #f5f5f5;
+	}
+
+	.source::-webkit-scrollbar
+	{
+		width: 12px;
+		background-color: #f5f5f5;
+	}
+
+	.source::-webkit-scrollbar-thumb
+	{
+		border-radius: 10px;
+		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+		background-color: #666;
+	}
+
 }
 /*fire foxのみに対応するcss*/
 @-moz-document url-prefix() {
-	.tab_content.select {display:block;position: absolute;width: 82%;margin-top: 13%;left:13.5%;}
+	.tab_content.select {display:block;position: absolute;width: 82%;margin-top: 13%;left:12.5%;}
 }/*safariのみに対応するcss*/
 _::-webkit-full-page-media, _:future, :root .css_selector {
   .tab_content.select {display:block;position: absolute;width: 82%;margin-top: 15%;left:13.5%;}

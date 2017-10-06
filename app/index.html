@@ -25,16 +25,16 @@
       size_x = document.getElementById("size_x");
       size_y = document.getElementById("size_y");
       window.addEventListener("load",function(){
-        canvas.setAttribute("width",$("#area").width() * 0.577);
+        canvas.setAttribute("width",$("#area").width() * 0.569);
         canvas.setAttribute("height",window.innerHeight * 0.95);
-        size_x.innerHTML = Math.ceil($("#area").width() * 0.577);
+        size_x.innerHTML = Math.ceil($("#area").width() * 0.569);
         size_y.innerHTML = Math.ceil(window.innerHeight * 0.95);
         //  $("#canvas").css({"right":($(".table_img").width())});
       },false);
       window.addEventListener("resize",function(){
-        canvas.setAttribute("width",$("#area").width() * 0.577);
+        canvas.setAttribute("width",$("#area").width() * 0.569);
         canvas.setAttribute("height",window.innerHeight * 0.95);
-        size_x.innerHTML = Math.ceil($("#area").width() * 0.577);
+        size_x.innerHTML = Math.ceil($("#area").width() * 0.569);
         size_y.innerHTML = Math.ceil(window.innerHeight * 0.95);
         //  $("#canvas").css({"right":($(".table_img").width())});
       },false);
@@ -45,13 +45,12 @@
 <div class="area" id="area">
   <div class="source">
     <font class = "light" size = "3" color = "#f7f7f7"><pre class="pre" id = "open"></pre></font>
-    <font class = "light" size = "3" color = "#f7f7f7"><pre class="pre">
+    <font class = "light" size = "3" color = "#f7f7f7"><pre class="pre" id = "setup">
 int x,y;
 void setup(){
   size(<span class="light" id="size_x"></span>,<span class="light" id="size_y"></span>);</pre></font>
   <font class = "light"size = "3" color = "#f7f7f7"><pre class="pre" id ="PImage"></pre></font>
-  <font class = "light"size = "3" color = "#f7f7f7"><pre class="pre">}</pre></font>
-  <font class = "light"size = "3" color = "#f7f7f7"><pre class="pre">
+  <font class = "light"size = "3" color = "#f7f7f7"><pre class="pre" id="setup_close">}
 void draw(){</pre></font><font class = "light"size = "3" color = "#f7f7f7"><pre class="pre" id="source_code"></pre></font>
   <font class = "light"size="3" color = "#f7f7f7"><pre id = "close" class="pre">}
 
@@ -114,6 +113,8 @@ void polygon(float x,float y,float r,int n){
                 <tr>
                   <th><select id="angle"name="angle"></select>
                   </th>
+                  <th><div class="container"><a href="#" id="download_file" class="square_btn" download="text.txt"><font class="light">ダウンロード</font>
+                  </a></div></th>
                 </tr>
                 <th scope="cols" colspan="2"><div class="container">
                     <a href="#" name="compile" value="compile" class="position square_btn" id="compile">
