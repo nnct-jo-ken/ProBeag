@@ -6,7 +6,6 @@ var rect = document.getElementById("rect");
 var for_str = document.getElementById("for");
 var if_str = document.getElementById("if");
 var triangle = document.getElementById("triangle");
-var polygon = document.getElementById("polygon");
 var line = document.getElementById("line");
 var pac = document.getElementById("pac");
 //画像
@@ -46,7 +45,6 @@ var load_Image = 0;
 var count_Rect = 1;
 var count_Ellipse = 1;
 var count_tri = 1;
-var count_ply = 1;
 var count_line = 1;
 var count_pac = 1;
 var count_img_1 = 1;
@@ -70,7 +68,6 @@ var count_if = 1;
 var ellipse_flag = false;
 var rect_flag = false;
 var tri_flag = false;
-var ply_flag = false;
 var for_flag = false;
 var if_flag = false;
 var line_flag = false;
@@ -109,7 +106,6 @@ var for_y;
 var rect_code;
 var ellipse_code;
 var tri_code;
-var ply_code;
 var for_code;
 var pac_code;
 var img_code_1;
@@ -131,7 +127,6 @@ var img_code_15;
 var rect_file_code;
 var ellipse_file_code;
 var tri_file_code;
-var ply_file_code;
 var for_file_code;
 var pac_file_code;
 var line_file_code;
@@ -182,7 +177,6 @@ var change_text;
 var fill_code_rec;
 var fill_code_ell;
 var fill_code_tri;
-var fill_code_ply;
 var fill_code_for;
 var stroke_code_line;
 var fill_code_pac;
@@ -190,7 +184,6 @@ var fill_code_pac;
 var file_rect_fill;
 var file_ellipse_fill;
 var file_tri_fill;
-var file_ply_fill;
 var file_for_fill;
 var file_line_stroke;
 var file_pac_fill;
@@ -198,7 +191,6 @@ var file_pac_fill;
 var obj_fill;
 
 var file_write;
-var poly_angle;
 
 var triangle_x;
 var triangle_y;
@@ -206,7 +198,6 @@ var triangle_y;
 var rect_layer;
 var ellipse_layer;
 var tri_layer;
-var ply_layer;
 var for_layer;
 var pac_layer;
 var img_layer_1;
@@ -367,7 +358,7 @@ rect.addEventListener("click",function(){
       count_Rect--;
       for_flag = false;
       ellipse_flag = false;
-      ply_flag = false;
+
       line_flag = false;
       tri_flag = false;
       pac_flag = false;
@@ -405,7 +396,6 @@ rect.addEventListener("click",function(){
     Compile("rect","Rect",count_Rect);
     Compile("ellipse","Ellipse",count_Ellipse);
     Compile("triangle","Triangle",count_tri);
-    Compile("polygon","Polygon",count_ply);
     Compile_Line("line1","Line",count_line);
     Compile("pac","Pac",count_pac);
     Compile("img1","Image1",count_img_1);
@@ -586,13 +576,6 @@ sample_for.addEventListener("click",function(){
   if(tri_flag == true){
     for_obj("polygon");
     for_sizes = 3;
-    $("canvas").setLayerGroup("shapes" + (count_for-1),{
-      fillStyle:$("#color").val(),
-    }).drawLayers();
-  }
-  if(ply_flag == true){
-    for_obj("polygon");
-    for_sizes = angle.value;
     $("canvas").setLayerGroup("shapes" + (count_for-1),{
       fillStyle:$("#color").val(),
     }).drawLayers();
@@ -991,7 +974,7 @@ cicle.addEventListener("click",function(){
       for_flag = false;
       rect_flag = false;
       tri_flag = false;
-      ply_flag = false;
+
       pac_flag = false;
       line_flag = false;
       img1_flag = false;
@@ -1080,10 +1063,6 @@ back.addEventListener("click",function(){
     else if(object_name == "Triangle" + (count_tri-1)){
       $("canvas").removeLayer("Triangle" + (count_tri - 1));
       count_tri--;
-    }
-    else if(object_name == "Polygon" + (count_ply-1)){
-      $("canvas").removeLayer("Polygon" + (count_ply - 1));
-      count_ply--;
     }
     else if(object_name == "Line" + (count_line-1)){
       $("canvas").removeLayer("Line" + (count_line - 1));
@@ -1218,7 +1197,6 @@ store.addEventListener("click",function(){
   count_Rect = 1;
   count_tri = 1;
   count_Ellipse = 1;
-  count_ply = 1;
   count_line = 1;
   count_pac = 1;
   count_img_1 = 1;
@@ -1350,7 +1328,7 @@ triangle.addEventListener("click",function(){
        rect_flag = false;
        line_flag = false;
        ellipse_flag = false;
-       ply_flag = false;
+
        pac_flag = false;
        img1_flag = false;
        img2_flag = false;
@@ -1379,128 +1357,6 @@ triangle.addEventListener("click",function(){
        }).drawLayers();
      }
    },false);
-
-  //多角形を描く
-  polygon.addEventListener("click",function(){
-    ++count_groups;
-    ++count_ply;
-    for (var i = 1;i < count_ply;i++){
-      //これがJcanvasの多角形を描くソース
-       $("canvas").drawPolygon({
-         layer:true,
-         name:"Polygon" + i,
-         groups:["obj" + count_groups],
-         strokeStyle: "black",
-         fillStyle:"#666666",
-         strokeWidth: 1,
-         x: 100,
-         y: 100,
-         radius:32.5,
-         fromCenter: false,
-         sides: angle.value,
-         dblclick:function(layer){
-           layer.fillStyle = $("#color").val();
-           document.getElementById("ply_fill" + (i-1)).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
-           document.getElementById("file_ply_fill" + (i-1)).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");\n";
-         },
-         draggable:true,
-         drag:function(layer){
-           $("#polygon_x" + (i - 1)).val(layer.x);
-           $("#polygon_y" + (i - 1)).val(layer.y);
-         },
-         dragstop:function(layer){
-           document.getElementById("file_ply_source" + (i-1)).innerHTML = "  polygon(" + layer.x + "," + layer.y + ",40," + angle.value + ");\n";
-         },
-         mouseover:function(layer){
-           $(function(){
-             change_text = setInterval(function(){
-               $("#polygon_x" + (i - 1)).val(layer.x);
-               $("#polygon_y" + (i - 1)).val(layer.y);
-             },10);
-           });
-           $(function(){
-             MOver("polygon_source" + (i-1));
-           });
-         },
-         mouseout:function(layer){
-           clearInterval(change_text);
-           $(function(){
-             MOut("polygon_source" + (i-1));
-           });
-         },
-         click:function(layer){
-           obj_flag = layer.name;
-         	 if(if_flag === true){
-             X = layer.x;
-             Y = layer.y;
-             if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-           }
-          }
-        });
-       }
-       if(angle.value % 2 == 0){
-         poly_angle = 360/(angle.value*2);
-         $("canvas").setLayer("Polygon" + (i-1),{
-           rotate:poly_angle
-         }).drawLayers();
-       }
-       if(for_flag == false){
-         fill_code_ply = "<li id='ply_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
-         literal(fill_code_ply);
-         ply_code = "<li id = 'polygon_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" value = "100">' + ",40," + angle.value + ");</font></li>";
-         literal(ply_code);
-         file_ply_fill = "<span id='file_ply_fill'>  fill(102,102,102);\n</span>"
-         ply_file_code = "<sapn id = 'file_ply_source'>  polygon(100,100,40," + angle.value + ");\n</span>";
-         $("canvas").append(file_ply_fill);
-         $("canvas").append(ply_file_code);
-         $("#file_ply_source").attr("id","file_ply_source" + (count_ply-1));
-         $("#file_ply_fill").attr("id","file_ply_fill" + (count_ply-1));
-         $("#polygon_x").attr("id","polygon_x" + (count_ply-1));
-         $("#polygon_y").attr("id","polygon_y" + (count_ply-1));
-         $("#polygon_source").attr("id","polygon_source" + (count_ply-1));
-         $("#polygon_source" + (count_ply-1)).addClass("polygon_source" + (count_ply-1));
-         $("#ply_fill").attr("id","ply_fill" + (count_ply-1));
-       }
-       //forをクリックされた際の処理
-       if(for_flag === true){
-        //nameプロパティがPolygon(最後)の図形を見えなくする
-        $("canvas").setLayer("Polygon" + (count_ply -1),{
-          visible:false
-        }).drawLayers();
-        count_ply--;
-        for_flag = false;
-        rect_flag = false;
-        ellipse_flag = false;
-        tri_flag = false;
-        line_flag = false;
-        pac_flag = false;
-        img1_flag = false;
-        img2_flag = false;
-        img3_flag = false;
-        ply_flag = true;
-        img3_flag = false;
-        img4_flag = false;
-        img5_flag = false;
-        img6_flag = false;
-        img7_flag = false;
-        img8_flag = false;
-        img9_flag = false;
-        img10_flag = false;
-        img11_flag = false;
-        img12_flag = false;
-        img13_flag = false;
-        img14_flag = false;
-        img15_flag = false;
-        //table内のfor_propertyに書き込む
-        for_property.innerHTML = "多角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
-        + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
-        obj_judge = "polygon";
-      }else{
-        $("canvas").setLayer("Polygon" + (count_ply -1),{
-          visible:true
-        }).drawLayers();
-      }
-    },false);
 
 line.addEventListener("click",function(){
   count_line++;
@@ -1589,7 +1445,7 @@ line.addEventListener("click",function(){
        rect_flag = false;
        ellipse_flag = false;
        tri_flag = false;
-       ply_flag = false;
+
        pac_flag = false;
        img1_flag = false;
        img2_flag = false;
@@ -1709,7 +1565,7 @@ line.addEventListener("click",function(){
          ellipse_flag = false;
          tri_flag = false;
          line_flag = false;
-         ply_flag = false;
+
          img1_flag = false;
          img2_flag = false;
          img3_flag = false;
@@ -1816,7 +1672,7 @@ line.addEventListener("click",function(){
            ellipse_flag = false;
            tri_flag = false;
            line_flag = false;
-           ply_flag = false;
+
            pac_flag = false;
            img2_flag = false;
            img3_flag = false;
@@ -1922,7 +1778,7 @@ line.addEventListener("click",function(){
              ellipse_flag = false;
              tri_flag = false;
              line_flag = false;
-             ply_flag = false;
+
              pac_flag = false;
              img1_flag = false;
              img3_flag = false;
@@ -2028,7 +1884,7 @@ line.addEventListener("click",function(){
                ellipse_flag = false;
                tri_flag = false;
                line_flag = false;
-               ply_flag = false;
+
                pac_flag = false;
                img1_flag = false;
                img2_flag = false;
@@ -2134,7 +1990,7 @@ line.addEventListener("click",function(){
                  ellipse_flag = false;
                  tri_flag = false;
                  line_flag = false;
-                 ply_flag = false;
+
                  pac_flag = false;
                  img1_flag = false;
                  img2_flag = false;
@@ -2239,7 +2095,7 @@ line.addEventListener("click",function(){
                    ellipse_flag = false;
                    tri_flag = false;
                    line_flag = false;
-                   ply_flag = false;
+
                    pac_flag = false;
                    img1_flag = false;
                    img2_flag = false;
@@ -2344,7 +2200,7 @@ line.addEventListener("click",function(){
                      ellipse_flag = false;
                      tri_flag = false;
                      line_flag = false;
-                     ply_flag = false;
+
                      pac_flag = false;
                      img1_flag = false;
                      img2_flag = false;
@@ -2449,7 +2305,7 @@ line.addEventListener("click",function(){
                        ellipse_flag = false;
                        tri_flag = false;
                        line_flag = false;
-                       ply_flag = false;
+
                        pac_flag = false;
                        img1_flag = false;
                        img2_flag = false;
@@ -2553,7 +2409,7 @@ line.addEventListener("click",function(){
                          ellipse_flag = false;
                          tri_flag = false;
                          line_flag = false;
-                         ply_flag = false;
+
                          pac_flag = false;
                          img1_flag = false;
                          img2_flag = false;
@@ -2658,7 +2514,7 @@ line.addEventListener("click",function(){
                            ellipse_flag = false;
                            tri_flag = false;
                            line_flag = false;
-                           ply_flag = false;
+
                            pac_flag = false;
                            img1_flag = false;
                            img2_flag = false;
@@ -2763,7 +2619,7 @@ line.addEventListener("click",function(){
                              ellipse_flag = false;
                              tri_flag = false;
                              line_flag = false;
-                             ply_flag = false;
+
                              pac_flag = false;
                              img1_flag = false;
                              img2_flag = false;
@@ -2868,7 +2724,7 @@ line.addEventListener("click",function(){
                                ellipse_flag = false;
                                tri_flag = false;
                                line_flag = false;
-                               ply_flag = false;
+
                                pac_flag = false;
                                img1_flag = false;
                                img2_flag = false;
@@ -2973,7 +2829,7 @@ line.addEventListener("click",function(){
                                  ellipse_flag = false;
                                  tri_flag = false;
                                  line_flag = false;
-                                 ply_flag = false;
+
                                  pac_flag = false;
                                  img1_flag = false;
                                  img2_flag = false;
@@ -3078,7 +2934,7 @@ line.addEventListener("click",function(){
                                    ellipse_flag = false;
                                    tri_flag = false;
                                    line_flag = false;
-                                   ply_flag = false;
+
                                    pac_flag = false;
                                    img1_flag = false;
                                    img2_flag = false;
@@ -3183,7 +3039,7 @@ line.addEventListener("click",function(){
                                      ellipse_flag = false;
                                      tri_flag = false;
                                      line_flag = false;
-                                     ply_flag = false;
+
                                      pac_flag = false;
                                      img1_flag = false;
                                      img2_flag = false;
@@ -3288,7 +3144,7 @@ line.addEventListener("click",function(){
                                        ellipse_flag = false;
                                        tri_flag = false;
                                        line_flag = false;
-                                       ply_flag = false;
+
                                        pac_flag = false;
                                        img1_flag = false;
                                        img2_flag = false;

@@ -2,7 +2,6 @@
 var source = document.getElementById("source_code");
 var canvas = document.getElementById("canvas");
 var decompile = document.getElementById("decompile");
-var angle = document.getElementById("angle");
 /*
 $(function(){
   $(document).keydown(function(event){
@@ -26,10 +25,6 @@ $(document).ready(function() {
   $('#colorpicker').farbtastic('#color');
 });
 //angleがつくid属性に<option>タグを入れている
-for(var i = 0;i < 6;i++){
-  $("#angle").append("<option value = " + (i+5) + " > " + (i+5) + "</option>")
-}
-
 function disableContextMenu(e) {
   Line_name = "";
   key.src = "img/key_close.png";
