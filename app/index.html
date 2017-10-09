@@ -9,16 +9,23 @@
     <link rel="stylesheet" type="text/css" href="tooltipster/dist/css/tooltipster.bundle.min.css" />
     <link rel="stylesheet" type="text/css" href="css/font-face_note-sans.css" />
     <link rel="stylesheet" type="text/css" href="tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/jcanvas.min.js"></script>
     <script type="type/javascript" src="js/jquery-3.2.1.min.js"> </script>
     <script type="text/javascript" src="tooltipster/dist/js/tooltipster.bundle.min.js"></script>
     <script type="text/javascript" src="farbtastic/farbtastic.js"></script>
+    <script type="text/javascript" src="js/jquery.mCustomScrollbar.min.js"></script>
     <script>
     $(document).ready(function() {
       $('.tooltip').tooltipster({
         "maxWidth":410,
         theme: 'tooltipster-noir'
+      });
+    });
+    $(function(){
+      $(window).load(function(){
+        $(".source").mCustomScrollbar();
       });
     });
     $(function(){
@@ -45,13 +52,14 @@
 <div class="area" id="area">
   <div class="source">
     <font class = "light" size = "3" color = "#f7f7f7"><pre class="pre" id = "open"></pre></font>
+    <font class="light" size = "3" color="#f7f7f7"><pre id = "global" class="pre"></pre></font>
     <font class = "light" size = "3" color = "#f7f7f7"><pre class="pre" id = "setup">
-int x,y;
 void setup(){
   size(<span class="light" id="size_x"></span>,<span class="light" id="size_y"></span>);</pre></font>
   <font class = "light"size = "3" color = "#f7f7f7"><pre class="pre" id ="PImage"></pre></font>
   <font class = "light"size = "3" color = "#f7f7f7"><pre class="pre" id="setup_close">}
-void draw(){</pre></font><font class = "light"size = "3" color = "#f7f7f7"><pre class="pre" id="source_code"></pre></font>
+void draw(){
+  background(247);</pre></font><font class = "light"size = "3" color = "#f7f7f7"><pre class="pre" id="source_code"></pre></font>
   <font class = "light"size="3" color = "#f7f7f7"><pre id = "close" class="pre">}
 
 

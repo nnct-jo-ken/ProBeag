@@ -25,7 +25,7 @@ var yellow_flower = document.getElementById("yellow_flower");
 var giraffe = document.getElementById("giraffe");
 var star = document.getElementById("star");
 var tank = document.getElementById("tank");
-
+var global_variables = document.getElementById("global");
 var compile = document.getElementById("compile");
 var for_property = document.getElementById("for_property");
 var sample_for = document.getElementById("sample_for");
@@ -65,6 +65,7 @@ var count_img_13 = 1;
 var count_img_14 = 1;
 var count_img_15 = 1;
 var count_for = 0;
+var count_if = 1;
 //forを作る判定
 var ellipse_flag = false;
 var rect_flag = false;
@@ -90,8 +91,8 @@ var img13_flag = false;
 var img14_flag = false;
 var img15_flag = false;
 //図形のtextboxの値を取得する変数
-var obj_x;
-var obj_y;
+var x_obj;
+var y_obj;
 //mouseを動かした際のid属性を入れる変数
 var object_Over;
 var object_Out;
@@ -162,8 +163,8 @@ var Y;
 //for文のellipseかrectなどを取得する変数
 var obj_judge;
 //if文のインクリメントかデクリメントかをを決める
-var obj_ope_x;
-var obj_ope_y;
+var obj_x;
+var obj_y;
 //if文の演算子を決める
 var comp_x;
 var comp_y;
@@ -225,6 +226,7 @@ var img_layer_14;
 var img_layer_15;
 
 var booL_count = 0;
+var for_ope;
 //Lineの第二座標をクリックで設定する関数
 function onClick(e) {
   //図形の絶対値座標を取得する
@@ -303,7 +305,7 @@ rect.addEventListener("click",function(){
           $("#rect_y" + (i - 1)).val(layer.y);
        },
        dragstop:function(layer){
-         document.getElementById("file_rect_source" + (i-1)).innerHTML = "  rect(" + layer.x + "," + layer.y + ",100,100);\n";
+         document.getElementById("file_rect_source" + (i-1)).innerHTML = "  rect(" + layer.x + "," + layer.y + ",65,65);\n";
        },
        mouseover:function(layer){
          $(function(){
@@ -327,17 +329,23 @@ rect.addEventListener("click",function(){
            obj_flag = layer.name;
            X = layer.x;
            Y = layer.y;
+           x_obj = "rx" + (i-1);
+           y_obj = "ry" + (i-1);
            if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+           if(!document.getElementById("rect_global" + (i-1))){
+            $("#global").append("<li id = 'rect_global" + (i-1) + "'>float rx" + (i-1) + " = " + layer.x + ",ry" + (i-1) + " = " + layer.y + ";\n</li>");
+          }
+           document.getElementById("file_rect_source" + (i-1)).innerHTML = "  rect(rx" + (i-1) + ",ry" + (i-1) + ",65,65);\n";
          }
         }
       });
      }
      if(for_flag == false){
        file_rect_fill = "<span id='file_rect_fill'>  fill(102,102,102);\n</span>"
-       rect_file_code = "<sapn id = 'file_rect_source'>  rect(100,100,100,100);\n</span>";
+       rect_file_code = "<sapn id = 'file_rect_source'>  rect(100,100,65,65);\n</span>";
        fill_code_rec = "<li id='rec_fill' class='tooltip'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
        literal(fill_code_rec);
-       rect_code = "<li id = 'rect_source'><font class = 'light'color = '#f7f7f7' size = '3'>  rect(" + '<input class="textbox" type="text" size="2"id ="rect_x" value = 100>' + "," + '<input class="textbox" type="text" size="2"id ="rect_y" value = 100>' + ",100,100);</font></li>";
+       rect_code = "<li id = 'rect_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  rect(" + '<input class="textbox" type="text" size="2"id ="rect_x" value = 100>' + "," + '<input class="textbox" type="text" size="2"id ="rect_y" value = 100>' + ",65,65);</font></li>";
        literal(rect_code);
        $("canvas").append(file_rect_fill);
        $("canvas").append(rect_file_code);
@@ -475,88 +483,88 @@ function MOut(obj){
 }
 //if文の実行のイベントリスナ
 sample_if.addEventListener("click",function(){
-  if_flag = true;
-//ifのtextbox内の値をid属性で指定して取得
-var subpace = $("#pace").val();
-var subif_x = $("#if_x").val();
-var subif_y = $("#if_y").val();
-//全角で打った時の数値を半角に直す処理
-$(function(){
-    $("#pace").change(function(){
-      subpace = subpace.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+  if($("#pace").val() || $("#if_x").val() || $("if_y")){
+    //ifのtextbox内の値をid属性で指定して取得
+    var subpace = $("#pace").val();
+    var subif_x = $("#if_x").val();
+    var subif_y = $("#if_y").val();
+    //全角で打った時の数値を半角に直す処理
+    $(function(){
+      $("#pace").change(function(){
+        subpace = subpace.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
           return String.fromCharCode(s.charCodeAt(0) - 65248);
-      });
-      $("#pace").val(subpace);
-    }).change();
-    $("#if_x").change(function(){
-      subif_x = subif_x.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+        });
+        $("#pace").val(subpace);
+      }).change();
+      $("#if_x").change(function(){
+        subif_x = subif_x.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
           return String.fromCharCode(s.charCodeAt(0) - 65248);
-      });
-      $("#if_x").val(subif_x);
-    }).change();
-    $("#if_y").change(function(){
-      subif_y = subif_y.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+        });
+        $("#if_x").val(subif_x);
+      }).change();
+      $("#if_y").change(function(){
+        subif_y = subif_y.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
           return String.fromCharCode(s.charCodeAt(0) - 65248);
-      });
-      $("#if_y").val(subif_y);
-    }).change();
+        });
+        $("#if_y").val(subif_y);
+      }).change();
     });
-//textbox内の値の中身が入ってなかったり、数値以外だった際に行う処理
-	if (typeof subpace == "undefined" || subpace == "" ||isNaN($("#pace").val())){
-      subpace = 1;
-    }
-    if (typeof subif_x == "undefined" || subif_x == "" ||isNaN($("#if_x").val())){
-      subif_x = 0;
-    }
-    if (typeof subif_y == "undefined" || subif_y == "" ||isNaN($("#if_y").val())){
-      subif_y = 0;
-    }
-//textboxで取得した値を数値に直す処理(そのまま使うと文字列になるため)
-    pace = parseInt((subpace*1000));
-    if_x = parseInt(subif_x);
- 	  if_y = parseInt(subif_y);
-//ifのときにクリックされた図形に対して行うアニメーション
-  $("canvas").animateLayer(obj_flag,{
-   x:if_x,
-   y:if_y
-  },pace).drawLayers();
+    //textbox内の値の中身が入ってなかったり、数値以外だった際に行う処理
+	   if (typeof subpace == "undefined" || subpace == "" ||isNaN($("#pace").val())){
+       subpace = 1;
+     }
+     if (typeof subif_x == "undefined" || subif_x == "" ||isNaN($("#if_x").val())){
+       subif_x = 0;
+     }
+     if (typeof subif_y == "undefined" || subif_y == "" ||isNaN($("#if_y").val())){
+       subif_y = 0;
+     }
+     //textboxで取得した値を数値に直す処理(そのまま使うと文字列になるため)
+     pace = parseInt((subpace*1000));
+     if_x = parseInt(subif_x);
+ 	   if_y = parseInt(subif_y);
+     //ifのときにクリックされた図形に対して行うアニメーション
+     $("canvas").animateLayer(obj_flag,{
+       x:if_x,
+       y:if_y
+     },pace).drawLayers();
 
- if(X <= if_x && Y <= if_y){
-   comp_x = "<=";
-   comp_y = "<=";
-   obj_ope_x = "+=";
-   obj_ope_y = "+=";
- }else if(X >= if_x && Y <= if_y){
-   comp_x = ">=";
-   comp_y = "<=";
-   obj_ope_x = "-=";
-   obj_ope_y = "+=";
- }else if(X <= if_x && Y >= if_y){
-   comp_x = "<=";
-   comp_y = ">=";
-   obj_ope_x = "+=";
-   obj_ope_y = "-=";
- }else if(X >= if_x && Y >= if_y){
-   comp_x = ">=";
-   comp_y = ">=";
-   obj_ope_x = "-=";
-   obj_ope_y = "-=";
- }
- //変化率を出す処理
- //x,yに+=か-=する数値
- var num_x = (if_x - X)/(60*subpace);
- var num_y = (if_y - Y)/(60*subpace);
-if(if_flag === true){
- var if_code = "<li id = 'if_source' class = 'tooltip'><font class = 'light'color = '#f7f7f7' size = '3'>  if( x " + comp_x + if_x + " && y "+ comp_y + if_y + "){" + "\n" +
-                                        //↓小数点を決める、この場合は第二位まで
-   "  x " + obj_ope_x + "((" + if_x + "-" + X + ")/ (60 * " + subpace + "));" + "\n" +
-   "  y " + obj_ope_y + "((" + if_y + "-" + Y + ")/ (60 * " + subpace + "));" + "\n" +
- "  }" + "\n" +
- "</font></li>" + "\n";
-  literal(if_code);
-}
-if_flag = false;
-},false);
+     if(X <= if_x && Y <= if_y){
+       comp_x = "<=";
+       comp_y = "<=";
+       obj_ope_x = "+=";
+       obj_ope_y = "+=";
+     }else if(X >= if_x && Y <= if_y){
+       comp_x = ">=";
+       comp_y = "<=";
+       obj_ope_x = "-=";
+       obj_ope_y = "+=";
+     }else if(X <= if_x && Y >= if_y){
+       comp_x = "<=";
+       comp_y = ">=";
+       obj_ope_x = "+=";
+       obj_ope_y = "-=";
+     }else if(X >= if_x && Y >= if_y){
+       comp_x = ">=";
+       comp_y = ">=";
+       obj_ope_x = "-=";
+       obj_ope_y = "-=";
+     }
+     //変化率を出す処理
+     //x,yに+=か-=する数値
+     var num_x = (if_x - X)/(60*subpace);
+     var num_y = (if_y - Y)/(60*subpace);
+     if(if_flag === true){
+         var if_code = "<li id = 'if_source' class = 'if_code'><font class = 'light'color = '#f7f7f7' size = '3'>  if(" + x_obj + comp_x + if_x + " &&" + y_obj + comp_y + if_y + "){" + "\n" +
+          x_obj + " += ((" + if_x + "-" + X + ")/ (60 * " + subpace + "));" + "\n" +
+          y_obj + " += ((" + if_y + "-" + Y + ")/ (60 * " + subpace + "));" + "\n" +
+         "  }\n</font></li>";
+         literal(if_code);
+         $("canvas").append(if_code);
+       }
+     }
+   if_flag = false;
+ },false);
 
 //for文を実行のイベントリスナ
 sample_for.addEventListener("click",function(){
@@ -639,61 +647,54 @@ function for_obj(Obj){
       subfor_y = 0;
     }
 //文字列→数値変換処理
-if(int < ctrl){
   int =  parseInt(subint);
   ctrl = parseInt(subctrl);
   rate = parseInt(subrate);
   for_y = parseInt(subfor_y);
-}else if(int > ctrl){
-  int = parseInt(subctrl);
-  ctrl = parseInt(subint);
-  rate = -parseInt(subrate);
-  for_y = parseInt(subfor_y);
-}
-
 //for文を実行して図形を出す処理
-if($(".ver_hori").val() == 0){
-  for(var ob_x = int; ob_x < ctrl; ob_x += rate){
-    for(var i = 0;i < count_for;i++){
-      $("canvas").addLayer({
-        type:Obj,
-        layer:true,
-        groups: ['shapes' + i],
-        strokeStyle: "black",
-        strokeWidth: 1,
-        x:ob_x,
-        y: for_y,
-        width: 65,
-        height: 65,
-        radius:32.5,
-        sides:for_sizes,
-        fromCenter: false,
-        mouseover:function(layer){
-          $(function(){
-            $("pre > .for_source" + i).each(function(){
-              $(function(){
-              for_over = document.getElementById("for_source" + i);
-              for_over.style.backgroundColor = "rgba(127,255,212,0.55)";
-            });
-          });
-        });
-      },
-      mouseout:function(layer){
-        $(function(){
-          $("pre > .for_source" + i).each(function(){
+if(int < ctrl){
+  if($(".ver_hori").val() == 0){
+    for(var ob_x = int; ob_x < ctrl; ob_x += rate){
+      for(var i = 0;i < count_for;i++){
+        $("canvas").addLayer({
+          type:Obj,
+          layer:true,
+          groups: ['shapes' + i],
+          strokeStyle: "black",
+          strokeWidth: 1,
+          x:ob_x,
+          y: for_y,
+          width: 65,
+          height: 65,
+          radius:32.5,
+          sides:for_sizes,
+          fromCenter: false,
+          mouseover:function(layer){
             $(function(){
-              for_out = document.getElementById("for_source" + i);
-              for_out.style.backgroundColor = "rgb(11, 0, 35)";
+              $("pre > .for_source" + i).each(function(){
+                $(function(){
+                  for_over = document.getElementById("for_source" + i);
+                  for_over.style.backgroundColor = "rgba(127,255,212,0.55)";
+                });
+              });
             });
-          });
-        });
+          },
+          mouseout:function(layer){
+            $(function(){
+              $("pre > .for_source" + i).each(function(){
+                $(function(){
+                  for_out = document.getElementById("for_source" + i);
+                  for_out.style.backgroundColor = "rgb(11, 0, 35)";
+                });
+              });
+            });
+          }
+        }).drawLayers();
       }
-    }).drawLayers();
     }
-  }
-    for_code = "<li id = 'for_source'><font class = 'light'color = '#f7f7f7' size = '3'>  for (x = " + int + ";x < " + ctrl + "; x+=" + rate + "){" + "\n" +
-    obj_judge + "(x," + for_y + ",100,100);" + "\n" +
-    "}</font></li>";
+    for_code = "<li id = 'for_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int x = " + int + ";x < " + ctrl + "; x+=" + rate + "){" + "\n" +
+    obj_judge + "(x," + for_y + ",65,65);" + "\n" +
+    "}\n</font></li>";
 }else if($(".ver_hori").val() == 1){
   for(var ob_y = for_y; ob_y < ctrl; ob_y += rate){
     for(var i = 0;i < count_for;i++){
@@ -733,15 +734,104 @@ if($(".ver_hori").val() == 0){
     }).drawLayers();
     }
   }
-  for_code = "<li id = 'for_source'><font class = 'light'color = '#f7f7f7' size = '3'>  for (y = " + int + ";y < " + ctrl + "; y+=" + rate + "){" + "\n" +
-  "  " + obj_judge + "(" + int + ",y,100,100);" + "\n" +
-  "  }</font></li>";
+  for_code = "<li id = 'for_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int y = " + int + ";y < " + ctrl + "; y+=" + rate + "){" + "\n" +
+  "  " + obj_judge + "(" + int + ",y,65,65);" + "\n" +
+  "  }\n</font></li>";
+}
+}else if(int > ctrl){
+  if($(".ver_hori").val() == 0){
+    for(var ob_x = int; ob_x > ctrl; ob_x -= rate){
+      for(var i = 0;i < count_for;i++){
+        $("canvas").addLayer({
+          type:Obj,
+          layer:true,
+          groups: ['shapes' + i],
+          strokeStyle: "black",
+          strokeWidth: 1,
+          x:ob_x,
+          y: for_y,
+          width: 65,
+          height: 65,
+          radius:32.5,
+          sides:for_sizes,
+          fromCenter: false,
+          mouseover:function(layer){
+            $(function(){
+              $("pre > .for_source" + i).each(function(){
+                $(function(){
+                  for_over = document.getElementById("for_source" + i);
+                  for_over.style.backgroundColor = "rgba(127,255,212,0.55)";
+                });
+              });
+            });
+          },
+          mouseout:function(layer){
+            $(function(){
+              $("pre > .for_source" + i).each(function(){
+                $(function(){
+                  for_out = document.getElementById("for_source" + i);
+                  for_out.style.backgroundColor = "rgb(11, 0, 35)";
+                });
+              });
+            });
+          }
+        }).drawLayers();
+      }
+    }
+    for_code = "<li class='Fig' id = 'for_source'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int x = " + int + ";x > " + ctrl + "; x-=" + rate + "){" + "\n" +
+    obj_judge + "(x," + for_y + ",65,65);" + "\n" +
+    "}\n</font></li>";
+}else if($(".ver_hori").val() == 1){
+  for(var ob_y = for_y; ob_y > ctrl; ob_y -= rate){
+    for(var i = 0;i < count_for;i++){
+      $("canvas").addLayer({
+        type:Obj,
+        layer:true,
+        groups: ['shapes' + i],
+        strokeStyle: "black",
+        strokeWidth: 1,
+        x:int,
+        y: ob_y,
+        width: 65,
+        height: 65,
+        radius:32.5,
+        sides:for_sizes,
+        fromCenter: false,
+        mouseover:function(layer){
+          $(function(){
+            $("pre > .for_source" + i).each(function(){
+              $(function(){
+              for_over = document.getElementById("for_source" + i);
+              for_over.style.backgroundColor = "rgba(127,255,212,0.55)";
+            });
+          });
+        });
+      },
+      mouseout:function(layer){
+        $(function(){
+          $("pre > .for_source" + i).each(function(){
+            $(function(){
+              for_out = document.getElementById("for_source" + i);
+              for_out.style.backgroundColor = "rgb(11, 0, 35)";
+            });
+          });
+        });
+      }
+    }).drawLayers();
+    }
+  }
+  for_code = "<li id = 'for_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int y = " + int + ";y > " + ctrl + "; y-=" + rate + "){" + "\n" +
+  "  " + obj_judge + "(" + int + ",y,65,65);" + "\n" +
+  "  }\n</font></li>";
+}
 }
 
-fill_code_for = "<li id='for_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(" + parseInt($("#color").val().substring(1,3), 16) + "," + parseInt($("#color").val().substring(3,5), 16) + "," + parseInt($("#color").val().substring(5,7), 16) + ")</font></li>";
+
+fill_code_for = "<li id='for_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(" + parseInt($("#color").val().substring(1,3), 16) + "," + parseInt($("#color").val().substring(3,5), 16) + "," + parseInt($("#color").val().substring(5,7), 16) + ");</font></li>";
 literal(fill_code_for);
 literal(for_code);
-
+$("canvas").append(fill_code_for);
+$("canvas").append(for_code);
 $("#for_source").attr("id","for_source" + count_for);
 $("#for_source" + count_for).addClass("for_source" + count_for);
 $("#for_fill").attr("id","for_fill" + count_for);
@@ -840,7 +930,7 @@ cicle.addEventListener("click",function(){
         $("#ellipse_y" + (i - 1)).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_ellipse_source" + (i-1)).innerHTML = "  ellipse(" + layer.x + "," + layer.y + ",100,100);\n";
+        document.getElementById("file_ellipse_source" + (i-1)).innerHTML = "  ellipse(" + layer.x + "," + layer.y + ",65,65);\n";
       },
       mouseover:function(layer){
         $(function(){
@@ -865,16 +955,22 @@ cicle.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+          x_obj = "ellx" + (i-1);
+          y_obj = "elly" + (i-1);
+          if(!document.getElementById("ellipse_global" + (i-1))){
+           $("#global").append("<li id = 'ellipse_global" + (i-1) + "'>float ellx" + (i-1) + " = " + layer.x + ",elly" + (i-1) + " = " + layer.y + ";\n</li>");
+          }
+          document.getElementById("file_ellipse_source" + (i-1)).innerHTML = "  ellipse(ellx" + (i-1) + ",elly" + (i-1) + ",65,65);\n";
         }
        }
     });
   }
   if(for_flag == false){
     file_ellipse_fill = "<span id='file_ellipse_fill'>  fill(102,102,102);\n</span>";
-    ellipse_file_code = "<span id='file_ellipse_source'>  ellipse(100,100,100,100);\n";
+    ellipse_file_code = "<span id='file_ellipse_source'>  ellipse(100,100,65,65);\n";
     fill_code_ell = "<li id='ell_fill'><font class = 'light'color ='#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
     literal(fill_code_ell);
-    ellipse_code = "<li id = 'ellipse_source'><font class = 'light'color = '#f7f7f7' size = '3'>  ellipse(" + '<input class="textbox" type="text" size="2" id="ellipse_x" value = "100">' + "," + '<input class="textbox" type="text" size="2" id="ellipse_y" value = "100">' + ",100,100); </font></li>";
+    ellipse_code = "<li id = 'ellipse_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  ellipse(" + '<input class="textbox" type="text" size="2" id="ellipse_x" value = "100">' + "," + '<input class="textbox" type="text" size="2" id="ellipse_y" value = "100">' + ",65,65); </font></li>";
     literal(ellipse_code);
     $("canvas").append(file_ellipse_fill);
     $("canvas").append(ellipse_file_code);
@@ -944,12 +1040,20 @@ back.addEventListener("click",function(){
   var object = $('canvas').getLayerGroup('obj' + (count_groups));
   var object_name = object[0].name;
 
-  if($("#source_code").find("li").filter(":last").hasClass("Img")){
-    $("li:last").remove();
+  if($("#source_code").find("li").filter(":last").hasClass("if_code")){
+    $("#source_code > li:last").remove();
   }else{
-    $("li:last").remove();
-    $("li:last").remove();
-  }
+    if($("#source_code").find("li").filter(":last").hasClass("Fig")){
+      $("#source_code > li:last").remove();
+      $("#source_code > li:last").remove();
+      $("canvas > span:last").remove();
+      $("canvas > span:last").remove();
+    }
+
+    if($("#source_code").find("li").filter(":last").hasClass("Img")){
+      $("#source_code > li:last").remove();
+      $("canvas > span:last").remove();
+    }
   //それぞれのプロパティを消す
   if(for_flag === true){
     for_property.innerHTML = "";
@@ -1098,8 +1202,7 @@ back.addEventListener("click",function(){
       $("canvas").removeLayerGroup("shapes" + (count_for - 1));
       count_for--;
     }
-    figures.pop();
-    figures.pop();
+  }
     --count_groups;
     for_flag = false;
     if_flag = false;
@@ -1111,7 +1214,7 @@ store.addEventListener("click",function(){
   $("#source_code").html("");
   $("#PImage").html("");
   $("#open").html("");
-  figures = [];
+  $("canvas").html("");
   count_Rect = 1;
   count_tri = 1;
   count_Ellipse = 1;
@@ -1218,7 +1321,7 @@ triangle.addEventListener("click",function(){
        var triangle_obj = $("canvas").getLayer("Triangle" + (count_tri-1));
        fill_code_tri = "<li id = 'tri_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
        literal(fill_code_tri);
-       tri_code = "<li id = 'triangle_source'><font class = 'light'color = '#f7f7f7' size = '3'>  triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" value = "100">' + ",<span id = 'triangle2_x'>" + (triangle_obj.x + 30) + "</span>,<span id = 'triangle2_y'>" + (triangle_obj.y + 50) + "</span>,<span id = 'triangle3_x'>" + (triangle_obj.x-30) + "</span>,<span id = 'triangle3_y'>" + (triangle_obj.y+50) + "</span>);</font></li>";
+       tri_code = "<li id = 'triangle_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" value = "100">' + ",<span id = 'triangle2_x'>" + (triangle_obj.x + 30) + "</span>,<span id = 'triangle2_y'>" + (triangle_obj.y + 50) + "</span>,<span id = 'triangle3_x'>" + (triangle_obj.x-30) + "</span>,<span id = 'triangle3_y'>" + (triangle_obj.y+50) + "</span>);</font></li>";
        literal(tri_code);
        file_tri_fill = "<span id='file_tri_fill'>  fill(102,102,102);\n</span>"
        tri_file_code = "<sapn id = 'file_tri_source'>  triangle(100,100,130,150,70,150);\n</span>";
@@ -1306,7 +1409,7 @@ triangle.addEventListener("click",function(){
            $("#polygon_y" + (i - 1)).val(layer.y);
          },
          dragstop:function(layer){
-           document.getElementById("file_ply_source" + (i-1)).innerHTML = "  polygon(" + layer.x + "," + layer.y + ",55," + angle.value + ");\n";
+           document.getElementById("file_ply_source" + (i-1)).innerHTML = "  polygon(" + layer.x + "," + layer.y + ",40," + angle.value + ");\n";
          },
          mouseover:function(layer){
            $(function(){
@@ -1344,10 +1447,10 @@ triangle.addEventListener("click",function(){
        if(for_flag == false){
          fill_code_ply = "<li id='ply_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
          literal(fill_code_ply);
-         ply_code = "<li id = 'polygon_source'><font class = 'light'color = '#f7f7f7' size = '3'>  polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" value = "100">' + ",100," + angle.value + ");</font></li>";
+         ply_code = "<li id = 'polygon_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" value = "100">' + ",40," + angle.value + ");</font></li>";
          literal(ply_code);
          file_ply_fill = "<span id='file_ply_fill'>  fill(102,102,102);\n</span>"
-         ply_file_code = "<sapn id = 'file_ply_source'>  polygon(100,100,55," + angle.value + ");\n</span>";
+         ply_file_code = "<sapn id = 'file_ply_source'>  polygon(100,100,40," + angle.value + ");\n</span>";
          $("canvas").append(file_ply_fill);
          $("canvas").append(ply_file_code);
          $("#file_ply_source").attr("id","file_ply_source" + (count_ply-1));
@@ -1459,7 +1562,7 @@ line.addEventListener("click",function(){
      if(for_flag == false){
        stroke_code_line = "<li id='line_stroke'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
        literal(stroke_code_line);
-       line_code = "<li id = 'line_source'><font class = 'light'color = '#f7f7f7' size = '3'>  line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" value = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" value = "400">' + ");</font></li>";
+       line_code = "<li id = 'line_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" value = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" value = "400">' + ");</font></li>";
        literal(line_code);
        file_line_stroke = "<span id='file_line_stroke'>  stroke(102,102,102);\n</span>"
        line_file_code = "<sapn id = 'file_line_source'>  line(100,100,400,400);\n</span>";
@@ -1542,7 +1645,7 @@ line.addEventListener("click",function(){
             $("#pac_y" + (i - 1)).val(layer.y);
           },
           dragstop:function(layer){
-            document.getElementById("file_pac_source" + (i-1)).innerHTML = "  arc(" + layer.x + "," + layer.y + ",100,100,0.5,5.8);\n";
+            document.getElementById("file_pac_source" + (i-1)).innerHTML = "  arc(" + layer.x + "," + layer.y + ",65,65,0.5,5.8);\n";
           },
           mouseover:function(layer){
             $(function(){
@@ -1567,17 +1670,23 @@ line.addEventListener("click",function(){
               X = layer.x;
               Y = layer.y;
               if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+              x_obj = "pacx" + (i-1);
+              y_obj = "pacy" + (i-1);
+              if(!document.getElementById("pac_global" + (i-1))){
+               $("#global").append("<li id = 'pac_global" + (i-1) + "'>float pacx" + (i-1) + " = " + layer.x + ",pacy" + (i-1) + " = " + layer.y + ";\n</li>");
+              }
+              document.getElementById("file_pac_source" + (i-1)).innerHTML = "  arc(pacx" + (i-1) + ",pacy" + (i-1) + ",65,65,0.5,5.8);\n";
             }
            }
          });
         }
         if(for_flag == false){
-          fill_code_pac = "<li id='pac_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(163,73,164);</font></li>";
+          fill_code_pac = "<li id='pac_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
           literal(fill_code_pac);
-          pac_code = "<li id = 'pac_source'><font class = 'light'color = '#f7f7f7' size = '3'>  arc(" + '<input class="textbox" type="text" size="2"id ="pac_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="pac_y" value = "100">' + ",100,100,0.5,5.8);</font></li>";
+          pac_code = "<li id = 'pac_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  arc(" + '<input class="textbox" type="text" size="2"id ="pac_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="pac_y" value = "100">' + ",65,65,0.5,5.8);</font></li>";
           literal(pac_code);
           file_pac_fill = "<span id='file_pac_fill'>  fill(102,102,102);\n</span>"
-          pac_file_code = "<sapn id = 'file_pac_source'>  arc(100,100,100,100,0.5,5.8);\n</span>";
+          pac_file_code = "<sapn id = 'file_pac_source'>  arc(100,100,65,65,0.5,5.8);\n</span>";
           $("canvas").append(file_pac_fill);
           $("canvas").append(pac_file_code);
           $("#file_pac_source").attr("id","file_pac_source" + (count_pac-1));
@@ -1670,6 +1779,13 @@ line.addEventListener("click",function(){
                 X = layer.x;
                 Y = layer.y;
                 if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                x_obj = "red_buttx" + (i-1);
+                y_obj = "red_butty" + (i-1);
+                if(!document.getElementById("img_1_global" + (i-1))){
+                 $("#global").append("<li id = 'img_1_global" + (i-1) + "'>float red_buttx" + (i-1) + " = " + layer.x + ",red_butty" + (i-1) + " = " + layer.y + ";\n</li>");
+                }
+                document.getElementById("file_img_source_1" + (i-1)).innerHTML = "  image(red_butterfly,red_buttx" + (i-1) + ",red_butty" + (i-1) + ");\n";
+
               }
              }
            });
@@ -1770,6 +1886,12 @@ line.addEventListener("click",function(){
                   X = layer.x;
                   Y = layer.y;
                   if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                  x_obj = "ylw_buttx" + (i-1);
+                  y_obj = "ylw_butty" + (i-1);
+                  if(!document.getElementById("img_2_global" + (i-1))){
+                   $("#global").append("<li id = 'img_2_global" + (i-1) + "'>float ylw_buttx" + (i-1) + " = " + layer.x + ",ylw_butty" + (i-1) + " = " + layer.y + ";\n</li>");
+                  }
+                  document.getElementById("file_img_source_2" + (i-1)).innerHTML = "  image(yellow_butterfly,ylw_buttx" + (i-1) + ",ylw_butty" + (i-1) + ");\n";
                 }
                }
              });
@@ -1870,6 +1992,12 @@ line.addEventListener("click",function(){
                     X = layer.x;
                     Y = layer.y;
                     if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                    x_obj = "blue_buttx" + (i-1);
+                    y_obj = "blue_butty" + (i-1);
+                    if(!document.getElementById("img_3_global" + (i-1))){
+                     $("#global").append("<li id = 'img_3_global" + (i-1) + "'>float blue_buttx" + (i-1) + " = " + layer.x + ",blue_butty" + (i-1) + " = " + layer.y + ";\n</li>");
+                    }
+                    document.getElementById("file_img_source_3" + (i-1)).innerHTML = "  image(blue_butterfly,blue_buttx" + (i-1) + ",blue_butty" + (i-1) + ");\n";
                   }
                  }
                });
@@ -1970,6 +2098,12 @@ line.addEventListener("click",function(){
                       X = layer.x;
                       Y = layer.y;
                       if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                      x_obj = "blue_candyx" + (i-1);
+                      y_obj = "blue_candyy" + (i-1);
+                      if(!document.getElementById("img_4_global" + (i-1))){
+                       $("#global").append("<li id = 'img_4_global" + (i-1) + "'>float blue_candyx" + (i-1) + " = " + layer.x + ",blue_candyy" + (i-1) + " = " + layer.y + ";\n</li>");
+                      }
+                      document.getElementById("file_img_source_4" + (i-1)).innerHTML = "  image(blue_candy,blue_candyx" + (i-1) + ",blue_candyy" + (i-1) + ");\n";
                     }
                    }
                  });
@@ -2069,6 +2203,12 @@ line.addEventListener("click",function(){
                         X = layer.x;
                         Y = layer.y;
                         if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                        x_obj = "orange_candyx" + (i-1);
+                        y_obj = "orange_candyy" + (i-1);
+                        if(!document.getElementById("img_5_global" + (i-1))){
+                         $("#global").append("<li id = 'img_5_global" + (i-1) + "'>float orange_candyx" + (i-1) + " = " + layer.x + ",orange_candyy" + (i-1) + " = " + layer.y + ";\n</li>");
+                        }
+                        document.getElementById("file_img_source_5" + (i-1)).innerHTML = "  image(orange_candy,orange_candyx" + (i-1) + ",orange_candyy" + (i-1) + ");\n";
                       }
                      }
                    });
@@ -2168,6 +2308,12 @@ line.addEventListener("click",function(){
                           X = layer.x;
                           Y = layer.y;
                           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                          x_obj = "pink_candyx" + (i-1);
+                          y_obj = "pink_candyy" + (i-1);
+                          if(!document.getElementById("img_6_global" + (i-1))){
+                           $("#global").append("<li id = 'img_6_global" + (i-1) + "'>float pink_candyyx" + (i-1) + " = " + layer.x + ",pink_candyy" + (i-1) + " = " + layer.y + ";\n</li>");
+                          }
+                          document.getElementById("file_img_source_6" + (i-1)).innerHTML = "  image(pink_candy,pink_candyx" + (i-1) + ",pink_candyy" + (i-1) + ");\n";
                         }
                        }
                      });
@@ -2267,6 +2413,12 @@ line.addEventListener("click",function(){
                             X = layer.x;
                             Y = layer.y;
                             if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                            x_obj = "blue_umbrellax" + (i-1);
+                            y_obj = "blue_umbrellay" + (i-1);
+                            if(!document.getElementById("img_7_global" + (i-1))){
+                             $("#global").append("<li id = 'img_7_global" + (i-1) + "'>float blue_umbrellayx" + (i-1) + " = " + layer.x + ",blue_umbrellay" + (i-1) + " = " + layer.y + ";\n</li>");
+                            }
+                            document.getElementById("file_img_source_7" + (i-1)).innerHTML = "  image(blue_umbrella,blue_umbrellax" + (i-1) + ",blue_umbrellay" + (i-1) + ");\n";
                           }
                          }
                        });
@@ -2365,6 +2517,12 @@ line.addEventListener("click",function(){
                               X = layer.x;
                               Y = layer.y;
                               if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                              x_obj = "green_umbrellax" + (i-1);
+                              y_obj = "green_umbrellay" + (i-1);
+                              if(!document.getElementById("img_8_global" + (i-1))){
+                               $("#global").append("<li id = 'img_8_global" + (i-1) + "'>float green_umbrellayx" + (i-1) + " = " + layer.x + ",green_umbrellay" + (i-1) + " = " + layer.y + ";\n</li>");
+                              }
+                              document.getElementById("file_img_source_8" + (i-1)).innerHTML = "  image(green_umbrella,green_umbrellax" + (i-1) + ",green_umbrellay" + (i-1) + ");\n";
                             }
                            }
                          });
@@ -2464,6 +2622,12 @@ line.addEventListener("click",function(){
                                 X = layer.x;
                                 Y = layer.y;
                                 if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                                x_obj = "orange_umbrellax" + (i-1);
+                                y_obj = "orange_umbrellay" + (i-1);
+                                if(!document.getElementById("img_9_global" + (i-1))){
+                                 $("#global").append("<li id = 'img_9_global" + (i-1) + "'>float orange_umbrellayx" + (i-1) + " = " + layer.x + ",orange_umbrellay" + (i-1) + " = " + layer.y + ";\n</li>");
+                                }
+                                document.getElementById("file_img_source_9" + (i-1)).innerHTML = "  image(orange_umbrella,orange_umbrellax" + (i-1) + ",orange_umbrellay" + (i-1) + ");\n";
                               }
                              }
                            });
@@ -2563,6 +2727,12 @@ line.addEventListener("click",function(){
                                   X = layer.x;
                                   Y = layer.y;
                                   if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                                  x_obj = "orange_flowerx" + (i-1);
+                                  y_obj = "orange_flowery" + (i-1);
+                                  if(!document.getElementById("img_10_global" + (i-1))){
+                                   $("#global").append("<li id = 'img_10_global" + (i-1) + "'>float orange_floweryx" + (i-1) + " = " + layer.x + ",orange_flowery" + (i-1) + " = " + layer.y + ";\n</li>");
+                                  }
+                                  document.getElementById("file_img_source_10" + (i-1)).innerHTML = "  image(orange_flower,orange_flowerx" + (i-1) + ",orange_flowery" + (i-1) + ");\n";
                                 }
                                }
                              });
@@ -2662,6 +2832,12 @@ line.addEventListener("click",function(){
                                     X = layer.x;
                                     Y = layer.y;
                                     if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                                    x_obj = "pink_flowerx" + (i-1);
+                                    y_obj = "pink_flowery" + (i-1);
+                                    if(!document.getElementById("img_11_global" + (i-1))){
+                                     $("#global").append("<li id = 'img_11_global" + (i-1) + "'>float pink_floweryx" + (i-1) + " = " + layer.x + ",pink_flowery" + (i-1) + " = " + layer.y + ";\n</li>");
+                                    }
+                                    document.getElementById("file_img_source_11" + (i-1)).innerHTML = "  image(pink_flower,pink_flowerx" + (i-1) + ",pink_flowery" + (i-1) + ");\n";
                                   }
                                  }
                                });
@@ -2761,6 +2937,12 @@ line.addEventListener("click",function(){
                                       X = layer.x;
                                       Y = layer.y;
                                       if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                                      x_obj = "yellow_flowerx" + (i-1);
+                                      y_obj = "yellow_flowery" + (i-1);
+                                      if(!document.getElementById("img_12_global" + (i-1))){
+                                       $("#global").append("<li id = 'img_12_global" + (i-1) + "'>float yellow_floweryx" + (i-1) + " = " + layer.x + ",yellow_flowery" + (i-1) + " = " + layer.y + ";\n</li>");
+                                      }
+                                      document.getElementById("file_img_source_12" + (i-1)).innerHTML = "  image(yellow_flower,yellow_flowerx" + (i-1) + ",yellow_flowery" + (i-1) + ");\n";
                                     }
                                    }
                                  });
@@ -2860,6 +3042,12 @@ line.addEventListener("click",function(){
                                         X = layer.x;
                                         Y = layer.y;
                                         if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                                        x_obj = "tankx" + (i-1);
+                                        y_obj = "tanky" + (i-1);
+                                        if(!document.getElementById("img_13_global" + (i-1))){
+                                         $("#global").append("<li id = 'img_13_global" + (i-1) + "'>float tankyx" + (i-1) + " = " + layer.x + ",tanky" + (i-1) + " = " + layer.y + ";\n</li>");
+                                        }
+                                        document.getElementById("file_img_source_13" + (i-1)).innerHTML = "  image(tank,tankx" + (i-1) + ",tanky" + (i-1) + ");\n";
                                       }
                                      }
                                    });
@@ -2959,6 +3147,12 @@ line.addEventListener("click",function(){
                                           X = layer.x;
                                           Y = layer.y;
                                           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                                          x_obj = "starx" + (i-1);
+                                          y_obj = "stary" + (i-1);
+                                          if(!document.getElementById("img_14_global" + (i-1))){
+                                           $("#global").append("<li id = 'img_14_global" + (i-1) + "'>float staryx" + (i-1) + " = " + layer.x + ",stary" + (i-1) + " = " + layer.y + ";\n</li>");
+                                          }
+                                          document.getElementById("file_img_source_14" + (i-1)).innerHTML = "  image(star,starx" + (i-1) + ",stary" + (i-1) + ");\n";
                                         }
                                        }
                                      });
@@ -3058,6 +3252,12 @@ line.addEventListener("click",function(){
                                             X = layer.x;
                                             Y = layer.y;
                                             if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+                                            x_obj = "giraffex" + (i-1);
+                                            y_obj = "giraffey" + (i-1);
+                                            if(!document.getElementById("img_15_global" + (i-1))){
+                                             $("#global").append("<li id = 'img_15_global" + (i-1) + "'>float giraffeyx" + (i-1) + " = " + layer.x + ",giraffey" + (i-1) + " = " + layer.y + ";\n</li>");
+                                            }
+                                            document.getElementById("file_img_source_15" + (i-1)).innerHTML = "  image(giraffe,giraffex" + (i-1) + ",giraffey" + (i-1) + ");\n";
                                           }
                                          }
                                        });
@@ -3118,16 +3318,20 @@ line.addEventListener("click",function(){
 
                                      booL_count++;
                                      file_write = $("canvas").text();
-                                     file_write = $("#open").text() + $("#setup").text() + $("#PImage").text() + "\n" + $("#setup_close").text() + "\n" + file_write + $("#close").text();
+                                     file_write = $("#global").text() + $("#open").text() + $("#setup").text() + $("#PImage").text() + "\n" + $("#setup_close").text() + "\n" + file_write + $("#close").text();
                                      file_write = file_write.replace(/\n/g, "\r\n").replace(/\r\r/g, "\r");
 
-                                     console.log(file_write);
+                                     var date = new Date();
+                                     var year = date.getFullYear().toString();
+                                     year = year.substr( 2,2 );
+                                     var month = date.getMonth() + 1;
+                                     var day = ("0"+date.getDate()).slice(-2);
                                      // 指定されたデータを保持するBlobを作成する。
                                      var blob = new Blob([ file_write ], { "type" : "application/x-msdownload" });
                                      // Aタグのhref属性にBlobオブジェクトを設定し、リンクを生成
                                      window.URL = window.URL || window.webkitURL;
                                      $("#" + id).attr("href", window.URL.createObjectURL(blob));
-                                     $("#" + id).attr("download", "processing" + booL_count + ".pde");
+                                     $("#" + id).attr("download", "processing_" + year + month + day + "_" + booL_count + ".pde");
                                    }
 
                                    download_file.addEventListener("click",function(){
