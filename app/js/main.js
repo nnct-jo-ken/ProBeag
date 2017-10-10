@@ -2,7 +2,7 @@
 var source = document.getElementById("source_code");
 var canvas = document.getElementById("canvas");
 var decompile = document.getElementById("decompile");
-/*
+
 $(function(){
   $(document).keydown(function(event){
     var keyCode = event.keyCode;
@@ -11,7 +11,7 @@ $(function(){
     }
   });
 });
-*/
+
 //preのインデントを消去
 /*
 window.addEventListener("DOMContentLoaded", function(){
