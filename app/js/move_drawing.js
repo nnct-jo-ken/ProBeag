@@ -6,7 +6,7 @@ var rect = document.getElementById("rect");
 var for_str = document.getElementById("for");
 var if_str = document.getElementById("if");
 var triangle = document.getElementById("triangle");
-//var polygon = document.getElementById("polygon");
+var polygon = document.getElementById("polygon");
 var line = document.getElementById("line");
 var pac = document.getElementById("pac");
 //画像
@@ -46,7 +46,7 @@ var load_Image = 0;
 var count_Rect = 1;
 var count_Ellipse = 1;
 var count_tri = 1;
-//var count_ply = 1;
+var count_ply = 1;
 var count_line = 1;
 var count_pac = 1;
 var count_img_1 = 1;
@@ -88,7 +88,7 @@ var for_y;
 var rect_code;
 var ellipse_code;
 var tri_code;
-//var ply_code;
+var ply_code;
 var for_code;
 var pac_code;
 var img_code_1;
@@ -110,7 +110,7 @@ var img_code_15;
 var rect_file_code;
 var ellipse_file_code;
 var tri_file_code;
-//var ply_file_code;
+var ply_file_code;
 var for_file_code;
 var pac_file_code;
 var line_file_code;
@@ -161,7 +161,7 @@ var change_text;
 var fill_code_rec;
 var fill_code_ell;
 var fill_code_tri;
-//var fill_code_ply;
+var fill_code_ply;
 var fill_code_for;
 var stroke_code_line;
 var fill_code_pac;
@@ -325,7 +325,7 @@ rect.addEventListener("click",function(){
     });
   }
   file_rect_fill = "<span id='file_rect_fill'>  fill(102,102,102);\n</span>"
-  rect_file_code = "<sapn id = 'file_rect_source'>  rect(100,100,65,65);\n</span>";
+  rect_file_code = "<span id = 'file_rect_source'>  rect(100,100,65,65);\n</span>";
   fill_code_rec = "<li id='rec_fill' class='tooltip'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
   literal(fill_code_rec);
   rect_code = "<li id = 'rect_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  rect(" + '<input class="textbox" type="text" size="2"id ="rect_x" value = 100>' + "," + '<input class="textbox" type="text" size="2"id ="rect_y" value = 100>' + ",65,65);</font></li>";
@@ -529,7 +529,15 @@ sample_for.addEventListener("click",function(){
       fillStyle:$("#color").val(),
       sides:3,
     }).drawLayers();
-  }if(obj_judge == "pac"){
+  }
+  if(obj_judge == "polygon"){
+    for_obj("polygon");
+    $("canvas").setLayerGroup("shapes" + (count_for-1),{
+      fillStyle:$("#color").val(),
+      sides:angle.value,
+    }).drawLayers();
+  }
+  if(obj_judge == "pac"){
     for_obj("arc");
     $("canvas").setLayerGroup("shapes" + (count_for-1),{
       fillStyle:$("#color").val(),
@@ -911,7 +919,7 @@ cicle.addEventListener("click",function(){
   }
   if(for_flag == false){
     file_ellipse_fill = "<span id='file_ellipse_fill'>  fill(102,102,102);\n</span>";
-    ellipse_file_code = "<span id='file_ellipse_source'>  ellipse(100,100,65,65);\n";
+    ellipse_file_code = "<span id='file_ellipse_source'>  ellipse(100,100,65,65);\n</span>";
     fill_code_ell = "<li id='ell_fill'><font class = 'light'color ='#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
     literal(fill_code_ell);
     ellipse_code = "<li id = 'ellipse_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  ellipse(" + '<input class="textbox" type="text" size="2" id="ellipse_x" value = "100">' + "," + '<input class="textbox" type="text" size="2" id="ellipse_y" value = "100">' + ",65,65); </font></li>";
@@ -949,6 +957,7 @@ back.addEventListener("click",function(){
 
   if($("#source_code").find("li").filter(":last").hasClass("if_code")){
     $("#source_code > li:last").remove();
+    $("canvas > li:last").remove();
   }else{
     if($("#source_code").find("li").filter(":last").hasClass("Fig")){
       $("#source_code > li:last").remove();
@@ -987,6 +996,10 @@ back.addEventListener("click",function(){
       else if(object_name == "Triangle" + (count_tri-1)){
         $("canvas").removeLayer("Triangle" + (count_tri - 1));
         count_tri--;
+      }
+      else if(object_name == "Polygon" + (count_ply-1)){
+        $("canvas").removeLayer("Polygon" + (count_ply - 1));
+        count_ply--;
       }
       else if(object_name == "Line" + (count_line-1)){
         $("canvas").removeLayer("Line" + (count_line - 1));
@@ -1238,7 +1251,7 @@ triangle.addEventListener("click",function(){
     tri_code = "<li id = 'triangle_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" value = "100">' + ",<span id = 'triangle2_x'>" + (triangle_obj.x + 30) + "</span>,<span id = 'triangle2_y'>" + (triangle_obj.y + 50) + "</span>,<span id = 'triangle3_x'>" + (triangle_obj.x-30) + "</span>,<span id = 'triangle3_y'>" + (triangle_obj.y+50) + "</span>);</font></li>";
     literal(tri_code);
     file_tri_fill = "<span id='file_tri_fill'>  fill(102,102,102);\n</span>"
-    tri_file_code = "<sapn id = 'file_tri_source'>  triangle(100,100,130,150,70,150);\n</span>";
+    tri_file_code = "<span id = 'file_tri_source'>  triangle(100,100,130,150,70,150);\n</span>";
     $("canvas").append(file_tri_fill);
     $("canvas").append(tri_file_code);
     $("#file_tri_source").attr("id","file_tri_source" + (count_tri-1));
@@ -1254,7 +1267,7 @@ triangle.addEventListener("click",function(){
     $("#tri_fill").attr("id","tri_fill" + (count_tri-1));
   }
 },false);
-/*
+
 polygon.addEventListener("click",function(){
   ++count_groups;
   ++count_ply;
@@ -1330,7 +1343,7 @@ polygon.addEventListener("click",function(){
        ply_code = "<li id = 'polygon_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" value = "100">' + ",40," + angle.value + ");</font></li>";
        literal(ply_code);
        file_ply_fill = "<span id='file_ply_fill'>  fill(102,102,102);\n</span>"
-       ply_file_code = "<sapn id = 'file_ply_source'>  polygon(100,100,40," + angle.value + ");\n</span>";
+       ply_file_code = "<span id = 'file_ply_source'>  polygon(100,100,40," + angle.value + ");\n</span>";
        $("canvas").append(file_ply_fill);
        $("canvas").append(ply_file_code);
        $("#file_ply_source").attr("id","file_ply_source" + (count_ply-1));
@@ -1342,7 +1355,7 @@ polygon.addEventListener("click",function(){
        $("#ply_fill").attr("id","ply_fill" + (count_ply-1));
      }
   },false);
-*/
+
 
 line.addEventListener("click",function(){
   count_line++;
@@ -1414,7 +1427,7 @@ line.addEventListener("click",function(){
     line_code = "<li id = 'line_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" value = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" value = "400">' + ");</font></li>";
     literal(line_code);
     file_line_stroke = "<span id='file_line_stroke'>  stroke(102,102,102);\n</span>"
-    line_file_code = "<sapn id = 'file_line_source'>  line(100,100,400,400);\n</span>";
+    line_file_code = "<span id = 'file_line_source'>  line(100,100,400,400);\n</span>";
     $("canvas").append(file_line_stroke);
     $("canvas").append(line_file_code);
     $("#file_line_source").attr("id","file_line_source" + (count_line-1));
@@ -1503,7 +1516,7 @@ pac.addEventListener("click",function(){
     pac_code = "<li id = 'pac_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  arc(" + '<input class="textbox" type="text" size="2"id ="pac_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="pac_y" value = "100">' + ",65,65,0.5,5.8);</font></li>";
     literal(pac_code);
     file_pac_fill = "<span id='file_pac_fill'>  fill(102,102,102);\n</span>"
-    pac_file_code = "<sapn id = 'file_pac_source'>  arc(100,100,65,65,0.5,5.8);\n</span>";
+    pac_file_code = "<span id = 'file_pac_source'>  arc(100,100,65,65,0.5,5.8);\n</span>";
     $("canvas").append(file_pac_fill);
     $("canvas").append(pac_file_code);
     $("#file_pac_source").attr("id","file_pac_source" + (count_pac-1));
@@ -1580,7 +1593,7 @@ butt_red.addEventListener("click",function(){
     PImage_literal(red_butt,count_img_1,red_butt_inst);
     img_code_1 = "<li id = 'img1_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(red_butterfly," + '<input class="textbox" type="text" size="2"id ="img1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img1_y" value = "100">' + ");</font></li>";
     literal(img_code_1);
-    img_file_code_1 = "<sapn id = 'file_img_source_1'>  image(red_butterfly,100,100);\n</span>";
+    img_file_code_1 = "<span id = 'file_img_source_1'>  image(red_butterfly,100,100);\n</span>";
     $("canvas").append(img_file_code_1);
     $("#file_img_source_1").attr("id","file_img_source_1" + (count_img_1-1));
     $("#img1_x").attr("id","img1_x" + (count_img_1-1));
@@ -1653,7 +1666,7 @@ butt_yellow.addEventListener("click",function(){
     PImage_literal(yellow_butt,count_img_2,yellow_butt_inst);
     img_code_2 = "<li id = 'img2_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(yellow_butterfly," + '<input class="textbox" type="text" size="2"id ="img2_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img2_y" value = "100">' + ");</font></li>";
     literal(img_code_2);
-    img_file_code_2 = "<sapn id = 'file_img_source_2'>  image(yellow_butterfly,100,100);\n</span>";
+    img_file_code_2 = "<span id = 'file_img_source_2'>  image(yellow_butterfly,100,100);\n</span>";
     $("canvas").append(img_file_code_2);
     $("#file_img_source_2").attr("id","file_img_source_2" + (count_img_2-1));
     $("#img2_x").attr("id","img2_x" + (count_img_2-1));
@@ -1726,7 +1739,7 @@ butt_blue.addEventListener("click",function(){
     PImage_literal(blue_butt,count_img_3,blue_butt_inst);
     img_code_3 = "<li id = 'img3_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(blue_butterfly," + '<input class="textbox" type="text" size="2"id ="img3_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img3_y" value = "100">' + ");</font></li>";
     literal(img_code_3);
-    img_file_code_3 = "<sapn id = 'file_img_source_3'>  image(blue_butterfly,100,100);\n</span>";
+    img_file_code_3 = "<span id = 'file_img_source_3'>  image(blue_butterfly,100,100);\n</span>";
     $("canvas").append(img_file_code_3);
     $("#file_img_source_3").attr("id","file_img_source_3" + (count_img_3-1));
     $("#img3_x").attr("id","img3_x" + (count_img_3-1));
@@ -1799,7 +1812,7 @@ blue_candy.addEventListener("click",function(){
     PImage_literal(blue_candy,count_img_4,blue_candy_inst);
     img_code_4 = "<li id = 'img4_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(blue_candy," + '<input class="textbox" type="text" size="2"id ="img4_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img4_y" value = "100">' + ");</font></li>";
     literal(img_code_4);
-    img_file_code_4 = "<sapn id = 'file_img_source_4'>  image(blue_candy,100,100);\n</span>";
+    img_file_code_4 = "<span id = 'file_img_source_4'>  image(blue_candy,100,100);\n</span>";
     $("canvas").append(img_file_code_4);
     $("#file_img_source_4").attr("id","file_img_source_4" + (count_img_4-1));
     $("#img4_x").attr("id","img4_x" + (count_img_4-1));
@@ -1872,7 +1885,7 @@ orange_candy.addEventListener("click",function(){
     PImage_literal(orange_candy,count_img_5,orange_candy_inst);
     img_code_5 = "<li id = 'img5_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(orange_candy," + '<input class="textbox" type="text" size="2"id ="img5_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img5_y" value = "100">' + ");</font></li>";
     literal(img_code_5);
-    img_file_code_5 = "<sapn id = 'file_img_source_5'>  image(orange_candy,100,100);\n</span>";
+    img_file_code_5 = "<span id = 'file_img_source_5'>  image(orange_candy,100,100);\n</span>";
     $("canvas").append(img_file_code_5);
     $("#file_img_source_5").attr("id","file_img_source_5" + (count_img_5-1));
     $("#img5_x").attr("id","img5_x" + (count_img_5-1));
@@ -1945,7 +1958,7 @@ pink_candy.addEventListener("click",function(){
     PImage_literal(pink_candy,count_img_6,pink_candy_inst);
     img_code_6 = "<li id = 'img6_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(pink_candy," + '<input class="textbox" type="text" size="2"id ="img6_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img6_y" value = "100">' + ");</font></li>";
     literal(img_code_6);
-    img_file_code_6 = "<sapn id = 'file_img_source_6'>  image(pink_candy,100,100);\n</span>";
+    img_file_code_6 = "<span id = 'file_img_source_6'>  image(pink_candy,100,100);\n</span>";
     $("canvas").append(img_file_code_6);
     $("#file_img_source_6").attr("id","file_img_source_6" + (count_img_6-1));
     $("#img6_x").attr("id","img6_x" + (count_img_6-1));
@@ -2018,7 +2031,7 @@ blue_umbrella.addEventListener("click",function(){
     PImage_literal(blue_umbrella,count_img_7,blue_umbrella_inst);
     img_code_7 = "<li id = 'img7_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(blue_umbrella," + '<input class="textbox" type="text" size="2"id ="img7_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img7_y" value = "100">' + ");</font></li>";
     literal(img_code_7);
-    img_file_code_7 = "<sapn id = 'file_img_source_7'>  image(blue_umbrella,100,100);\n</span>";
+    img_file_code_7 = "<span id = 'file_img_source_7'>  image(blue_umbrella,100,100);\n</span>";
     $("canvas").append(img_file_code_7);
     $("#file_img_source_7").attr("id","file_img_source_7" + (count_img_7-1));
     $("#img7_x").attr("id","img7_x" + (count_img_7-1));
@@ -2090,7 +2103,7 @@ green_umbrella.addEventListener("click",function(){
     PImage_literal(green_umbrella,count_img_8,green_umbrella_inst);
     img_code_8 = "<li id = 'img8_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(green_umbrella," + '<input class="textbox" type="text" size="2"id ="img8_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img8_y" value = "100">' + ");</font></li>";
     literal(img_code_8);
-    img_file_code_8 = "<sapn id = 'file_img_source_8'>  image(green_umbrella,100,100);\n</span>";
+    img_file_code_8 = "<span id = 'file_img_source_8'>  image(green_umbrella,100,100);\n</span>";
     $("canvas").append(img_file_code_8);
     $("#file_img_source_8").attr("id","file_img_source_8" + (count_img_8-1));
     $("#img8_x").attr("id","img8_x" + (count_img_8-1));
@@ -2163,7 +2176,7 @@ orange_umbrella.addEventListener("click",function(){
     PImage_literal(orange_umbrella,count_img_9,orange_umbrella_inst);
     img_code_9 = "<li id = 'img9_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(orange_umbrella," + '<input class="textbox" type="text" size="2"id ="img9_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img9_y" value = "100">' + ");</font></li>";
     literal(img_code_9);
-    img_file_code_9 = "<sapn id = 'file_img_source_9'>  image(orange_umbrella,100,100);\n</span>";
+    img_file_code_9 = "<span id = 'file_img_source_9'>  image(orange_umbrella,100,100);\n</span>";
     $("canvas").append(img_file_code_9);
     $("#file_img_source_9").attr("id","file_img_source_9" + (count_img_9-1));
     $("#img9_x").attr("id","img9_x" + (count_img_9-1));
@@ -2236,7 +2249,7 @@ orange_flower.addEventListener("click",function(){
     PImage_literal(orange_flower,count_img_10,orange_flower_inst);
     img_code_10 = "<li id = 'img10_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(orange_flower," + '<input class="textbox" type="text" size="2"id ="img10_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img10_y" value = "100">' + ");</font></li>";
     literal(img_code_10);
-    img_file_code_10 = "<sapn id = 'file_img_source_10'>  image(orange_flower,100,100);\n</span>";
+    img_file_code_10 = "<span id = 'file_img_source_10'>  image(orange_flower,100,100);\n</span>";
     $("canvas").append(img_file_code_10);
     $("#file_img_source_10").attr("id","file_img_source_10" + (count_img_10-1));
     $("#img10_x").attr("id","img10_x" + (count_img_10-1));
@@ -2309,7 +2322,7 @@ pink_flower.addEventListener("click",function(){
     PImage_literal(pink_flower,count_img_11,pink_flower_inst);
     img_code_11 = "<li id = 'img11_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(pink_flower," + '<input class="textbox" type="text" size="2"id ="img11_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img11_y" value = "100">' + ");</font></li>";
     literal(img_code_11);
-    img_file_code_11 = "<sapn id = 'file_img_source_11'>  image(pink_flower,100,100);\n</span>";
+    img_file_code_11 = "<span id = 'file_img_source_11'>  image(pink_flower,100,100);\n</span>";
     $("canvas").append(img_file_code_11);
     $("#file_img_source_11").attr("id","file_img_source_11" + (count_img_11-1));
     $("#img11_x").attr("id","img11_x" + (count_img_11-1));
@@ -2382,7 +2395,7 @@ yellow_flower.addEventListener("click",function(){
     PImage_literal(yellow_flower,count_img_12,yellow_flower_inst);
     img_code_12 = "<li id = 'img12_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(yellow_flower," + '<input class="textbox" type="text" size="2"id ="img12_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img12_y" value = "100">' + ");</font></li>";
     literal(img_code_12);
-    img_file_code_12 = "<sapn id = 'file_img_source_12'>  image(yellow_flower,100,100);\n</span>";
+    img_file_code_12 = "<span id = 'file_img_source_12'>  image(yellow_flower,100,100);\n</span>";
     $("canvas").append(img_file_code_12);
     $("#file_img_source_12").attr("id","file_img_source_12" + (count_img_12-1));
     $("#img12_x").attr("id","img12_x" + (count_img_12-1));
@@ -2455,7 +2468,7 @@ tank.addEventListener("click",function(){
     PImage_literal(tank,count_img_13,tank_inst);
     img_code_13 = "<li id = 'img13_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(tank," + '<input class="textbox" type="text" size="2"id ="img13_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img13_y" value = "100">' + ");</font></li>";
     literal(img_code_13);
-    img_file_code_13 = "<sapn id = 'file_img_source_13'>  image(tank,100,100);\n</span>";
+    img_file_code_13 = "<span id = 'file_img_source_13'>  image(tank,100,100);\n</span>";
     $("canvas").append(img_file_code_13);
     $("#file_img_source_13").attr("id","file_img_source_13" + (count_img_13-1));
     $("#img13_x").attr("id","img13_x" + (count_img_13-1));
@@ -2528,7 +2541,7 @@ star.addEventListener("click",function(){
     PImage_literal(star,count_img_14,star_inst);
     img_code_14 = "<li id = 'img14_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(star," + '<input class="textbox" type="text" size="2"id ="img14_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img14_y" value = "100">' + ");</font></li>";
     literal(img_code_14);
-    img_file_code_14 = "<sapn id = 'file_img_source_14'>  image(star,100,100);\n</span>";
+    img_file_code_14 = "<span id = 'file_img_source_14'>  image(star,100,100);\n</span>";
     $("canvas").append(img_file_code_14);
     $("#file_img_source_14").attr("id","file_img_source_14" + (count_img_14-1));
     $("#img14_x").attr("id","img14_x" + (count_img_14-1));
@@ -2601,7 +2614,7 @@ giraffe.addEventListener("click",function(){
     PImage_literal(giraffe,count_img_15,giraffe_inst);
     img_code_15 = "<li id = 'img15_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(giraffe," + '<input class="textbox" type="text" size="2"id ="img15_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img15_y" value = "100">' + ");</font></li>";
     literal(img_code_15);
-    img_file_code_15 = "<sapn id = 'file_img_source_15'>  image(giraffe,100,100);\n</span>";
+    img_file_code_15 = "<span id = 'file_img_source_15'>  image(giraffe,100,100);\n</span>";
     $("canvas").append(img_file_code_15);
     $("#file_img_source_15").attr("id","file_img_source_15" + (count_img_15-1));
     $("#img15_x").attr("id","img15_x" + (count_img_15-1));
