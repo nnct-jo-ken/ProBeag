@@ -97,41 +97,31 @@ void draw(){
                     <tr>
                       <td><img src="img/orange.png" width="65" height="65" id="triangle" title = '三角形.パラメータ:triangle(x座標,y座標,横幅,高さ). ボックス内の数値を変えてCompileボタンで位置変更を反映.' class = 'tooltip img'>
                       </th>
-                      <td><img src="img/purple.png" width="65" height="65" id="polygon" title = '五角形以上の図形.パラメータ:polygon(x座標,y座標,横幅,高さ,頂点数). 下のボタンで5~10の頂点数を選んでこのボタンをクリック.ボックス内の数値を変えてCompileボタンで位置変更を反映.' class = 'tooltip img'>
+                      <td><img src="img/pink.png" width="65" height="65" id="line" title = '線.パラメータ:line(x1座標,y1座標,x2座標,y2座標).x1座標やy1座標(※x2,y2座標は変更不可)の数値を変えてcompileボタンで位置変更を反映.線を左クリックすることで位置ロックが解除され,右クリックすることでロックされます.ロックが解除された状態でキャンバス内の他の部分をクリックするとx1,y1が変更されます。' class = 'tooltip img'>
                       </th>
                     </tr>
                     <tr>
-                      <td><img src="img/pink.png" width="65" height="65" id="line" title = '線.パラメータ:line(x1座標,y1座標,x2座標,y2座標).x1座標やy1座標(※x2,y2座標は変更不可)の数値を変えてcompileボタンで位置変更を反映.線を左クリックすることで位置ロックが解除され,右クリックすることでロックされます.ロックが解除された状態でキャンバス内の他の部分をクリックするとx1,y1が変更されます。' class = 'tooltip img'>
-                      </th>
                       <td><img src="img/pac-man.png" width="65" height="65" id = "pac" class="tooltip img" title="円を閉じない命令です.arc(x座標,y座標,横幅,高さ,始めの角度,終わりの角度);.ボックス内の数値を変えてCompileボタンで位置変更を反映することができます.">
+                      </th>
+                      <td><img src="img/key_close.png" class="tooltip" title="Lineのロックが外れてるか、ロックされているかが分かります." id="key" height = "55" width = "55">
                       </th>
                     </tr>
                   <tr><th scope="cols" colspan="2">
                     <div id="colorpicker" class="colorpicker tooltip" title = '色変更.パラメータ:fill(赤,緑,青).0～255の値の中で大きいほど各色が強くなります.カラーピッカーを回した後に図形をダブルクリックすることで色を変更できます.' ></div>
                       <form><input type="text" id="color" name="color" value="#000000" /></form>
-
                   </th></tr>
 
                 <tr>
                     <th><div class="container"><a href="#" id="store" class="square_btn"><font class = "light">全消去</font>
-                 </a></div></th><!-- 赤　-->
+                 </a></div></th>
                     <th><div class="container"><a href="#" id="back" class="square_btn"><font class = "light">前に戻る</font>
-                 </a></div></th><!-- 青 -->
+                 </a></div></th>
                 </tr>
                 <tr>
-                  <th><select id="angle"name="angle"></select>
-                  </th>
-                  <th><div class="container"><a href="#" id="download_file" class="square_btn" download="text.txt"><font class="light">ダウンロード</font>
+                  <th><div class="container"><a href="#" id="download_file" class="square_btn"><font class="light">ダウンロード</font>
                   </a></div></th>
-                </tr>
-                <th scope="cols" colspan="2"><div class="container">
-                    <a href="#" name="compile" value="compile" class="position square_btn" id="compile">
-                   <font class = "light"size="3" face="Century">Run</font><!-- 緑 -->
-                 </a></div>
-                </th>
-                <tr>
-                  <th scope="cols" colspan="2" height="65" class="tooltip" title="Lineのロックが外れてるか、ロックされているかが分かります."><img src="img/key_close.png" id="key" height = "50" width = "50">
-                  </th>
+                  <td><div class="container"><a href="#" name="compile" class="position square_btn" id="compile"><font class = "light"size="3" face="Century">Run</font>
+                   </a></div></th>
                 </tr>
             </tbody>
         </table>
