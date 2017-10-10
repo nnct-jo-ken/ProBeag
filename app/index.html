@@ -64,18 +64,18 @@ void draw(){
 
 
 
-void polygon(float x,float y,float r,int n){
-  pushMatrix();
-  translate(x, y);
-  scale(1, -1);
-  rotate(HALF_PI);
-  beginShape();
-  for (int i = 0; i < n; i++) {
-   vertex(r*cos(TWO_PI * i/n),r*sin(TWO_PI * i/n));
-  }
-  endShape(CLOSE);
-  popMatrix();
-}</pre></font>
+    void polygon(float x,float y,float r,int n){
+      pushMatrix();
+      translate(x, y);
+      scale(1, -1);
+      rotate(HALF_PI);
+      beginShape();
+      for (int i = 0; i < n; i++) {
+       vertex(r*cos(TWO_PI * i/n),r*sin(TWO_PI * i/n));
+      }
+      endShape(CLOSE);
+      popMatrix();
+  </pre></font>
 </div>
         <canvas width="863" height="610" class="canvas_1" id="canvas"> </canvas>
         <div class="wrapper">
