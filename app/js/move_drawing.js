@@ -130,6 +130,7 @@ var img_file_code_13;
 var img_file_code_14;
 var img_file_code_15;
 var if_file_code;
+var file_for_code;
 //図形が何回canvas内にあるか
 var count_groups = 0;
 //forの多角形の画数を決める
@@ -173,6 +174,7 @@ var file_tri_fill;
 var file_for_fill;
 var file_line_stroke;
 var file_pac_fill;
+var file_for_fill;
 
 var obj_fill;
 var poly_angle;
@@ -224,11 +226,6 @@ function PImage_literal(PImage_code,img_count,Pimage_inst){
   if(img_count == 2){
     pImage.push(PImage_code);
     Image_array.push(Pimage_inst);
-    if(for_flag == true){
-      pImage.pop();
-      Image_array.pop();
-      load_Image--;
-    }
     if(++load_Image == pImage.length){
       $("#PImage").append(pImage[pImage.length-1]);
       $("#open").append(Image_array[Image_array.length-1]);
@@ -510,32 +507,39 @@ sample_if.addEventListener("click",function(){
 
 //for文を実行のイベントリスナ
 sample_for.addEventListener("click",function(){
+  if (for_flag == true){
+    count_groups++;
   if(obj_judge == "rect"){
     for_obj("rectangle");
     //グループ化しているものを取得してプロパティを追加
-    $("canvas").setLayerGroup("shapes" + (count_for-1),{
+    $("canvas").setLayerGroup("obj" + (count_groups),{
       fillStyle:$("#color").val(),
+      groups:["obj" + count_groups]
     }).drawLayers();
   }
   if(obj_judge == "ellipse"){
     for_obj("ellipse");
-    $("canvas").setLayerGroup("shapes" + (count_for-1),{
+    $("canvas").setLayerGroup("obj" + (count_groups),{
       fillStyle:$("#color").val(),
+      groups:["obj" + count_groups]
     }).drawLayers();
   }
   if(obj_judge == "triangle"){
     for_obj("polygon");
-    $("canvas").setLayerGroup("shapes" + (count_for-1),{
+    $("canvas").setLayerGroup("obj" + (count_groups),{
       fillStyle:$("#color").val(),
+      groups:["obj" + count_groups],
       sides:3,
     }).drawLayers();
   }if(obj_judge == "pac"){
     for_obj("arc");
-    $("canvas").setLayerGroup("shapes" + (count_for-1),{
+    $("canvas").setLayerGroup("obj" + (count_groups),{
       fillStyle:$("#color").val(),
       start:120,end:420,
+      groups:["obj" + count_groups]
     }).drawLayers();
   }
+}
 },false);
 
 //for文の実行コード
@@ -598,7 +602,7 @@ function for_obj(Obj){
           $("canvas").addLayer({
             type:Obj,
             layer:true,
-            groups: ['shapes' + i],
+            groups:["obj" + count_groups],
             strokeStyle: "black",
             strokeWidth: 1,
             x:ob_x,
@@ -633,13 +637,16 @@ function for_obj(Obj){
       for_code = "<li id = 'for_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int x = " + int + ";x < " + ctrl + "; x+=" + rate + "){" + "\n" +
       obj_judge + "(x," + for_y + ",65,65);" + "\n" +
       "}\n</font></li>";
+      file_for_code = "<span id ='file_for_source'>  for (int x = " + int + ";x < " + ctrl + "; x+=" + rate + "){" + "\n" +
+      obj_judge + "(x," + for_y + ",65,65);" + "\n" +
+      "}\n</span>";
     }else if($(".ver_hori").val() == 1){
       for(var ob_y = for_y; ob_y < ctrl; ob_y += rate){
         for(var i = 0;i < count_for;i++){
           $("canvas").addLayer({
             type:Obj,
             layer:true,
-            groups: ['shapes' + i],
+            groups:["obj" + count_groups],
             strokeStyle: "black",
             strokeWidth: 1,
             x:int,
@@ -675,6 +682,9 @@ function for_obj(Obj){
       for_code = "<li id = 'for_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int y = " + int + ";y < " + ctrl + "; y+=" + rate + "){" + "\n" +
       "  " + obj_judge + "(" + int + ",y,65,65);" + "\n" +
       "  }\n</font></li>";
+      file_for_code = "<span id ='file_for_source'>  for (int y = " + int + ";y < " + ctrl + "; y+=" + rate + "){" + "\n" +
+      "  " + obj_judge + "(" + int + ",y,65,65);" + "\n" +
+      "  }\n</span>";
     }
   }else if(int > ctrl){
     if($(".ver_hori").val() == 0){
@@ -683,7 +693,7 @@ function for_obj(Obj){
           $("canvas").addLayer({
             type:Obj,
             layer:true,
-            groups: ['shapes' + i],
+            groups:["obj" + count_groups],
             strokeStyle: "black",
             strokeWidth: 1,
             x:ob_x,
@@ -719,13 +729,16 @@ function for_obj(Obj){
       for_code = "<li class='Fig' id = 'for_source'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int x = " + int + ";x > " + ctrl + "; x-=" + rate + "){" + "\n" +
       obj_judge + "(x," + for_y + ",65,65);" + "\n" +
       "}\n</font></li>";
+      file_for_code = "<span id ='file_for_source'>  for (int x = " + int + ";x > " + ctrl + "; x-=" + rate + "){" + "\n" +
+      obj_judge + "(x," + for_y + ",65,65);" + "\n" +
+      "  }\n</span>";
     }else if($(".ver_hori").val() == 1){
       for(var ob_y = for_y; ob_y > ctrl; ob_y -= rate){
         for(var i = 0;i < count_for;i++){
           $("canvas").addLayer({
             type:Obj,
             layer:true,
-            groups: ['shapes' + i],
+            groups:["obj" + count_groups],
             strokeStyle: "black",
             strokeWidth: 1,
             x:int,
@@ -761,17 +774,23 @@ function for_obj(Obj){
       for_code = "<li id = 'for_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int y = " + int + ";y > " + ctrl + "; y-=" + rate + "){" + "\n" +
       "  " + obj_judge + "(" + int + ",y,65,65);" + "\n" +
       "  }\n</font></li>";
+      file_for_code = "<span id ='file_for_source'>   for (int y = " + int + ";y > " + ctrl + "; y-=" + rate + "){" + "\n" +
+      "  " + obj_judge + "(" + int + ",y,65,65);" + "\n" +
+      "  }\n</span>";
     }
   }
 
 
   fill_code_for = "<li id='for_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(" + parseInt($("#color").val().substring(1,3), 16) + "," + parseInt($("#color").val().substring(3,5), 16) + "," + parseInt($("#color").val().substring(5,7), 16) + ");</font></li>";
+  file_for_fill = "<span id = 'file_fill_for'>  fill(" + parseInt($("#color").val().substring(1,3), 16) + "," + parseInt($("#color").val().substring(3,5), 16) + "," + parseInt($("#color").val().substring(5,7), 16) + ");</li>"
   literal(fill_code_for);
   literal(for_code);
-  $("canvas").append(fill_code_for);
-  $("canvas").append(for_code);
+  $("canvas").append(file_for_fill);
+  $("canvas").append(file_for_code);
   $("#for_source").attr("id","for_source" + count_for);
   $("#for_source" + count_for).addClass("for_source" + count_for);
+  $("#file_for_source").attr("id","file_for_source" + count_for);
+  $("#file_fill_for").attr("id","file_fill_for" + count_for);
   $("#for_fill").attr("id","for_fill" + count_for);
 }
 
@@ -909,7 +928,6 @@ cicle.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     file_ellipse_fill = "<span id='file_ellipse_fill'>  fill(102,102,102);\n</span>";
     ellipse_file_code = "<span id='file_ellipse_source'>  ellipse(100,100,65,65);\n</span>";
     fill_code_ell = "<li id='ell_fill'><font class = 'light'color ='#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
@@ -925,7 +943,6 @@ cicle.addEventListener("click",function(){
     $("#ellipse_source" + (count_Ellipse-1)).addClass("ellipse_source" + (count_Ellipse-1));
     $("#ell_fill").attr("id","ell_fill" + (count_Ellipse-1));
     $("#file_ellipse_fill").attr("id","file_ellipse_fill" + (count_Ellipse-1));
-  }
 },false);
 
 //ifのイベントリスナ
@@ -970,8 +987,7 @@ back.addEventListener("click",function(){
       if_property.innerHTML = "";
     }
 
-    //図形を消してレイヤーごと消去
-    if (count_groups != 0){
+      if (count_groups != 0){
       $("canvas").setLayerGroup("obj" + (count_groups),{
         visible:false
       }).drawLayers();
@@ -1101,9 +1117,8 @@ back.addEventListener("click",function(){
           $(".class15").remove();
           $(".class_15").remove();
         }
-      }
-      if(count_for != 0){
-        $("canvas").removeLayerGroup("shapes" + (count_for - 1));
+      }else if(object_name == "For" + (count_for-1)){
+        $("canvas").removeLayer("For" + (count_for-1));
         count_for--;
       }
     }
@@ -1232,7 +1247,6 @@ triangle.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var triangle_obj = $("canvas").getLayer("Triangle" + (count_tri-1));
     fill_code_tri = "<li id = 'tri_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
     literal(fill_code_tri);
@@ -1253,7 +1267,6 @@ triangle.addEventListener("click",function(){
     $("#triangle_source").attr("id","triangle_source" + (count_tri-1));
     $("#triangle_source" + (count_tri-1)).addClass("triangle_source" + (count_tri-1));
     $("#tri_fill").attr("id","tri_fill" + (count_tri-1));
-  }
 },false);
 /*
 polygon.addEventListener("click",function(){
@@ -1409,8 +1422,7 @@ line.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    stroke_code_line = "<li id='line_stroke'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
+    stroke_code_line = "<li id='line_stroke'><font class = 'light'color = '#f7f7f7' size = '3'>  stroke(102,102,102);</font></li>";
     literal(stroke_code_line);
     line_code = "<li id = 'line_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" value = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" value = "400">' + ");</font></li>";
     literal(line_code);
@@ -1427,7 +1439,6 @@ line.addEventListener("click",function(){
     $("#line_source").attr("id","line_source" + (count_line-1));
     $("#line_source" + (count_line-1)).addClass("line_source" + (count_line-1));
     $("#line_stroke").attr("id","line_stroke" + (count_line-1));
-  }
 },false);
 
 pac.addEventListener("click",function(){
@@ -1498,7 +1509,6 @@ pac.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     fill_code_pac = "<li id='pac_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
     literal(fill_code_pac);
     pac_code = "<li id = 'pac_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  arc(" + '<input class="textbox" type="text" size="2"id ="pac_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="pac_y" value = "100">' + ",65,65,0.5,5.8);</font></li>";
@@ -1514,7 +1524,6 @@ pac.addEventListener("click",function(){
     $("#pac_source").attr("id","pac_source" + (count_pac-1));
     $("#pac_source" + (count_pac-1)).addClass("pac_source" + (count_pac-1));
     $("#pac_fill").attr("id","pac_fill" + (count_pac-1));
-  }
 },false);
 
 butt_red.addEventListener("click",function(){
@@ -1575,7 +1584,6 @@ butt_red.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var red_butt_inst = "<li class = 'class1'>PImage <a href = 'img/red_butterfly.png' download='red_butterfly.png' class='tooltip' title='クリックしてダウンロード.'>red_butterfly;\n</a></li>"
     var red_butt = '<li class = "class_1"><font class = "light"color = "#f7f7f7" size = "3">  red_butterfly=loadImage("red_butterfly.png");\n</font></li>'
     PImage_literal(red_butt,count_img_1,red_butt_inst);
@@ -1588,7 +1596,6 @@ butt_red.addEventListener("click",function(){
     $("#img1_y").attr("id","img1_y" + (count_img_1-1));
     $("#img1_source").attr("id","img1_source" + (count_img_1-1));
     $("#img1_source" + (count_img_1-1)).addClass("img1_source" + (count_img_1-1));
-  }
 },false);
 
 butt_yellow.addEventListener("click",function(){
@@ -1648,7 +1655,6 @@ butt_yellow.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var yellow_butt_inst = "<li class = 'class2'>PImage <a href = 'img/ylw_butterfly.png' download='ylw_butterfly.png' class='tooltip' title='クリックしてダウンロードしてください.'>yellow_butterfly;\n</a></li>"
     var yellow_butt = '<li class = "class_2"><font class = "light"color = "#f7f7f7" size = "3">  yellow_butterfly=loadImage("ylw_butterfly.png");\n</font></li>'
     PImage_literal(yellow_butt,count_img_2,yellow_butt_inst);
@@ -1661,7 +1667,6 @@ butt_yellow.addEventListener("click",function(){
     $("#img2_y").attr("id","img2_y" + (count_img_2-1));
     $("#img2_source").attr("id","img2_source" + (count_img_2-1));
     $("#img2_source" + (count_img_2-1)).addClass("img2_source" + (count_img_2-1));
-  }
 },false);
 
 butt_blue.addEventListener("click",function(){
@@ -1721,7 +1726,6 @@ butt_blue.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var blue_butt_inst = "<li class = 'class3'>PImage <a href = 'img/blue_butterfly.png' download='blue_butterfly.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_butterfly;\n</a></li>"
     var blue_butt = '<li class = "class_3"><font class = "light"color = "#f7f7f7" size = "3">  blue_butterfly=loadImage("blue_butterfly.png");\n</font></li>'
     PImage_literal(blue_butt,count_img_3,blue_butt_inst);
@@ -1734,7 +1738,6 @@ butt_blue.addEventListener("click",function(){
     $("#img3_y").attr("id","img3_y" + (count_img_3-1));
     $("#img3_source").attr("id","img3_source" + (count_img_3-1));
     $("#img3_source" + (count_img_3-1)).addClass("img3_source" + (count_img_3-1));
-  }
 },false);
 
 blue_candy.addEventListener("click",function(){
@@ -1794,7 +1797,6 @@ blue_candy.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var blue_candy_inst = "<li class = 'class4'>PImage <a href = 'img/blue_candy.png' download='blue_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_candy;\n</a></li>"
     var blue_candy = '<li class = "class_4"><font class = "light"color = "#f7f7f7" size = "3">  blue_candy=loadImage("blue_candy.png");\n</font></li>'
     PImage_literal(blue_candy,count_img_4,blue_candy_inst);
@@ -1807,7 +1809,6 @@ blue_candy.addEventListener("click",function(){
     $("#img4_y").attr("id","img4_y" + (count_img_4-1));
     $("#img4_source").attr("id","img4_source" + (count_img_4-1));
     $("#img4_source" + (count_img_4-1)).addClass("img4_source" + (count_img_4-1));
-  }
 },false);
 
 orange_candy.addEventListener("click",function(){
@@ -1867,7 +1868,6 @@ orange_candy.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var orange_candy_inst = "<li class = 'class5'>PImage <a href = 'img/orange_candy.png' download='orange_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_candy;\n</a></li>"
     var orange_candy = '<li class = "class_5"><font class = "light"color = "#f7f7f7" size = "3">  orange_candy=loadImage("orange_candy.png");\n</font></li>'
     PImage_literal(orange_candy,count_img_5,orange_candy_inst);
@@ -1880,7 +1880,6 @@ orange_candy.addEventListener("click",function(){
     $("#img5_y").attr("id","img5_y" + (count_img_5-1));
     $("#img5_source").attr("id","img5_source" + (count_img_5-1));
     $("#img5_source" + (count_img_5-1)).addClass("img5_source" + (count_img_5-1));
-  }
 },false);
 
 pink_candy.addEventListener("click",function(){
@@ -1940,7 +1939,6 @@ pink_candy.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var pink_candy_inst = "<li class = 'class6'>PImage <a href = 'img/pink_candy.png' download='pink_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>pink_candy;\n</a></li>"
     var pink_candy = '<li class = "class_6"><font class = "light"color = "#f7f7f7" size = "3">  pink_candy=loadImage("pink_candy.png");\n</font></li>'
     PImage_literal(pink_candy,count_img_6,pink_candy_inst);
@@ -1953,7 +1951,6 @@ pink_candy.addEventListener("click",function(){
     $("#img6_y").attr("id","img6_y" + (count_img_6-1));
     $("#img6_source").attr("id","img6_source" + (count_img_6-1));
     $("#img6_source" + (count_img_6-1)).addClass("img6_source" + (count_img_6-1));
-  }
 },false);
 
 blue_umbrella.addEventListener("click",function(){
@@ -2013,7 +2010,6 @@ blue_umbrella.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var blue_umbrella_inst = "<li class = 'class7'>PImage <a href = 'img/blue_umbrella.png' download='blue_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_umbrella;\n</a></li>"
     var blue_umbrella = '<li class = "class_7"><font class = "light"color = "#f7f7f7" size = "3">  blue_umbrella=loadImage("blue_umbrella.png");\n</font></li>'
     PImage_literal(blue_umbrella,count_img_7,blue_umbrella_inst);
@@ -2026,7 +2022,6 @@ blue_umbrella.addEventListener("click",function(){
     $("#img7_y").attr("id","img7_y" + (count_img_7-1));
     $("#img7_source").attr("id","img7_source" + (count_img_7-1));
     $("#img7_source" + (count_img_7-1)).addClass("img7_source" + (count_img_7-1));
-  }
 },false);
 green_umbrella.addEventListener("click",function(){
   ++count_groups;
@@ -2085,7 +2080,6 @@ green_umbrella.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var green_umbrella_inst = "<li class = 'class8'>PImage <a href = 'img/green_umbrella.png' download='green_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>green_umbrella;\n</a></li>"
     var green_umbrella = '<li class = "class_8"><font class = "light"color = "#f7f7f7" size = "3">  green_umbrella=loadImage("green_umbrella.png");\n</font></li>'
     PImage_literal(green_umbrella,count_img_8,green_umbrella_inst);
@@ -2098,7 +2092,6 @@ green_umbrella.addEventListener("click",function(){
     $("#img8_y").attr("id","img8_y" + (count_img_8-1));
     $("#img8_source").attr("id","img8_source" + (count_img_8-1));
     $("#img8_source" + (count_img_8-1)).addClass("img8_source" + (count_img_8-1));
-  }
 },false);
 
 orange_umbrella.addEventListener("click",function(){
@@ -2158,7 +2151,6 @@ orange_umbrella.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var orange_umbrella_inst = "<li class = 'class9'>PImage <a href = 'img/orange_umbrella.png' download='orange_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_umbrella;\n</a></li>"
     var orange_umbrella = '<li class = "class_9"><font class = "light"color = "#f7f7f7" size = "3">  orange_umbrella=loadImage("orange_umbrella.png");\n</font></li>'
     PImage_literal(orange_umbrella,count_img_9,orange_umbrella_inst);
@@ -2171,7 +2163,6 @@ orange_umbrella.addEventListener("click",function(){
     $("#img9_y").attr("id","img9_y" + (count_img_9-1));
     $("#img9_source").attr("id","img9_source" + (count_img_9-1));
     $("#img9_source" + (count_img_9-1)).addClass("img9_source" + (count_img_9-1));
-  }
 },false);
 
 orange_flower.addEventListener("click",function(){
@@ -2231,7 +2222,6 @@ orange_flower.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var orange_flower_inst = "<li class = 'class10'>PImage <a href = 'img/orange_flower.png' download='orange_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_flower;\n</a></li>"
     var orange_flower = '<li class = "class_10"><font class = "light"color = "#f7f7f7" size = "3">  orange_flower=loadImage("orange_flower.png");\n</font></li>'
     PImage_literal(orange_flower,count_img_10,orange_flower_inst);
@@ -2244,7 +2234,6 @@ orange_flower.addEventListener("click",function(){
     $("#img10_y").attr("id","img10_y" + (count_img_10-1));
     $("#img10_source").attr("id","img10_source" + (count_img_10-1));
     $("#img10_source" + (count_img_10-1)).addClass("img10_source" + (count_img_10-1));
-  }
 },false);
 
 pink_flower.addEventListener("click",function(){
@@ -2304,7 +2293,6 @@ pink_flower.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var pink_flower_inst = "<li class = 'class11'>PImage <a href = 'img/pink_flower.png' download='pink_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>pink_flower;\n</a></li>"
     var pink_flower = '<li class = "class_11"><font class = "light"color = "#f7f7f7" size = "3">  pink_flower=loadImage("pink_flower.png");\n</font></li>'
     PImage_literal(pink_flower,count_img_11,pink_flower_inst);
@@ -2317,7 +2305,6 @@ pink_flower.addEventListener("click",function(){
     $("#img11_y").attr("id","img11_y" + (count_img_11-1));
     $("#img11_source").attr("id","img11_source" + (count_img_11-1));
     $("#img11_source" + (count_img_11-1)).addClass("img11_source" + (count_img_11-1));
-  }
 },false);
 
 yellow_flower.addEventListener("click",function(){
@@ -2377,7 +2364,6 @@ yellow_flower.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var yellow_flower_inst = "<li class = 'class12'>PImage <a href = 'img/yellow_flower.png' download='yellow_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>yellow_flower;\n</a></li>"
     var yellow_flower = '<li class = "class_12"><font class = "light"color = "#f7f7f7" size = "3">  yellow_flower=loadImage("yellow_flower.png");\n</font></li>'
     PImage_literal(yellow_flower,count_img_12,yellow_flower_inst);
@@ -2390,7 +2376,6 @@ yellow_flower.addEventListener("click",function(){
     $("#img12_y").attr("id","img12_y" + (count_img_12-1));
     $("#img12_source").attr("id","img12_source" + (count_img_12-1));
     $("#img12_source" + (count_img_12-1)).addClass("img12_source" + (count_img_12-1));
-  }
 },false);
 
 tank.addEventListener("click",function(){
@@ -2450,7 +2435,6 @@ tank.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var tank_inst = "<li class = 'class13'>PImage <a href = 'img/tank.png' download='tank.png' class='tooltip' title='クリックしてダウンロードしてください.'>tank;\n</a></li>"
     var tank = '<li class = "class_13"><font class = "light"color = "#f7f7f7" size = "3">  tank=loadImage("tank.png");\n</font></li>'
     PImage_literal(tank,count_img_13,tank_inst);
@@ -2463,7 +2447,6 @@ tank.addEventListener("click",function(){
     $("#img13_y").attr("id","img13_y" + (count_img_13-1));
     $("#img13_source").attr("id","img13_source" + (count_img_13-1));
     $("#img13_source" + (count_img_13-1)).addClass("img13_source" + (count_img_13-1));
-  }
 },false);
 
 star.addEventListener("click",function(){
@@ -2523,7 +2506,6 @@ star.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var star_inst = "<li class = 'class14'>PImage <a href = 'img/star.png' download='star.png' class='tooltip' title='クリックしてダウンロードしてください.'>star;\n</a></li>"
     var star = '<li class = "class_14"><font class = "light"color = "#f7f7f7" size = "3">  star=loadImage("star.png");\n</font></li>';
     PImage_literal(star,count_img_14,star_inst);
@@ -2536,7 +2518,6 @@ star.addEventListener("click",function(){
     $("#img14_y").attr("id","img14_y" + (count_img_14-1));
     $("#img14_source").attr("id","img14_source" + (count_img_14-1));
     $("#img14_source" + (count_img_14-1)).addClass("img14_source" + (count_img_14-1));
-  }
 },false);
 
 giraffe.addEventListener("click",function(){
@@ -2596,7 +2577,6 @@ giraffe.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
     var giraffe_inst = "<li class = 'class15'>PImage <a href = 'img/giraffe.png' download='giraffe.png' class='tooltip' title='クリックしてダウンロードしてください.'>giraffe;\n</a></li>"
     var giraffe = '<li class = "class_15"><font class = "light"color = "#f7f7f7" size = "3">  giraffe=loadImage("giraffe.png");\n</font></li>';
     PImage_literal(giraffe,count_img_15,giraffe_inst);
@@ -2609,7 +2589,6 @@ giraffe.addEventListener("click",function(){
     $("#img15_y").attr("id","img15_y" + (count_img_15-1));
     $("#img15_source").attr("id","img15_source" + (count_img_15-1));
     $("#img15_source" + (count_img_15-1)).addClass("img15_source" + (count_img_15-1));
-  }
 },false);
 
 function setBlobUrl(id) {
