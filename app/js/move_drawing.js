@@ -169,7 +169,7 @@ var fill_code_pac;
 
 var file_rect_fill;
 var file_ellipse_fill;
-var file_tri_fill;
+var file_triangle_fill;
 //var file_ply_fill;
 var file_for_fill;
 var file_line_stroke;
@@ -271,7 +271,9 @@ rect.addEventListener("click",function(){
       dblclick:function(layer){
 
         layer.fillStyle = $("#color").val();
-        document.getElementById("rec_fill" + (i-1)).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
+        $("#fill_R_rect" + (i-1)).val(parseInt(layer.fillStyle.substring(1,3), 16));
+        $("#fill_G_rect" + (i-1)).val(parseInt(layer.fillStyle.substring(3,5), 16));
+        $("#fill_B_rect" + (i-1)).val(parseInt(layer.fillStyle.substring(5,7), 16));
         document.getElementById("file_rect_fill" + (i-1)).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");\n";
       },
       draggable:true,
@@ -323,7 +325,7 @@ rect.addEventListener("click",function(){
   }
   file_rect_fill = "<span id='file_rect_fill'>  fill(102,102,102);\n</span>"
   rect_file_code = "<span id = 'file_rect_source'>  rect(100,100,65,65);\n</span>";
-  fill_code_rec = "<li id='rec_fill' class='tooltip'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
+  fill_code_rec = "<li id='rec_fill' class='tooltip'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(<input class = 'textbox' type='text' size = '2' id = 'fill_R_rect' value='102'>,<input class = 'textbox' type='text' size = '2' id = 'fill_G_rect' value='102'>,<input class = 'textbox' type='text' size = '2' id = 'fill_B_rect' value='102'>);</font></li>";
   literal(fill_code_rec);
   rect_code = "<li id = 'rect_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  rect(" + '<input class="textbox" type="text" size="2"id ="rect_x" value = 100>' + "," + '<input class="textbox" type="text" size="2"id ="rect_y" value = 100>' + ",65,65);</font></li>";
   literal(rect_code);
@@ -336,6 +338,9 @@ rect.addEventListener("click",function(){
   $("#rect_source" + (count_Rect-1)).addClass("rect_source" + (count_Rect-1));
   $("#file_rect_fill").attr("id","file_rect_fill" + (count_Rect-1));
   $("#rec_fill").attr("id","rec_fill" + (count_Rect-1));
+  $("#fill_R_rect").attr("id","fill_R_rect" + (count_Rect-1));
+  $("#fill_G_rect").attr("id","fill_G_rect" + (count_Rect-1));
+  $("#fill_B_rect").attr("id","fill_B_rect" + (count_Rect-1));
   //setBlobUrl("download_file");
 },false);
 
@@ -362,6 +367,12 @@ compile.addEventListener("click",function(){
   Compile("img13","Image13",count_img_13);
   Compile("img14","Image14",count_img_14);
   Compile("img15","Image15",count_img_15);
+
+  fill_Compile("Rect","rect",count_Rect);
+  fill_Compile("Ellipse","ellipse",count_Ellipse);
+  fill_Compile("Triangle","triangle",count_tri);
+  stroke_Compile("Line","line",count_line);
+  fill_Compile("Pac","pac",count_pac);
 },false);
 
 //Lineだけの変更処理
@@ -858,6 +869,110 @@ $("#" + obj).attr("id",obj + (i+1));
 });
 }
 */
+function fill_Compile(Obj,fill_obj,obj_count){
+  for(var i = 1;i < obj_count;i++){
+    //図形のtextbox内の値を取得fill_R_ellipse1
+    var fill_R = $("#fill_R_" + fill_obj + i).val();
+    var fill_G = $("#fill_G_" + fill_obj + i).val();
+    var fill_B = $("#fill_B_" + fill_obj + i).val();
+    //全角→半角変換処理
+    $(function(){
+      $("#fill_R_" + fill_obj + i).change(function(){
+        fill_R = fill_R.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+          return String.fromCharCode(s.charCodeAt(0) - 65248);
+        });
+        $("#fill_R_" + fill_obj + i).val(fill_R);
+      }).change();
+      $("#fill_G_" + fill_obj + i).change(function(){
+        fill_G = fill_G.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+          return String.fromCharCode(s.charCodeAt(0) - 65248);
+        });
+        $("#fill_G_" + fill_obj + i).val(fill_G);
+      }).change();
+      $("#fill_B_" + fill_obj + i).change(function(){
+        fill_B = fill_B.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+          return String.fromCharCode(s.charCodeAt(0) - 65248);
+        });
+        $("#fill_B_" + fill_obj + i).val(fill_B);
+      }).change();
+    })
+    //textboxの値判定
+    if (typeof fill_R == "undefined" || fill_R == "" ||isNaN($("#fill_R_" + fill_obj + i).val())||fill_R < 0){
+      fill_R = 0;
+    }else if(fill_R >= 256){
+      fill_R = 255;
+    }
+    if (typeof fill_G == "undefined" || fill_G == "" ||isNaN($("#fill_G_" + fill_obj + i).val())||fill_G < 0){
+      fill_G = 0;
+    }else if(fill_G >= 256){
+      fill_G = 255;
+    }
+    if (typeof fill_B == "undefined" || fill_B == "" ||isNaN($("#fill_B_" + fill_obj + i).val())||fill_B < 0){
+      fill_B = 0;
+    }else if(fill_B >= 256){
+      fill_B = 255;
+    }
+    document.getElementById("file_" + fill_obj + "_fill" + (i)).innerHTML = "  fill(" + fill_R + "," + fill_G + "," + fill_B + ");\n";
+    //nameプロパティを指定して動かす
+    $("canvas").setLayer(Obj + i, {
+      fillStyle:function(layer){
+        return "#"+parseInt(fill_R).toString(16)+parseInt(fill_G).toString(16)+parseInt(fill_B).toString(16);
+      }
+    }).drawLayers();
+  }
+}
+function stroke_Compile(Obj,fill_obj,obj_count){
+  for(var i = 1;i < obj_count;i++){
+    //図形のtextbox内の値を取得fill_R_ellipse1
+    var stroke_R = $("#stroke_R_" + fill_obj + i).val();
+    var stroke_G = $("#stroke_G_" + fill_obj + i).val();
+    var stroke_B = $("#stroke_B_" + fill_obj + i).val();
+    //全角→半角変換処理
+    $(function(){
+      $("#stroke_R_" + fill_obj + i).change(function(){
+        stroke_R = stroke_R.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+          return String.fromCharCode(s.charCodeAt(0) - 65248);
+        });
+        $("#stroke_R_" + fill_obj + i).val(stroke_R);
+      }).change();
+      $("#stroke_G_" + fill_obj + i).change(function(){
+        stroke_G = stroke_G.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+          return String.fromCharCode(s.charCodeAt(0) - 65248);
+        });
+        $("#stroke_G_" + fill_obj + i).val(stroke_G);
+      }).change();
+      $("#stroke_B_" + fill_obj + i).change(function(){
+        stroke_B = stroke_B.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+          return String.fromCharCode(s.charCodeAt(0) - 65248);
+        });
+        $("#stroke_B_" + fill_obj + i).val(stroke_B);
+      }).change();
+    })
+    //textboxの値判定
+    if (typeof stroke_R == "undefined" || stroke_R == "" ||isNaN($("#stroke_R_" + fill_obj + i).val())||stroke_R < 0){
+      stroke_R = 0;
+    }else if(stroke_R >= 256){
+      stroke_R = 255;
+    }
+    if (typeof stroke_G == "undefined" || stroke_G == "" ||isNaN($("#stroke_G_" + fill_obj + i).val())||stroke_G < 0){
+      stroke_G = 0;
+    }else if(stroke_G >= 256){
+      stroke_G = 255;
+    }
+    if (typeof stroke_B == "undefined" || stroke_B == "" ||isNaN($("#stroke_B_" + fill_obj + i).val())||stroke_B < 0){
+      stroke_B = 0;
+    }else if(stroke_B >= 256){
+      stroke_B = 255;
+    }
+    document.getElementById("file_" + fill_obj + "_stroke" + (i)).innerHTML = "  stroke(" + stroke_R + "," + stroke_G + "," + stroke_B + ");\n";
+    //nameプロパティを指定して動かす
+    $("canvas").setLayer(Obj + i, {
+      strokeStyle:function(layer){
+        return "#"+parseInt(stroke_R).toString(16)+parseInt(stroke_G).toString(16)+parseInt(stroke_B).toString(16);
+      }
+    }).drawLayers();
+  }
+}
 //円を描く
 cicle.addEventListener("click",function(){
   ++count_groups;
@@ -878,7 +993,9 @@ cicle.addEventListener("click",function(){
       draggable: true,
       dblclick:function(layer){
         layer.fillStyle = $("#color").val();
-        document.getElementById("ell_fill" + (i-1)).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
+        $("#fill_R_ellipse" + (i-1)).val(parseInt(layer.fillStyle.substring(1,3), 16));
+        $("#fill_G_ellipse" + (i-1)).val(parseInt(layer.fillStyle.substring(3,5), 16));
+        $("#fill_B_ellipse" + (i-1)).val(parseInt(layer.fillStyle.substring(5,7), 16));
         document.getElementById("file_ellipse_fill" + (i-1)).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");\n";
       },
       visible:true,
@@ -930,7 +1047,7 @@ cicle.addEventListener("click",function(){
   }
     file_ellipse_fill = "<span id='file_ellipse_fill'>  fill(102,102,102);\n</span>";
     ellipse_file_code = "<span id='file_ellipse_source'>  ellipse(100,100,65,65);\n</span>";
-    fill_code_ell = "<li id='ell_fill'><font class = 'light'color ='#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
+    fill_code_ell = "<li id='ell_fill'><font class = 'light'color ='#f7f7f7' size = '3'>  fill(<input class = 'textbox' type='text' size = '2' id = 'fill_R_ellipse' value='102'>,<input class = 'textbox' type='text' size = '2' id = 'fill_G_ellipse' value='102'>,<input class = 'textbox' type='text' size = '2' id = 'fill_B_ellipse' value='102'>);</font></li>";
     literal(fill_code_ell);
     ellipse_code = "<li id = 'ellipse_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  ellipse(" + '<input class="textbox" type="text" size="2" id="ellipse_x" value = "100">' + "," + '<input class="textbox" type="text" size="2" id="ellipse_y" value = "100">' + ",65,65); </font></li>";
     literal(ellipse_code);
@@ -943,6 +1060,9 @@ cicle.addEventListener("click",function(){
     $("#ellipse_source" + (count_Ellipse-1)).addClass("ellipse_source" + (count_Ellipse-1));
     $("#ell_fill").attr("id","ell_fill" + (count_Ellipse-1));
     $("#file_ellipse_fill").attr("id","file_ellipse_fill" + (count_Ellipse-1));
+    $("#fill_R_ellipse").attr("id","fill_R_ellipse" + (count_Ellipse-1));
+    $("#fill_G_ellipse").attr("id","fill_G_ellipse" + (count_Ellipse-1));
+    $("#fill_B_ellipse").attr("id","fill_B_ellipse" + (count_Ellipse-1));
 },false);
 
 //ifのイベントリスナ
@@ -1188,8 +1308,10 @@ triangle.addEventListener("click",function(){
       sides: 3,
       dblclick:function(layer){
         layer.fillStyle = $("#color").val();
-        document.getElementById("tri_fill" + (i-1)).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
-        document.getElementById("file_tri_fill" + (i-1)).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
+        $("#fill_R_triangle" + (i-1)).val(parseInt(layer.fillStyle.substring(1,3), 16));
+        $("#fill_G_triangle" + (i-1)).val(parseInt(layer.fillStyle.substring(3,5), 16));
+        $("#fill_B_triangle" + (i-1)).val(parseInt(layer.fillStyle.substring(5,7), 16));
+        document.getElementById("file_triangle_fill" + (i-1)).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
       },
       draggable:true,
       drag:function(layer){
@@ -1248,16 +1370,16 @@ triangle.addEventListener("click",function(){
     });
   }
     var triangle_obj = $("canvas").getLayer("Triangle" + (count_tri-1));
-    fill_code_tri = "<li id = 'tri_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
+    fill_code_tri = "<li id = 'tri_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(<input class = 'textbox' type='text' size = '2' id = 'fill_R_triangle' value='102'>,<input class = 'textbox' type='text' size = '2' id = 'fill_G_triangle' value='102'>,<input class = 'textbox' type='text' size = '2' id = 'fill_B_triangle' value='102'>);</font></li>";
     literal(fill_code_tri);
     tri_code = "<li id = 'triangle_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" value = "100">' + ",<span id = 'triangle2_x'>" + (triangle_obj.x + 30) + "</span>,<span id = 'triangle2_y'>" + (triangle_obj.y + 50) + "</span>,<span id = 'triangle3_x'>" + (triangle_obj.x-30) + "</span>,<span id = 'triangle3_y'>" + (triangle_obj.y+50) + "</span>);</font></li>";
     literal(tri_code);
-    file_tri_fill = "<span id='file_tri_fill'>  fill(102,102,102);\n</span>"
+    file_tri_fill = "<span id='file_triangle_fill'>  fill(102,102,102);\n</span>"
     tri_file_code = "<span id = 'file_tri_source'>  triangle(100,100,130,150,70,150);\n</span>";
     $("canvas").append(file_tri_fill);
     $("canvas").append(tri_file_code);
     $("#file_tri_source").attr("id","file_tri_source" + (count_tri-1));
-    $("#file_tri_fill").attr("id","file_tri_fill" + (count_tri-1));
+    $("#file_triangle_fill").attr("id","file_triangle_fill" + (count_tri-1));
     $("#triangle_x").attr("id","triangle_x" + (count_tri-1));
     $("#triangle_y").attr("id","triangle_y" + (count_tri-1));
     $("#triangle2_x").attr("id","triangle2_x" + (count_tri-1));
@@ -1267,6 +1389,9 @@ triangle.addEventListener("click",function(){
     $("#triangle_source").attr("id","triangle_source" + (count_tri-1));
     $("#triangle_source" + (count_tri-1)).addClass("triangle_source" + (count_tri-1));
     $("#tri_fill").attr("id","tri_fill" + (count_tri-1));
+    $("#fill_R_triangle").attr("id","fill_R_triangle" + (count_tri-1));
+    $("#fill_G_triangle").attr("id","fill_G_triangle" + (count_tri-1));
+    $("#fill_B_triangle").attr("id","fill_B_triangle" + (count_tri-1));
 },false);
 /*
 polygon.addEventListener("click",function(){
@@ -1374,7 +1499,9 @@ line.addEventListener("click",function(){
       fromCenter: false,
       dblclick:function(layer){
         layer.strokeStyle = $("#color").val();
-        document.getElementById("line_stroke" + (i-1)).innerHTML = "  stroke(" + parseInt(layer.strokeStyle.substring(1,3), 16) + "," + parseInt(layer.strokeStyle.substring(3,5),16) + "," + parseInt(layer.strokeStyle.substring(5,7), 16) + ");";
+        $("#stroke_R_line" + (i-1)).val(parseInt(layer.fillStyle.substring(1,3), 16));
+        $("#stroke_G_line" + (i-1)).val(parseInt(layer.fillStyle.substring(3,5), 16));
+        $("#stroke_B_line" + (i-1)).val(parseInt(layer.fillStyle.substring(5,7), 16));
         document.getElementById("file_line_stroke" + (i-1)).innerHTML = "  stroke(" + parseInt(layer.strokeStyle.substring(1,3), 16) + "," + parseInt(layer.strokeStyle.substring(3,5),16) + "," + parseInt(layer.strokeStyle.substring(5,7), 16) + ");\n";
       },
       mouseover:function(layer){
@@ -1422,7 +1549,7 @@ line.addEventListener("click",function(){
       }
     });
   }
-    stroke_code_line = "<li id='line_stroke'><font class = 'light'color = '#f7f7f7' size = '3'>  stroke(102,102,102);</font></li>";
+    stroke_code_line = "<li id='line_stroke'><font class = 'light'color = '#f7f7f7' size = '3'>  stroke(<input class = 'textbox' type='text' size = '2' id = 'stroke_R_line' value='102'>,<input class = 'textbox' type='text' size = '2' id = 'stroke_G_line' value='102'>,<input class = 'textbox' type='text' size = '2' id = 'stroke_B_line' value='102'>);</font></li>";
     literal(stroke_code_line);
     line_code = "<li id = 'line_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" value = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" value = "400">' + ");</font></li>";
     literal(line_code);
@@ -1439,6 +1566,9 @@ line.addEventListener("click",function(){
     $("#line_source").attr("id","line_source" + (count_line-1));
     $("#line_source" + (count_line-1)).addClass("line_source" + (count_line-1));
     $("#line_stroke").attr("id","line_stroke" + (count_line-1));
+    $("#stroke_R_line").attr("id","stroke_R_line" + (count_line-1));
+    $("#stroke_G_line").attr("id","stroke_G_line" + (count_line-1));
+    $("#stroke_B_line").attr("id","stroke_B_line" + (count_line-1));
 },false);
 
 pac.addEventListener("click",function(){
@@ -1460,7 +1590,9 @@ pac.addEventListener("click",function(){
       start:120,end:420,
       dblclick:function(layer){
         layer.fillStyle = $("#color").val();
-        document.getElementById("pac_fill" + (i-1)).innerHTML = "<li><font class = 'light'color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+        $("#fill_R_pac" + (i-1)).val(parseInt(layer.fillStyle.substring(1,3), 16));
+        $("#fill_G_pac" + (i-1)).val(parseInt(layer.fillStyle.substring(3,5), 16));
+        $("#fill_B_pac" + (i-1)).val(parseInt(layer.fillStyle.substring(5,7), 16));
         document.getElementById("file_pac_fill" + (i-1)).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");\n";
       },
       draggable:true,
@@ -1509,7 +1641,7 @@ pac.addEventListener("click",function(){
       }
     });
   }
-    fill_code_pac = "<li id='pac_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
+    fill_code_pac = "<li id='pac_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(<input class = 'textbox' type='text' size = '2' id = 'fill_R_pac' value='102'>,<input class = 'textbox' type='text' size = '2' id = 'fill_G_pac' value='102'>,<input class = 'textbox' type='text' size = '2' id = 'fill_B_pac' value='102'>);</font></li>";
     literal(fill_code_pac);
     pac_code = "<li id = 'pac_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  arc(" + '<input class="textbox" type="text" size="2"id ="pac_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="pac_y" value = "100">' + ",65,65,0.5,5.8);</font></li>";
     literal(pac_code);
@@ -1524,6 +1656,9 @@ pac.addEventListener("click",function(){
     $("#pac_source").attr("id","pac_source" + (count_pac-1));
     $("#pac_source" + (count_pac-1)).addClass("pac_source" + (count_pac-1));
     $("#pac_fill").attr("id","pac_fill" + (count_pac-1));
+    $("#fill_R_pac").attr("id","fill_R_pac" + (count_pac-1));
+    $("#fill_G_pac").attr("id","fill_G_pac" + (count_pac-1));
+    $("#fill_B_pac").attr("id","fill_B_pac" + (count_pac-1));
 },false);
 
 butt_red.addEventListener("click",function(){
