@@ -869,6 +869,10 @@ $("#" + obj).attr("id",obj + (i+1));
 });
 }
 */
+rgbTohex = function(col){
+  return "#" + col.match(/\d+/g).map(function(a){return ("0" + parseInt(a).toString(16)).slice(-2)}).join("");
+}
+
 function fill_Compile(Obj,fill_obj,obj_count){
   for(var i = 1;i < obj_count;i++){
     //図形のtextbox内の値を取得fill_R_ellipse1
@@ -916,7 +920,8 @@ function fill_Compile(Obj,fill_obj,obj_count){
     //nameプロパティを指定して動かす
     $("canvas").setLayer(Obj + i, {
       fillStyle:function(layer){
-        return "#"+parseInt(fill_R).toString(16)+parseInt(fill_G).toString(16)+parseInt(fill_B).toString(16);
+        var hex = rgbTohex("rgb(" + fill_R + "," + fill_G + "," + fill_B + ")");
+        return hex;
       }
     }).drawLayers();
   }
@@ -968,7 +973,8 @@ function stroke_Compile(Obj,fill_obj,obj_count){
     //nameプロパティを指定して動かす
     $("canvas").setLayer(Obj + i, {
       strokeStyle:function(layer){
-        return "#"+parseInt(stroke_R).toString(16)+parseInt(stroke_G).toString(16)+parseInt(stroke_B).toString(16);
+        var hex = rgbTohex("rgb(" + stroke_R + "," + stroke_G + "," + stroke_B + ")");
+        return hex;
       }
     }).drawLayers();
   }
