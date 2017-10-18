@@ -205,6 +205,71 @@ var img_layer_15;
 
 var booL_count = 0;
 var for_ope;
+
+var i = 0;
+function axis(){
+  $("canvas").drawLine({
+    strokeWidth:10,
+    strokeStyle:"#666",
+    x1:0,y1:0,
+    x2:1500,y2:0
+  }).drawLayers();
+  for(var x = 0;x < 1500;x += 10){
+    i++;
+    $("canvas").drawLine({
+      strokeWidth:1,
+      strokeStyle:"#666",
+      name:"Line_axis_x" + i,
+      x1:x,y1:0,
+      x2:x,y2:15
+    }).drawLayers();
+    if(x % 50 == 0){
+      $("canvas").setLayer("Line_axis_x" + i,{
+        strokeWidth:2
+      }).drawLayers();
+      $('canvas').drawText({
+        strokeStyle: '#666',
+        strokeWidth: 0.5,
+        x: x, y: 15,
+        fontSize: 10,
+        fontFamily: 'Noto Sans Japanese',
+        text: x
+      });
+    }
+  }
+
+  $("canvas").drawLine({
+    strokeWidth:10,
+    strokeStyle:"#666",
+    x1:0,y1:0,
+    x2:0,y2:1000
+  }).drawLayers();
+  for(var y = 0;y < 1000;y += 10){
+    i++;
+    $("canvas").drawLine({
+      strokeWidth:1,
+      strokeStyle:"#666",
+      name:"Line_axis_y" + i,
+      x1:0,y1:y,
+      x2:15,y2:y
+    }).drawLayers();
+    if(y % 50 == 0){
+      $("canvas").setLayer("Line_axis_y" + i,{
+        strokeWidth:2
+      }).drawLayers();
+      $('canvas').drawText({
+        strokeStyle: '#666',
+        strokeWidth: 0.5,
+        x: 15, y: y,
+        fontSize: 10,
+        fontFamily: 'Noto Sans Japanese',
+        rotate: 270,
+        text: y
+      });
+    }
+  }
+}
+
 //Lineの第二座標をクリックで設定する関数
 function onClick(e) {
   //図形の絶対値座標を取得する
@@ -510,39 +575,47 @@ sample_if.addEventListener("click",function(){
 
 //for文を実行のイベントリスナ
 sample_for.addEventListener("click",function(){
-  if(obj_judge == "rect"){
-    for_obj("rectangle");
-    //グループ化しているものを取得してプロパティを追加
-    $("canvas").setLayerGroup("shapes" + (count_for-1),{
-      fillStyle:$("#color").val(),
-    }).drawLayers();
-  }
-  if(obj_judge == "ellipse"){
-    for_obj("ellipse");
-    $("canvas").setLayerGroup("shapes" + (count_for-1),{
-      fillStyle:$("#color").val(),
-    }).drawLayers();
-  }
-  if(obj_judge == "triangle"){
-    for_obj("polygon");
-    $("canvas").setLayerGroup("shapes" + (count_for-1),{
-      fillStyle:$("#color").val(),
-      sides:3,
-    }).drawLayers();
-  }
-  if(obj_judge == "polygon"){
-    for_obj("polygon");
-    $("canvas").setLayerGroup("shapes" + (count_for-1),{
-      fillStyle:$("#color").val(),
-      sides:angle.value,
-    }).drawLayers();
-  }
-  if(obj_judge == "pac"){
-    for_obj("arc");
-    $("canvas").setLayerGroup("shapes" + (count_for-1),{
-      fillStyle:$("#color").val(),
-      start:120,end:420,
-    }).drawLayers();
+  if (for_flag == true){
+    count_groups++;
+    if(obj_judge == "rect"){
+      for_obj("rectangle");
+      //グループ化しているものを取得してプロパティを追加
+      $("canvas").setLayerGroup("shapes" + (count_for-1),{
+        fillStyle:$("#color").val(),
+        groups:["obj" + count_groups]
+      }).drawLayers();
+    }
+    if(obj_judge == "ellipse"){
+      for_obj("ellipse");
+      $("canvas").setLayerGroup("shapes" + (count_for-1),{
+        fillStyle:$("#color").val(),
+        groups:["obj" + count_groups]
+      }).drawLayers();
+    }
+    if(obj_judge == "triangle"){
+      for_obj("polygon");
+      $("canvas").setLayerGroup("shapes" + (count_for-1),{
+        fillStyle:$("#color").val(),
+        groups:["obj" + count_groups],
+        sides:3,
+      }).drawLayers();
+    }
+    if(obj_judge == "polygon"){
+      for_obj("polygon");
+      $("canvas").setLayerGroup("shapes" + (count_for-1),{
+        fillStyle:$("#color").val(),
+        sides:angle.value,
+        groups:["obj" + count_groups]
+      }).drawLayers();
+    }
+    if(obj_judge == "pac"){
+      for_obj("arc");
+      $("canvas").setLayerGroup("shapes" + (count_for-1),{
+        fillStyle:$("#color").val(),
+        start:120,end:420,
+        groups:["obj" + count_groups]
+      }).drawLayers();
+    }
   }
 },false);
 
@@ -606,7 +679,7 @@ function for_obj(Obj){
           $("canvas").addLayer({
             type:Obj,
             layer:true,
-            groups: ['shapes' + i],
+            groups:["obj" + count_groups],
             strokeStyle: "black",
             strokeWidth: 1,
             x:ob_x,
@@ -647,7 +720,7 @@ function for_obj(Obj){
           $("canvas").addLayer({
             type:Obj,
             layer:true,
-            groups: ['shapes' + i],
+            groups:["obj" + count_groups],
             strokeStyle: "black",
             strokeWidth: 1,
             x:int,
@@ -691,7 +764,7 @@ function for_obj(Obj){
           $("canvas").addLayer({
             type:Obj,
             layer:true,
-            groups: ['shapes' + i],
+            groups:["obj" + count_groups],
             strokeStyle: "black",
             strokeWidth: 1,
             x:ob_x,
@@ -733,7 +806,7 @@ function for_obj(Obj){
           $("canvas").addLayer({
             type:Obj,
             layer:true,
-            groups: ['shapes' + i],
+            groups:["obj" + count_groups],
             strokeStyle: "black",
             strokeWidth: 1,
             x:int,
@@ -917,23 +990,21 @@ cicle.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    file_ellipse_fill = "<span id='file_ellipse_fill'>  fill(102,102,102);\n</span>";
-    ellipse_file_code = "<span id='file_ellipse_source'>  ellipse(100,100,65,65);\n</span>";
-    fill_code_ell = "<li id='ell_fill'><font class = 'light'color ='#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
-    literal(fill_code_ell);
-    ellipse_code = "<li id = 'ellipse_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  ellipse(" + '<input class="textbox" type="text" size="2" id="ellipse_x" value = "100">' + "," + '<input class="textbox" type="text" size="2" id="ellipse_y" value = "100">' + ",65,65); </font></li>";
-    literal(ellipse_code);
-    $("canvas").append(file_ellipse_fill);
-    $("canvas").append(ellipse_file_code);
-    $("#ellipse_x").attr("id","ellipse_x" + (count_Ellipse-1));
-    $("#ellipse_y").attr("id","ellipse_y" + (count_Ellipse-1));
-    $("#file_ellipse_source").attr("id","file_ellipse_source" + (count_Ellipse-1));
-    $("#ellipse_source").attr("id","ellipse_source" + (count_Ellipse-1));
-    $("#ellipse_source" + (count_Ellipse-1)).addClass("ellipse_source" + (count_Ellipse-1));
-    $("#ell_fill").attr("id","ell_fill" + (count_Ellipse-1));
-    $("#file_ellipse_fill").attr("id","file_ellipse_fill" + (count_Ellipse-1));
-  }
+  file_ellipse_fill = "<span id='file_ellipse_fill'>  fill(102,102,102);\n</span>";
+  ellipse_file_code = "<span id='file_ellipse_source'>  ellipse(100,100,65,65);\n</span>";
+  fill_code_ell = "<li id='ell_fill'><font class = 'light'color ='#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
+  literal(fill_code_ell);
+  ellipse_code = "<li id = 'ellipse_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  ellipse(" + '<input class="textbox" type="text" size="2" id="ellipse_x" value = "100">' + "," + '<input class="textbox" type="text" size="2" id="ellipse_y" value = "100">' + ",65,65); </font></li>";
+  literal(ellipse_code);
+  $("canvas").append(file_ellipse_fill);
+  $("canvas").append(ellipse_file_code);
+  $("#ellipse_x").attr("id","ellipse_x" + (count_Ellipse-1));
+  $("#ellipse_y").attr("id","ellipse_y" + (count_Ellipse-1));
+  $("#file_ellipse_source").attr("id","file_ellipse_source" + (count_Ellipse-1));
+  $("#ellipse_source").attr("id","ellipse_source" + (count_Ellipse-1));
+  $("#ellipse_source" + (count_Ellipse-1)).addClass("ellipse_source" + (count_Ellipse-1));
+  $("#ell_fill").attr("id","ell_fill" + (count_Ellipse-1));
+  $("#file_ellipse_fill").attr("id","file_ellipse_fill" + (count_Ellipse-1));
 },false);
 
 //ifのイベントリスナ
@@ -965,7 +1036,14 @@ back.addEventListener("click",function(){
       $("canvas > span:last").remove();
       $("canvas > span:last").remove();
     }
-
+    if($("#source_code").find("li").filter(":last").hasClass("Line")){
+      $("#source_code > li:last").remove();
+      $("#source_code > li:last").remove();
+      $("#source_code > li:last").remove();
+      $("canvas > span:last").remove();
+      $("canvas > span:last").remove();
+      $("canvas > span:last").remove();
+    }
     if($("#source_code").find("li").filter(":last").hasClass("Img")){
       $("#source_code > li:last").remove();
       $("canvas > span:last").remove();
@@ -1113,9 +1191,8 @@ back.addEventListener("click",function(){
           $(".class15").remove();
           $(".class_15").remove();
         }
-      }
-      if(count_for != 0){
-        $("canvas").removeLayerGroup("shapes" + (count_for - 1));
+      }else if(object_name == "For" + (count_for-1)){
+        $("canvas").removeLayer("For" + (count_for-1));
         count_for--;
       }
     }
@@ -1162,6 +1239,7 @@ store.addEventListener("click",function(){
     visible:false
   }).drawLayers();
   $("canvas").removeLayers();
+  axis();
 },false);
 
 
@@ -1244,28 +1322,26 @@ triangle.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var triangle_obj = $("canvas").getLayer("Triangle" + (count_tri-1));
-    fill_code_tri = "<li id = 'tri_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
-    literal(fill_code_tri);
-    tri_code = "<li id = 'triangle_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" value = "100">' + ",<span id = 'triangle2_x'>" + (triangle_obj.x + 30) + "</span>,<span id = 'triangle2_y'>" + (triangle_obj.y + 50) + "</span>,<span id = 'triangle3_x'>" + (triangle_obj.x-30) + "</span>,<span id = 'triangle3_y'>" + (triangle_obj.y+50) + "</span>);</font></li>";
-    literal(tri_code);
-    file_tri_fill = "<span id='file_tri_fill'>  fill(102,102,102);\n</span>"
-    tri_file_code = "<span id = 'file_tri_source'>  triangle(100,100,130,150,70,150);\n</span>";
-    $("canvas").append(file_tri_fill);
-    $("canvas").append(tri_file_code);
-    $("#file_tri_source").attr("id","file_tri_source" + (count_tri-1));
-    $("#file_tri_fill").attr("id","file_tri_fill" + (count_tri-1));
-    $("#triangle_x").attr("id","triangle_x" + (count_tri-1));
-    $("#triangle_y").attr("id","triangle_y" + (count_tri-1));
-    $("#triangle2_x").attr("id","triangle2_x" + (count_tri-1));
-    $("#triangle2_y").attr("id","triangle2_y" + (count_tri-1));
-    $("#triangle3_x").attr("id","triangle3_x" + (count_tri-1));
-    $("#triangle3_y").attr("id","triangle3_y" + (count_tri-1));
-    $("#triangle_source").attr("id","triangle_source" + (count_tri-1));
-    $("#triangle_source" + (count_tri-1)).addClass("triangle_source" + (count_tri-1));
-    $("#tri_fill").attr("id","tri_fill" + (count_tri-1));
-  }
+  var triangle_obj = $("canvas").getLayer("Triangle" + (count_tri-1));
+  fill_code_tri = "<li id = 'tri_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
+  literal(fill_code_tri);
+  tri_code = "<li id = 'triangle_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" value = "100">' + ",<span id = 'triangle2_x'>" + (triangle_obj.x + 30) + "</span>,<span id = 'triangle2_y'>" + (triangle_obj.y + 50) + "</span>,<span id = 'triangle3_x'>" + (triangle_obj.x-30) + "</span>,<span id = 'triangle3_y'>" + (triangle_obj.y+50) + "</span>);</font></li>";
+  literal(tri_code);
+  file_tri_fill = "<span id='file_tri_fill'>  fill(102,102,102);\n</span>"
+  tri_file_code = "<span id = 'file_tri_source'>  triangle(100,100,130,150,70,150);\n</span>";
+  $("canvas").append(file_tri_fill);
+  $("canvas").append(tri_file_code);
+  $("#file_tri_source").attr("id","file_tri_source" + (count_tri-1));
+  $("#file_tri_fill").attr("id","file_tri_fill" + (count_tri-1));
+  $("#triangle_x").attr("id","triangle_x" + (count_tri-1));
+  $("#triangle_y").attr("id","triangle_y" + (count_tri-1));
+  $("#triangle2_x").attr("id","triangle2_x" + (count_tri-1));
+  $("#triangle2_y").attr("id","triangle2_y" + (count_tri-1));
+  $("#triangle3_x").attr("id","triangle3_x" + (count_tri-1));
+  $("#triangle3_y").attr("id","triangle3_y" + (count_tri-1));
+  $("#triangle_source").attr("id","triangle_source" + (count_tri-1));
+  $("#triangle_source" + (count_tri-1)).addClass("triangle_source" + (count_tri-1));
+  $("#tri_fill").attr("id","tri_fill" + (count_tri-1));
 },false);
 
 polygon.addEventListener("click",function(){
@@ -1273,88 +1349,86 @@ polygon.addEventListener("click",function(){
   ++count_ply;
   for (var i = 1;i < count_ply;i++){
     //これがJcanvasの多角形を描くソース
-     $("canvas").drawPolygon({
-       layer:true,
-       name:"Polygon" + i,
-       groups:["obj" + count_groups],
-       strokeStyle: "black",
-       fillStyle:"#666666",
-       strokeWidth: 1,
-       x: 100,
-       y: 100,
-       radius:32.5,
-       fromCenter: false,
-       sides: angle.value,
-       dblclick:function(layer){
-         layer.fillStyle = $("#color").val();
-         document.getElementById("ply_fill" + (i-1)).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
-         document.getElementById("file_ply_fill" + (i-1)).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");\n";
-       },
-       draggable:true,
-       drag:function(layer){
-         $("#polygon_x" + (i - 1)).val(layer.x);
-         $("#polygon_y" + (i - 1)).val(layer.y);
-       },
-       dragstop:function(layer){
-         document.getElementById("file_ply_source" + (i-1)).innerHTML = "  polygon(" + layer.x + "," + layer.y + ",40," + angle.value + ");\n";
-       },
-       mouseover:function(layer){
-         $(function(){
-           change_text = setInterval(function(){
-             $("#polygon_x" + (i - 1)).val(layer.x);
-             $("#polygon_y" + (i - 1)).val(layer.y);
-           },10);
-         });
-         $(function(){
-           MOver("polygon_source" + (i-1));
-         });
-       },
-       mouseout:function(layer){
-         clearInterval(change_text);
-         $(function(){
-           MOut("polygon_source" + (i-1));
-         });
-       },
-       click:function(layer){
-         if(for_flag === true){
-           //table内のfor_propertyに書き込む
-           for_property.innerHTML = "多角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
-           + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
-           obj_judge = "polygon";
-         }
-         obj_flag = layer.name;
-         if(if_flag === true){
-           X = layer.x;
-           Y = layer.y;
-           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-         }
+    $("canvas").drawPolygon({
+      layer:true,
+      name:"Polygon" + i,
+      groups:["obj" + count_groups],
+      strokeStyle: "black",
+      fillStyle:"#666666",
+      strokeWidth: 1,
+      x: 100,
+      y: 100,
+      radius:32.5,
+      fromCenter: false,
+      sides: angle.value,
+      dblclick:function(layer){
+        layer.fillStyle = $("#color").val();
+        document.getElementById("ply_fill" + (i-1)).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
+        document.getElementById("file_ply_fill" + (i-1)).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");\n";
+      },
+      draggable:true,
+      drag:function(layer){
+        $("#polygon_x" + (i - 1)).val(layer.x);
+        $("#polygon_y" + (i - 1)).val(layer.y);
+      },
+      dragstop:function(layer){
+        document.getElementById("file_ply_source" + (i-1)).innerHTML = "  polygon(" + layer.x + "," + layer.y + ",40," + angle.value + ");\n";
+      },
+      mouseover:function(layer){
+        $(function(){
+          change_text = setInterval(function(){
+            $("#polygon_x" + (i - 1)).val(layer.x);
+            $("#polygon_y" + (i - 1)).val(layer.y);
+          },10);
+        });
+        $(function(){
+          MOver("polygon_source" + (i-1));
+        });
+      },
+      mouseout:function(layer){
+        clearInterval(change_text);
+        $(function(){
+          MOut("polygon_source" + (i-1));
+        });
+      },
+      click:function(layer){
+        if(for_flag === true){
+          //table内のfor_propertyに書き込む
+          for_property.innerHTML = "多角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
+          + '<input class="textbox" type="text" size="2" id = "rate">' + "ずつ動かす";
+          obj_judge = "polygon";
         }
-      });
-     }
-     if(angle.value % 2 == 0){
-       poly_angle = 360/(angle.value*2);
-       $("canvas").setLayer("Polygon" + (i-1),{
-         rotate:poly_angle
-       }).drawLayers();
-     }
-     if(for_flag == false){
-       fill_code_ply = "<li id='ply_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
-       literal(fill_code_ply);
-       ply_code = "<li id = 'polygon_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" value = "100">' + ",40," + angle.value + ");</font></li>";
-       literal(ply_code);
-       file_ply_fill = "<span id='file_ply_fill'>  fill(102,102,102);\n</span>"
-       ply_file_code = "<span id = 'file_ply_source'>  polygon(100,100,40," + angle.value + ");\n</span>";
-       $("canvas").append(file_ply_fill);
-       $("canvas").append(ply_file_code);
-       $("#file_ply_source").attr("id","file_ply_source" + (count_ply-1));
-       $("#file_ply_fill").attr("id","file_ply_fill" + (count_ply-1));
-       $("#polygon_x").attr("id","polygon_x" + (count_ply-1));
-       $("#polygon_y").attr("id","polygon_y" + (count_ply-1));
-       $("#polygon_source").attr("id","polygon_source" + (count_ply-1));
-       $("#polygon_source" + (count_ply-1)).addClass("polygon_source" + (count_ply-1));
-       $("#ply_fill").attr("id","ply_fill" + (count_ply-1));
-     }
-  },false);
+        obj_flag = layer.name;
+        if(if_flag === true){
+          X = layer.x;
+          Y = layer.y;
+          if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
+        }
+      }
+    });
+  }
+  if(angle.value % 2 == 0){
+    poly_angle = 360/(angle.value*2);
+    $("canvas").setLayer("Polygon" + (i-1),{
+      rotate:poly_angle
+    }).drawLayers();
+  }
+  fill_code_ply = "<li id='ply_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
+  literal(fill_code_ply);
+  ply_code = "<li id = 'polygon_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" value = "100">' + ",40," + angle.value + ");</font></li>";
+  literal(ply_code);
+  file_ply_fill = "<span id='file_ply_fill'>  fill(102,102,102);\n</span>"
+  ply_file_code = "<span id = 'file_ply_source'>  polygon(100,100,40," + angle.value + ");\n</span>";
+  $("canvas").append(file_ply_fill);
+  $("canvas").append(ply_file_code);
+  $("#file_ply_source").attr("id","file_ply_source" + (count_ply-1));
+  $("#file_ply_fill").attr("id","file_ply_fill" + (count_ply-1));
+  $("#polygon_x").attr("id","polygon_x" + (count_ply-1));
+  $("#polygon_y").attr("id","polygon_y" + (count_ply-1));
+  $("#polygon_source").attr("id","polygon_source" + (count_ply-1));
+  $("#polygon_source" + (count_ply-1)).addClass("polygon_source" + (count_ply-1));
+  $("#ply_fill").attr("id","ply_fill" + (count_ply-1));
+},false);
 
 
 line.addEventListener("click",function(){
@@ -1421,25 +1495,27 @@ line.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    stroke_code_line = "<li id='line_stroke'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
-    literal(stroke_code_line);
-    line_code = "<li id = 'line_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" value = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" value = "400">' + ");</font></li>";
-    literal(line_code);
-    file_line_stroke = "<span id='file_line_stroke'>  stroke(102,102,102);\n</span>"
-    line_file_code = "<span id = 'file_line_source'>  line(100,100,400,400);\n</span>";
-    $("canvas").append(file_line_stroke);
-    $("canvas").append(line_file_code);
-    $("#file_line_source").attr("id","file_line_source" + (count_line-1));
-    $("#file_line_stroke").attr("id","file_line_stroke" + (count_line-1));
-    $("#line1_x").attr("id","line1_x" + (count_line-1));
-    $("#line1_y").attr("id","line1_y" + (count_line-1));
-    $("#line2_x").attr("id","line2_x" + (count_line-1));
-    $("#line2_y").attr("id","line2_y" + (count_line-1));
-    $("#line_source").attr("id","line_source" + (count_line-1));
-    $("#line_source" + (count_line-1)).addClass("line_source" + (count_line-1));
-    $("#line_stroke").attr("id","line_stroke" + (count_line-1));
-  }
+  stroke_code_line = "<li id='line_stroke'><font class = 'light'color = '#f7f7f7' size = '3'>  stroke(102,102,102);</font></li>";
+  literal(stroke_code_line);
+  var line_strokeWeight = "<li><font class = 'light'color = '#f7f7f7' size = '3'>  strokeWeight(10);</font></li>";
+  literal(line_strokeWeight);
+  line_code = "<li id = 'line_source' class='Line'><font class = 'light'color = '#f7f7f7' size = '3'>  line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" value = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" value = "400">' + ");</font></li>";
+  literal(line_code);
+  file_line_stroke = "<span id='file_line_stroke'>  stroke(102,102,102);\n</span>";
+  file_strokeWeight = "<span> strokeWeight(10);</span>";
+  line_file_code = "<span id = 'file_line_source'>  line(100,100,400,400);\n</span>";
+  $("canvas").append(file_line_stroke);
+  $("canvas").append(file_strokeWeight);
+  $("canvas").append(line_file_code);
+  $("#file_line_source").attr("id","file_line_source" + (count_line-1));
+  $("#file_line_stroke").attr("id","file_line_stroke" + (count_line-1));
+  $("#line1_x").attr("id","line1_x" + (count_line-1));
+  $("#line1_y").attr("id","line1_y" + (count_line-1));
+  $("#line2_x").attr("id","line2_x" + (count_line-1));
+  $("#line2_y").attr("id","line2_y" + (count_line-1));
+  $("#line_source").attr("id","line_source" + (count_line-1));
+  $("#line_source" + (count_line-1)).addClass("line_source" + (count_line-1));
+  $("#line_stroke").attr("id","line_stroke" + (count_line-1));
 },false);
 
 pac.addEventListener("click",function(){
@@ -1470,7 +1546,7 @@ pac.addEventListener("click",function(){
         $("#pac_y" + (i - 1)).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_pac_source" + (i-1)).innerHTML = "  arc(" + layer.x + "," + layer.y + ",65,65,0.5,5.8);\n";
+        document.getElementById("file_pac_source" + (i-1)).innerHTML = "  arc(" + layer.x + "," + layer.y + ",65,65,0.5,5.8,PIE);\n";
       },
       mouseover:function(layer){
         $(function(){
@@ -1510,23 +1586,21 @@ pac.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    fill_code_pac = "<li id='pac_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
-    literal(fill_code_pac);
-    pac_code = "<li id = 'pac_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  arc(" + '<input class="textbox" type="text" size="2"id ="pac_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="pac_y" value = "100">' + ",65,65,0.5,5.8);</font></li>";
-    literal(pac_code);
-    file_pac_fill = "<span id='file_pac_fill'>  fill(102,102,102);\n</span>"
-    pac_file_code = "<span id = 'file_pac_source'>  arc(100,100,65,65,0.5,5.8);\n</span>";
-    $("canvas").append(file_pac_fill);
-    $("canvas").append(pac_file_code);
-    $("#file_pac_source").attr("id","file_pac_source" + (count_pac-1));
-    $("#file_pac_fill").attr("id","file_pac_fill" + (count_pac-1));
-    $("#pac_x").attr("id","pac_x" + (count_pac-1));
-    $("#pac_y").attr("id","pac_y" + (count_pac-1));
-    $("#pac_source").attr("id","pac_source" + (count_pac-1));
-    $("#pac_source" + (count_pac-1)).addClass("pac_source" + (count_pac-1));
-    $("#pac_fill").attr("id","pac_fill" + (count_pac-1));
-  }
+  fill_code_pac = "<li id='pac_fill'><font class = 'light'color = '#f7f7f7' size = '3'>  fill(102,102,102);</font></li>";
+  literal(fill_code_pac);
+  pac_code = "<li id = 'pac_source' class='Fig'><font class = 'light'color = '#f7f7f7' size = '3'>  arc(" + '<input class="textbox" type="text" size="2"id ="pac_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="pac_y" value = "100">' + ",65,65,0.5,5.8,PIE);</font></li>";
+  literal(pac_code);
+  file_pac_fill = "<span id='file_pac_fill'>  fill(102,102,102);\n</span>"
+  pac_file_code = "<span id = 'file_pac_source'>  arc(100,100,65,65,0.5,5.8,PIE);\n</span>";
+  $("canvas").append(file_pac_fill);
+  $("canvas").append(pac_file_code);
+  $("#file_pac_source").attr("id","file_pac_source" + (count_pac-1));
+  $("#file_pac_fill").attr("id","file_pac_fill" + (count_pac-1));
+  $("#pac_x").attr("id","pac_x" + (count_pac-1));
+  $("#pac_y").attr("id","pac_y" + (count_pac-1));
+  $("#pac_source").attr("id","pac_source" + (count_pac-1));
+  $("#pac_source" + (count_pac-1)).addClass("pac_source" + (count_pac-1));
+  $("#pac_fill").attr("id","pac_fill" + (count_pac-1));
 },false);
 
 butt_red.addEventListener("click",function(){
@@ -1587,20 +1661,18 @@ butt_red.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var red_butt_inst = "<li class = 'class1'>PImage <a href = 'img/red_butterfly.png' download='red_butterfly.png' class='tooltip' title='クリックしてダウンロード.'>red_butterfly;\n</a></li>"
-    var red_butt = '<li class = "class_1"><font class = "light"color = "#f7f7f7" size = "3">  red_butterfly=loadImage("red_butterfly.png");\n</font></li>'
-    PImage_literal(red_butt,count_img_1,red_butt_inst);
-    img_code_1 = "<li id = 'img1_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(red_butterfly," + '<input class="textbox" type="text" size="2"id ="img1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img1_y" value = "100">' + ");</font></li>";
-    literal(img_code_1);
-    img_file_code_1 = "<span id = 'file_img_source_1'>  image(red_butterfly,100,100);\n</span>";
-    $("canvas").append(img_file_code_1);
-    $("#file_img_source_1").attr("id","file_img_source_1" + (count_img_1-1));
-    $("#img1_x").attr("id","img1_x" + (count_img_1-1));
-    $("#img1_y").attr("id","img1_y" + (count_img_1-1));
-    $("#img1_source").attr("id","img1_source" + (count_img_1-1));
-    $("#img1_source" + (count_img_1-1)).addClass("img1_source" + (count_img_1-1));
-  }
+  var red_butt_inst = "<li class = 'class1'>PImage <a href = 'img/red_butterfly.png' download='red_butterfly.png' class='tooltip' title='クリックしてダウンロード.'>red_butterfly;\n</a></li>"
+  var red_butt = '<li class = "class_1"><font class = "light"color = "#f7f7f7" size = "3">  red_butterfly=loadImage("red_butterfly.png");\n</font></li>'
+  PImage_literal(red_butt,count_img_1,red_butt_inst);
+  img_code_1 = "<li id = 'img1_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(red_butterfly," + '<input class="textbox" type="text" size="2"id ="img1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img1_y" value = "100">' + ");</font></li>";
+  literal(img_code_1);
+  img_file_code_1 = "<span id = 'file_img_source_1'>  image(red_butterfly,100,100);\n</span>";
+  $("canvas").append(img_file_code_1);
+  $("#file_img_source_1").attr("id","file_img_source_1" + (count_img_1-1));
+  $("#img1_x").attr("id","img1_x" + (count_img_1-1));
+  $("#img1_y").attr("id","img1_y" + (count_img_1-1));
+  $("#img1_source").attr("id","img1_source" + (count_img_1-1));
+  $("#img1_source" + (count_img_1-1)).addClass("img1_source" + (count_img_1-1));
 },false);
 
 butt_yellow.addEventListener("click",function(){
@@ -1660,20 +1732,18 @@ butt_yellow.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var yellow_butt_inst = "<li class = 'class2'>PImage <a href = 'img/ylw_butterfly.png' download='ylw_butterfly.png' class='tooltip' title='クリックしてダウンロードしてください.'>yellow_butterfly;\n</a></li>"
-    var yellow_butt = '<li class = "class_2"><font class = "light"color = "#f7f7f7" size = "3">  yellow_butterfly=loadImage("ylw_butterfly.png");\n</font></li>'
-    PImage_literal(yellow_butt,count_img_2,yellow_butt_inst);
-    img_code_2 = "<li id = 'img2_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(yellow_butterfly," + '<input class="textbox" type="text" size="2"id ="img2_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img2_y" value = "100">' + ");</font></li>";
-    literal(img_code_2);
-    img_file_code_2 = "<span id = 'file_img_source_2'>  image(yellow_butterfly,100,100);\n</span>";
-    $("canvas").append(img_file_code_2);
-    $("#file_img_source_2").attr("id","file_img_source_2" + (count_img_2-1));
-    $("#img2_x").attr("id","img2_x" + (count_img_2-1));
-    $("#img2_y").attr("id","img2_y" + (count_img_2-1));
-    $("#img2_source").attr("id","img2_source" + (count_img_2-1));
-    $("#img2_source" + (count_img_2-1)).addClass("img2_source" + (count_img_2-1));
-  }
+  var yellow_butt_inst = "<li class = 'class2'>PImage <a href = 'img/ylw_butterfly.png' download='ylw_butterfly.png' class='tooltip' title='クリックしてダウンロードしてください.'>yellow_butterfly;\n</a></li>"
+  var yellow_butt = '<li class = "class_2"><font class = "light"color = "#f7f7f7" size = "3">  yellow_butterfly=loadImage("ylw_butterfly.png");\n</font></li>'
+  PImage_literal(yellow_butt,count_img_2,yellow_butt_inst);
+  img_code_2 = "<li id = 'img2_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(yellow_butterfly," + '<input class="textbox" type="text" size="2"id ="img2_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img2_y" value = "100">' + ");</font></li>";
+  literal(img_code_2);
+  img_file_code_2 = "<span id = 'file_img_source_2'>  image(yellow_butterfly,100,100);\n</span>";
+  $("canvas").append(img_file_code_2);
+  $("#file_img_source_2").attr("id","file_img_source_2" + (count_img_2-1));
+  $("#img2_x").attr("id","img2_x" + (count_img_2-1));
+  $("#img2_y").attr("id","img2_y" + (count_img_2-1));
+  $("#img2_source").attr("id","img2_source" + (count_img_2-1));
+  $("#img2_source" + (count_img_2-1)).addClass("img2_source" + (count_img_2-1));
 },false);
 
 butt_blue.addEventListener("click",function(){
@@ -1733,20 +1803,18 @@ butt_blue.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var blue_butt_inst = "<li class = 'class3'>PImage <a href = 'img/blue_butterfly.png' download='blue_butterfly.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_butterfly;\n</a></li>"
-    var blue_butt = '<li class = "class_3"><font class = "light"color = "#f7f7f7" size = "3">  blue_butterfly=loadImage("blue_butterfly.png");\n</font></li>'
-    PImage_literal(blue_butt,count_img_3,blue_butt_inst);
-    img_code_3 = "<li id = 'img3_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(blue_butterfly," + '<input class="textbox" type="text" size="2"id ="img3_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img3_y" value = "100">' + ");</font></li>";
-    literal(img_code_3);
-    img_file_code_3 = "<span id = 'file_img_source_3'>  image(blue_butterfly,100,100);\n</span>";
-    $("canvas").append(img_file_code_3);
-    $("#file_img_source_3").attr("id","file_img_source_3" + (count_img_3-1));
-    $("#img3_x").attr("id","img3_x" + (count_img_3-1));
-    $("#img3_y").attr("id","img3_y" + (count_img_3-1));
-    $("#img3_source").attr("id","img3_source" + (count_img_3-1));
-    $("#img3_source" + (count_img_3-1)).addClass("img3_source" + (count_img_3-1));
-  }
+  var blue_butt_inst = "<li class = 'class3'>PImage <a href = 'img/blue_butterfly.png' download='blue_butterfly.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_butterfly;\n</a></li>"
+  var blue_butt = '<li class = "class_3"><font class = "light"color = "#f7f7f7" size = "3">  blue_butterfly=loadImage("blue_butterfly.png");\n</font></li>'
+  PImage_literal(blue_butt,count_img_3,blue_butt_inst);
+  img_code_3 = "<li id = 'img3_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(blue_butterfly," + '<input class="textbox" type="text" size="2"id ="img3_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img3_y" value = "100">' + ");</font></li>";
+  literal(img_code_3);
+  img_file_code_3 = "<span id = 'file_img_source_3'>  image(blue_butterfly,100,100);\n</span>";
+  $("canvas").append(img_file_code_3);
+  $("#file_img_source_3").attr("id","file_img_source_3" + (count_img_3-1));
+  $("#img3_x").attr("id","img3_x" + (count_img_3-1));
+  $("#img3_y").attr("id","img3_y" + (count_img_3-1));
+  $("#img3_source").attr("id","img3_source" + (count_img_3-1));
+  $("#img3_source" + (count_img_3-1)).addClass("img3_source" + (count_img_3-1));
 },false);
 
 blue_candy.addEventListener("click",function(){
@@ -1806,20 +1874,18 @@ blue_candy.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var blue_candy_inst = "<li class = 'class4'>PImage <a href = 'img/blue_candy.png' download='blue_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_candy;\n</a></li>"
-    var blue_candy = '<li class = "class_4"><font class = "light"color = "#f7f7f7" size = "3">  blue_candy=loadImage("blue_candy.png");\n</font></li>'
-    PImage_literal(blue_candy,count_img_4,blue_candy_inst);
-    img_code_4 = "<li id = 'img4_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(blue_candy," + '<input class="textbox" type="text" size="2"id ="img4_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img4_y" value = "100">' + ");</font></li>";
-    literal(img_code_4);
-    img_file_code_4 = "<span id = 'file_img_source_4'>  image(blue_candy,100,100);\n</span>";
-    $("canvas").append(img_file_code_4);
-    $("#file_img_source_4").attr("id","file_img_source_4" + (count_img_4-1));
-    $("#img4_x").attr("id","img4_x" + (count_img_4-1));
-    $("#img4_y").attr("id","img4_y" + (count_img_4-1));
-    $("#img4_source").attr("id","img4_source" + (count_img_4-1));
-    $("#img4_source" + (count_img_4-1)).addClass("img4_source" + (count_img_4-1));
-  }
+  var blue_candy_inst = "<li class = 'class4'>PImage <a href = 'img/blue_candy.png' download='blue_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_candy;\n</a></li>"
+  var blue_candy = '<li class = "class_4"><font class = "light"color = "#f7f7f7" size = "3">  blue_candy=loadImage("blue_candy.png");\n</font></li>'
+  PImage_literal(blue_candy,count_img_4,blue_candy_inst);
+  img_code_4 = "<li id = 'img4_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(blue_candy," + '<input class="textbox" type="text" size="2"id ="img4_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img4_y" value = "100">' + ");</font></li>";
+  literal(img_code_4);
+  img_file_code_4 = "<span id = 'file_img_source_4'>  image(blue_candy,100,100);\n</span>";
+  $("canvas").append(img_file_code_4);
+  $("#file_img_source_4").attr("id","file_img_source_4" + (count_img_4-1));
+  $("#img4_x").attr("id","img4_x" + (count_img_4-1));
+  $("#img4_y").attr("id","img4_y" + (count_img_4-1));
+  $("#img4_source").attr("id","img4_source" + (count_img_4-1));
+  $("#img4_source" + (count_img_4-1)).addClass("img4_source" + (count_img_4-1));
 },false);
 
 orange_candy.addEventListener("click",function(){
@@ -1879,20 +1945,18 @@ orange_candy.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var orange_candy_inst = "<li class = 'class5'>PImage <a href = 'img/orange_candy.png' download='orange_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_candy;\n</a></li>"
-    var orange_candy = '<li class = "class_5"><font class = "light"color = "#f7f7f7" size = "3">  orange_candy=loadImage("orange_candy.png");\n</font></li>'
-    PImage_literal(orange_candy,count_img_5,orange_candy_inst);
-    img_code_5 = "<li id = 'img5_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(orange_candy," + '<input class="textbox" type="text" size="2"id ="img5_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img5_y" value = "100">' + ");</font></li>";
-    literal(img_code_5);
-    img_file_code_5 = "<span id = 'file_img_source_5'>  image(orange_candy,100,100);\n</span>";
-    $("canvas").append(img_file_code_5);
-    $("#file_img_source_5").attr("id","file_img_source_5" + (count_img_5-1));
-    $("#img5_x").attr("id","img5_x" + (count_img_5-1));
-    $("#img5_y").attr("id","img5_y" + (count_img_5-1));
-    $("#img5_source").attr("id","img5_source" + (count_img_5-1));
-    $("#img5_source" + (count_img_5-1)).addClass("img5_source" + (count_img_5-1));
-  }
+  var orange_candy_inst = "<li class = 'class5'>PImage <a href = 'img/orange_candy.png' download='orange_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_candy;\n</a></li>"
+  var orange_candy = '<li class = "class_5"><font class = "light"color = "#f7f7f7" size = "3">  orange_candy=loadImage("orange_candy.png");\n</font></li>'
+  PImage_literal(orange_candy,count_img_5,orange_candy_inst);
+  img_code_5 = "<li id = 'img5_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(orange_candy," + '<input class="textbox" type="text" size="2"id ="img5_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img5_y" value = "100">' + ");</font></li>";
+  literal(img_code_5);
+  img_file_code_5 = "<span id = 'file_img_source_5'>  image(orange_candy,100,100);\n</span>";
+  $("canvas").append(img_file_code_5);
+  $("#file_img_source_5").attr("id","file_img_source_5" + (count_img_5-1));
+  $("#img5_x").attr("id","img5_x" + (count_img_5-1));
+  $("#img5_y").attr("id","img5_y" + (count_img_5-1));
+  $("#img5_source").attr("id","img5_source" + (count_img_5-1));
+  $("#img5_source" + (count_img_5-1)).addClass("img5_source" + (count_img_5-1));
 },false);
 
 pink_candy.addEventListener("click",function(){
@@ -1952,20 +2016,18 @@ pink_candy.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var pink_candy_inst = "<li class = 'class6'>PImage <a href = 'img/pink_candy.png' download='pink_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>pink_candy;\n</a></li>"
-    var pink_candy = '<li class = "class_6"><font class = "light"color = "#f7f7f7" size = "3">  pink_candy=loadImage("pink_candy.png");\n</font></li>'
-    PImage_literal(pink_candy,count_img_6,pink_candy_inst);
-    img_code_6 = "<li id = 'img6_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(pink_candy," + '<input class="textbox" type="text" size="2"id ="img6_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img6_y" value = "100">' + ");</font></li>";
-    literal(img_code_6);
-    img_file_code_6 = "<span id = 'file_img_source_6'>  image(pink_candy,100,100);\n</span>";
-    $("canvas").append(img_file_code_6);
-    $("#file_img_source_6").attr("id","file_img_source_6" + (count_img_6-1));
-    $("#img6_x").attr("id","img6_x" + (count_img_6-1));
-    $("#img6_y").attr("id","img6_y" + (count_img_6-1));
-    $("#img6_source").attr("id","img6_source" + (count_img_6-1));
-    $("#img6_source" + (count_img_6-1)).addClass("img6_source" + (count_img_6-1));
-  }
+  var pink_candy_inst = "<li class = 'class6'>PImage <a href = 'img/pink_candy.png' download='pink_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>pink_candy;\n</a></li>"
+  var pink_candy = '<li class = "class_6"><font class = "light"color = "#f7f7f7" size = "3">  pink_candy=loadImage("pink_candy.png");\n</font></li>'
+  PImage_literal(pink_candy,count_img_6,pink_candy_inst);
+  img_code_6 = "<li id = 'img6_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(pink_candy," + '<input class="textbox" type="text" size="2"id ="img6_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img6_y" value = "100">' + ");</font></li>";
+  literal(img_code_6);
+  img_file_code_6 = "<span id = 'file_img_source_6'>  image(pink_candy,100,100);\n</span>";
+  $("canvas").append(img_file_code_6);
+  $("#file_img_source_6").attr("id","file_img_source_6" + (count_img_6-1));
+  $("#img6_x").attr("id","img6_x" + (count_img_6-1));
+  $("#img6_y").attr("id","img6_y" + (count_img_6-1));
+  $("#img6_source").attr("id","img6_source" + (count_img_6-1));
+  $("#img6_source" + (count_img_6-1)).addClass("img6_source" + (count_img_6-1));
 },false);
 
 blue_umbrella.addEventListener("click",function(){
@@ -2025,20 +2087,18 @@ blue_umbrella.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var blue_umbrella_inst = "<li class = 'class7'>PImage <a href = 'img/blue_umbrella.png' download='blue_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_umbrella;\n</a></li>"
-    var blue_umbrella = '<li class = "class_7"><font class = "light"color = "#f7f7f7" size = "3">  blue_umbrella=loadImage("blue_umbrella.png");\n</font></li>'
-    PImage_literal(blue_umbrella,count_img_7,blue_umbrella_inst);
-    img_code_7 = "<li id = 'img7_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(blue_umbrella," + '<input class="textbox" type="text" size="2"id ="img7_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img7_y" value = "100">' + ");</font></li>";
-    literal(img_code_7);
-    img_file_code_7 = "<span id = 'file_img_source_7'>  image(blue_umbrella,100,100);\n</span>";
-    $("canvas").append(img_file_code_7);
-    $("#file_img_source_7").attr("id","file_img_source_7" + (count_img_7-1));
-    $("#img7_x").attr("id","img7_x" + (count_img_7-1));
-    $("#img7_y").attr("id","img7_y" + (count_img_7-1));
-    $("#img7_source").attr("id","img7_source" + (count_img_7-1));
-    $("#img7_source" + (count_img_7-1)).addClass("img7_source" + (count_img_7-1));
-  }
+  var blue_umbrella_inst = "<li class = 'class7'>PImage <a href = 'img/blue_umbrella.png' download='blue_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_umbrella;\n</a></li>"
+  var blue_umbrella = '<li class = "class_7"><font class = "light"color = "#f7f7f7" size = "3">  blue_umbrella=loadImage("blue_umbrella.png");\n</font></li>'
+  PImage_literal(blue_umbrella,count_img_7,blue_umbrella_inst);
+  img_code_7 = "<li id = 'img7_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(blue_umbrella," + '<input class="textbox" type="text" size="2"id ="img7_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img7_y" value = "100">' + ");</font></li>";
+  literal(img_code_7);
+  img_file_code_7 = "<span id = 'file_img_source_7'>  image(blue_umbrella,100,100);\n</span>";
+  $("canvas").append(img_file_code_7);
+  $("#file_img_source_7").attr("id","file_img_source_7" + (count_img_7-1));
+  $("#img7_x").attr("id","img7_x" + (count_img_7-1));
+  $("#img7_y").attr("id","img7_y" + (count_img_7-1));
+  $("#img7_source").attr("id","img7_source" + (count_img_7-1));
+  $("#img7_source" + (count_img_7-1)).addClass("img7_source" + (count_img_7-1));
 },false);
 green_umbrella.addEventListener("click",function(){
   ++count_groups;
@@ -2097,20 +2157,18 @@ green_umbrella.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var green_umbrella_inst = "<li class = 'class8'>PImage <a href = 'img/green_umbrella.png' download='green_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>green_umbrella;\n</a></li>"
-    var green_umbrella = '<li class = "class_8"><font class = "light"color = "#f7f7f7" size = "3">  green_umbrella=loadImage("green_umbrella.png");\n</font></li>'
-    PImage_literal(green_umbrella,count_img_8,green_umbrella_inst);
-    img_code_8 = "<li id = 'img8_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(green_umbrella," + '<input class="textbox" type="text" size="2"id ="img8_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img8_y" value = "100">' + ");</font></li>";
-    literal(img_code_8);
-    img_file_code_8 = "<span id = 'file_img_source_8'>  image(green_umbrella,100,100);\n</span>";
-    $("canvas").append(img_file_code_8);
-    $("#file_img_source_8").attr("id","file_img_source_8" + (count_img_8-1));
-    $("#img8_x").attr("id","img8_x" + (count_img_8-1));
-    $("#img8_y").attr("id","img8_y" + (count_img_8-1));
-    $("#img8_source").attr("id","img8_source" + (count_img_8-1));
-    $("#img8_source" + (count_img_8-1)).addClass("img8_source" + (count_img_8-1));
-  }
+  var green_umbrella_inst = "<li class = 'class8'>PImage <a href = 'img/green_umbrella.png' download='green_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>green_umbrella;\n</a></li>"
+  var green_umbrella = '<li class = "class_8"><font class = "light"color = "#f7f7f7" size = "3">  green_umbrella=loadImage("green_umbrella.png");\n</font></li>'
+  PImage_literal(green_umbrella,count_img_8,green_umbrella_inst);
+  img_code_8 = "<li id = 'img8_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(green_umbrella," + '<input class="textbox" type="text" size="2"id ="img8_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img8_y" value = "100">' + ");</font></li>";
+  literal(img_code_8);
+  img_file_code_8 = "<span id = 'file_img_source_8'>  image(green_umbrella,100,100);\n</span>";
+  $("canvas").append(img_file_code_8);
+  $("#file_img_source_8").attr("id","file_img_source_8" + (count_img_8-1));
+  $("#img8_x").attr("id","img8_x" + (count_img_8-1));
+  $("#img8_y").attr("id","img8_y" + (count_img_8-1));
+  $("#img8_source").attr("id","img8_source" + (count_img_8-1));
+  $("#img8_source" + (count_img_8-1)).addClass("img8_source" + (count_img_8-1));
 },false);
 
 orange_umbrella.addEventListener("click",function(){
@@ -2170,20 +2228,18 @@ orange_umbrella.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var orange_umbrella_inst = "<li class = 'class9'>PImage <a href = 'img/orange_umbrella.png' download='orange_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_umbrella;\n</a></li>"
-    var orange_umbrella = '<li class = "class_9"><font class = "light"color = "#f7f7f7" size = "3">  orange_umbrella=loadImage("orange_umbrella.png");\n</font></li>'
-    PImage_literal(orange_umbrella,count_img_9,orange_umbrella_inst);
-    img_code_9 = "<li id = 'img9_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(orange_umbrella," + '<input class="textbox" type="text" size="2"id ="img9_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img9_y" value = "100">' + ");</font></li>";
-    literal(img_code_9);
-    img_file_code_9 = "<span id = 'file_img_source_9'>  image(orange_umbrella,100,100);\n</span>";
-    $("canvas").append(img_file_code_9);
-    $("#file_img_source_9").attr("id","file_img_source_9" + (count_img_9-1));
-    $("#img9_x").attr("id","img9_x" + (count_img_9-1));
-    $("#img9_y").attr("id","img9_y" + (count_img_9-1));
-    $("#img9_source").attr("id","img9_source" + (count_img_9-1));
-    $("#img9_source" + (count_img_9-1)).addClass("img9_source" + (count_img_9-1));
-  }
+  var orange_umbrella_inst = "<li class = 'class9'>PImage <a href = 'img/orange_umbrella.png' download='orange_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_umbrella;\n</a></li>"
+  var orange_umbrella = '<li class = "class_9"><font class = "light"color = "#f7f7f7" size = "3">  orange_umbrella=loadImage("orange_umbrella.png");\n</font></li>'
+  PImage_literal(orange_umbrella,count_img_9,orange_umbrella_inst);
+  img_code_9 = "<li id = 'img9_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(orange_umbrella," + '<input class="textbox" type="text" size="2"id ="img9_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img9_y" value = "100">' + ");</font></li>";
+  literal(img_code_9);
+  img_file_code_9 = "<span id = 'file_img_source_9'>  image(orange_umbrella,100,100);\n</span>";
+  $("canvas").append(img_file_code_9);
+  $("#file_img_source_9").attr("id","file_img_source_9" + (count_img_9-1));
+  $("#img9_x").attr("id","img9_x" + (count_img_9-1));
+  $("#img9_y").attr("id","img9_y" + (count_img_9-1));
+  $("#img9_source").attr("id","img9_source" + (count_img_9-1));
+  $("#img9_source" + (count_img_9-1)).addClass("img9_source" + (count_img_9-1));
 },false);
 
 orange_flower.addEventListener("click",function(){
@@ -2243,20 +2299,18 @@ orange_flower.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var orange_flower_inst = "<li class = 'class10'>PImage <a href = 'img/orange_flower.png' download='orange_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_flower;\n</a></li>"
-    var orange_flower = '<li class = "class_10"><font class = "light"color = "#f7f7f7" size = "3">  orange_flower=loadImage("orange_flower.png");\n</font></li>'
-    PImage_literal(orange_flower,count_img_10,orange_flower_inst);
-    img_code_10 = "<li id = 'img10_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(orange_flower," + '<input class="textbox" type="text" size="2"id ="img10_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img10_y" value = "100">' + ");</font></li>";
-    literal(img_code_10);
-    img_file_code_10 = "<span id = 'file_img_source_10'>  image(orange_flower,100,100);\n</span>";
-    $("canvas").append(img_file_code_10);
-    $("#file_img_source_10").attr("id","file_img_source_10" + (count_img_10-1));
-    $("#img10_x").attr("id","img10_x" + (count_img_10-1));
-    $("#img10_y").attr("id","img10_y" + (count_img_10-1));
-    $("#img10_source").attr("id","img10_source" + (count_img_10-1));
-    $("#img10_source" + (count_img_10-1)).addClass("img10_source" + (count_img_10-1));
-  }
+  var orange_flower_inst = "<li class = 'class10'>PImage <a href = 'img/orange_flower.png' download='orange_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_flower;\n</a></li>"
+  var orange_flower = '<li class = "class_10"><font class = "light"color = "#f7f7f7" size = "3">  orange_flower=loadImage("orange_flower.png");\n</font></li>'
+  PImage_literal(orange_flower,count_img_10,orange_flower_inst);
+  img_code_10 = "<li id = 'img10_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(orange_flower," + '<input class="textbox" type="text" size="2"id ="img10_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img10_y" value = "100">' + ");</font></li>";
+  literal(img_code_10);
+  img_file_code_10 = "<span id = 'file_img_source_10'>  image(orange_flower,100,100);\n</span>";
+  $("canvas").append(img_file_code_10);
+  $("#file_img_source_10").attr("id","file_img_source_10" + (count_img_10-1));
+  $("#img10_x").attr("id","img10_x" + (count_img_10-1));
+  $("#img10_y").attr("id","img10_y" + (count_img_10-1));
+  $("#img10_source").attr("id","img10_source" + (count_img_10-1));
+  $("#img10_source" + (count_img_10-1)).addClass("img10_source" + (count_img_10-1));
 },false);
 
 pink_flower.addEventListener("click",function(){
@@ -2316,20 +2370,18 @@ pink_flower.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var pink_flower_inst = "<li class = 'class11'>PImage <a href = 'img/pink_flower.png' download='pink_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>pink_flower;\n</a></li>"
-    var pink_flower = '<li class = "class_11"><font class = "light"color = "#f7f7f7" size = "3">  pink_flower=loadImage("pink_flower.png");\n</font></li>'
-    PImage_literal(pink_flower,count_img_11,pink_flower_inst);
-    img_code_11 = "<li id = 'img11_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(pink_flower," + '<input class="textbox" type="text" size="2"id ="img11_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img11_y" value = "100">' + ");</font></li>";
-    literal(img_code_11);
-    img_file_code_11 = "<span id = 'file_img_source_11'>  image(pink_flower,100,100);\n</span>";
-    $("canvas").append(img_file_code_11);
-    $("#file_img_source_11").attr("id","file_img_source_11" + (count_img_11-1));
-    $("#img11_x").attr("id","img11_x" + (count_img_11-1));
-    $("#img11_y").attr("id","img11_y" + (count_img_11-1));
-    $("#img11_source").attr("id","img11_source" + (count_img_11-1));
-    $("#img11_source" + (count_img_11-1)).addClass("img11_source" + (count_img_11-1));
-  }
+  var pink_flower_inst = "<li class = 'class11'>PImage <a href = 'img/pink_flower.png' download='pink_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>pink_flower;\n</a></li>"
+  var pink_flower = '<li class = "class_11"><font class = "light"color = "#f7f7f7" size = "3">  pink_flower=loadImage("pink_flower.png");\n</font></li>'
+  PImage_literal(pink_flower,count_img_11,pink_flower_inst);
+  img_code_11 = "<li id = 'img11_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(pink_flower," + '<input class="textbox" type="text" size="2"id ="img11_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img11_y" value = "100">' + ");</font></li>";
+  literal(img_code_11);
+  img_file_code_11 = "<span id = 'file_img_source_11'>  image(pink_flower,100,100);\n</span>";
+  $("canvas").append(img_file_code_11);
+  $("#file_img_source_11").attr("id","file_img_source_11" + (count_img_11-1));
+  $("#img11_x").attr("id","img11_x" + (count_img_11-1));
+  $("#img11_y").attr("id","img11_y" + (count_img_11-1));
+  $("#img11_source").attr("id","img11_source" + (count_img_11-1));
+  $("#img11_source" + (count_img_11-1)).addClass("img11_source" + (count_img_11-1));
 },false);
 
 yellow_flower.addEventListener("click",function(){
@@ -2389,20 +2441,18 @@ yellow_flower.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var yellow_flower_inst = "<li class = 'class12'>PImage <a href = 'img/yellow_flower.png' download='yellow_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>yellow_flower;\n</a></li>"
-    var yellow_flower = '<li class = "class_12"><font class = "light"color = "#f7f7f7" size = "3">  yellow_flower=loadImage("yellow_flower.png");\n</font></li>'
-    PImage_literal(yellow_flower,count_img_12,yellow_flower_inst);
-    img_code_12 = "<li id = 'img12_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(yellow_flower," + '<input class="textbox" type="text" size="2"id ="img12_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img12_y" value = "100">' + ");</font></li>";
-    literal(img_code_12);
-    img_file_code_12 = "<span id = 'file_img_source_12'>  image(yellow_flower,100,100);\n</span>";
-    $("canvas").append(img_file_code_12);
-    $("#file_img_source_12").attr("id","file_img_source_12" + (count_img_12-1));
-    $("#img12_x").attr("id","img12_x" + (count_img_12-1));
-    $("#img12_y").attr("id","img12_y" + (count_img_12-1));
-    $("#img12_source").attr("id","img12_source" + (count_img_12-1));
-    $("#img12_source" + (count_img_12-1)).addClass("img12_source" + (count_img_12-1));
-  }
+  var yellow_flower_inst = "<li class = 'class12'>PImage <a href = 'img/yellow_flower.png' download='yellow_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>yellow_flower;\n</a></li>"
+  var yellow_flower = '<li class = "class_12"><font class = "light"color = "#f7f7f7" size = "3">  yellow_flower=loadImage("yellow_flower.png");\n</font></li>'
+  PImage_literal(yellow_flower,count_img_12,yellow_flower_inst);
+  img_code_12 = "<li id = 'img12_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(yellow_flower," + '<input class="textbox" type="text" size="2"id ="img12_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img12_y" value = "100">' + ");</font></li>";
+  literal(img_code_12);
+  img_file_code_12 = "<span id = 'file_img_source_12'>  image(yellow_flower,100,100);\n</span>";
+  $("canvas").append(img_file_code_12);
+  $("#file_img_source_12").attr("id","file_img_source_12" + (count_img_12-1));
+  $("#img12_x").attr("id","img12_x" + (count_img_12-1));
+  $("#img12_y").attr("id","img12_y" + (count_img_12-1));
+  $("#img12_source").attr("id","img12_source" + (count_img_12-1));
+  $("#img12_source" + (count_img_12-1)).addClass("img12_source" + (count_img_12-1));
 },false);
 
 tank.addEventListener("click",function(){
@@ -2462,20 +2512,18 @@ tank.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var tank_inst = "<li class = 'class13'>PImage <a href = 'img/tank.png' download='tank.png' class='tooltip' title='クリックしてダウンロードしてください.'>tank;\n</a></li>"
-    var tank = '<li class = "class_13"><font class = "light"color = "#f7f7f7" size = "3">  tank=loadImage("tank.png");\n</font></li>'
-    PImage_literal(tank,count_img_13,tank_inst);
-    img_code_13 = "<li id = 'img13_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(tank," + '<input class="textbox" type="text" size="2"id ="img13_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img13_y" value = "100">' + ");</font></li>";
-    literal(img_code_13);
-    img_file_code_13 = "<span id = 'file_img_source_13'>  image(tank,100,100);\n</span>";
-    $("canvas").append(img_file_code_13);
-    $("#file_img_source_13").attr("id","file_img_source_13" + (count_img_13-1));
-    $("#img13_x").attr("id","img13_x" + (count_img_13-1));
-    $("#img13_y").attr("id","img13_y" + (count_img_13-1));
-    $("#img13_source").attr("id","img13_source" + (count_img_13-1));
-    $("#img13_source" + (count_img_13-1)).addClass("img13_source" + (count_img_13-1));
-  }
+  var tank_inst = "<li class = 'class13'>PImage <a href = 'img/tank.png' download='tank.png' class='tooltip' title='クリックしてダウンロードしてください.'>tank;\n</a></li>"
+  var tank = '<li class = "class_13"><font class = "light"color = "#f7f7f7" size = "3">  tank=loadImage("tank.png");\n</font></li>'
+  PImage_literal(tank,count_img_13,tank_inst);
+  img_code_13 = "<li id = 'img13_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(tank," + '<input class="textbox" type="text" size="2"id ="img13_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img13_y" value = "100">' + ");</font></li>";
+  literal(img_code_13);
+  img_file_code_13 = "<span id = 'file_img_source_13'>  image(tank,100,100);\n</span>";
+  $("canvas").append(img_file_code_13);
+  $("#file_img_source_13").attr("id","file_img_source_13" + (count_img_13-1));
+  $("#img13_x").attr("id","img13_x" + (count_img_13-1));
+  $("#img13_y").attr("id","img13_y" + (count_img_13-1));
+  $("#img13_source").attr("id","img13_source" + (count_img_13-1));
+  $("#img13_source" + (count_img_13-1)).addClass("img13_source" + (count_img_13-1));
 },false);
 
 star.addEventListener("click",function(){
@@ -2535,20 +2583,18 @@ star.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var star_inst = "<li class = 'class14'>PImage <a href = 'img/star.png' download='star.png' class='tooltip' title='クリックしてダウンロードしてください.'>star;\n</a></li>"
-    var star = '<li class = "class_14"><font class = "light"color = "#f7f7f7" size = "3">  star=loadImage("star.png");\n</font></li>';
-    PImage_literal(star,count_img_14,star_inst);
-    img_code_14 = "<li id = 'img14_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(star," + '<input class="textbox" type="text" size="2"id ="img14_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img14_y" value = "100">' + ");</font></li>";
-    literal(img_code_14);
-    img_file_code_14 = "<span id = 'file_img_source_14'>  image(star,100,100);\n</span>";
-    $("canvas").append(img_file_code_14);
-    $("#file_img_source_14").attr("id","file_img_source_14" + (count_img_14-1));
-    $("#img14_x").attr("id","img14_x" + (count_img_14-1));
-    $("#img14_y").attr("id","img14_y" + (count_img_14-1));
-    $("#img14_source").attr("id","img14_source" + (count_img_14-1));
-    $("#img14_source" + (count_img_14-1)).addClass("img14_source" + (count_img_14-1));
-  }
+  var star_inst = "<li class = 'class14'>PImage <a href = 'img/star.png' download='star.png' class='tooltip' title='クリックしてダウンロードしてください.'>star;\n</a></li>"
+  var star = '<li class = "class_14"><font class = "light"color = "#f7f7f7" size = "3">  star=loadImage("star.png");\n</font></li>';
+  PImage_literal(star,count_img_14,star_inst);
+  img_code_14 = "<li id = 'img14_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(star," + '<input class="textbox" type="text" size="2"id ="img14_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img14_y" value = "100">' + ");</font></li>";
+  literal(img_code_14);
+  img_file_code_14 = "<span id = 'file_img_source_14'>  image(star,100,100);\n</span>";
+  $("canvas").append(img_file_code_14);
+  $("#file_img_source_14").attr("id","file_img_source_14" + (count_img_14-1));
+  $("#img14_x").attr("id","img14_x" + (count_img_14-1));
+  $("#img14_y").attr("id","img14_y" + (count_img_14-1));
+  $("#img14_source").attr("id","img14_source" + (count_img_14-1));
+  $("#img14_source" + (count_img_14-1)).addClass("img14_source" + (count_img_14-1));
 },false);
 
 giraffe.addEventListener("click",function(){
@@ -2608,20 +2654,18 @@ giraffe.addEventListener("click",function(){
       }
     });
   }
-  if(for_flag == false){
-    var giraffe_inst = "<li class = 'class15'>PImage <a href = 'img/giraffe.png' download='giraffe.png' class='tooltip' title='クリックしてダウンロードしてください.'>giraffe;\n</a></li>"
-    var giraffe = '<li class = "class_15"><font class = "light"color = "#f7f7f7" size = "3">  giraffe=loadImage("giraffe.png");\n</font></li>';
-    PImage_literal(giraffe,count_img_15,giraffe_inst);
-    img_code_15 = "<li id = 'img15_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(giraffe," + '<input class="textbox" type="text" size="2"id ="img15_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img15_y" value = "100">' + ");</font></li>";
-    literal(img_code_15);
-    img_file_code_15 = "<span id = 'file_img_source_15'>  image(giraffe,100,100);\n</span>";
-    $("canvas").append(img_file_code_15);
-    $("#file_img_source_15").attr("id","file_img_source_15" + (count_img_15-1));
-    $("#img15_x").attr("id","img15_x" + (count_img_15-1));
-    $("#img15_y").attr("id","img15_y" + (count_img_15-1));
-    $("#img15_source").attr("id","img15_source" + (count_img_15-1));
-    $("#img15_source" + (count_img_15-1)).addClass("img15_source" + (count_img_15-1));
-  }
+  var giraffe_inst = "<li class = 'class15'>PImage <a href = 'img/giraffe.png' download='giraffe.png' class='tooltip' title='クリックしてダウンロードしてください.'>giraffe;\n</a></li>"
+  var giraffe = '<li class = "class_15"><font class = "light"color = "#f7f7f7" size = "3">  giraffe=loadImage("giraffe.png");\n</font></li>';
+  PImage_literal(giraffe,count_img_15,giraffe_inst);
+  img_code_15 = "<li id = 'img15_source' class = 'Img'><font class = 'light'color = '#f7f7f7' size = '3'>  image(giraffe," + '<input class="textbox" type="text" size="2"id ="img15_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img15_y" value = "100">' + ");</font></li>";
+  literal(img_code_15);
+  img_file_code_15 = "<span id = 'file_img_source_15'>  image(giraffe,100,100);\n</span>";
+  $("canvas").append(img_file_code_15);
+  $("#file_img_source_15").attr("id","file_img_source_15" + (count_img_15-1));
+  $("#img15_x").attr("id","img15_x" + (count_img_15-1));
+  $("#img15_y").attr("id","img15_y" + (count_img_15-1));
+  $("#img15_source").attr("id","img15_source" + (count_img_15-1));
+  $("#img15_source" + (count_img_15-1)).addClass("img15_source" + (count_img_15-1));
 },false);
 
 function setBlobUrl(id) {

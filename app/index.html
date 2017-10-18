@@ -17,6 +17,27 @@
     <script type="text/javascript" src="farbtastic/farbtastic.js"></script>
     <script type="text/javascript" src="js/jquery.mCustomScrollbar.min.js"></script>
     <script>
+    $(function(){
+      size_x = document.getElementById("size_x");
+      size_y = document.getElementById("size_y");
+      window.addEventListener("load",function(){
+        axis();
+        canvas.setAttribute("width",$("#area").width() * 0.569);
+        canvas.setAttribute("height",window.innerHeight * 0.95);
+        size_x.innerHTML = Math.ceil($("#area").width() * 0.569);
+        size_y.innerHTML = Math.ceil(window.innerHeight * 0.95);
+
+        //  $("#canvas").css({"right":($(".table_img").width())});
+      },false);
+      window.addEventListener("resize",function(){
+        axis();
+        canvas.setAttribute("width",$("#area").width() * 0.569);
+        canvas.setAttribute("height",window.innerHeight * 0.95);
+        size_x.innerHTML = Math.ceil($("#area").width() * 0.569);
+        size_y.innerHTML = Math.ceil(window.innerHeight * 0.95);
+        //  $("#canvas").css({"right":($(".table_img").width())});
+      },false);
+    });
     $(document).ready(function() {
       $('.tooltip').tooltipster({
         "maxWidth":410,
@@ -27,24 +48,6 @@
       $(window).load(function(){
         $(".source").mCustomScrollbar();
       });
-    });
-    $(function(){
-      size_x = document.getElementById("size_x");
-      size_y = document.getElementById("size_y");
-      window.addEventListener("load",function(){
-        canvas.setAttribute("width",$("#area").width() * 0.569);
-        canvas.setAttribute("height",window.innerHeight * 0.95);
-        size_x.innerHTML = Math.ceil($("#area").width() * 0.569);
-        size_y.innerHTML = Math.ceil(window.innerHeight * 0.95);
-        //  $("#canvas").css({"right":($(".table_img").width())});
-      },false);
-      window.addEventListener("resize",function(){
-        canvas.setAttribute("width",$("#area").width() * 0.569);
-        canvas.setAttribute("height",window.innerHeight * 0.95);
-        size_x.innerHTML = Math.ceil($("#area").width() * 0.569);
-        size_y.innerHTML = Math.ceil(window.innerHeight * 0.95);
-        //  $("#canvas").css({"right":($(".table_img").width())});
-      },false);
     });
     </script>
 </head>
