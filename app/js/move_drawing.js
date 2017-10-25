@@ -259,68 +259,68 @@ function axis(){
 }
 /*
 function axis(){
-  $("canvas").drawLine({
-    strokeWidth:12,
-    strokeStyle:"#666",
-    x1:0,y1:0,
-    x2:1500,y2:0
-  }).drawLayers();
-  for(x = 0;x < 1500;x += 10){
-    $("canvas").drawLine({
-      strokeWidth:function(layer){
-        if(x % 50 == 0){
-          return 2;
-        }else{
-          return 1;
-        }
-      },
-      strokeStyle:"#666",
-      x1:x,y1:0,
-      x2:x,y2:15
-    }).drawLayers();
-    if(x % 50 == 0){
-      $("canvas").setLayer("Line_axis_x" + i,{
-        strokeWidth:2
-      }).drawLayers();
-      $('canvas').drawText({
-        strokeStyle: '#666',
-        strokeWidth: 0.5,
-        x: 0, y: 15,
-        fontSize: 10,
-        fontFamily: 'Noto Sans Japanese',
-        text: 0
-      });
-    }
-  }
+$("canvas").drawLine({
+strokeWidth:12,
+strokeStyle:"#666",
+x1:0,y1:0,
+x2:1500,y2:0
+}).drawLayers();
+for(x = 0;x < 1500;x += 10){
+$("canvas").drawLine({
+strokeWidth:function(layer){
+if(x % 50 == 0){
+return 2;
+}else{
+return 1;
+}
+},
+strokeStyle:"#666",
+x1:x,y1:0,
+x2:x,y2:15
+}).drawLayers();
+if(x % 50 == 0){
+$("canvas").setLayer("Line_axis_x" + i,{
+strokeWidth:2
+}).drawLayers();
+$('canvas').drawText({
+strokeStyle: '#666',
+strokeWidth: 0.5,
+x: 0, y: 15,
+fontSize: 10,
+fontFamily: 'Noto Sans Japanese',
+text: 0
+});
+}
+}
 
-  $("canvas").drawLine({
-    strokeWidth:10,
-    strokeStyle:"#666",
-    x1:0,y1:0,
-    x2:0,y2:1000
-  }).drawLayers();
-  for(y = 0;y < 1000;y += 10){
-    $("canvas").drawLine({
-      strokeWidth:1,
-      strokeStyle:"#666",
-      x1:0,y1:y,
-      x2:15,y2:y
-    }).drawLayers();
-    if(y % 50 == 0){
-      $("canvas").setLayer("Line_axis_y" + i,{
-        strokeWidth:2
-      }).drawLayers();
-      /*$('canvas').drawText({
-        strokeStyle: '#666',
-        strokeWidth: 0.5,
-        x: 15, y: 0,
-        fontSize: 10,
-        fontFamily: 'Noto Sans Japanese',
-        rotate: 270,
-        text: 0//y
-      });
-    }
-  }
+$("canvas").drawLine({
+strokeWidth:10,
+strokeStyle:"#666",
+x1:0,y1:0,
+x2:0,y2:1000
+}).drawLayers();
+for(y = 0;y < 1000;y += 10){
+$("canvas").drawLine({
+strokeWidth:1,
+strokeStyle:"#666",
+x1:0,y1:y,
+x2:15,y2:y
+}).drawLayers();
+if(y % 50 == 0){
+$("canvas").setLayer("Line_axis_y" + i,{
+strokeWidth:2
+}).drawLayers();
+/*$('canvas').drawText({
+strokeStyle: '#666',
+strokeWidth: 0.5,
+x: 15, y: 0,
+fontSize: 10,
+fontFamily: 'Noto Sans Japanese',
+rotate: 270,
+text: 0//y
+});
+}
+}
 }*/
 
 //Lineの第二座標をクリックで設定する関数
@@ -735,6 +735,7 @@ function for_obj(Obj){
             groups:["obj" + count_groups],
             strokeStyle: "black",
             strokeWidth: 1,
+            fillStyle:"#000",
             x:ob_x,
             y: for_y,
             width: 65,
@@ -778,6 +779,7 @@ function for_obj(Obj){
             strokeWidth: 1,
             x:int,
             y: ob_y,
+            fillStyle:"#000",
             width: 65,
             height: 65,
             radius:32.5,
@@ -820,6 +822,7 @@ function for_obj(Obj){
             groups:["obj" + count_groups],
             strokeStyle: "black",
             strokeWidth: 1,
+            fillStyle:"#000",
             x:ob_x,
             y: for_y,
             width: 65,
@@ -862,6 +865,7 @@ function for_obj(Obj){
             groups:["obj" + count_groups],
             strokeStyle: "black",
             strokeWidth: 1,
+            fillStyle:"#000",
             x:int,
             y: ob_y,
             width: 65,
@@ -1555,7 +1559,7 @@ line.addEventListener("click",function(){
   line_code = "<li id = 'line_source' class='Line'><font class = 'light'color = '#f7f7f7' size = '3'>  line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" value = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" value = "400">' + ");</font></li>";
   literal(line_code);
   file_line_stroke = "<span id='file_line_stroke'>  stroke(102,102,102);\n</span>";
-  file_strokeWeight = "<span> strokeWeight(10);</span>";
+  file_strokeWeight = "<span>  strokeWeight(10);\n</span>";
   line_file_code = "<span id = 'file_line_source'>  line(100,100,400,400);\n</span>";
   $("canvas").append(file_line_stroke);
   $("canvas").append(file_strokeWeight);

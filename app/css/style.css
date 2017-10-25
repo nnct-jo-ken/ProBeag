@@ -186,7 +186,7 @@ div:after {display: block;content: "";clear: both;}
 .tab_content.select {display:block;position: absolute;width: 82%;margin-top: 13%;left:13.3%;}
 /*chrome,Operaだけに対応するcss*/
 @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) {
-  .tab_content.select {display:block;position: absolute;width: 78%;margin-top: 15%;left:13.3%;}
+  .tab_content.select {display:block;position: absolute;width: 82%;margin-top: 15%;left:13.3%;}
 }
 /*fire foxのみに対応するcss*/
 @-moz-document url-prefix() {
