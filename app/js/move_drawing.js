@@ -974,6 +974,7 @@ del.addEventListener("click",function(){
 
 //円を描く
 cicle.addEventListener("click",function(){
+  
   ++count_groups;
   ++count_Ellipse;
     $("canvas").drawEllipse({
