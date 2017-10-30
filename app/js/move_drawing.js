@@ -979,6 +979,7 @@ $("#" + obj).attr("id",obj + (i+1));
 */
 //円を描く
 cicle.addEventListener("click",function(){
+  
   ++count_groups;
   ++count_Ellipse;
   for(var i = 1;i < count_Ellipse;i++){
