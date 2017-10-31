@@ -170,13 +170,16 @@ var fill_code_pac;
 var file_rect_fill;
 var file_ellipse_fill;
 var file_tri_fill;
-//var file_ply_fill;
+var file_ply_fill;
 var file_for_fill;
 var file_line_stroke;
 var file_pac_fill;
 
 var obj_fill;
 var poly_angle;
+
+var object_layer;
+var object_count;
 
 var file_write;
 
@@ -346,40 +349,42 @@ rect.addEventListener("click",function(){
       dblclick:function(layer){
 
         layer.fillStyle = $("#color").val();
-        document.getElementById("rec_fill" + count_Rect).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
-        document.getElementById("file_rect_fill" + count_Rect).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");\n";
+        document.getElementById("rec_fill" + object_count).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
+        document.getElementById("file_rect_fill" + object_count).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");\n";
       },
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#rect_x" + count_Rect).val(layer.x);
-        $("#rect_y" + count_Rect).val(layer.y);
+        $("#rect_x" + object_count).val(layer.x);
+        $("#rect_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_rect_source" + count_Rect).innerHTML = "  rect(" + layer.x + "," + layer.y + ",65,65);\n";
+        document.getElementById("file_rect_source" + object_count).innerHTML = "  rect(" + layer.x + "," + layer.y + ",65,65);\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(4);
         $(function(){
           change_text = setInterval(function(){
-            $("#rect_x" + count_Rect).val(layer.x);
-            $("#rect_y" + count_Rect).val(layer.y);
+            $("#rect_x" + object_count).val(layer.x);
+            $("#rect_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("rect_source" + count_Rect);
+          MOver("rect_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("rect_source" + count_Rect);
+          MOut("rect_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        className = document.getElementById("file_rect_source" + count_Rect).className;
+        className = document.getElementById("file_rect_source" + object_count).className;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
           for_property.innerHTML = "四角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
@@ -390,13 +395,13 @@ rect.addEventListener("click",function(){
           obj_flag = layer.name;
           X = layer.x;
           Y = layer.y;
-          x_obj = "rx" + count_Rect;
-          y_obj = "ry" + count_Rect;
+          x_obj = "rx" + object_count;
+          y_obj = "ry" + object_count;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          if(!document.getElementById("rect_global" + count_Rect)){
-            $("#global").append("<li id = 'rect_global" + count_Rect + "'>float rx" + count_Rect + " = " + layer.x + ",ry" + count_Rect + " = " + layer.y + ";\n</li>");
+          if(!document.getElementById("rect_global" + object_count)){
+            $("#global").append("<li id = 'rect_global" + object_count + "'>float rx" + object_count + " = " + layer.x + ",ry" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_rect_source" + count_Rect).innerHTML = "  rect(rx" + count_Rect + ",ry" + count_Rect + ",65,65);\n";
+          document.getElementById("file_rect_source" + object_count).innerHTML = "  rect(rx" + object_count + ",ry" + object_count + ",65,65);\n";
         }
       }
     });
@@ -574,7 +579,7 @@ sample_if.addEventListener("click",function(){
     var num_x = (if_x - X)/(60*subpace);
     var num_y = (if_y - Y)/(60*subpace);
     if(if_flag === true){
-      var if_code = "<li id = 'if_source' class = 'if_code " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  if(" + x_obj + comp_x + if_x + " &&" + y_obj + comp_y + if_y + "){" + "\n" +
+      var if_code = "<li id = 'if_source' class = 'if_code " + className + "'><font class = 'light'color = '#f7f7f7' size = '3'>  if(" + x_obj + comp_x + if_x + " &&" + y_obj + comp_y + if_y + "){" + "\n" +
       x_obj + " += ((" + if_x + "-" + X + ")/ (60 * " + subpace + "));" + "\n" +
       y_obj + " += ((" + if_y + "-" + Y + ")/ (60 * " + subpace + "));" + "\n" +
       "  }\n</font></li>";
@@ -592,40 +597,77 @@ sample_for.addEventListener("click",function(){
     if(obj_judge == "rect"){
       for_obj("rectangle");
       //グループ化しているものを取得してプロパティを追加
-      $("canvas").setLayerGroup("shapes" + (count_for-1),{
+      $("canvas").setLayerGroup("obj" + count_groups,{
         fillStyle:$("#color").val(),
-        groups:["obj" + count_groups]
+        name:"For" + count_for,
+        click:function(layer){
+          if($(".ver_hori").val() == 0){
+            var zouka = ((ctrl-int)/rate);
+            className = document.getElementById("for_fill" + object_count).className;
+            var layer_o = $("canvas").getLayerGroup("obj" + className);
+            focuses(layer_o[0].x,layer_o[(zouka-1)].y,((ctrl+layer.width)-int-10),layer_o[0].height);
+          }else if($(".ver_hori").val() == 1){
+            var zouka = ((ctrl-for_y)/rate);
+            className = document.getElementById("for_fill" + object_count).className;
+            var layer_o = $("canvas").getLayerGroup("obj" + className);
+            focuses(layer_o[(zouka-1)].x,layer_o[0].y,layer_o[0].width,((ctrl+layer.height)-for_y-10));
+          }
+        }
       }).drawLayers();
     }
     if(obj_judge == "ellipse"){
       for_obj("ellipse");
-      $("canvas").setLayerGroup("shapes" + (count_for-1),{
+      $("canvas").setLayerGroup("obj" + count_groups,{
         fillStyle:$("#color").val(),
-        groups:["obj" + count_groups]
+        name:"For" + count_for,
+        click:function(layer){
+          var zouka = ((ctrl-int)/rate);
+          className = document.getElementById("for_fill" + object_count).className;
+          var layer_o = $("canvas").getLayerGroup("obj" + className);
+          focuses(layer_o[0].x,layer_o[(zouka-1)].y,((ctrl+layer.width)-int-10),layer_o[0].height);
+        }
       }).drawLayers();
     }
     if(obj_judge == "triangle"){
       for_obj("polygon");
-      $("canvas").setLayerGroup("shapes" + (count_for-1),{
+      $("canvas").setLayerGroup("obj" + count_groups,{
         fillStyle:$("#color").val(),
-        groups:["obj" + count_groups],
+        name:"For" + count_for,
         sides:3,
+        click:function(layer){
+          var zouka = ((ctrl-int)/rate);
+          className = document.getElementById("for_fill" + object_count).className;
+          var layer_o = $("canvas").getLayerGroup("obj" + className);
+          focuses(layer_o[0].x,layer_o[(zouka-1)].y,((ctrl+layer.width)-int-10),layer_o[0].height*0.75);
+        }
       }).drawLayers();
     }
     if(obj_judge == "polygon"){
       for_obj("polygon");
-      $("canvas").setLayerGroup("shapes" + (count_for-1),{
+      $("canvas").setLayerGroup("obj" + count_groups,{
         fillStyle:$("#color").val(),
         sides:angle.value,
-        groups:["obj" + count_groups]
+        name:"For" + count_for,
+        click:function(layer){
+          var zouka = ((ctrl-int)/rate);
+          className = document.getElementById("for_fill" + object_count).className;
+          var layer_o = $("canvas").getLayerGroup("obj" + className);
+          focuses(layer_o[0].x,layer_o[(zouka-1)].y,((ctrl+layer.width)-int-10),layer_o[0].height*0.87);
+        }
       }).drawLayers();
     }
     if(obj_judge == "pac"){
-      for_obj("arc");
-      $("canvas").setLayerGroup("shapes" + (count_for-1),{
+      for_obj("slice");
+      $("canvas").setLayerGroup("obj" + count_groups,{
         fillStyle:$("#color").val(),
         start:120,end:420,
-        groups:["obj" + count_groups]
+        name:"For" + count_for,
+        click:function(layer){
+          var zouka = ((ctrl-int)/rate);
+          className = document.getElementById("for_fill" + object_count).className;
+          var layer_o = $("canvas").getLayerGroup("obj" + className);
+          focuses(layer_o[0].x,layer_o[(zouka-1)].y,((ctrl+layer.width)-int-10),layer_o[0].height);
+        }
       }).drawLayers();
     }
   }
@@ -687,7 +729,6 @@ function for_obj(Obj){
   if(int < ctrl){
     if($(".ver_hori").val() == 0){
       for(var ob_x = int; ob_x < ctrl; ob_x += rate){
-        for(var i = 0;i < count_for;i++){
           $("canvas").addLayer({
             type:Obj,
             layer:true,
@@ -702,10 +743,12 @@ function for_obj(Obj){
             radius:32.5,
             fromCenter: false,
             mouseover:function(layer){
+              object_layer = $("canvas").getLayer(layer.name);
+              object_count = object_layer.name.slice(3);
               $(function(){
-                $("pre > .for_source" + i).each(function(){
+                $("pre > .for_source" + object_count).each(function(){
                   $(function(){
-                    for_over = document.getElementById("for_source" + i);
+                    for_over = document.getElementById("for_source" + object_count);
                     for_over.style.backgroundColor = "rgba(127,255,212,0.55)";
                   });
                 });
@@ -713,23 +756,21 @@ function for_obj(Obj){
             },
             mouseout:function(layer){
               $(function(){
-                $("pre > .for_source" + i).each(function(){
+                $("pre > .for_source" + object_count).each(function(){
                   $(function(){
-                    for_out = document.getElementById("for_source" + i);
+                    for_out = document.getElementById("for_source" + object_count);
                     for_out.style.backgroundColor = "rgb(11, 0, 35)";
                   });
                 });
               });
             }
           }).drawLayers();
-        }
       }
       for_code = "<li id = 'for_source' class='Fig " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int x = " + int + ";x < " + ctrl + "; x+=" + rate + "){" + "\n" +
       obj_judge + "(x," + for_y + ",65,65);" + "\n" +
       "}\n</font></li>";
     }else if($(".ver_hori").val() == 1){
       for(var ob_y = for_y; ob_y < ctrl; ob_y += rate){
-        for(var i = 0;i < count_for;i++){
           $("canvas").addLayer({
             type:Obj,
             layer:true,
@@ -745,10 +786,12 @@ function for_obj(Obj){
             sides:for_sizes,
             fromCenter: false,
             mouseover:function(layer){
+              object_layer = $("canvas").getLayer(layer.name);
+              object_count = object_layer.name.slice(3);
               $(function(){
-                $("pre > .for_source" + i).each(function(){
+                $("pre > .for_source" + object_count).each(function(){
                   $(function(){
-                    for_over = document.getElementById("for_source" + i);
+                    for_over = document.getElementById("for_source" + object_count);
                     for_over.style.backgroundColor = "rgba(127,255,212,0.55)";
                   });
                 });
@@ -756,16 +799,15 @@ function for_obj(Obj){
             },
             mouseout:function(layer){
               $(function(){
-                $("pre > .for_source" + i).each(function(){
+                $("pre > .for_source" + object_count).each(function(){
                   $(function(){
-                    for_out = document.getElementById("for_source" + i);
+                    for_out = document.getElementById("for_source" + object_count);
                     for_out.style.backgroundColor = "rgb(11, 0, 35)";
                   });
                 });
               });
             }
           }).drawLayers();
-        }
       }
       for_code = "<li id = 'for_source' class='Fig " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int y = " + int + ";y < " + ctrl + "; y+=" + rate + "){" + "\n" +
       "  " + obj_judge + "(" + int + ",y,65,65);" + "\n" +
@@ -774,7 +816,6 @@ function for_obj(Obj){
   }else if(int > ctrl){
     if($(".ver_hori").val() == 0){
       for(var ob_x = int; ob_x > ctrl; ob_x -= rate){
-        for(var i = 0;i < count_for;i++){
           $("canvas").addLayer({
             type:Obj,
             layer:true,
@@ -790,10 +831,12 @@ function for_obj(Obj){
             sides:for_sizes,
             fromCenter: false,
             mouseover:function(layer){
+              object_layer = $("canvas").getLayer(layer.name);
+              object_count = object_layer.name.slice(3);
               $(function(){
-                $("pre > .for_source" + i).each(function(){
+                $("pre > .for_source" + object_).each(function(){
                   $(function(){
-                    for_over = document.getElementById("for_source" + i);
+                    for_over = document.getElementById("for_source" + object_);
                     for_over.style.backgroundColor = "rgba(127,255,212,0.55)";
                   });
                 });
@@ -801,23 +844,21 @@ function for_obj(Obj){
             },
             mouseout:function(layer){
               $(function(){
-                $("pre > .for_source" + i).each(function(){
+                $("pre > .for_source" + object_).each(function(){
                   $(function(){
-                    for_out = document.getElementById("for_source" + i);
+                    for_out = document.getElementById("for_source" + object_);
                     for_out.style.backgroundColor = "rgb(11, 0, 35)";
                   });
                 });
               });
             }
           }).drawLayers();
-        }
       }
       for_code = "<li class='Fig " + count_groups + "' id = 'for_source'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int x = " + int + ";x > " + ctrl + "; x-=" + rate + "){" + "\n" +
       obj_judge + "(x," + for_y + ",65,65);" + "\n" +
       "}\n</font></li>";
     }else if($(".ver_hori").val() == 1){
       for(var ob_y = for_y; ob_y > ctrl; ob_y -= rate){
-        for(var i = 0;i < count_for;i++){
           $("canvas").addLayer({
             type:Obj,
             layer:true,
@@ -833,10 +874,12 @@ function for_obj(Obj){
             sides:for_sizes,
             fromCenter: false,
             mouseover:function(layer){
+              object_layer = $("canvas").getLayer(layer.name);
+              object_count = object_layer.name.slice(3);
               $(function(){
-                $("pre > .for_source" + i).each(function(){
+                $("pre > .for_source" + object_).each(function(){
                   $(function(){
-                    for_over = document.getElementById("for_source" + i);
+                    for_over = document.getElementById("for_source" + object_);
                     for_over.style.backgroundColor = "rgba(127,255,212,0.55)";
                   });
                 });
@@ -844,16 +887,15 @@ function for_obj(Obj){
             },
             mouseout:function(layer){
               $(function(){
-                $("pre > .for_source" + i).each(function(){
+                $("pre > .for_source" + object_).each(function(){
                   $(function(){
-                    for_out = document.getElementById("for_source" + i);
+                    for_out = document.getElementById("for_source" + object_);
                     for_out.style.backgroundColor = "rgb(11, 0, 35)";
                   });
                 });
               });
             }
           }).drawLayers();
-        }
       }
       for_code = "<li id = 'for_source' class='Fig " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int y = " + int + ";y > " + ctrl + "; y-=" + rate + "){" + "\n" +
       "  " + obj_judge + "(" + int + ",y,65,65);" + "\n" +
@@ -974,7 +1016,7 @@ del.addEventListener("click",function(){
 
 //円を描く
 cicle.addEventListener("click",function(){
-  
+
   ++count_groups;
   ++count_Ellipse;
     $("canvas").drawEllipse({
@@ -992,41 +1034,42 @@ cicle.addEventListener("click",function(){
       draggable: true,
       dblclick:function(layer){
         layer.fillStyle = $("#color").val();
-        document.getElementById("ell_fill" + count_Ellipse).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
-        document.getElementById("file_ellipse_fill" + count_Ellipse).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");\n";
+        document.getElementById("ell_fill" + object_count).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
+        document.getElementById("file_ellipse_fill" + object_count).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");\n";
       },
       visible:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#ellipse_x" + count_Ellipse).val(layer.x);
-        $("#ellipse_y" + count_Ellipse).val(layer.y);
+        $("#ellipse_x" + object_count).val(layer.x);
+        $("#ellipse_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_ellipse_source" + count_Ellipse).innerHTML = "  ellipse(" + layer.x + "," + layer.y + ",65,65);\n";
+        document.getElementById("file_ellipse_source" + object_count).innerHTML = "  ellipse(" + layer.x + "," + layer.y + ",65,65);\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(7);
         $(function(){
           change_text = setInterval(function(){
-            $("#ellipse_x" + count_Ellipse).val(layer.x);
-            $("#ellipse_y" + count_Ellipse).val(layer.y);
+            $("#ellipse_x" + object_count).val(layer.x);
+            $("#ellipse_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("ellipse_source" + count_Ellipse);
+          MOver("ellipse_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("ellipse_source" + count_Ellipse);
+          MOut("ellipse_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        console.log(layer_name,count_Ellipse,layer.x,layer.y);
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        className = document.getElementById("file_ellipse_source" + count_Ellipse).className;
+        className = document.getElementById("file_ellipse_source" + object_count).className;
         if(for_flag === true){
           //forがクリックされたときの処理
           for_property.innerHTML = "円の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
@@ -1038,21 +1081,15 @@ cicle.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "ellx" + count_Ellipse;
-          y_obj = "elly" + count_Ellipse;
-          if(!document.getElementById("ellipse_global" + count_Ellipse)){
-            $("#global").append("<li id = 'ellipse_global" + count_Ellipse + "'>float ellx" + count_Ellipse + " = " + layer.x + ",elly" + count_Ellipse + " = " + layer.y + ";\n</li>");
+          x_obj = "ellx" + object_count;
+          y_obj = "elly" + object_count;
+          if(!document.getElementById("ellipse_global" + object_count)){
+            $("#global").append("<li id = 'ellipse_global" + object_count + "'>float ellx" + object_count + " = " + layer.x + ",elly" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_ellipse_source" + count_Ellipse).innerHTML = "  ellipse(ellx" + count_Ellipse + ",elly" + count_Ellipse + ",65,65);\n";
+          document.getElementById("file_ellipse_source" + object_count).innerHTML = "  ellipse(ellx" + object_count + ",elly" + object_count + ",65,65);\n";
         }
       }
     });
-    for(var i = 1;i < count_Ellipse+1;i++){
-      var ellipse_name_o = $("canvas").getLayer("Ellipse" + i);
-      var ellipse_o_x = ellipse_name_o.x;
-      var ellipse_o_y = ellipse_name_o.y;
-      console.log(ellipse_o_x,ellipse_o_y)
-    }
 
   file_ellipse_fill = "<span class = " + count_groups + " id='file_ellipse_fill'>  fill(102,102,102);\n</span>";
   ellipse_file_code = "<span class = " + count_groups + " id='file_ellipse_source'>  ellipse(100,100,65,65);\n</span>";
@@ -1080,7 +1117,6 @@ if_str.addEventListener("click",function(){
 
 //forのイベントリスナ
 for_str.addEventListener("click",function(){
-  ++count_groups;
   for_property.innerHTML = "オブジェクトを選択してください.";
   for_flag = true;
   count_for++;
@@ -1121,7 +1157,10 @@ back.addEventListener("click",function(){
     if(if_flag === true){
       if_property.innerHTML = "";
     }
-
+    $("canvas").setLayer(focuses_layer,{
+      visible:false
+    }).drawLayers();
+    $("canvas").removeLayer(focuses_layer).drawLayers();
     //図形を消してレイヤーごと消去
     if (count_groups != 0){
       $("canvas").setLayerGroup("obj" + (count_groups),{
@@ -1328,49 +1367,51 @@ triangle.addEventListener("click",function(){
       sides: 3,
       dblclick:function(layer){
         layer.fillStyle = $("#color").val();
-        document.getElementById("tri_fill" + count_tri).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
-        document.getElementById("file_tri_fill" + count_tri).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
+        document.getElementById("tri_fill" + object_count).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
+        document.getElementById("file_tri_fill" + object_count).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
       },
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.radius*2,layer.radius*1.5,(layer.name-1));
-        $("#triangle_x" + count_tri).val(layer.x);
-        $("#triangle_y" + count_tri).val(layer.y);
-        $("#triangle2_x" + count_tri).html(layer.x+30);
-        $("#triangle2_y" + count_tri).html(layer.y+50);
-        $("#triangle3_x" + count_tri).html(layer.x-30);
-        $("#triangle3_y" + count_tri).html(layer.y+50);
+        $("#triangle_x" + object_count).val(layer.x);
+        $("#triangle_y" + object_count).val(layer.y);
+        $("#triangle2_x" + object_count).html(layer.x+30);
+        $("#triangle2_y" + object_count).html(layer.y+50);
+        $("#triangle3_x" + object_count).html(layer.x-30);
+        $("#triangle3_y" + object_count).html(layer.y+50);
       },
       dragstop:function(layer){
-        document.getElementById("file_tri_source" + count_tri).innerHTML = "  triangle(" + layer.x + "," + layer.y + "," + (layer.x+30) + "," + (layer.y + 50) + "," + (layer.x-30) + ","
+        document.getElementById("file_tri_source" + object_count).innerHTML = "  triangle(" + layer.x + "," + layer.y + "," + (layer.x+30) + "," + (layer.y + 50) + "," + (layer.x-30) + ","
         + (layer.y + 50) + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(8);
         $(function(){
           change_text = setInterval(function(){
-            $("#triangle_x" + count_tri).val(layer.x);
-            $("#triangle_y" + count_tri).val(layer.y);
-            $("#triangle2_x" + count_tri).html(layer.x+30);
-            $("#triangle2_y" + count_tri).html(layer.y+50);
-            $("#triangle3_x" + count_tri).html(layer.x-30);
-            $("#triangle3_y" + count_tri).html(layer.y+50);
+            $("#triangle_x" + object_count).val(layer.x);
+            $("#triangle_y" + object_count).val(layer.y);
+            $("#triangle2_x" + object_count).html(layer.x+30);
+            $("#triangle2_y" + object_count).html(layer.y+50);
+            $("#triangle3_x" + object_count).html(layer.x-30);
+            $("#triangle3_y" + object_count).html(layer.y+50);
           },10);
         });
         $(function(){
-          MOver("triangle_source" + count_tri);
+          MOver("triangle_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("triangle_source" + count_tri);
+          MOut("triangle_source" + object_count);
         });
       },
       click:function(layer){
           var layer_o = $("canvas").getLayer(layer.name);
           layer_name = layer_o.name;
         focuses(layer.x,layer.y,layer.radius*2,layer.radius*1.5,(layer.name-1));
-        className = document.getElementById("file_tri_source" + count_tri).className;
+        className = document.getElementById("file_tri_source" + object_count).className;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
           for_property.innerHTML = "三角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
@@ -1382,12 +1423,12 @@ triangle.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size = '2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size = '2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size = '2' id = 'if_y'>まで動かす.";
-          x_obj = "trix" + count_tri;
-          y_obj = "triy" + count_tri;
-          if(!document.getElementById("triangle_global" + count_tri)){
-            $("#global").append("<li id = 'triangle_global" + count_tri + "'>float trix" + count_tri + " = " + layer.x + ",triy" + count_tri + " = " + layer.y + ";\n</li>");
+          x_obj = "trix" + object_count;
+          y_obj = "triy" + object_count;
+          if(!document.getElementById("triangle_global" + object_count)){
+            $("#global").append("<li id = 'triangle_global" + object_count + "'>float trix" + object_count + " = " + layer.x + ",triy" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_triangle_source" + count_tri).innerHTML = "  triangle(trix" + count_tri + ",triy" + count_tri + ",trix" + count_tri + "+30,triy" + count_tri + "+50,trix" + count_tri + "-30,triy" + count_tri + "+50);\n";
+          document.getElementById("file_tri_source" + object_count).innerHTML = "  triangle(trix" + object_count + ",triy" + object_count + ",trix" + object_count + "+30,triy" + object_count + "+50,trix" + object_count + "-30,triy" + object_count + "+50);\n";
         }
       }
     });
@@ -1419,7 +1460,7 @@ polygon.addEventListener("click",function(){
     //これがJcanvasの多角形を描くソース
     $("canvas").drawPolygon({
       layer:true,
-      name:"Polygon" + i,
+      name:"Polygon" + count_ply,
       groups:["obj" + count_groups],
       strokeStyle: "black",
       fillStyle:"#666666",
@@ -1431,40 +1472,42 @@ polygon.addEventListener("click",function(){
       sides: angle.value,
       dblclick:function(layer){
         layer.fillStyle = $("#color").val();
-        document.getElementById("ply_fill" + count_ply).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
-        document.getElementById("file_ply_fill" + count_ply).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");\n";
+        document.getElementById("ply_fill" + object_count).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");";
+        document.getElementById("file_ply_fill" + object_count).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");\n";
       },
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.radius*2,layer.radius*1.8,(layer.name-1));
-        $("#polygon_x" + count_ply).val(layer.x);
-        $("#polygon_y" + count_ply).val(layer.y);
+        $("#polygon_x" + object_count).val(layer.x);
+        $("#polygon_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_ply_source" + count_ply).innerHTML = "  polygon(" + layer.x + "," + layer.y + ",40," + angle.value + ");\n";
+        document.getElementById("file_ply_source" + object_count).innerHTML = "  polygon(" + layer.x + "," + layer.y + ",40," + angle.value + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(7);
         $(function(){
           change_text = setInterval(function(){
-            $("#polygon_x" + count_ply).val(layer.x);
-            $("#polygon_y" + count_ply).val(layer.y);
+            $("#polygon_x" + object_count).val(layer.x);
+            $("#polygon_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("polygon_source" + count_ply);
+          MOver("polygon_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("polygon_source" + count_ply);
+          MOut("polygon_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
         focuses(layer.x,layer.y,layer.radius*2,layer.radius*1.8,(layer.name-1));
-        className = document.getElementById("file_ply_source" + count_ply).className;
+        className = document.getElementById("file_ply_source" + object_count).className;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
           for_property.innerHTML = "多角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
@@ -1476,12 +1519,12 @@ polygon.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "plyx" + count_ply;
-          y_obj = "plyy" + count_ply;
-          if(!document.getElementById("ply_global" + count_ply)){
-            $("#global").append("<li id = 'ply_global" + count_ply + "'>float rx" + count_ply + " = " + layer.x + ",ry" + count_ply + " = " + layer.y + ";\n</li>");
+          x_obj = "plyx" + object_count;
+          y_obj = "plyy" + object_count;
+          if(!document.getElementById("ply_global" + object_count)){
+            $("#global").append("<li id = 'ply_global" + object_count + "'>float rx" + object_count + " = " + layer.x + ",ry" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_ply_source" + count_ply).innerHTML = "  polygon(plyx" + count_ply + ",plyy" + count_ply + ",65,65" + angle.value + ");\n";
+          document.getElementById("file_ply_source" + object_count).innerHTML = "  polygon(plyx" + object_count + ",plyy" + object_count + ",65,65" + angle.value + ");\n";
         }
       }
     });
@@ -1524,37 +1567,39 @@ line.addEventListener("click",function(){
       fromCenter: false,
       dblclick:function(layer){
         layer.strokeStyle = $("#color").val();
-        document.getElementById("line_stroke" + count_line).innerHTML = "  stroke(" + parseInt(layer.strokeStyle.substring(1,3), 16) + "," + parseInt(layer.strokeStyle.substring(3,5),16) + "," + parseInt(layer.strokeStyle.substring(5,7), 16) + ");";
-        document.getElementById("file_line_stroke" + count_line).innerHTML = "  stroke(" + parseInt(layer.strokeStyle.substring(1,3), 16) + "," + parseInt(layer.strokeStyle.substring(3,5),16) + "," + parseInt(layer.strokeStyle.substring(5,7), 16) + ");\n";
+        document.getElementById("line_stroke" + object_count).innerHTML = "  stroke(" + parseInt(layer.strokeStyle.substring(1,3), 16) + "," + parseInt(layer.strokeStyle.substring(3,5),16) + "," + parseInt(layer.strokeStyle.substring(5,7), 16) + ");";
+        document.getElementById("file_line_stroke" + object_count).innerHTML = "  stroke(" + parseInt(layer.strokeStyle.substring(1,3), 16) + "," + parseInt(layer.strokeStyle.substring(3,5),16) + "," + parseInt(layer.strokeStyle.substring(5,7), 16) + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(4);
         $(function(){
           change_text = setInterval(function(){
             if(layer.x1 < layer.x2){
-              $("#line1_x" + count_line).val(layer.x1);
-              $("#line2_x" + count_line).val(layer.x2);
+              $("#line1_x" + object_count).val(layer.x1);
+              $("#line2_x" + object_count).val(layer.x2);
             }else if(layer.x1 > layer.x2){
-              $("#line1_x" + count_line).val(layer.x2);
-              $("#line2_x" + count_line).val(layer.x1);
+              $("#line1_x" + object_count).val(layer.x2);
+              $("#line2_x" + object_count).val(layer.x1);
             }
             if(layer.y1 < layer.y2){
-              $("#line1_y" + count_line).val(layer.y1);
-              $("#line2_y" + count_line).val(layer.y2);
+              $("#line1_y" + object_count).val(layer.y1);
+              $("#line2_y" + object_count).val(layer.y2);
             }else if(layer.y1 > layer.y2){
-              $("#line1_y" + count_line).val(layer.y2);
-              $("#line2_y" + count_line).val(layer.y1);
+              $("#line1_y" + object_count).val(layer.y2);
+              $("#line2_y" + object_count).val(layer.y1);
             }
 
           },10);
         });
         $(function(){
-          MOver("line_source" + count_line);
+          MOver("line_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("line_source" + count_line);
+          MOut("line_source" + object_count);
         });
       },
 
@@ -1568,7 +1613,7 @@ line.addEventListener("click",function(){
         }
         Line_name = layer.name;
         key.src = "img/key_open.png";
-        document.getElementById("file_line_source" + count_line).innerHTML = "line(" + layer.x1 + "," + layer.y1 + "," + layer.x2 + "," + layer.y2 + ");\n";
+        document.getElementById("file_line_source" + object_count).innerHTML = "line(" + layer.x1 + "," + layer.y1 + "," + layer.x2 + "," + layer.y2 + ");\n";
       }
     });
   stroke_code_line = "<li id='line_stroke'><font class = 'light'color = '#f7f7f7' size = '3'>  stroke(102,102,102);</font></li>";
@@ -1612,39 +1657,41 @@ pac.addEventListener("click",function(){
       start:120,end:420,
       dblclick:function(layer){
         layer.fillStyle = $("#color").val();
-        document.getElementById("pac_fill" + count_pac).innerHTML = "<li><font class = 'light'color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
-        document.getElementById("file_pac_fill" + count_pac).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");\n";
+        document.getElementById("pac_fill" + object_count).innerHTML = "<li><font class = 'light'color = '#f7f7f7' size = '3'>fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");</font></li>";
+        document.getElementById("file_pac_fill" + object_count).innerHTML = "  fill(" + parseInt(layer.fillStyle.substring(1,3), 16) + "," + parseInt(layer.fillStyle.substring(3,5), 16) + "," + parseInt(layer.fillStyle.substring(5,7), 16) + ");\n";
       },
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.radius*2,layer.radius*2,(layer.name-1));
-        $("#pac_x" + count_pac).val(layer.x);
-        $("#pac_y" + count_pac).val(layer.y);
+        $("#pac_x" + object_count).val(layer.x);
+        $("#pac_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_pac_source" + count_pac).innerHTML = "  arc(" + layer.x + "," + layer.y + ",65,65,0.5,5.8,PIE);\n";
+        document.getElementById("file_pac_source" + object_count).innerHTML = "  arc(" + layer.x + "," + layer.y + ",65,65,0.5,5.8,PIE);\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(3);
         $(function(){
           change_text = setInterval(function(){
-            $("#pac_x" + count_pac).val(layer.x);
-            $("#pac_y" + count_pac).val(layer.y);
+            $("#pac_x" + object_count).val(layer.x);
+            $("#pac_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("pac_source" + count_pac);
+          MOver("pac_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("pac_source" + count_pac);
+          MOut("pac_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_pac_source" + count_pac).className;
+        className = document.getElementById("file_pac_source" + object_count).className;
         focuses(layer.x,layer.y,layer.radius*2,layer.radius*2,(layer.name-1));
         obj_flag = layer.name;
         if(for_flag === true){
@@ -1656,12 +1703,12 @@ pac.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "pacx" + count_pac;
-          y_obj = "pacy" + count_pac;
-          if(!document.getElementById("pac_global" + count_pac)){
-            $("#global").append("<li id = 'pac_global" + count_pac + "'>float pacx" + count_pac + " = " + layer.x + ",pacy" + count_pac + " = " + layer.y + ";\n</li>");
+          x_obj = "pacx" + object_count;
+          y_obj = "pacy" + object_count;
+          if(!document.getElementById("pac_global" + object_count)){
+            $("#global").append("<li id = 'pac_global" + object_count + "'>float pacx" + object_count + " = " + layer.x + ",pacy" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_pac_source" + count_pac).innerHTML = "  arc(pacx" + count_pac + ",pacy" + count_pac + ",65,65,0.5,5.8);\n";
+          document.getElementById("file_pac_source" + object_count).innerHTML = "  arc(pacx" + object_count + ",pacy" + object_count + ",65,65,0.5,5.8);\n";
         }
       }
     });
@@ -1696,33 +1743,35 @@ butt_red.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img1_x" + count_img_1).val(layer.x);
-        $("#img1_y" + count_img_1).val(layer.y);
+        $("#img1_x" + object_count).val(layer.x);
+        $("#img1_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_1" + count_img_1).innerHTML = "  image(red_butterfly," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_1" + object_count).innerHTML = "  image(red_butterfly," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(6);
         $(function(){
           change_text = setInterval(function(){
-            $("#img1_x" + count_img_1).val(layer.x);
-            $("#img1_y" + count_img_1).val(layer.y);
+            $("#img1_x" + object_count).val(layer.x);
+            $("#img1_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img1_source" + count_img_1);
+          MOver("img1_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img1_source" + count_img_1);
+          MOut("img1_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_1" + count_img_1).className;
+        className = document.getElementById("file_img_source_1" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         obj_flag = layer.name;
         if(for_flag === true){
@@ -1733,12 +1782,12 @@ butt_red.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "red_buttx" + count_img_1;
-          y_obj = "red_butty" + count_img_1;
-          if(!document.getElementById("img_1_global" + count_img_1)){
-            $("#global").append("<li id = 'img_1_global" + count_img_1 + "'>float red_buttx" + count_img_1 + " = " + layer.x + ",red_butty" + count_img_1 + " = " + layer.y + ";\n</li>");
+          x_obj = "red_buttx" + object_count;
+          y_obj = "red_butty" + object_count;
+          if(!document.getElementById("img_1_global" + object_count)){
+            $("#global").append("<li id = 'img_1_global" + object_count + "'>float red_buttx" + object_count + " = " + layer.x + ",red_butty" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_1" + count_img_1).innerHTML = "  image(red_butterfly,red_buttx" + count_img_1 + ",red_butty" + count_img_1 + ");\n";
+          document.getElementById("file_img_source_1" + object_count).innerHTML = "  image(red_butterfly,red_buttx" + object_count + ",red_butty" + object_count + ");\n";
 
         }
       }
@@ -1771,33 +1820,35 @@ butt_yellow.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img2_x" + count_img_2).val(layer.x);
-        $("#img2_y" + count_img_2).val(layer.y);
+        $("#img2_x" + object_count).val(layer.x);
+        $("#img2_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_2" + count_img_2).innerHTML = "  image(yellow_butterfly," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_2" + object_count).innerHTML = "  image(yellow_butterfly," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(6);
         $(function(){
           change_text = setInterval(function(){
-            $("#img2_x" + count_img_2).val(layer.x);
-            $("#img2_y" + count_img_2).val(layer.y);
+            $("#img2_x" + object_count).val(layer.x);
+            $("#img2_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img2_source" + count_img_2);
+          MOver("img2_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img2_source" + count_img_2);
+          MOut("img2_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_2" + count_img_2).className;
+        className = document.getElementById("file_img_source_2" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         obj_flag = layer.name;
         if(for_flag === true){
@@ -1808,12 +1859,12 @@ butt_yellow.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "ylw_buttx" + count_img_2;
-          y_obj = "ylw_butty" + count_img_2;
-          if(!document.getElementById("img_2_global" + count_img_2)){
-            $("#global").append("<li id = 'img_2_global" + count_img_2 + "'>float ylw_buttx" + count_img_2 + " = " + layer.x + ",ylw_butty" + count_img_2 + " = " + layer.y + ";\n</li>");
+          x_obj = "ylw_buttx" + object_count;
+          y_obj = "ylw_butty" + object_count;
+          if(!document.getElementById("img_2_global" + object_count)){
+            $("#global").append("<li id = 'img_2_global" + object_count + "'>float ylw_buttx" + object_count + " = " + layer.x + ",ylw_butty" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_2" + count_img_2).innerHTML = "  image(yellow_butterfly,ylw_buttx" + count_img_2 + ",ylw_butty" + count_img_2 + ");\n";
+          document.getElementById("file_img_source_2" + object_count).innerHTML = "  image(yellow_butterfly,ylw_buttx" + object_count + ",ylw_butty" + object_count + ");\n";
         }
       }
     });
@@ -1845,33 +1896,35 @@ butt_blue.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img3_x" + count_img_3).val(layer.x);
-        $("#img3_y" + count_img_3).val(layer.y);
+        $("#img3_x" + object_count).val(layer.x);
+        $("#img3_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_3" + count_img_3).innerHTML = "  image(blue_butterfly," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_3" + object_count).innerHTML = "  image(blue_butterfly," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(6);
         $(function(){
           change_text = setInterval(function(){
-            $("#img3_x" + count_img_3).val(layer.x);
-            $("#img3_y" + count_img_3).val(layer.y);
+            $("#img3_x" + object_count).val(layer.x);
+            $("#img3_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img3_source" + count_img_3);
+          MOver("img3_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img3_source" + count_img_3);
+          MOut("img3_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_3" + count_img_3).className;
+        className = document.getElementById("file_img_source_3" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         obj_flag = layer.name;
         if(for_flag === true){
@@ -1882,12 +1935,12 @@ butt_blue.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "blue_buttx" + count_img_3;
-          y_obj = "blue_butty" + count_img_3;
-          if(!document.getElementById("img_3_global" + count_img_3)){
-            $("#global").append("<li id = 'img_3_global" + count_img_3 + "'>float blue_buttx" + count_img_3 + " = " + layer.x + ",blue_butty" + count_img_3 + " = " + layer.y + ";\n</li>");
+          x_obj = "blue_buttx" + object_count;
+          y_obj = "blue_butty" + object_count;
+          if(!document.getElementById("img_3_global" + object_count)){
+            $("#global").append("<li id = 'img_3_global" + object_count + "'>float blue_buttx" + object_count + " = " + layer.x + ",blue_butty" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_3" + count_img_3).innerHTML = "  image(blue_butterfly,blue_buttx" + count_img_3 + ",blue_butty" + count_img_3 + ");\n";
+          document.getElementById("file_img_source_3" + object_count).innerHTML = "  image(blue_butterfly,blue_buttx" + object_count + ",blue_butty" + object_count + ");\n";
         }
       }
     });
@@ -1919,33 +1972,35 @@ blue_candy.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img4_x" + count_img_4).val(layer.x);
-        $("#img4_y" + count_img_4).val(layer.y);
+        $("#img4_x" + object_count).val(layer.x);
+        $("#img4_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_4" + count_img_4).innerHTML = "  image(blue_candy," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_4" + object_count).innerHTML = "  image(blue_candy," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(6);
         $(function(){
           change_text = setInterval(function(){
-            $("#img4_x" + count_img_4).val(layer.x);
-            $("#img4_y" + count_img_4).val(layer.y);
+            $("#img4_x" + object_count).val(layer.x);
+            $("#img4_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img4_source" + count_img_4);
+          MOver("img4_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img4_source" + count_img_4);
+          MOut("img4_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_4" + count_img_4).className;
+        className = document.getElementById("file_img_source_4" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         obj_flag = layer.name;
         if(for_flag === true){
@@ -1956,12 +2011,12 @@ blue_candy.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "blue_candyx" + count_img_4;
-          y_obj = "blue_candyy" + count_img_4;
-          if(!document.getElementById("img_4_global" + count_img_4)){
-            $("#global").append("<li id = 'img_4_global" + count_img_4 + "'>float blue_candyx" + count_img_4 + " = " + layer.x + ",blue_candyy" + count_img_4 + " = " + layer.y + ";\n</li>");
+          x_obj = "blue_candyx" + object_count;
+          y_obj = "blue_candyy" + object_count;
+          if(!document.getElementById("img_4_global" + object_count)){
+            $("#global").append("<li id = 'img_4_global" + object_count + "'>float blue_candyx" + object_count + " = " + layer.x + ",blue_candyy" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_4" + count_img_4).innerHTML = "  image(blue_candy,blue_candyx" + count_img_4 + ",blue_candyy" + count_img_4 + ");\n";
+          document.getElementById("file_img_source_4" + object_count).innerHTML = "  image(blue_candy,blue_candyx" + object_count + ",blue_candyy" + object_count + ");\n";
         }
       }
     });
@@ -1993,33 +2048,35 @@ orange_candy.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img5_x" + count_img_5).val(layer.x);
-        $("#img5_y" + count_img_5).val(layer.y);
+        $("#img5_x" + object_count).val(layer.x);
+        $("#img5_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_5" + count_img_5).innerHTML = "  image(orange_candy," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_5" + object_count).innerHTML = "  image(orange_candy," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(6);
         $(function(){
           change_text = setInterval(function(){
-            $("#img5_x" + count_img_5).val(layer.x);
-            $("#img5_y" + count_img_5).val(layer.y);
+            $("#img5_x" + object_count).val(layer.x);
+            $("#img5_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img5_source" + count_img_5);
+          MOver("img5_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img5_source" + count_img_5);
+          MOut("img5_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_5" + count_img_5).className;
+        className = document.getElementById("file_img_source_5" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         obj_flag = layer.name;
         if(for_flag === true){
@@ -2030,12 +2087,12 @@ orange_candy.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "orange_candyx" + count_img_5;
-          y_obj = "orange_candyy" + count_img_5;
-          if(!document.getElementById("img_5_global" + count_img_5)){
-            $("#global").append("<li id = 'img_5_global" + count_img_5 + "'>float orange_candyx" + count_img_5 + " = " + layer.x + ",orange_candyy" + count_img_5 + " = " + layer.y + ";\n</li>");
+          x_obj = "orange_candyx" + object_count;
+          y_obj = "orange_candyy" + object_count;
+          if(!document.getElementById("img_5_global" + object_count)){
+            $("#global").append("<li id = 'img_5_global" + object_count + "'>float orange_candyx" + object_count + " = " + layer.x + ",orange_candyy" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_5" + count_img_5).innerHTML = "  image(orange_candy,orange_candyx" + count_img_5 + ",orange_candyy" + count_img_5 + ");\n";
+          document.getElementById("file_img_source_5" + object_count).innerHTML = "  image(orange_candy,orange_candyx" + object_count + ",orange_candyy" + object_count + ");\n";
         }
       }
     });
@@ -2067,33 +2124,35 @@ pink_candy.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img6_x" + count_img_6).val(layer.x);
-        $("#img6_y" + count_img_6).val(layer.y);
+        $("#img6_x" + object_count).val(layer.x);
+        $("#img6_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_6" + count_img_6).innerHTML = "  image(pink_candy," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_6" + object_count).innerHTML = "  image(pink_candy," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(6);
         $(function(){
           change_text = setInterval(function(){
-            $("#img6_x" + count_img_6).val(layer.x);
-            $("#img6_y" + count_img_6).val(layer.y);
+            $("#img6_x" + object_count).val(layer.x);
+            $("#img6_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img6_source" + count_img_6);
+          MOver("img6_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img6_source" + count_img_6);
+          MOut("img6_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_6" + count_img_6).className;
+        className = document.getElementById("file_img_source_6" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         obj_flag = layer.name;
         if(for_flag === true){
@@ -2104,12 +2163,12 @@ pink_candy.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "pink_candyx" + count_img_6;
-          y_obj = "pink_candyy" + count_img_6;
-          if(!document.getElementById("img_6_global" + count_img_6)){
-            $("#global").append("<li id = 'img_6_global" + count_img_6 + "'>float pink_candyyx" + count_img_6 + " = " + layer.x + ",pink_candyy" + count_img_6 + " = " + layer.y + ";\n</li>");
+          x_obj = "pink_candyx" + object_count;
+          y_obj = "pink_candyy" + object_count;
+          if(!document.getElementById("img_6_global" + object_count)){
+            $("#global").append("<li id = 'img_6_global" + object_count + "'>float pink_candyyx" + object_count + " = " + layer.x + ",pink_candyy" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_6" + count_img_6).innerHTML = "  image(pink_candy,pink_candyx" + count_img_6 + ",pink_candyy" + count_img_6 + ");\n";
+          document.getElementById("file_img_source_6" + object_count).innerHTML = "  image(pink_candy,pink_candyx" + object_count + ",pink_candyy" + object_count + ");\n";
         }
       }
     });
@@ -2141,33 +2200,35 @@ blue_umbrella.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img7_x" + count_img_7).val(layer.x);
-        $("#img7_y" + count_img_7).val(layer.y);
+        $("#img7_x" + object_count).val(layer.x);
+        $("#img7_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_7" + count_img_7).innerHTML = "  image(blue_umbrella," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_7" + object_count).innerHTML = "  image(blue_umbrella," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(6);
         $(function(){
           change_text = setInterval(function(){
-            $("#img7_x" + count_img_7).val(layer.x);
-            $("#img7_y" + count_img_7).val(layer.y);
+            $("#img7_x" + object_count).val(layer.x);
+            $("#img7_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img7_source" + count_img_7);
+          MOver("img7_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img7_source" + count_img_7);
+          MOut("img7_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_7" + count_img_7).className;
+        className = document.getElementById("file_img_source_7" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         obj_flag = layer.name;
         if(for_flag === true){
@@ -2178,12 +2239,12 @@ blue_umbrella.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "blue_umbrellax" + count_img_7;
-          y_obj = "blue_umbrellay" + count_img_7;
-          if(!document.getElementById("img_7_global" + count_img_7)){
-            $("#global").append("<li id = 'img_7_global" + count_img_7 + "'>float blue_umbrellayx" + count_img_7 + " = " + layer.x + ",blue_umbrellay" + count_img_7 + " = " + layer.y + ";\n</li>");
+          x_obj = "blue_umbrellax" + object_count;
+          y_obj = "blue_umbrellay" + object_count;
+          if(!document.getElementById("img_7_global" + object_count)){
+            $("#global").append("<li id = 'img_7_global" + object_count + "'>float blue_umbrellayx" + object_count + " = " + layer.x + ",blue_umbrellay" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_7" + count_img_7).innerHTML = "  image(blue_umbrella,blue_umbrellax" + count_img_7 + ",blue_umbrellay" + count_img_7 + ");\n";
+          document.getElementById("file_img_source_7" + object_count).innerHTML = "  image(blue_umbrella,blue_umbrellax" + object_count + ",blue_umbrellay" + object_count + ");\n";
         }
       }
     });
@@ -2214,33 +2275,35 @@ green_umbrella.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img8_x" + count_img_8).val(layer.x);
-        $("#img8_y" + count_img_8).val(layer.y);
+        $("#img8_x" + object_count).val(layer.x);
+        $("#img8_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_8" + count_img_8).innerHTML = "  image(green_umbrella," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_8" + object_count).innerHTML = "  image(green_umbrella," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(6);
         $(function(){
           change_text = setInterval(function(){
-            $("#img8_x" + count_img_8).val(layer.x);
-            $("#img8_y" + count_img_8).val(layer.y);
+            $("#img8_x" + object_count).val(layer.x);
+            $("#img8_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img8_source" + count_img_8);
+          MOver("img8_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img8_source" + count_img_8);
+          MOut("img8_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_8" + count_img_8).className;
+        className = document.getElementById("file_img_source_8" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         obj_flag = layer.name;
         if(for_flag === true){
@@ -2251,12 +2314,12 @@ green_umbrella.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "green_umbrellax" + count_img_8;
-          y_obj = "green_umbrellay" + count_img_8;
-          if(!document.getElementById("img_8_global" + count_img_8)){
-            $("#global").append("<li id = 'img_8_global" + count_img_8 + "'>float green_umbrellayx" + count_img_8 + " = " + layer.x + ",green_umbrellay" + count_img_8 + " = " + layer.y + ";\n</li>");
+          x_obj = "green_umbrellax" + object_count;
+          y_obj = "green_umbrellay" + object_count;
+          if(!document.getElementById("img_8_global" + object_count)){
+            $("#global").append("<li id = 'img_8_global" + object_count + "'>float green_umbrellayx" + object_count + " = " + layer.x + ",green_umbrellay" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_8" + count_img_8).innerHTML = "  image(green_umbrella,green_umbrellax" + count_img_8 + ",green_umbrellay" + count_img_8 + ");\n";
+          document.getElementById("file_img_source_8" + object_count).innerHTML = "  image(green_umbrella,green_umbrellax" + object_count + ",green_umbrellay" + object_count + ");\n";
         }
       }
     });
@@ -2288,33 +2351,35 @@ orange_umbrella.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img9_x" + count_img_9).val(layer.x);
-        $("#img9_y" + count_img_9).val(layer.y);
+        $("#img9_x" + object_count).val(layer.x);
+        $("#img9_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_9" + count_img_9).innerHTML = "  image(orange_umbrella," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_9" + object_count).innerHTML = "  image(orange_umbrella," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(6);
         $(function(){
           change_text = setInterval(function(){
-            $("#img9_x" + count_img_9).val(layer.x);
-            $("#img9_y" + count_img_9).val(layer.y);
+            $("#img9_x" + object_count).val(layer.x);
+            $("#img9_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img9_source" + count_img_9);
+          MOver("img9_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img9_source" + count_img_9);
+          MOut("img9_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_9" + count_img_9).className;
+        className = document.getElementById("file_img_source_9" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         obj_flag = layer.name;
         if(for_flag === true){
@@ -2325,12 +2390,12 @@ orange_umbrella.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "orange_umbrellax" + count_img_9;
-          y_obj = "orange_umbrellay" + count_img_9;
-          if(!document.getElementById("img_9_global" + count_img_9)){
-            $("#global").append("<li id = 'img_9_global" + count_img_9 + "'>float orange_umbrellayx" + count_img_9 + " = " + layer.x + ",orange_umbrellay" + count_img_9 + " = " + layer.y + ";\n</li>");
+          x_obj = "orange_umbrellax" + object_count;
+          y_obj = "orange_umbrellay" + object_count;
+          if(!document.getElementById("img_9_global" + object_count)){
+            $("#global").append("<li id = 'img_9_global" + object_count + "'>float orange_umbrellayx" + object_count + " = " + layer.x + ",orange_umbrellay" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_9" + count_img_9).innerHTML = "  image(orange_umbrella,orange_umbrellax" + count_img_9 + ",orange_umbrellay" + count_img_9 + ");\n";
+          document.getElementById("file_img_source_9" + object_count).innerHTML = "  image(orange_umbrella,orange_umbrellax" + object_count + ",orange_umbrellay" + object_count + ");\n";
         }
       }
     });
@@ -2362,33 +2427,35 @@ orange_flower.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img10_x" + count_img_10).val(layer.x);
-        $("#img10_y" + count_img_10).val(layer.y);
+        $("#img10_x" + object_count).val(layer.x);
+        $("#img10_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_10" + count_img_10).innerHTML = "  image(orange_flower," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_10" + object_count).innerHTML = "  image(orange_flower," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(7);
         $(function(){
           change_text = setInterval(function(){
-            $("#img10_x" + count_img_10).val(layer.x);
-            $("#img10_y" + count_img_10).val(layer.y);
+            $("#img10_x" + object_count).val(layer.x);
+            $("#img10_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img10_source" + count_img_10);
+          MOver("img10_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img10_source" + count_img_10);
+          MOut("img10_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_10" + count_img_10).className;
+        className = document.getElementById("file_img_source_10" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         obj_flag = layer.name;
         if(for_flag === true){
@@ -2399,12 +2466,12 @@ orange_flower.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "orange_flowerx" + count_img_10;
-          y_obj = "orange_flowery" + count_img_10;
-          if(!document.getElementById("img_10_global" + count_img_10)){
-            $("#global").append("<li id = 'img_10_global" + count_img_10 + "'>float orange_floweryx" + count_img_10 + " = " + layer.x + ",orange_flowery" + count_img_10 + " = " + layer.y + ";\n</li>");
+          x_obj = "orange_flowerx" + object_count;
+          y_obj = "orange_flowery" + object_count;
+          if(!document.getElementById("img_10_global" + object_count)){
+            $("#global").append("<li id = 'img_10_global" + object_count + "'>float orange_floweryx" + object_count + " = " + layer.x + ",orange_flowery" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_10" + count_img_10).innerHTML = "  image(orange_flower,orange_flowerx" + count_img_10 + ",orange_flowery" + count_img_10 + ");\n";
+          document.getElementById("file_img_source_10" + object_count).innerHTML = "  image(orange_flower,orange_flowerx" + object_count + ",orange_flowery" + object_count + ");\n";
         }
       }
     });
@@ -2436,33 +2503,35 @@ pink_flower.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img11_x" + count_img_11).val(layer.x);
-        $("#img11_y" + count_img_11).val(layer.y);
+        $("#img11_x" + object_count).val(layer.x);
+        $("#img11_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_11" + count_img_11).innerHTML = "  image(pink_flower," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_11" + object_count).innerHTML = "  image(pink_flower," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(7);
         $(function(){
           change_text = setInterval(function(){
-            $("#img11_x" + count_img_11).val(layer.x);
-            $("#img11_y" + count_img_11).val(layer.y);
+            $("#img11_x" + object_count).val(layer.x);
+            $("#img11_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img11_source" + count_img_11);
+          MOver("img11_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img11_source" + count_img_11);
+          MOut("img11_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_11" + count_img_11).className;
+        className = document.getElementById("file_img_source_11" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         obj_flag = layer.name;
         if(for_flag === true){
@@ -2473,12 +2542,12 @@ pink_flower.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "pink_flowerx" + count_img_11;
-          y_obj = "pink_flowery" + count_img_11;
-          if(!document.getElementById("img_11_global" + count_img_11)){
-            $("#global").append("<li id = 'img_11_global" + count_img_11 + "'>float pink_floweryx" + count_img_11 + " = " + layer.x + ",pink_flowery" + count_img_11 + " = " + layer.y + ";\n</li>");
+          x_obj = "pink_flowerx" + object_count;
+          y_obj = "pink_flowery" + object_count;
+          if(!document.getElementById("img_11_global" + object_count)){
+            $("#global").append("<li id = 'img_11_global" + object_count + "'>float pink_floweryx" + object_count + " = " + layer.x + ",pink_flowery" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_11" + count_img_11).innerHTML = "  image(pink_flower,pink_flowerx" + count_img_11 + ",pink_flowery" + count_img_11 + ");\n";
+          document.getElementById("file_img_source_11" + object_count).innerHTML = "  image(pink_flower,pink_flowerx" + object_count + ",pink_flowery" + object_count + ");\n";
         }
       }
     });
@@ -2510,33 +2579,35 @@ yellow_flower.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img12_x" + count_img_12).val(layer.x);
-        $("#img12_y" + count_img_12).val(layer.y);
+        $("#img12_x" + object_count).val(layer.x);
+        $("#img12_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_12" + count_img_12).innerHTML = "  image(yellow_flower," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_12" + object_count).innerHTML = "  image(yellow_flower," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(7);
         $(function(){
           change_text = setInterval(function(){
-            $("#img12_x" + count_img_12).val(layer.x);
-            $("#img12_y" + count_img_12).val(layer.y);
+            $("#img12_x" + object_count).val(layer.x);
+            $("#img12_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img12_source" + count_img_12);
+          MOver("img12_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img12_source" + count_img_12);
+          MOut("img12_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_12" + count_img_12).className;
+        className = document.getElementById("file_img_source_12" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -2547,12 +2618,12 @@ yellow_flower.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "yellow_flowerx" + count_img_12;
-          y_obj = "yellow_flowery" + count_img_12;
-          if(!document.getElementById("img_12_global" + count_img_12)){
-            $("#global").append("<li id = 'img_12_global" + count_img_12 + "'>float yellow_floweryx" + count_img_12 + " = " + layer.x + ",yellow_flowery" + count_img_12 + " = " + layer.y + ";\n</li>");
+          x_obj = "yellow_flowerx" + object_count;
+          y_obj = "yellow_flowery" + object_count;
+          if(!document.getElementById("img_12_global" + object_count)){
+            $("#global").append("<li id = 'img_12_global" + object_count + "'>float yellow_floweryx" + object_count + " = " + layer.x + ",yellow_flowery" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_12" + count_img_12).innerHTML = "  image(yellow_flower,yellow_flowerx" + count_img_12 + ",yellow_flowery" + count_img_12 + ");\n";
+          document.getElementById("file_img_source_12" + object_count).innerHTML = "  image(yellow_flower,yellow_flowerx" + object_count + ",yellow_flowery" + object_count + ");\n";
         }
       }
     });
@@ -2584,33 +2655,35 @@ tank.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img13_x" + count_img_13).val(layer.x);
-        $("#img13_y" + count_img_13).val(layer.y);
+        $("#img13_x" + object_count).val(layer.x);
+        $("#img13_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_13" + count_img_13).innerHTML = "  image(tank," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_13" + object_count).innerHTML = "  image(tank," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(7);
         $(function(){
           change_text = setInterval(function(){
-            $("#img13_x" + count_img_13).val(layer.x);
-            $("#img13_y" + count_img_13).val(layer.y);
+            $("#img13_x" + object_count).val(layer.x);
+            $("#img13_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img13_source" + count_img_13);
+          MOver("img13_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img13_source" + count_img_13);
+          MOut("img13_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_13" + count_img_13).className;
+        className = document.getElementById("file_img_source_13" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -2621,12 +2694,12 @@ tank.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "tankx" + count_img_13;
-          y_obj = "tanky" + count_img_13;
-          if(!document.getElementById("img_13_global" + count_img_13)){
-            $("#global").append("<li id = 'img_13_global" + count_img_13 + "'>float tankyx" + count_img_13 + " = " + layer.x + ",tanky" + count_img_13 + " = " + layer.y + ";\n</li>");
+          x_obj = "tankx" + object_count;
+          y_obj = "tanky" + object_count;
+          if(!document.getElementById("img_13_global" + object_count)){
+            $("#global").append("<li id = 'img_13_global" + object_count + "'>float tankyx" + object_count + " = " + layer.x + ",tanky" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_13" + count_img_13).innerHTML = "  image(tank,tankx" + count_img_13 + ",tanky" + count_img_13 + ");\n";
+          document.getElementById("file_img_source_13" + object_count).innerHTML = "  image(tank,tankx" + object_count + ",tanky" + object_count + ");\n";
         }
       }
     });
@@ -2658,33 +2731,35 @@ star.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img14_x" + count_img_14).val(layer.x);
-        $("#img14_y" + count_img_14).val(layer.y);
+        $("#img14_x" + object_count).val(layer.x);
+        $("#img14_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_14" + count_img_14).innerHTML = "  image(star," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_14" + object_count).innerHTML = "  image(star," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(7);
         $(function(){
           change_text = setInterval(function(){
-            $("#img14_x" + count_img_14).val(layer.x);
-            $("#img14_y" + count_img_14).val(layer.y);
+            $("#img14_x" + object_count).val(layer.x);
+            $("#img14_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img14_source" + count_img_14);
+          MOver("img14_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img14_source" + count_img_14);
+          MOut("img14_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_14" + count_img_14).className;
+        className = document.getElementById("file_img_source_14" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         obj_flag = layer.name;
         if(for_flag === true){
@@ -2695,12 +2770,12 @@ star.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "starx" + count_img_14;
-          y_obj = "stary" + count_img_14;
-          if(!document.getElementById("img_14_global" + count_img_14)){
-            $("#global").append("<li id = 'img_14_global" + count_img_14 + "'>float staryx" + count_img_14 + " = " + layer.x + ",stary" + count_img_14 + " = " + layer.y + ";\n</li>");
+          x_obj = "starx" + object_count;
+          y_obj = "stary" + object_count;
+          if(!document.getElementById("img_14_global" + object_count)){
+            $("#global").append("<li id = 'img_14_global" + object_count + "'>float staryx" + object_count + " = " + layer.x + ",stary" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_14" + count_img_14).innerHTML = "  image(star,starx" + count_img_14 + ",stary" + count_img_14 + ");\n";
+          document.getElementById("file_img_source_14" + object_count).innerHTML = "  image(star,starx" + object_count + ",stary" + object_count + ");\n";
         }
       }
     });
@@ -2732,33 +2807,35 @@ giraffe.addEventListener("click",function(){
       draggable:true,
       drag:function(layer){
         //focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-        $("#img15_x" + count_img_15).val(layer.x);
-        $("#img15_y" + count_img_15).val(layer.y);
+        $("#img15_x" + object_count).val(layer.x);
+        $("#img15_y" + object_count).val(layer.y);
       },
       dragstop:function(layer){
-        document.getElementById("file_img_source_15" + count_img_15).innerHTML = "  image(giraffe," + layer.x + "," + layer.y + ");\n";
+        document.getElementById("file_img_source_15" + object_count).innerHTML = "  image(giraffe," + layer.x + "," + layer.y + ");\n";
       },
       mouseover:function(layer){
+  object_layer = $("canvas").getLayer(layer.name);
+  object_count = object_layer.name.slice(7);
         $(function(){
           change_text = setInterval(function(){
-            $("#img15_x" + count_img_15).val(layer.x);
-            $("#img15_y" + count_img_15).val(layer.y);
+            $("#img15_x" + object_count).val(layer.x);
+            $("#img15_y" + object_count).val(layer.y);
           },10);
         });
         $(function(){
-          MOver("img15_source" + count_img_15);
+          MOver("img15_source" + object_count);
         });
       },
       mouseout:function(layer){
         clearInterval(change_text);
         $(function(){
-          MOut("img15_source" + count_img_15);
+          MOut("img15_source" + object_count);
         });
       },
       click:function(layer){
         var layer_o = $("canvas").getLayer(layer.name);
         layer_name = layer_o.name;
-        className = document.getElementById("file_img_source_15" + count_img_15).className;
+        className = document.getElementById("file_img_source_15" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -2769,12 +2846,12 @@ giraffe.addEventListener("click",function(){
           X = layer.x;
           Y = layer.y;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
-          x_obj = "giraffex" + count_img_15;
-          y_obj = "giraffey" + count_img_15;
-          if(!document.getElementById("img_15_global" + count_img_15)){
-            $("#global").append("<li id = 'img_15_global" + count_img_15 + "'>float giraffeyx" + count_img_15 + " = " + layer.x + ",giraffey" + count_img_15 + " = " + layer.y + ";\n</li>");
+          x_obj = "giraffex" + object_count;
+          y_obj = "giraffey" + object_count;
+          if(!document.getElementById("img_15_global" + object_count)){
+            $("#global").append("<li id = 'img_15_global" + object_count + "'>float giraffeyx" + object_count + " = " + layer.x + ",giraffey" + object_count + " = " + layer.y + ";\n</li>");
           }
-          document.getElementById("file_img_source_15" + count_img_15).innerHTML = "  image(giraffe,giraffex" + count_img_15 + ",giraffey" + count_img_15 + ");\n";
+          document.getElementById("file_img_source_15" + object_count).innerHTML = "  image(giraffe,giraffex" + object_count + ",giraffey" + object_count + ");\n";
         }
       }
     });
