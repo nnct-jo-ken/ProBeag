@@ -29,7 +29,6 @@ var global_variables = document.getElementById("global");
 var compile = document.getElementById("compile");
 var for_property = document.getElementById("for_property");
 var sample_for = document.getElementById("sample_for");
-var back = document.getElementById("back");
 var store = document.getElementById("store");
 var if_property = document.getElementById("if_property");
 var sample_if = document.getElementById("sample_if");
@@ -196,6 +195,25 @@ var x = 0;
 var y = 0;
 var ox = 0;
 var oy = 0;
+
+var count_Img = {
+  "img_1":0,
+  "img_2":0,
+  "img_3":0,
+  "img_4":0,
+  "img_5":0,
+  "img_6":0,
+  "img_7":0,
+  "img_8":0,
+  "img_9":0,
+  "img_10":0,
+  "img_11":0,
+  "img_12":0,
+  "img_13":0,
+  "img_14":0,
+  "img_15":0,
+  "select_obj":0
+}
 
 function axis(){
   $('canvas').draw({
@@ -399,7 +417,7 @@ rect.addEventListener("click",function(){
           y_obj = "ry" + object_count;
           if_property.innerHTML = "オブジェクトを<input class='textbox' type = 'text' size='2' id = 'pace'>秒でx座標を<input class='textbox' type = 'text' size='2' id = 'if_x'>までy座標を<input class='textbox' type = 'text' size='2' id = 'if_y'>まで動かす.";
           if(!document.getElementById("rect_global" + object_count)){
-            $("#global").append("<li id = 'rect_global" + object_count + "'>float rx" + object_count + " = " + layer.x + ",ry" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'rect_global" + object_count + "'>float rx" + object_count + " = " + layer.x + ",ry" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_rect_source" + object_count).innerHTML = "  rect(rx" + object_count + ",ry" + object_count + ",65,65);\n";
         }
@@ -978,12 +996,14 @@ $("#" + obj).attr("id",obj + (i+1));
 });
 }
 */
+//消去のイベントリスナ
 del.addEventListener("click",function(){
 
   if($("#source_code").find("li").filter(":last").hasClass("if_code")){
     $("#source_code > ." + className).remove();
+    $("#global > ." + className).remove();
     $("canvas > ." + className).remove();
-  }else{
+  }
     if($("#source_code").find("li").filter(":last").hasClass("Fig")){
       $("#source_code > ." + className).remove();
       $("#source_code > ." + className).remove();
@@ -997,12 +1017,17 @@ del.addEventListener("click",function(){
       $("canvas > ." + className).remove();
       $("canvas > ." + className).remove();
       $("canvas > ." + className).remove();
+      key.src = "img/key_close.png";
     }
     if($("#source_code").find("li").filter(":last").hasClass("Img")){
       $("#source_code > ." + className).remove();
       $("canvas > ." + className).remove();
+      --count_Img["img_" + count_Img["select_obj"]];
+      if(count_Img["img_" + count_Img["select_obj"]] == 0){
+        $(".class" + count_Img["select_obj"]).remove();
+        $(".class_" + count_Img["select_obj"]).remove();
+      }
     }
-  }
   $("canvas").setLayerGroup("obj" + className,{
     visible:false
   }).drawLayers();
@@ -1084,7 +1109,7 @@ cicle.addEventListener("click",function(){
           x_obj = "ellx" + object_count;
           y_obj = "elly" + object_count;
           if(!document.getElementById("ellipse_global" + object_count)){
-            $("#global").append("<li id = 'ellipse_global" + object_count + "'>float ellx" + object_count + " = " + layer.x + ",elly" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'ellipse_global" + object_count + "'>float ellx" + object_count + " = " + layer.x + ",elly" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_ellipse_source" + object_count).innerHTML = "  ellipse(ellx" + object_count + ",elly" + object_count + ",65,65);\n";
         }
@@ -1110,7 +1135,6 @@ cicle.addEventListener("click",function(){
 
 //ifのイベントリスナ
 if_str.addEventListener("click",function(){
-  ++count_groups;
   if_property.innerHTML = "オブジェクトを選択してください.";
   if_flag = true;
 },false);
@@ -1120,191 +1144,6 @@ for_str.addEventListener("click",function(){
   for_property.innerHTML = "オブジェクトを選択してください.";
   for_flag = true;
   count_for++;
-},false);
-
-//前に戻るのイベントリスナ
-back.addEventListener("click",function(){
-  //一番最後の要素消去
-  var object = $('canvas').getLayerGroup('obj' + (count_groups));
-  var object_name = object[0].name;
-
-  if($("#source_code").find("li").filter(":last").hasClass("if_code")){
-    $("#source_code > li:last").remove();
-    $("canvas > li:last").remove();
-  }else{
-    if($("#source_code").find("li").filter(":last").hasClass("Fig")){
-      $("#source_code > li:last").remove();
-      $("#source_code > li:last").remove();
-      $("canvas > span:last").remove();
-      $("canvas > span:last").remove();
-    }
-    if($("#source_code").find("li").filter(":last").hasClass("Line")){
-      $("#source_code > li:last").remove();
-      $("#source_code > li:last").remove();
-      $("#source_code > li:last").remove();
-      $("canvas > span:last").remove();
-      $("canvas > span:last").remove();
-      $("canvas > span:last").remove();
-    }
-    if($("#source_code").find("li").filter(":last").hasClass("Img")){
-      $("#source_code > li:last").remove();
-      $("canvas > span:last").remove();
-    }
-    //それぞれのプロパティを消す
-    if(for_flag === true){
-      for_property.innerHTML = "";
-    }
-    if(if_flag === true){
-      if_property.innerHTML = "";
-    }
-    $("canvas").setLayer(focuses_layer,{
-      visible:false
-    }).drawLayers();
-    $("canvas").removeLayer(focuses_layer).drawLayers();
-    //図形を消してレイヤーごと消去
-    if (count_groups != 0){
-      $("canvas").setLayerGroup("obj" + (count_groups),{
-        visible:false
-      }).drawLayers();
-      $("canvas").removeLayerGroup("obj" + (count_groups));
-
-      if(object_name == "Rect" + count_Rect){
-        $("canvas").removeLayer("Rect" + count_Rect);
-        count_Rect--;
-      }
-      else if(object_name == "Ellipse" + count_Ellipse){
-        $("canvas").removeLayer("Ellipse" + count_Ellipse);
-        count_Ellipse--;
-      }
-      else if(object_name == "Triangle" + count_tri){
-        $("canvas").removeLayer("Triangle" + count_tri);
-        count_tri--;
-      }
-      else if(object_name == "Polygon" + count_ply){
-        $("canvas").removeLayer("Polygon" + count_ply);
-        count_ply--;
-      }
-      else if(object_name == "Line" + count_line){
-        $("canvas").removeLayer("Line" + count_line);
-        count_line--;
-      }
-      else if(object_name == "Pac" + count_pac){
-        $("canvas").removeLayer("Pac" + count_pac);
-        count_pac--;
-      }else if(object_name == "Image1" + count_img_1){
-        $("canvas").removeLayer("Image1" + count_img_1);
-        count_img_1--;
-        if(count_img_1 == 0){
-          $(".class1").remove();
-          $(".class_1").remove();
-        }
-      }else if(object_name == "Image2" + count_img_2){
-        $("canvas").removeLayer("Image2" + count_img_2);
-        count_img_2--;
-        if(count_img_2 == 0){
-          $(".class2").remove();
-          $(".class_2").remove();
-        }
-      }else if(object_name == "Image3" + count_img_3){
-        $("canvas").removeLayer("Image3" + count_img_3);
-        count_img_3--;
-        if(count_img_3 == 0){
-          $(".class3").remove();
-          $(".class_3").remove();
-        }
-      }else if(object_name == "Image4" + count_img_4){
-        $("canvas").removeLayer("Image4" + count_img_4);
-        count_img_4--;
-        if(count_img_4 == 0){
-          $(".class4").remove();
-          $(".class_4").remove();
-        }
-      }else if(object_name == "Image5" + count_img_5){
-        $("canvas").removeLayer("Image5" + count_img_5);
-        count_img_5--;
-        if(count_img_5 == 0){
-          $(".class5").remove();
-          $(".class_5").remove();
-        }
-      }else if(object_name == "Image6" + count_img_6){
-        $("canvas").removeLayer("Image6" + count_img_6);
-        count_img_6--;
-        if(count_img_6 == 0){
-          $(".class6").remove();
-          $(".class_6").remove();
-        }
-      }else if(object_name == "Image7" + count_img_7){
-        $("canvas").removeLayer("Image7" + count_img_7);
-        count_img_7--;
-        if(count_img_7 == 0){
-          $(".class7").remove();
-          $(".class_7").remove();
-        }
-      }else if(object_name == "Image8" + count_img_8){
-        $("canvas").removeLayer("Image8" + count_img_8);
-        count_img_8--;
-        if(count_img_8 == 0){
-          $(".class8").remove();
-          $(".class_8").remove();
-        }
-      }else if(object_name == "Image9" + count_img_9){
-        $("canvas").removeLayer("Image9" + count_img_9);
-        count_img_9--;
-        if(count_img_9 == 0){
-          $(".class9").remove();
-          $(".class_9").remove();
-        }
-      }else if(object_name == "Image10" + count_img_10){
-        $("canvas").removeLayer("Image10" + count_img_10);
-        count_img_10--;
-        if(count_img_10 == 0){
-          $(".class10").remove();
-          $(".class_10").remove();
-        }
-      }else if(object_name == "Image11" + count_img_11){
-        $("canvas").removeLayer("Image11" + count_img_11);
-        count_img_11--;
-        if(count_img_11 == 0){
-          $(".class11").remove();
-          $(".class_11").remove();
-        }
-      }else if(object_name == "Image12" + count_img_12){
-        $("canvas").removeLayer("Image12" + count_img_12);
-        count_img_12--;
-        if(count_img_12 == 0){
-          $(".class12").remove();
-          $(".class_12").remove();
-        }
-      }else if(object_name == "Image13" + count_img_13){
-        $("canvas").removeLayer("Image13" + count_img_13);
-        count_img_13--;
-        if(count_img_13 == 0){
-          $(".class13").remove();
-          $(".class_13").remove();
-        }
-      }else if(object_name == "Image14" + count_img_14){
-        $("canvas").removeLayer("Image14" + count_img_14);
-        count_img_14--;
-        if(count_img_14 == 0){
-          $(".class14").remove();
-          $(".class_14").remove();
-        }
-      }else if(object_name == "Image15" + count_img_15){
-        $("canvas").removeLayer("Image15" + count_img_15);
-        count_img_15--;
-        if(count_img_15 == 0){
-          $(".class15").remove();
-          $(".class_15").remove();
-        }
-      }else if(object_name == "For" + (count_for-1)){
-        $("canvas").removeLayer("For" + (count_for-1));
-        count_for--;
-      }
-    }
-    --count_groups;
-    for_flag = false;
-    if_flag = false;
-  }
 },false);
 
 //全消去のイベントリスナ
@@ -1337,6 +1176,9 @@ store.addEventListener("click",function(){
   count_for = 0;
   for_flag = false;
   if_flag = false;
+  for(var i in count_Img){
+    count_Img[i] = 0;
+  }
   if_property.innerHTML = "";
   for_property.innerHTML = "";
   $("canvas").clearCanvas();
@@ -1426,7 +1268,7 @@ triangle.addEventListener("click",function(){
           x_obj = "trix" + object_count;
           y_obj = "triy" + object_count;
           if(!document.getElementById("triangle_global" + object_count)){
-            $("#global").append("<li id = 'triangle_global" + object_count + "'>float trix" + object_count + " = " + layer.x + ",triy" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'triangle_global" + object_count + "'>float trix" + object_count + " = " + layer.x + ",triy" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_tri_source" + object_count).innerHTML = "  triangle(trix" + object_count + ",triy" + object_count + ",trix" + object_count + "+30,triy" + object_count + "+50,trix" + object_count + "-30,triy" + object_count + "+50);\n";
         }
@@ -1522,7 +1364,7 @@ polygon.addEventListener("click",function(){
           x_obj = "plyx" + object_count;
           y_obj = "plyy" + object_count;
           if(!document.getElementById("ply_global" + object_count)){
-            $("#global").append("<li id = 'ply_global" + object_count + "'>float rx" + object_count + " = " + layer.x + ",ry" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'ply_global" + object_count + "'>float rx" + object_count + " = " + layer.x + ",ry" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_ply_source" + object_count).innerHTML = "  polygon(plyx" + object_count + ",plyy" + object_count + ",65,65" + angle.value + ");\n";
         }
@@ -1604,6 +1446,10 @@ line.addEventListener("click",function(){
       },
 
       click:function(layer){
+        var layer_o = $("canvas").getLayer(layer.name);
+        layer_name = layer_o.name;
+        focuses(layer.x1,layer.y1,(layer.x2-layer.x1),(layer.y2-layer.y1),(layer.name-1));
+        className = document.getElementById("file_line_source" + object_count).className;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
           for_property.innerHTML = "この図形には使えません";
@@ -1616,14 +1462,14 @@ line.addEventListener("click",function(){
         document.getElementById("file_line_source" + object_count).innerHTML = "line(" + layer.x1 + "," + layer.y1 + "," + layer.x2 + "," + layer.y2 + ");\n";
       }
     });
-  stroke_code_line = "<li id='line_stroke'><font class = 'light'color = '#f7f7f7' size = '3'>  stroke(102,102,102);</font></li>";
+  stroke_code_line = "<li class=" + count_groups + " id='line_stroke'><font class = 'light'color = '#f7f7f7' size = '3'>  stroke(102,102,102);</font></li>";
   literal(stroke_code_line);
-  var line_strokeWeight = "<li><font class = 'light'color = '#f7f7f7' size = '3'>  strokeWeight(10);</font></li>";
+  var line_strokeWeight = "<li class=" + count_groups + "><font class = 'light' color = '#f7f7f7' size = '3'>  strokeWeight(10);</font></li>";
   literal(line_strokeWeight);
   line_code = "<li id = 'line_source' class = 'Line " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  line(" + '<input class="textbox" type="text" size="2"id ="line1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line1_y" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="line2_x" value = "400">' + "," + '<input class="textbox" type="text" size="2"id ="line2_y" value = "400">' + ");</font></li>";
   literal(line_code);
   file_line_stroke = "<span class = " + count_groups + " id='file_line_stroke'>  stroke(102,102,102);\n</span>";
-  file_strokeWeight = "<span>  strokeWeight(10);\n</span>";
+  file_strokeWeight = "<span class=" + count_groups + ">  strokeWeight(10);\n</span>";
   line_file_code = "<span class = " + count_groups + " id='file_line_source'>  line(100,100,400,400);\n</span>";
   $("canvas").append(file_line_stroke);
   $("canvas").append(file_strokeWeight);
@@ -1706,7 +1552,7 @@ pac.addEventListener("click",function(){
           x_obj = "pacx" + object_count;
           y_obj = "pacy" + object_count;
           if(!document.getElementById("pac_global" + object_count)){
-            $("#global").append("<li id = 'pac_global" + object_count + "'>float pacx" + object_count + " = " + layer.x + ",pacy" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'pac_global" + object_count + "'>float pacx" + object_count + " = " + layer.x + ",pacy" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_pac_source" + object_count).innerHTML = "  arc(pacx" + object_count + ",pacy" + object_count + ",65,65,0.5,5.8);\n";
         }
@@ -1732,6 +1578,7 @@ pac.addEventListener("click",function(){
 butt_red.addEventListener("click",function(){
   ++count_groups;
   ++count_img_1;
+  ++count_Img["img_1"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -1773,6 +1620,7 @@ butt_red.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_1" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 1;
         obj_flag = layer.name;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -1785,7 +1633,7 @@ butt_red.addEventListener("click",function(){
           x_obj = "red_buttx" + object_count;
           y_obj = "red_butty" + object_count;
           if(!document.getElementById("img_1_global" + object_count)){
-            $("#global").append("<li id = 'img_1_global" + object_count + "'>float red_buttx" + object_count + " = " + layer.x + ",red_butty" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_1_global" + object_count + "'>float red_buttx" + object_count + " = " + layer.x + ",red_butty" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_1" + object_count).innerHTML = "  image(red_butterfly,red_buttx" + object_count + ",red_butty" + object_count + ");\n";
 
@@ -1794,7 +1642,7 @@ butt_red.addEventListener("click",function(){
     });
   var red_butt_inst = "<li class = 'class1'>PImage <a href = 'img/red_butterfly.png' download='red_butterfly.png' class='tooltip' title='クリックしてダウンロード.'>red_butterfly;\n</a></li>"
   var red_butt = '<li class = "class_1"><font class = "light"color = "#f7f7f7" size = "3">  red_butterfly=loadImage("red_butterfly.png");\n</font></li>'
-  PImage_literal(red_butt,count_img_1,red_butt_inst);
+  PImage_literal(red_butt,count_Img["img_1"],red_butt_inst);
   img_code_1 = "<li id = 'img1_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(red_butterfly," + '<input class="textbox" type="text" size="2"id ="img1_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img1_y" value = "100">' + ");</font></li>";
   literal(img_code_1);
   img_file_code_1 = "<span class = " + count_groups + " id='file_img_source_1'>  image(red_butterfly,100,100);\n</span>";
@@ -1809,6 +1657,7 @@ butt_red.addEventListener("click",function(){
 butt_yellow.addEventListener("click",function(){
   ++count_groups;
   ++count_img_2;
+  ++count_Img["img_2"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -1850,6 +1699,7 @@ butt_yellow.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_2" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 2;
         obj_flag = layer.name;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -1862,7 +1712,7 @@ butt_yellow.addEventListener("click",function(){
           x_obj = "ylw_buttx" + object_count;
           y_obj = "ylw_butty" + object_count;
           if(!document.getElementById("img_2_global" + object_count)){
-            $("#global").append("<li id = 'img_2_global" + object_count + "'>float ylw_buttx" + object_count + " = " + layer.x + ",ylw_butty" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_2_global" + object_count + "'>float ylw_buttx" + object_count + " = " + layer.x + ",ylw_butty" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_2" + object_count).innerHTML = "  image(yellow_butterfly,ylw_buttx" + object_count + ",ylw_butty" + object_count + ");\n";
         }
@@ -1870,7 +1720,7 @@ butt_yellow.addEventListener("click",function(){
     });
   var yellow_butt_inst = "<li class = 'class2'>PImage <a href = 'img/ylw_butterfly.png' download='ylw_butterfly.png' class='tooltip' title='クリックしてダウンロードしてください.'>yellow_butterfly;\n</a></li>"
   var yellow_butt = '<li class = "class_2"><font class = "light"color = "#f7f7f7" size = "3">  yellow_butterfly=loadImage("ylw_butterfly.png");\n</font></li>'
-  PImage_literal(yellow_butt,count_img_2,yellow_butt_inst);
+  PImage_literal(yellow_butt,count_Img["img_2"],yellow_butt_inst);
   img_code_2 = "<li id = 'img2_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(yellow_butterfly," + '<input class="textbox" type="text" size="2"id ="img2_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img2_y" value = "100">' + ");</font></li>";
   literal(img_code_2);
   img_file_code_2 = "<span class = " + count_groups + " id='file_img_source_2'>  image(yellow_butterfly,100,100);\n</span>";
@@ -1885,6 +1735,7 @@ butt_yellow.addEventListener("click",function(){
 butt_blue.addEventListener("click",function(){
   ++count_groups;
   ++count_img_3;
+  ++count_Img["img_3"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -1926,6 +1777,7 @@ butt_blue.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_3" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 3;
         obj_flag = layer.name;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -1938,7 +1790,7 @@ butt_blue.addEventListener("click",function(){
           x_obj = "blue_buttx" + object_count;
           y_obj = "blue_butty" + object_count;
           if(!document.getElementById("img_3_global" + object_count)){
-            $("#global").append("<li id = 'img_3_global" + object_count + "'>float blue_buttx" + object_count + " = " + layer.x + ",blue_butty" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_3_global" + object_count + "'>float blue_buttx" + object_count + " = " + layer.x + ",blue_butty" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_3" + object_count).innerHTML = "  image(blue_butterfly,blue_buttx" + object_count + ",blue_butty" + object_count + ");\n";
         }
@@ -1946,7 +1798,7 @@ butt_blue.addEventListener("click",function(){
     });
   var blue_butt_inst = "<li class = 'class3'>PImage <a href = 'img/blue_butterfly.png' download='blue_butterfly.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_butterfly;\n</a></li>"
   var blue_butt = '<li class = "class_3"><font class = "light"color = "#f7f7f7" size = "3">  blue_butterfly=loadImage("blue_butterfly.png");\n</font></li>'
-  PImage_literal(blue_butt,count_img_3,blue_butt_inst);
+  PImage_literal(blue_butt,count_Img["img_3"],blue_butt_inst);
   img_code_3 = "<li id = 'img3_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(blue_butterfly," + '<input class="textbox" type="text" size="2"id ="img3_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img3_y" value = "100">' + ");</font></li>";
   literal(img_code_3);
   img_file_code_3 = "<span class = " + count_groups + " id='file_img_source_3'>  image(blue_butterfly,100,100);\n</span>";
@@ -1961,6 +1813,7 @@ butt_blue.addEventListener("click",function(){
 blue_candy.addEventListener("click",function(){
   ++count_groups;
   ++count_img_4;
+  ++count_Img["img_4"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -2002,6 +1855,7 @@ blue_candy.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_4" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 4;
         obj_flag = layer.name;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -2014,7 +1868,7 @@ blue_candy.addEventListener("click",function(){
           x_obj = "blue_candyx" + object_count;
           y_obj = "blue_candyy" + object_count;
           if(!document.getElementById("img_4_global" + object_count)){
-            $("#global").append("<li id = 'img_4_global" + object_count + "'>float blue_candyx" + object_count + " = " + layer.x + ",blue_candyy" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_4_global" + object_count + "'>float blue_candyx" + object_count + " = " + layer.x + ",blue_candyy" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_4" + object_count).innerHTML = "  image(blue_candy,blue_candyx" + object_count + ",blue_candyy" + object_count + ");\n";
         }
@@ -2022,7 +1876,7 @@ blue_candy.addEventListener("click",function(){
     });
   var blue_candy_inst = "<li class = 'class4'>PImage <a href = 'img/blue_candy.png' download='blue_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_candy;\n</a></li>"
   var blue_candy = '<li class = "class_4"><font class = "light"color = "#f7f7f7" size = "3">  blue_candy=loadImage("blue_candy.png");\n</font></li>'
-  PImage_literal(blue_candy,count_img_4,blue_candy_inst);
+  PImage_literal(blue_candy,count_Img["img_4"],blue_candy_inst);
   img_code_4 = "<li id = 'img4_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(blue_candy," + '<input class="textbox" type="text" size="2"id ="img4_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img4_y" value = "100">' + ");</font></li>";
   literal(img_code_4);
   img_file_code_4 = "<span class = " + count_groups + " id='file_img_source_4'>  image(blue_candy,100,100);\n</span>";
@@ -2037,6 +1891,7 @@ blue_candy.addEventListener("click",function(){
 orange_candy.addEventListener("click",function(){
   ++count_groups;
   ++count_img_5;
+  ++count_Img["img_5"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -2078,6 +1933,7 @@ orange_candy.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_5" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 5;
         obj_flag = layer.name;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -2090,7 +1946,7 @@ orange_candy.addEventListener("click",function(){
           x_obj = "orange_candyx" + object_count;
           y_obj = "orange_candyy" + object_count;
           if(!document.getElementById("img_5_global" + object_count)){
-            $("#global").append("<li id = 'img_5_global" + object_count + "'>float orange_candyx" + object_count + " = " + layer.x + ",orange_candyy" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_5_global" + object_count + "'>float orange_candyx" + object_count + " = " + layer.x + ",orange_candyy" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_5" + object_count).innerHTML = "  image(orange_candy,orange_candyx" + object_count + ",orange_candyy" + object_count + ");\n";
         }
@@ -2098,7 +1954,7 @@ orange_candy.addEventListener("click",function(){
     });
   var orange_candy_inst = "<li class = 'class5'>PImage <a href = 'img/orange_candy.png' download='orange_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_candy;\n</a></li>"
   var orange_candy = '<li class = "class_5"><font class = "light"color = "#f7f7f7" size = "3">  orange_candy=loadImage("orange_candy.png");\n</font></li>'
-  PImage_literal(orange_candy,count_img_5,orange_candy_inst);
+  PImage_literal(orange_candy,count_Img["img_5"],orange_candy_inst);
   img_code_5 = "<li id = 'img5_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(orange_candy," + '<input class="textbox" type="text" size="2"id ="img5_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img5_y" value = "100">' + ");</font></li>";
   literal(img_code_5);
   img_file_code_5 = "<span class = " + count_groups + " id='file_img_source_5'>  image(orange_candy,100,100);\n</span>";
@@ -2113,6 +1969,7 @@ orange_candy.addEventListener("click",function(){
 pink_candy.addEventListener("click",function(){
   ++count_groups;
   ++count_img_6;
+  ++count_Img["img_6"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -2154,6 +2011,7 @@ pink_candy.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_6" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 6;
         obj_flag = layer.name;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -2166,7 +2024,7 @@ pink_candy.addEventListener("click",function(){
           x_obj = "pink_candyx" + object_count;
           y_obj = "pink_candyy" + object_count;
           if(!document.getElementById("img_6_global" + object_count)){
-            $("#global").append("<li id = 'img_6_global" + object_count + "'>float pink_candyyx" + object_count + " = " + layer.x + ",pink_candyy" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_6_global" + object_count + "'>float pink_candyyx" + object_count + " = " + layer.x + ",pink_candyy" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_6" + object_count).innerHTML = "  image(pink_candy,pink_candyx" + object_count + ",pink_candyy" + object_count + ");\n";
         }
@@ -2174,7 +2032,7 @@ pink_candy.addEventListener("click",function(){
     });
   var pink_candy_inst = "<li class = 'class6'>PImage <a href = 'img/pink_candy.png' download='pink_candy.png' class='tooltip' title='クリックしてダウンロードしてください.'>pink_candy;\n</a></li>"
   var pink_candy = '<li class = "class_6"><font class = "light"color = "#f7f7f7" size = "3">  pink_candy=loadImage("pink_candy.png");\n</font></li>'
-  PImage_literal(pink_candy,count_img_6,pink_candy_inst);
+  PImage_literal(pink_candy,count_Img["img_6"],pink_candy_inst);
   img_code_6 = "<li id = 'img6_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(pink_candy," + '<input class="textbox" type="text" size="2"id ="img6_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img6_y" value = "100">' + ");</font></li>";
   literal(img_code_6);
   img_file_code_6 = "<span class = " + count_groups + " id='file_img_source_6'>  image(pink_candy,100,100);\n</span>";
@@ -2189,6 +2047,7 @@ pink_candy.addEventListener("click",function(){
 blue_umbrella.addEventListener("click",function(){
   ++count_groups;
   ++count_img_7;
+  ++count_Img["img_7"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -2230,6 +2089,7 @@ blue_umbrella.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_7" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 7;
         obj_flag = layer.name;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -2242,7 +2102,7 @@ blue_umbrella.addEventListener("click",function(){
           x_obj = "blue_umbrellax" + object_count;
           y_obj = "blue_umbrellay" + object_count;
           if(!document.getElementById("img_7_global" + object_count)){
-            $("#global").append("<li id = 'img_7_global" + object_count + "'>float blue_umbrellayx" + object_count + " = " + layer.x + ",blue_umbrellay" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_7_global" + object_count + "'>float blue_umbrellayx" + object_count + " = " + layer.x + ",blue_umbrellay" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_7" + object_count).innerHTML = "  image(blue_umbrella,blue_umbrellax" + object_count + ",blue_umbrellay" + object_count + ");\n";
         }
@@ -2250,7 +2110,7 @@ blue_umbrella.addEventListener("click",function(){
     });
   var blue_umbrella_inst = "<li class = 'class7'>PImage <a href = 'img/blue_umbrella.png' download='blue_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>blue_umbrella;\n</a></li>"
   var blue_umbrella = '<li class = "class_7"><font class = "light"color = "#f7f7f7" size = "3">  blue_umbrella=loadImage("blue_umbrella.png");\n</font></li>'
-  PImage_literal(blue_umbrella,count_img_7,blue_umbrella_inst);
+  PImage_literal(blue_umbrella,count_Img["img_7"],blue_umbrella_inst);
   img_code_7 = "<li id = 'img7_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(blue_umbrella," + '<input class="textbox" type="text" size="2"id ="img7_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img7_y" value = "100">' + ");</font></li>";
   literal(img_code_7);
   img_file_code_7 = "<span class = " + count_groups + " id='file_img_source_7'>  image(blue_umbrella,100,100);\n</span>";
@@ -2264,6 +2124,7 @@ blue_umbrella.addEventListener("click",function(){
 green_umbrella.addEventListener("click",function(){
   ++count_groups;
   ++count_img_8;
+  ++count_Img["img_8"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -2305,6 +2166,7 @@ green_umbrella.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_8" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 8;
         obj_flag = layer.name;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -2317,7 +2179,7 @@ green_umbrella.addEventListener("click",function(){
           x_obj = "green_umbrellax" + object_count;
           y_obj = "green_umbrellay" + object_count;
           if(!document.getElementById("img_8_global" + object_count)){
-            $("#global").append("<li id = 'img_8_global" + object_count + "'>float green_umbrellayx" + object_count + " = " + layer.x + ",green_umbrellay" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_8_global" + object_count + "'>float green_umbrellayx" + object_count + " = " + layer.x + ",green_umbrellay" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_8" + object_count).innerHTML = "  image(green_umbrella,green_umbrellax" + object_count + ",green_umbrellay" + object_count + ");\n";
         }
@@ -2325,7 +2187,7 @@ green_umbrella.addEventListener("click",function(){
     });
   var green_umbrella_inst = "<li class = 'class8'>PImage <a href = 'img/green_umbrella.png' download='green_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>green_umbrella;\n</a></li>"
   var green_umbrella = '<li class = "class_8"><font class = "light"color = "#f7f7f7" size = "3">  green_umbrella=loadImage("green_umbrella.png");\n</font></li>'
-  PImage_literal(green_umbrella,count_img_8,green_umbrella_inst);
+  PImage_literal(green_umbrella,count_Img["img_8"],green_umbrella_inst);
   img_code_8 = "<li id = 'img8_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(green_umbrella," + '<input class="textbox" type="text" size="2"id ="img8_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img8_y" value = "100">' + ");</font></li>";
   literal(img_code_8);
   img_file_code_8 = "<span class = " + count_groups + " id='file_img_source_8'>  image(green_umbrella,100,100);\n</span>";
@@ -2340,6 +2202,7 @@ green_umbrella.addEventListener("click",function(){
 orange_umbrella.addEventListener("click",function(){
   ++count_groups;
   ++count_img_9;
+  ++count_Img["img_9"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -2381,6 +2244,7 @@ orange_umbrella.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_9" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 9;
         obj_flag = layer.name;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -2393,7 +2257,7 @@ orange_umbrella.addEventListener("click",function(){
           x_obj = "orange_umbrellax" + object_count;
           y_obj = "orange_umbrellay" + object_count;
           if(!document.getElementById("img_9_global" + object_count)){
-            $("#global").append("<li id = 'img_9_global" + object_count + "'>float orange_umbrellayx" + object_count + " = " + layer.x + ",orange_umbrellay" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_9_global" + object_count + "'>float orange_umbrellayx" + object_count + " = " + layer.x + ",orange_umbrellay" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_9" + object_count).innerHTML = "  image(orange_umbrella,orange_umbrellax" + object_count + ",orange_umbrellay" + object_count + ");\n";
         }
@@ -2401,7 +2265,7 @@ orange_umbrella.addEventListener("click",function(){
     });
   var orange_umbrella_inst = "<li class = 'class9'>PImage <a href = 'img/orange_umbrella.png' download='orange_umbrella.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_umbrella;\n</a></li>"
   var orange_umbrella = '<li class = "class_9"><font class = "light"color = "#f7f7f7" size = "3">  orange_umbrella=loadImage("orange_umbrella.png");\n</font></li>'
-  PImage_literal(orange_umbrella,count_img_9,orange_umbrella_inst);
+  PImage_literal(orange_umbrella,count_Img["img_9"],orange_umbrella_inst);
   img_code_9 = "<li id = 'img9_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(orange_umbrella," + '<input class="textbox" type="text" size="2"id ="img9_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img9_y" value = "100">' + ");</font></li>";
   literal(img_code_9);
   img_file_code_9 = "<span class = " + count_groups + " id='file_img_source_9'>  image(orange_umbrella,100,100);\n</span>";
@@ -2416,6 +2280,7 @@ orange_umbrella.addEventListener("click",function(){
 orange_flower.addEventListener("click",function(){
   ++count_groups;
   ++count_img_10;
+  ++count_Img["img_10"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -2457,6 +2322,7 @@ orange_flower.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_10" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 10;
         obj_flag = layer.name;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -2469,7 +2335,7 @@ orange_flower.addEventListener("click",function(){
           x_obj = "orange_flowerx" + object_count;
           y_obj = "orange_flowery" + object_count;
           if(!document.getElementById("img_10_global" + object_count)){
-            $("#global").append("<li id = 'img_10_global" + object_count + "'>float orange_floweryx" + object_count + " = " + layer.x + ",orange_flowery" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_10_global" + object_count + "'>float orange_floweryx" + object_count + " = " + layer.x + ",orange_flowery" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_10" + object_count).innerHTML = "  image(orange_flower,orange_flowerx" + object_count + ",orange_flowery" + object_count + ");\n";
         }
@@ -2477,7 +2343,7 @@ orange_flower.addEventListener("click",function(){
     });
   var orange_flower_inst = "<li class = 'class10'>PImage <a href = 'img/orange_flower.png' download='orange_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>orange_flower;\n</a></li>"
   var orange_flower = '<li class = "class_10"><font class = "light"color = "#f7f7f7" size = "3">  orange_flower=loadImage("orange_flower.png");\n</font></li>'
-  PImage_literal(orange_flower,count_img_10,orange_flower_inst);
+  PImage_literal(orange_flower,count_Img["img_10"],orange_flower_inst);
   img_code_10 = "<li id = 'img10_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(orange_flower," + '<input class="textbox" type="text" size="2"id ="img10_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img10_y" value = "100">' + ");</font></li>";
   literal(img_code_10);
   img_file_code_10 = "<span class = " + count_groups + " id='file_img_source_10'>  image(orange_flower,100,100);\n</span>";
@@ -2492,6 +2358,7 @@ orange_flower.addEventListener("click",function(){
 pink_flower.addEventListener("click",function(){
   ++count_groups;
   ++count_img_11;
+  ++count_Img["img_11"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -2533,6 +2400,7 @@ pink_flower.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_11" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 11;
         obj_flag = layer.name;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -2545,7 +2413,7 @@ pink_flower.addEventListener("click",function(){
           x_obj = "pink_flowerx" + object_count;
           y_obj = "pink_flowery" + object_count;
           if(!document.getElementById("img_11_global" + object_count)){
-            $("#global").append("<li id = 'img_11_global" + object_count + "'>float pink_floweryx" + object_count + " = " + layer.x + ",pink_flowery" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_11_global" + object_count + "'>float pink_floweryx" + object_count + " = " + layer.x + ",pink_flowery" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_11" + object_count).innerHTML = "  image(pink_flower,pink_flowerx" + object_count + ",pink_flowery" + object_count + ");\n";
         }
@@ -2553,7 +2421,7 @@ pink_flower.addEventListener("click",function(){
     });
   var pink_flower_inst = "<li class = 'class11'>PImage <a href = 'img/pink_flower.png' download='pink_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>pink_flower;\n</a></li>"
   var pink_flower = '<li class = "class_11"><font class = "light"color = "#f7f7f7" size = "3">  pink_flower=loadImage("pink_flower.png");\n</font></li>'
-  PImage_literal(pink_flower,count_img_11,pink_flower_inst);
+  PImage_literal(pink_flower,count_Img["img_11"],pink_flower_inst);
   img_code_11 = "<li id = 'img11_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(pink_flower," + '<input class="textbox" type="text" size="2"id ="img11_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img11_y" value = "100">' + ");</font></li>";
   literal(img_code_11);
   img_file_code_11 = "<span class = " + count_groups + " id='file_img_source_11'>  image(pink_flower,100,100);\n</span>";
@@ -2568,6 +2436,7 @@ pink_flower.addEventListener("click",function(){
 yellow_flower.addEventListener("click",function(){
   ++count_groups;
   ++count_img_12;
+  ++count_Img["img_12"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -2609,6 +2478,7 @@ yellow_flower.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_12" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 12;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
           for_property.innerHTML = "この図形には使えません";
@@ -2621,7 +2491,7 @@ yellow_flower.addEventListener("click",function(){
           x_obj = "yellow_flowerx" + object_count;
           y_obj = "yellow_flowery" + object_count;
           if(!document.getElementById("img_12_global" + object_count)){
-            $("#global").append("<li id = 'img_12_global" + object_count + "'>float yellow_floweryx" + object_count + " = " + layer.x + ",yellow_flowery" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_12_global" + object_count + "'>float yellow_floweryx" + object_count + " = " + layer.x + ",yellow_flowery" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_12" + object_count).innerHTML = "  image(yellow_flower,yellow_flowerx" + object_count + ",yellow_flowery" + object_count + ");\n";
         }
@@ -2629,7 +2499,7 @@ yellow_flower.addEventListener("click",function(){
     });
   var yellow_flower_inst = "<li class = 'class12'>PImage <a href = 'img/yellow_flower.png' download='yellow_flower.png' class='tooltip' title='クリックしてダウンロードしてください.'>yellow_flower;\n</a></li>"
   var yellow_flower = '<li class = "class_12"><font class = "light"color = "#f7f7f7" size = "3">  yellow_flower=loadImage("yellow_flower.png");\n</font></li>'
-  PImage_literal(yellow_flower,count_img_12,yellow_flower_inst);
+  PImage_literal(yellow_flower,count_Img["img_12"],yellow_flower_inst);
   img_code_12 = "<li id = 'img12_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(yellow_flower," + '<input class="textbox" type="text" size="2"id ="img12_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img12_y" value = "100">' + ");</font></li>";
   literal(img_code_12);
   img_file_code_12 = "<span class = " + count_groups + " id='file_img_source_12'>  image(yellow_flower,100,100);\n</span>";
@@ -2644,6 +2514,7 @@ yellow_flower.addEventListener("click",function(){
 tank.addEventListener("click",function(){
   ++count_groups;
   ++count_img_13;
+  ++count_Img["img_13"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -2685,6 +2556,7 @@ tank.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_13" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 13;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
           for_property.innerHTML = "この図形には使えません";
@@ -2697,7 +2569,7 @@ tank.addEventListener("click",function(){
           x_obj = "tankx" + object_count;
           y_obj = "tanky" + object_count;
           if(!document.getElementById("img_13_global" + object_count)){
-            $("#global").append("<li id = 'img_13_global" + object_count + "'>float tankyx" + object_count + " = " + layer.x + ",tanky" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_13_global" + object_count + "'>float tankyx" + object_count + " = " + layer.x + ",tanky" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_13" + object_count).innerHTML = "  image(tank,tankx" + object_count + ",tanky" + object_count + ");\n";
         }
@@ -2705,7 +2577,7 @@ tank.addEventListener("click",function(){
     });
   var tank_inst = "<li class = 'class13'>PImage <a href = 'img/tank.png' download='tank.png' class='tooltip' title='クリックしてダウンロードしてください.'>tank;\n</a></li>"
   var tank = '<li class = "class_13"><font class = "light"color = "#f7f7f7" size = "3">  tank=loadImage("tank.png");\n</font></li>'
-  PImage_literal(tank,count_img_13,tank_inst);
+  PImage_literal(tank,count_Img["img_13"],tank_inst);
   img_code_13 = "<li id = 'img13_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(tank," + '<input class="textbox" type="text" size="2"id ="img13_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img13_y" value = "100">' + ");</font></li>";
   literal(img_code_13);
   img_file_code_13 = "<span class = " + count_groups + " id='file_img_source_13'>  image(tank,100,100);\n</span>";
@@ -2720,6 +2592,7 @@ tank.addEventListener("click",function(){
 star.addEventListener("click",function(){
   ++count_groups;
   ++count_img_14;
+  ++count_Img["img_14"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -2761,6 +2634,7 @@ star.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_14" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 14;
         obj_flag = layer.name;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
@@ -2773,7 +2647,7 @@ star.addEventListener("click",function(){
           x_obj = "starx" + object_count;
           y_obj = "stary" + object_count;
           if(!document.getElementById("img_14_global" + object_count)){
-            $("#global").append("<li id = 'img_14_global" + object_count + "'>float staryx" + object_count + " = " + layer.x + ",stary" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_14_global" + object_count + "'>float staryx" + object_count + " = " + layer.x + ",stary" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_14" + object_count).innerHTML = "  image(star,starx" + object_count + ",stary" + object_count + ");\n";
         }
@@ -2781,7 +2655,7 @@ star.addEventListener("click",function(){
     });
   var star_inst = "<li class = 'class14'>PImage <a href = 'img/star.png' download='star.png' class='tooltip' title='クリックしてダウンロードしてください.'>star;\n</a></li>"
   var star = '<li class = "class_14"><font class = "light"color = "#f7f7f7" size = "3">  star=loadImage("star.png");\n</font></li>';
-  PImage_literal(star,count_img_14,star_inst);
+  PImage_literal(star,count_Img["img_14"],star_inst);
   img_code_14 = "<li id = 'img14_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(star," + '<input class="textbox" type="text" size="2"id ="img14_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img14_y" value = "100">' + ");</font></li>";
   literal(img_code_14);
   img_file_code_14 = "<span class = " + count_groups + " id='file_img_source_14'>  image(star,100,100);\n</span>";
@@ -2796,6 +2670,7 @@ star.addEventListener("click",function(){
 giraffe.addEventListener("click",function(){
   ++count_groups;
   ++count_img_15;
+  ++count_Img["img_15"];
     //これがJcanvasの多角形を描くソース
     $("canvas").drawImage({
       layer:true,
@@ -2837,6 +2712,7 @@ giraffe.addEventListener("click",function(){
         layer_name = layer_o.name;
         className = document.getElementById("file_img_source_15" + object_count).className;
         focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+        count_Img["select_obj"] = 15;
         if(for_flag === true){
           //table内のfor_propertyに書き込む
           for_property.innerHTML = "この図形には使えません";
@@ -2849,7 +2725,7 @@ giraffe.addEventListener("click",function(){
           x_obj = "giraffex" + object_count;
           y_obj = "giraffey" + object_count;
           if(!document.getElementById("img_15_global" + object_count)){
-            $("#global").append("<li id = 'img_15_global" + object_count + "'>float giraffeyx" + object_count + " = " + layer.x + ",giraffey" + object_count + " = " + layer.y + ";\n</li>");
+            $("#global").append("<li class = " + count_groups + " id = 'img_15_global" + object_count + "'>float giraffeyx" + object_count + " = " + layer.x + ",giraffey" + object_count + " = " + layer.y + ";\n</li>");
           }
           document.getElementById("file_img_source_15" + object_count).innerHTML = "  image(giraffe,giraffex" + object_count + ",giraffey" + object_count + ");\n";
         }
@@ -2857,7 +2733,7 @@ giraffe.addEventListener("click",function(){
     });
   var giraffe_inst = "<li class = 'class15'>PImage <a href = 'img/giraffe.png' download='giraffe.png' class='tooltip' title='クリックしてダウンロードしてください.'>giraffe;\n</a></li>"
   var giraffe = '<li class = "class_15"><font class = "light"color = "#f7f7f7" size = "3">  giraffe=loadImage("giraffe.png");\n</font></li>';
-  PImage_literal(giraffe,count_img_15,giraffe_inst);
+  PImage_literal(giraffe,count_Img["img_15"],giraffe_inst);
   img_code_15 = "<li id = 'img15_source' class = 'Img " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  image(giraffe," + '<input class="textbox" type="text" size="2"id ="img15_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="img15_y" value = "100">' + ");</font></li>";
   literal(img_code_15);
   img_file_code_15 = "<span class = " + count_groups + " id='file_img_source_15'>  image(giraffe,100,100);\n</span>";

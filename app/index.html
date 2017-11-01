@@ -118,8 +118,9 @@ void polygon(float x,float y,float r,int n){
                 <tr>
                     <th><div class="container"><a href="#" id="store" class="square_btn"><font class = "light">全消去</font>
                  </a></div></th><!-- 赤　-->
-                    <th><div class="container"><a href="#" id="back" class="square_btn"><font class = "light">前に戻る</font>
-                 </a></div></th><!-- 青 -->
+                 <th><div class="container"><a href="#" class="position square_btn" id="del"><font class = "light">消去</font>
+                  </a></div>
+                 </th>
                 </tr>
                 <tr>
                   <th><select id="angle"name="angle"></select>
@@ -128,16 +129,9 @@ void polygon(float x,float y,float r,int n){
                   </a></div></th>
                 </tr>
                 <tr>
-                  <th scope="cols" colspan="2"><div class="container">
-                      <a href="#" class="position square_btn" id="del">
-                     <font class = "light"size="3" face="Century">消去</font><!-- 緑 -->
-                   </a></div>
-                  </th>
-                </tr>
-                <tr>
                 <th scope="cols" colspan="2"><div class="container">
                     <a href="#" name="compile" value="compile" class="position square_btn" id="compile">
-                   <font class = "light"size="3" face="Century">Run</font><!-- 緑 -->
+                   <font class = "light">Run</font><!-- 緑 -->
                  </a></div>
                 </th>
               </tr>
