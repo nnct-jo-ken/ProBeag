@@ -448,31 +448,32 @@ rect.addEventListener("click",function(){
 //ボタンを押して図形の位置を変更する
 compile.addEventListener("click",function(){
   //(図形のtextboxのid,nameプロパティ,count_??);
-  Compile("rect","Rect",count_Figures["rect"]);
-  Compile("ellipse","Ellipse",count_Figures["ellipse"]);
-  Compile("triangle","Triangle",count_Figures["triangle"]);
-  Compile_Line("line1","Line",count_Figures["line"]);
-  Compile("pac","Pac",count_Figures["pac"]);
-  Compile("img1","Image1",count_Figures["img_1"]);
-  Compile("img2","Image2",count_Figures["img_2"]);
-  Compile("img3","Image3",count_Figures["img_3"]);
-  Compile("img4","Image4",count_Figures["img_4"]);
-  Compile("img5","Image5",count_Figures["img_5"]);
-  Compile("img6","Image6",count_Figures["img_6"]);
-  Compile("img7","Image7",count_Figures["img_7"]);
-  Compile("img8","Image8",count_Figures["img_8"]);
-  Compile("img9","Image9",count_Figures["img_9"]);
-  Compile("img10","Image10",count_Figures["img_10"]);
-  Compile("img11","Image11",count_Figures["img_11"]);
-  Compile("img12","Image12",count_Figures["img_12"]);
-  Compile("img13","Image13",count_Figures["img_13"]);
-  Compile("img14","Image14",count_Figures["img_14"]);
-  Compile("img15","Image15",count_Figures["img_15"]);
+  Compile("rect","Rect",6);
+  Compile("ellipse","Ellipse",9);
+  Compile("triangle","Triangle",10);
+  Compile("polygon","Polygon",9)
+  Compile_Line("line1","Line",7);
+  Compile("pac","Pac",5);
+  Compile("img1","Image1",6);
+  Compile("img2","Image2",6);
+  Compile("img3","Image3",6);
+  Compile("img4","Image4",6);
+  Compile("img5","Image5",6);
+  Compile("img6","Image6",6);
+  Compile("img7","Image7",6);
+  Compile("img8","Image8",6);
+  Compile("img9","Image9",6);
+  Compile("img10","Image10",7);
+  Compile("img11","Image11",7);
+  Compile("img12","Image12",7);
+  Compile("img13","Image13",7);
+  Compile("img14","Image14",7);
+  Compile("img15","Image15",7);
 },false);
 
 //Lineだけの変更処理
 function Compile_Line(obj,Obj,count_obj){
-  for(var i = 1;i < count_obj;i++){
+    i = input_name.slice(count_obj);
     //図形のtextbox内の値を取得
     obj_x = $("#" + obj + "_x" + i).val();
     obj_y = $("#" + obj + "_y" + i).val();
@@ -504,7 +505,6 @@ function Compile_Line(obj,Obj,count_obj){
       y1: obj_y
     })
     .drawLayers();
-  }
 }
 
 //マウスオーバーの関数
@@ -935,10 +935,18 @@ function for_obj(Obj){
   $("#for_fill").attr("id","for_fill" + count_for);
 }
 
+var input_name;
+
+setInterval(function(){
+  $("input").focus(function(){
+    input_name = $(this).attr("id");
+  });
+},1000);
+
 //図形の位置を変える
 function Compile(obj,Obj,count_obj){
-  for(var i = 1;i < count_obj;i++){
     //図形のtextbox内の値を取得
+    i = input_name.slice(count_obj);
     obj_x = $("#" + obj + "_x" + i).val();
     obj_y = $("#" + obj + "_y" + i).val();
     //全角→半角変換処理
@@ -969,7 +977,6 @@ function Compile(obj,Obj,count_obj){
       y: obj_y
     })
     .drawLayers();
-  }
 }
 /*要らなくなった
 //spanタグにClassを付与
