@@ -452,7 +452,8 @@ compile.addEventListener("click",function(){
   Compile("ellipse","Ellipse",9);
   Compile("triangle","Triangle",10);
   Compile("polygon","Polygon",9)
-  Compile_Line("line1","Line",7);
+  Compile_Line1("line1","Line",7);
+  //Compile_Line2("line2","Line",7);
   Compile("pac","Pac",5);
   Compile("img1","Image1",6);
   Compile("img2","Image2",6);
@@ -469,43 +470,85 @@ compile.addEventListener("click",function(){
   Compile("img13","Image13",7);
   Compile("img14","Image14",7);
   Compile("img15","Image15",7);
+  $("canvas").removeLayer("focuses").drawLayers();
+  textbox_id = [];
 },false);
 
 //Lineだけの変更処理
-function Compile_Line(obj,Obj,count_obj){
-    i = input_name.slice(count_obj);
-    //図形のtextbox内の値を取得
-    obj_x = $("#" + obj + "_x" + i).val();
-    obj_y = $("#" + obj + "_y" + i).val();
-    //全角→半角変換処理
-    $(function(){
-      $("#" + obj + "_x" + i).change(function(){
-        obj_x = obj_x.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
-          return String.fromCharCode(s.charCodeAt(0) - 65248);
-        });
-        $("#" + obj + "_x" + i).val(obj_x);
-      }).change();
-      $("#" + obj + "_y" + i).change(function(){
-        obj_y = obj_y.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
-          return String.fromCharCode(s.charCodeAt(0) - 65248);
-        });
-        $("#" + obj + "_y" + i).val(obj_y);
-      }).change();
-    })
-    //textboxの値判定
-    if (typeof obj_x == "undefined" || obj_x == "" ||isNaN($("#" + obj + "_x" + i).val())){
-      obj_x = 0;
-    }
-    if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + obj + "_y" + i).val())){
-      obj_y = 0;
-    }
+function Compile_Line1(obj,Obj,count_obj){
+  for(var i in textbox_id){
+    var count = textbox_id[i].slice(count_obj);
+    var figures = textbox_id[i].slice(0,count_obj-2);
+    obj_x = $("#" + figures + "_x" + count).val();
+  obj_y = $("#" + figures + "_y" + count).val();
+  //全角→半角変換処理
+  $(function(){
+    $("#" + figures + "_x" + count).change(function(){
+      obj_x = obj_x.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+        return String.fromCharCode(s.charCodeAt(0) - 65248);
+      });
+      $("#" + figures + "_x" + count).val(obj_x);
+    }).change();
+    $("#" + figures + "_y" + count).change(function(){
+      obj_y = obj_y.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+        return String.fromCharCode(s.charCodeAt(0) - 65248);
+      });
+      $("#" + figures + "_y" + count).val(obj_y);
+    }).change();
+  })
+  //textboxの値判定
+  if (typeof obj_x == "undefined" || obj_x == "" ||isNaN($("#" + figures + "_x" + count).val())){
+    obj_x = 0;
+  }
+  if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + figures + "_y" + count).val())){
+    obj_y = 0;
+  }
     //nameプロパティを指定して動かす
-    $("canvas").setLayer(Obj + i, {
+    $("canvas").setLayer(Obj + count, {
       x1: obj_x,
       y1: obj_y
     })
     .drawLayers();
+  }
 }
+
+function Compile_Line2(obj,Obj,count_obj){
+  for(var i in textbox_id){
+    var count = textbox_id[i].slice(count_obj);
+    var figures = textbox_id[i].slice(0,count_obj-2);
+    obj_x = $("#" + figures + "_x" + count).val();
+  obj_y = $("#" + figures + "_y" + count).val();
+  //全角→半角変換処理
+  $(function(){
+    $("#" + figures + "_x" + count).change(function(){
+      obj_x = obj_x.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+        return String.fromCharCode(s.charCodeAt(0) - 65248);
+      });
+      $("#" + figures + "_x" + count).val(obj_x);
+    }).change();
+    $("#" + figures + "_y" + count).change(function(){
+      obj_y = obj_y.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+        return String.fromCharCode(s.charCodeAt(0) - 65248);
+      });
+      $("#" + figures + "_y" + count).val(obj_y);
+    }).change();
+  })
+  //textboxの値判定
+  if (typeof obj_x == "undefined" || obj_x == "" ||isNaN($("#" + figures + "_x" + count).val())){
+    obj_x = 0;
+  }
+  if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + figures + "_y" + count).val())){
+    obj_y = 0;
+  }
+    //nameプロパティを指定して動かす
+    $("canvas").setLayer(Obj + count, {
+      x2: obj_x,
+      y2: obj_y
+    })
+    .drawLayers();
+  }
+}
+
 
 //マウスオーバーの関数
 function MOver(obj){
@@ -935,48 +978,62 @@ function for_obj(Obj){
   $("#for_fill").attr("id","for_fill" + count_for);
 }
 
-var input_name;
+var textbox_id = [];
+var textbox_count = 0;
 
-setInterval(function(){
-  $("input").focus(function(){
-    input_name = $(this).attr("id");
-  });
-},1000);
+$(function(){
+  var focus_on = setInterval(function(){
+    $("input").focus(function(){
+      ++textbox_count;
+      textbox_id.push($(this).attr('id'));
+      if(textbox_id[textbox_id.length-2] === textbox_id[textbox_id.length-1]){
+        textbox_id.pop();
+      }
+      });
+  },1000);
+});
+
+
+
+
 
 //図形の位置を変える
 function Compile(obj,Obj,count_obj){
     //図形のtextbox内の値を取得
-    i = input_name.slice(count_obj);
-    obj_x = $("#" + obj + "_x" + i).val();
-    obj_y = $("#" + obj + "_y" + i).val();
+    for(var i in textbox_id){
+      var count = textbox_id[i].slice(count_obj);
+      var figures = textbox_id[i].slice(0,count_obj-2);
+      obj_x = $("#" + figures + "_x" + count).val();
+    obj_y = $("#" + figures + "_y" + count).val();
     //全角→半角変換処理
     $(function(){
-      $("#" + obj + "_x" + i).change(function(){
+      $("#" + figures + "_x" + count).change(function(){
         obj_x = obj_x.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
           return String.fromCharCode(s.charCodeAt(0) - 65248);
         });
-        $("#" + obj + "_x" + i).val(obj_x);
+        $("#" + figures + "_x" + count).val(obj_x);
       }).change();
-      $("#" + obj + "_y" + i).change(function(){
+      $("#" + figures + "_y" + count).change(function(){
         obj_y = obj_y.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
           return String.fromCharCode(s.charCodeAt(0) - 65248);
         });
-        $("#" + obj + "_y" + i).val(obj_y);
+        $("#" + figures + "_y" + count).val(obj_y);
       }).change();
     })
     //textboxの値判定
-    if (typeof obj_x == "undefined" || obj_x == "" ||isNaN($("#" + obj + "_x" + i).val())){
+    if (typeof obj_x == "undefined" || obj_x == "" ||isNaN($("#" + figures + "_x" + count).val())){
       obj_x = 0;
     }
-    if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + obj + "_y" + i).val())){
+    if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + figures + "_y" + count).val())){
       obj_y = 0;
     }
     //nameプロパティを指定して動かす
-    $("canvas").setLayer(Obj + i, {
+    $("canvas").setLayer(Obj + count, {
       x: obj_x,
       y: obj_y
     })
     .drawLayers();
+  }
 }
 /*要らなくなった
 //spanタグにClassを付与
@@ -1439,7 +1496,7 @@ line.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      focuses(layer.x1,layer.y1,(layer.x2-layer.x1),(layer.y2-layer.y1),(layer.name-1));
+      focuses(layer.x1,layer.y1,Math.abs(layer.x2-layer.x1),Math.abs(layer.y2-layer.y1),(layer.name-1));
       className = document.getElementById("file_line_source" + object_count).className;
       if(for_flag === true){
         //table内のfor_propertyに書き込む
