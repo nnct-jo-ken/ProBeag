@@ -478,6 +478,7 @@ compile.addEventListener("click",function(){
 function Compile_Line1(obj,Obj,count_obj){
   for(var i in textbox_id){
     var count = textbox_id[i].slice(count_obj);
+    var line_layer = $("canvas").getLayer("Line" + count);
     obj_x = $("#" + obj + "_x" + count).val();
   obj_y = $("#" + obj + "_y" + count).val();
   //全角→半角変換処理
@@ -502,6 +503,8 @@ function Compile_Line1(obj,Obj,count_obj){
   if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + obj + "_y" + count).val())){
     obj_y = 0;
   }
+
+    document.getElementById("file_line_source" + count).innerHTML = "  line(" + obj_x + "," + obj_y + "," + line_layer.x2 + "," + line_layer.y2 + ");\n";
     //nameプロパティを指定して動かす
     $("canvas").setLayer(Obj + count, {
       x1: obj_x,
@@ -514,6 +517,7 @@ function Compile_Line1(obj,Obj,count_obj){
 function Compile_Line2(obj,Obj,count_obj){
   for(var i in textbox_id){
     var count = textbox_id[i].slice(count_obj);
+    var line_layer = $("canvas").getLayer("Line" + count);
     obj_x = $("#" + obj + "_x" + count).val();
     obj_y = $("#" + obj + "_y" + count).val();
   //全角→半角変換処理
@@ -538,6 +542,8 @@ function Compile_Line2(obj,Obj,count_obj){
   if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + obj + "_y" + count).val())){
     obj_y = 0;
   }
+
+  document.getElementById("file_line_source" + count).innerHTML = "  line(" + line_layer.x1 + "," + line_layer.y1 + "," + obj_x + "," + obj_y + ");\n";
     //nameプロパティを指定して動かす
     $("canvas").setLayer(Obj + count, {
       x2: obj_x,
@@ -1025,6 +1031,15 @@ function Compile(obj,Obj,count_obj){
     if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + figures + "_y" + count).val())){
       obj_y = 0;
     }
+    if(figures === "rect" || figures === "ellipse"){
+      document.getElementById("file_" + figures + "_source" + count).innerHTML = "  " + figures + "(" + obj_x + "," + obj_y + ",65,65);";
+    }else if(figures === "triangle"){
+      document.getElementById("file_" + figures + "_source" + count).innerHTML = "  " + figures + "(" + obj_x + "," + obj_y + "," + (obj_x+30) + "," + (obj_y+50) + "," + (obj_x-30) + "," + (obj_y+50) + ");";
+    }else if (figures === "polygon"){
+      document.getElementById("file_" + figures + "_source" + count).innerHTML = "  " + figures + "(" + obj_x + "," + obj_y + ",40," + angle.value + ");";
+    }else if (figures === "pac"){
+      document.getElementById("file_" + figures + "_source" + count).innerHTML = "  arc(" + obj_x + "," + obj_y + ",65,65,0.5,5.8,PIE);";
+    }
     //nameプロパティを指定して動かす
     $("canvas").setLayer(Obj + count, {
       x: obj_x,
@@ -1269,7 +1284,7 @@ triangle.addEventListener("click",function(){
       $("#triangle3_y" + object_count).html(layer.y+50);
     },
     dragstop:function(layer){
-      document.getElementById("file_tri_source" + object_count).innerHTML = "  triangle(" + layer.x + "," + layer.y + "," + (layer.x+30) + "," + (layer.y + 50) + "," + (layer.x-30) + ","
+      document.getElementById("file_triangle_source" + object_count).innerHTML = "  triangle(" + layer.x + "," + layer.y + "," + (layer.x+30) + "," + (layer.y + 50) + "," + (layer.x-30) + ","
       + (layer.y + 50) + ");\n";
     },
     mouseover:function(layer){
@@ -1299,7 +1314,7 @@ triangle.addEventListener("click",function(){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
       focuses(layer.x,layer.y,layer.radius*2,layer.radius*1.5,(layer.name-1));
-      className = document.getElementById("file_tri_source" + object_count).className;
+      className = document.getElementById("file_triangle_source" + object_count).className;
       if(for_flag === true){
         //table内のfor_propertyに書き込む
         for_property.innerHTML = "三角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
@@ -1316,7 +1331,7 @@ triangle.addEventListener("click",function(){
         if(!document.getElementById("triangle_global" + object_count)){
           $("#global").append("<li class = " + count_groups + " id = 'triangle_global" + object_count + "'>float trix" + object_count + " = " + layer.x + ",triy" + object_count + " = " + layer.y + ";\n</li>");
         }
-        document.getElementById("file_tri_source" + object_count).innerHTML = "  triangle(trix" + object_count + ",triy" + object_count + ",trix" + object_count + "+30,triy" + object_count + "+50,trix" + object_count + "-30,triy" + object_count + "+50);\n";
+        document.getElementById("file_triangle_source" + object_count).innerHTML = "  triangle(trix" + object_count + ",triy" + object_count + ",trix" + object_count + "+30,triy" + object_count + "+50,trix" + object_count + "-30,triy" + object_count + "+50);\n";
       }
     }
   });
@@ -1326,10 +1341,10 @@ triangle.addEventListener("click",function(){
   tri_code = "<li id = 'triangle_source' class='Fig " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  triangle(" + '<input class="textbox" type="text" size="2"id ="triangle_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="triangle_y" value = "100">' + ",<span id = 'triangle2_x'>" + (triangle_obj.x + 30) + "</span>,<span id = 'triangle2_y'>" + (triangle_obj.y + 50) + "</span>,<span id = 'triangle3_x'>" + (triangle_obj.x-30) + "</span>,<span id = 'triangle3_y'>" + (triangle_obj.y+50) + "</span>);</font></li>";
   literal(tri_code);
   file_tri_fill = "<span class = " + count_groups + " id='file_tri_fill'>  fill(102,102,102);\n</span>"
-  tri_file_code = "<span class = " + count_groups + " id='file_tri_source'>  triangle(100,100,130,150,70,150);\n</span>";
+  tri_file_code = "<span class = " + count_groups + " id='file_triangle_source'>  triangle(100,100,130,150,70,150);\n</span>";
   $("canvas").append(file_tri_fill);
   $("canvas").append(tri_file_code);
-  $("#file_tri_source").attr("id","file_tri_source" + count_Figures["triangle"]);
+  $("#file_triangle_source").attr("id","file_triangle_source" + count_Figures["triangle"]);
   $("#file_tri_fill").attr("id","file_tri_fill" + count_Figures["triangle"]);
   $("#triangle_x").attr("id","triangle_x" + count_Figures["triangle"]);
   $("#triangle_y").attr("id","triangle_y" + count_Figures["triangle"]);
@@ -1370,7 +1385,7 @@ polygon.addEventListener("click",function(){
       $("#polygon_y" + object_count).val(layer.y);
     },
     dragstop:function(layer){
-      document.getElementById("file_ply_source" + object_count).innerHTML = "  polygon(" + layer.x + "," + layer.y + ",40," + angle.value + ");\n";
+      document.getElementById("file_polygon_source" + object_count).innerHTML = "  polygon(" + layer.x + "," + layer.y + ",40," + angle.value + ");\n";
     },
     mouseover:function(layer){
       object_layer = $("canvas").getLayer(layer.name);
@@ -1395,7 +1410,7 @@ polygon.addEventListener("click",function(){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
       focuses(layer.x,layer.y,layer.radius*2,layer.radius*1.8,(layer.name-1));
-      className = document.getElementById("file_ply_source" + object_count).className;
+      className = document.getElementById("file_polygon_source" + object_count).className;
       if(for_flag === true){
         //table内のfor_propertyに書き込む
         for_property.innerHTML = "多角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
@@ -1412,7 +1427,7 @@ polygon.addEventListener("click",function(){
         if(!document.getElementById("ply_global" + object_count)){
           $("#global").append("<li class = " + count_groups + " id = 'ply_global" + object_count + "'>float rx" + object_count + " = " + layer.x + ",ry" + object_count + " = " + layer.y + ";\n</li>");
         }
-        document.getElementById("file_ply_source" + object_count).innerHTML = "  polygon(plyx" + object_count + ",plyy" + object_count + ",65,65" + angle.value + ");\n";
+        document.getElementById("file_polygon_source" + object_count).innerHTML = "  polygon(plyx" + object_count + ",plyy" + object_count + ",65,65" + angle.value + ");\n";
       }
     }
   });
@@ -1427,10 +1442,10 @@ polygon.addEventListener("click",function(){
   ply_code = "<li id = 'polygon_source' class='Fig " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  polygon(" + '<input class="textbox" type="text" size="2"id ="polygon_x" value = "100">' + "," + '<input class="textbox" type="text" size="2"id ="polygon_y" value = "100">' + ",40," + angle.value + ");</font></li>";
   literal(ply_code);
   file_ply_fill = "<span class = " + count_groups + " id='file_ply_fill'>  fill(102,102,102);\n</span>"
-  ply_file_code = "<span class = " + count_groups + " id='file_ply_source'>  polygon(100,100,40," + angle.value + ");\n</span>";
+  ply_file_code = "<span class = " + count_groups + " id='file_polygon_source'>  polygon(100,100,40," + angle.value + ");\n</span>";
   $("canvas").append(file_ply_fill);
   $("canvas").append(ply_file_code);
-  $("#file_ply_source").attr("id","file_ply_source" + count_Figures["polygon"]);
+  $("#file_polygon_source").attr("id","file_polygon_source" + count_Figures["polygon"]);
   $("#file_ply_fill").attr("id","file_ply_fill" + count_Figures["polygon"]);
   $("#polygon_x").attr("id","polygon_x" + count_Figures["polygon"]);
   $("#polygon_y").attr("id","polygon_y" + count_Figures["polygon"]);
