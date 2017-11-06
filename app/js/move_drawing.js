@@ -268,7 +268,7 @@ function axis(){
 }
 
 function focuses(x,y,width,height,o_name){
-  $("canvas").removeLayer("focuses" + o_name);
+  $("canvas").removeLayer("focuses");
   $('canvas').draw({
     fn:function(ctx){
       ctx.strokeStyle = "#efe600";
@@ -294,12 +294,12 @@ function focuses(x,y,width,height,o_name){
         ctx.stroke();
       }
     },
-    name:"focuses" + (o_name+1)
+    name:"focuses",
   });
-  var focuses_layer_o = $("canvas").getLayer("focuses" + (o_name+1));
+  var focuses_layer_o = $("canvas").getLayer("focuses");
   focuses_layer = focuses_layer_o.name;
   canvas.addEventListener("mouseup",function(){
-    $("canvas").removeLayer("focuses" + (o_name+1)).drawLayers();
+    $("canvas").removeLayer("focuses").drawLayers();
   },false);
 }
 
@@ -453,7 +453,7 @@ compile.addEventListener("click",function(){
   Compile("triangle","Triangle",10);
   Compile("polygon","Polygon",9)
   Compile_Line1("line1","Line",7);
-  //Compile_Line2("line2","Line",7);
+  Compile_Line2("line2","Line",7);
   Compile("pac","Pac",5);
   Compile("img1","Image1",6);
   Compile("img2","Image2",6);
@@ -478,29 +478,28 @@ compile.addEventListener("click",function(){
 function Compile_Line1(obj,Obj,count_obj){
   for(var i in textbox_id){
     var count = textbox_id[i].slice(count_obj);
-    var figures = textbox_id[i].slice(0,count_obj-2);
-    obj_x = $("#" + figures + "_x" + count).val();
-  obj_y = $("#" + figures + "_y" + count).val();
+    obj_x = $("#" + obj + "_x" + count).val();
+  obj_y = $("#" + obj + "_y" + count).val();
   //全角→半角変換処理
   $(function(){
-    $("#" + figures + "_x" + count).change(function(){
+    $("#" + obj + "_x" + count).change(function(){
       obj_x = obj_x.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
         return String.fromCharCode(s.charCodeAt(0) - 65248);
       });
-      $("#" + figures + "_x" + count).val(obj_x);
+      $("#" + obj + "_x" + count).val(obj_x);
     }).change();
-    $("#" + figures + "_y" + count).change(function(){
+    $("#" + obj + "_y" + count).change(function(){
       obj_y = obj_y.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
         return String.fromCharCode(s.charCodeAt(0) - 65248);
       });
-      $("#" + figures + "_y" + count).val(obj_y);
+      $("#" + obj + "_y" + count).val(obj_y);
     }).change();
   })
   //textboxの値判定
-  if (typeof obj_x == "undefined" || obj_x == "" ||isNaN($("#" + figures + "_x" + count).val())){
+  if (typeof obj_x == "undefined" || obj_x == "" ||isNaN($("#" + obj + "_x" + count).val())){
     obj_x = 0;
   }
-  if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + figures + "_y" + count).val())){
+  if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + obj + "_y" + count).val())){
     obj_y = 0;
   }
     //nameプロパティを指定して動かす
@@ -515,29 +514,28 @@ function Compile_Line1(obj,Obj,count_obj){
 function Compile_Line2(obj,Obj,count_obj){
   for(var i in textbox_id){
     var count = textbox_id[i].slice(count_obj);
-    var figures = textbox_id[i].slice(0,count_obj-2);
-    obj_x = $("#" + figures + "_x" + count).val();
-  obj_y = $("#" + figures + "_y" + count).val();
+    obj_x = $("#" + obj + "_x" + count).val();
+    obj_y = $("#" + obj + "_y" + count).val();
   //全角→半角変換処理
   $(function(){
-    $("#" + figures + "_x" + count).change(function(){
+    $("#" + obj + "_x" + count).change(function(){
       obj_x = obj_x.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
         return String.fromCharCode(s.charCodeAt(0) - 65248);
       });
-      $("#" + figures + "_x" + count).val(obj_x);
+      $("#" + obj + "_x" + count).val(obj_x);
     }).change();
-    $("#" + figures + "_y" + count).change(function(){
+    $("#" + obj + "_y" + count).change(function(){
       obj_y = obj_y.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
         return String.fromCharCode(s.charCodeAt(0) - 65248);
       });
-      $("#" + figures + "_y" + count).val(obj_y);
+      $("#" + obj + "_y" + count).val(obj_y);
     }).change();
   })
   //textboxの値判定
-  if (typeof obj_x == "undefined" || obj_x == "" ||isNaN($("#" + figures + "_x" + count).val())){
+  if (typeof obj_x == "undefined" || obj_x == "" ||isNaN($("#" + obj + "_x" + count).val())){
     obj_x = 0;
   }
-  if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + figures + "_y" + count).val())){
+  if (typeof obj_y == "undefined" || obj_y == "" ||isNaN($("#" + obj + "_y" + count).val())){
     obj_y = 0;
   }
     //nameプロパティを指定して動かす
@@ -980,7 +978,7 @@ function for_obj(Obj){
 
 var textbox_id = [];
 var textbox_count = 0;
-
+//textbox_idにfocusしたidをぶち込む
 $(function(){
   var focus_on = setInterval(function(){
     $("input").focus(function(){
@@ -1004,7 +1002,7 @@ function Compile(obj,Obj,count_obj){
       var count = textbox_id[i].slice(count_obj);
       var figures = textbox_id[i].slice(0,count_obj-2);
       obj_x = $("#" + figures + "_x" + count).val();
-    obj_y = $("#" + figures + "_y" + count).val();
+      obj_y = $("#" + figures + "_y" + count).val();
     //全角→半角変換処理
     $(function(){
       $("#" + figures + "_x" + count).change(function(){
