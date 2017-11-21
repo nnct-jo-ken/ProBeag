@@ -69,6 +69,7 @@ var count_Figures = {
   "for":0,
   "if":0
 };
+var count_for = 0;
 //図形のtextboxの値を取得する変数
 var x_obj;
 var y_obj;
@@ -199,6 +200,8 @@ var y = 0;
 var ox = 0;
 var oy = 0;
 
+var for_object;
+var inst_className;
 var count_Img = {
   "img_1":0,
   "img_2":0,
@@ -405,6 +408,7 @@ rect.addEventListener("click",function(){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
+      inst_className = document.getElementById("rect_source" + object_count).className;
       className = document.getElementById("file_rect_source" + object_count).className;
       if(for_flag === true){
         //table内のfor_propertyに書き込む
@@ -662,7 +666,21 @@ sample_if.addEventListener("click",function(){
 sample_for.addEventListener("click",function(){
   if (for_flag == true){
     count_groups++;
+    var inst_int = $("#int").val();
+    var inst_for_y = $("#for_y").val();
+
+    inst_int = inst_int.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+      return String.fromCharCode(s.charCodeAt(0) - 65248);
+    });
+    inst_for_y = inst_for_y.replace(/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g, function(s) {
+      return String.fromCharCode(s.charCodeAt(0) - 65248);
+    });
     if(obj_judge == "rect"){
+      if($(".ver_hori").val() == 0){
+        for_object = "    rect(x," + inst_for_y + ",65,65);" + "\n";
+      }else if($(".ver_hori").val() == 1){
+        for_object = "    rect(" + inst_int + ",y,65,65);" + "\n";
+      }
       for_obj("rectangle");
       //グループ化しているものを取得してプロパティを追加
       $("canvas").setLayerGroup("obj" + count_groups,{
@@ -671,74 +689,145 @@ sample_for.addEventListener("click",function(){
         click:function(layer){
           if($(".ver_hori").val() == 0){
             var zouka = ((ctrl-int)/rate);
+            inst_className = document.getElementById("for_source" + object_count).className;
             className = document.getElementById("for_fill" + object_count).className;
             var layer_o = $("canvas").getLayerGroup("obj" + className);
             focuses(layer_o[0].x,layer_o[(zouka-1)].y,((ctrl+layer.width)-int-10),layer_o[0].height);
+
           }else if($(".ver_hori").val() == 1){
             var zouka = ((ctrl-for_y)/rate);
+            inst_className = document.getElementById("for_source" + object_count).className;
             className = document.getElementById("for_fill" + object_count).className;
             var layer_o = $("canvas").getLayerGroup("obj" + className);
             focuses(layer_o[(zouka-1)].x,layer_o[0].y,layer_o[0].width,((ctrl+layer.height)-for_y-10));
+
           }
         }
       }).drawLayers();
     }
     if(obj_judge == "ellipse"){
+      if($(".ver_hori").val() == 0){
+        for_object = "    ellipse(x," + inst_for_y + ",65,65);" + "\n";
+      }else if($(".ver_hori").val() == 1){
+        for_object = "    ellipse(" + inst_int + ",y,65,65);" + "\n";
+      }
       for_obj("ellipse");
       $("canvas").setLayerGroup("obj" + count_groups,{
         fillStyle:$("#color").val(),
         name:"For" + count_for,
         click:function(layer){
           var zouka = ((ctrl-int)/rate);
-          className = document.getElementById("for_fill" + object_count).className;
-          var layer_o = $("canvas").getLayerGroup("obj" + className);
-          focuses(layer_o[0].x,layer_o[(zouka-1)].y,((ctrl+layer.width)-int-10),layer_o[0].height);
+          if($(".ver_hori").val() == 0){
+            var zouka = ((ctrl-int)/rate);
+            inst_className = document.getElementById("for_source" + object_count).className;
+className = document.getElementById("for_fill" + object_count).className;
+            var layer_o = $("canvas").getLayerGroup("obj" + className);
+            focuses(layer_o[0].x,layer_o[(zouka-1)].y,((ctrl+layer.width)-int-10),layer_o[0].height);
+
+          }else if($(".ver_hori").val() == 1){
+            var zouka = ((ctrl-for_y)/rate);
+            inst_className = document.getElementById("for_source" + object_count).className;
+className = document.getElementById("for_fill" + object_count).className;
+            var layer_o = $("canvas").getLayerGroup("obj" + className);
+            focuses(layer_o[(zouka-1)].x,layer_o[0].y,layer_o[0].width,((ctrl+layer.height)-for_y-10));
+
+          }
         }
       }).drawLayers();
     }
     if(obj_judge == "triangle"){
+      if($(".ver_hori").val() == 0){
+        for_object = "    triangle(x," + parseInt(inst_for_y) + ",x+30," + (parseInt(inst_for_y)+50) + ",x-30," + (parseInt(inst_for_y)+50) + ");" + "\n";
+      }else if($(".ver_hori").val() == 1){
+        for_object = "    triangle(" + parseInt(inst_int) + ",y," + (parseInt(inst_int)+30) + ",y+50," + (parseInt(inst_int)-30) + ",y+50);" + "\n";
+      }
       for_obj("polygon");
       $("canvas").setLayerGroup("obj" + count_groups,{
         fillStyle:$("#color").val(),
         name:"For" + count_for,
         sides:3,
         click:function(layer){
-          var zouka = ((ctrl-int)/rate);
-          className = document.getElementById("for_fill" + object_count).className;
-          var layer_o = $("canvas").getLayerGroup("obj" + className);
-          focuses(layer_o[0].x,layer_o[(zouka-1)].y,((ctrl+layer.width)-int-10),layer_o[0].height*0.75);
+          if($(".ver_hori").val() == 0){
+            var zouka = ((ctrl-int)/rate);
+            inst_className = document.getElementById("for_source" + object_count).className;
+className = document.getElementById("for_fill" + object_count).className;
+            var layer_o = $("canvas").getLayerGroup("obj" + className);
+            focuses(layer_o[0].x,layer_o[(zouka-1)].y,((ctrl+layer.width)-int-10),layer_o[0].height*0.75);
+
+          }else if($(".ver_hori").val() == 1){
+            var zouka = ((ctrl-for_y)/rate);
+            inst_className = document.getElementById("for_source" + object_count).className;
+className = document.getElementById("for_fill" + object_count).className;
+            var layer_o = $("canvas").getLayerGroup("obj" + className);
+            focuses(layer_o[(zouka-1)].x,layer_o[0].y,layer_o[0].width,((ctrl+layer.height)-for_y-25));
+
+          }
         }
       }).drawLayers();
     }
     if(obj_judge == "polygon"){
+      if($(".ver_hori").val() == 0){
+        for_object = "    polygon(x," + inst_for_y + ",40," + angle.value + ");" + "\n";
+      }else if($(".ver_hori").val() == 1){
+        for_object = "    polygon(" + inst_int + ",y,40," + angle.value + ");" + "\n";
+      }
       for_obj("polygon");
       $("canvas").setLayerGroup("obj" + count_groups,{
         fillStyle:$("#color").val(),
         sides:angle.value,
         name:"For" + count_for,
         click:function(layer){
-          var zouka = ((ctrl-int)/rate);
-          className = document.getElementById("for_fill" + object_count).className;
-          var layer_o = $("canvas").getLayerGroup("obj" + className);
+          if($(".ver_hori").val() == 0){
+        	var zouka = ((ctrl-int)/rate);
+        	inst_className = document.getElementById("for_source" + object_count).className;
+className = document.getElementById("for_fill" + object_count).className;
+        	var layer_o = $("canvas").getLayerGroup("obj" + className);
           focuses(layer_o[0].x,layer_o[(zouka-1)].y,((ctrl+layer.width)-int-10),layer_o[0].height*0.87);
+
+        }else if($(".ver_hori").val() == 1){
+        	var zouka = ((ctrl-for_y)/rate);
+        	inst_className = document.getElementById("for_source" + object_count).className;
+className = document.getElementById("for_fill" + object_count).className;
+        	var layer_o = $("canvas").getLayerGroup("obj" + className);
+        	focuses(layer_o[(zouka-1)].x,layer_o[0].y,layer_o[0].width,((ctrl+layer.height)-for_y-15));
+
         }
+        }
+
       }).drawLayers();
     }
     if(obj_judge == "pac"){
+      if($(".ver_hori").val() == 0){
+        for_object = "    arc(x," + inst_for_y + ",65,65,0.5,5.8,PIE);" + "\n";
+      }else if($(".ver_hori").val() == 1){
+        for_object = "    arc(" + inst_int + ",y,65,65,0.5,5.8,PIE);" + "\n";
+      }
       for_obj("slice");
       $("canvas").setLayerGroup("obj" + count_groups,{
         fillStyle:$("#color").val(),
         start:120,end:420,
         name:"For" + count_for,
         click:function(layer){
-          var zouka = ((ctrl-int)/rate);
-          className = document.getElementById("for_fill" + object_count).className;
-          var layer_o = $("canvas").getLayerGroup("obj" + className);
-          focuses(layer_o[0].x,layer_o[(zouka-1)].y,((ctrl+layer.width)-int-10),layer_o[0].height);
+          if($(".ver_hori").val() == 0){
+          	var zouka = ((ctrl-int)/rate);
+          	inst_className = document.getElementById("for_source" + object_count).className;
+className = document.getElementById("for_fill" + object_count).className;
+          	var layer_o = $("canvas").getLayerGroup("obj" + className);
+          	focuses(layer_o[0].x,layer_o[(zouka-1)].y,((ctrl+layer.width)-int-10),layer_o[0].height);
+
+          }else if($(".ver_hori").val() == 1){
+          	var zouka = ((ctrl-for_y)/rate);
+          	inst_className = document.getElementById("for_source" + object_count).className;
+className = document.getElementById("for_fill" + object_count).className;
+          	var layer_o = $("canvas").getLayerGroup("obj" + className);
+          	focuses(layer_o[(zouka-1)].x,layer_o[0].y,layer_o[0].width,((ctrl+layer.height)-for_y-10));
+
+          }
         }
       }).drawLayers();
     }
   }
+  for_flag = false;
 },false);
 
 //for文の実行コード
@@ -803,6 +892,7 @@ function for_obj(Obj){
           groups:["obj" + count_groups],
           strokeStyle: "black",
           strokeWidth: 1,
+          sides:for_sizes,
           fillStyle:"#000",
           x:ob_x,
           y: for_y,
@@ -835,7 +925,7 @@ function for_obj(Obj){
         }).drawLayers();
       }
       for_code = "<li id = 'for_source' class='Fig " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int x = " + int + ";x < " + ctrl + "; x+=" + rate + "){" + "\n" +
-      obj_judge + "(x," + for_y + ",65,65);" + "\n" +
+      "  " + for_object +
       "}\n</font></li>";
     }else if($(".ver_hori").val() == 1){
       for(var ob_y = for_y; ob_y < ctrl; ob_y += rate){
@@ -878,7 +968,7 @@ function for_obj(Obj){
         }).drawLayers();
       }
       for_code = "<li id = 'for_source' class='Fig " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int y = " + int + ";y < " + ctrl + "; y+=" + rate + "){" + "\n" +
-      "  " + obj_judge + "(" + int + ",y,65,65);" + "\n" +
+      "  " + for_object +
       "  }\n</font></li>";
     }
   }else if(int > ctrl){
@@ -923,7 +1013,7 @@ function for_obj(Obj){
         }).drawLayers();
       }
       for_code = "<li class='Fig " + count_groups + "' id = 'for_source'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int x = " + int + ";x > " + ctrl + "; x-=" + rate + "){" + "\n" +
-      obj_judge + "(x," + for_y + ",65,65);" + "\n" +
+      "  " + for_object + "\n" +
       "}\n</font></li>";
     }else if($(".ver_hori").val() == 1){
       for(var ob_y = for_y; ob_y > ctrl; ob_y -= rate){
@@ -966,7 +1056,7 @@ function for_obj(Obj){
         }).drawLayers();
       }
       for_code = "<li id = 'for_source' class='Fig " + count_groups + "'><font class = 'light'color = '#f7f7f7' size = '3'>  for (int y = " + int + ";y > " + ctrl + "; y-=" + rate + "){" + "\n" +
-      "  " + obj_judge + "(" + int + ",y,65,65);" + "\n" +
+      "  " + for_object +
       "  }\n</font></li>";
     }
   }
@@ -1084,13 +1174,14 @@ del.addEventListener("click",function(){
     $("#global > ." + className).remove();
     $("canvas > ." + className).remove();
   }
-  if($("#source_code").find("li").filter(":last").hasClass("Fig")){
+    console.log(className);
+  if(inst_className.match(/Fig/)){
     $("#source_code > ." + className).remove();
     $("#source_code > ." + className).remove();
     $("canvas > ." + className).remove();
     $("canvas > ." + className).remove();
   }
-  if($("#source_code").find("li").filter(":last").hasClass("Line")){
+  if(inst_className.match(/Line/)){
     $("#source_code > ." + className).remove();
     $("#source_code > ." + className).remove();
     $("#source_code > ." + className).remove();
@@ -1099,7 +1190,7 @@ del.addEventListener("click",function(){
     $("canvas > ." + className).remove();
     key.src = "img/key_close.png";
   }
-  if($("#source_code").find("li").filter(":last").hasClass("Img")){
+  if(inst_className.match(/Img/)){
     $("#source_code > ." + className).remove();
     $("canvas > ." + className).remove();
     --count_Img["img_" + count_Img["select_obj"]];
@@ -1174,7 +1265,8 @@ cicle.addEventListener("click",function(){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
-      className = document.getElementById("file_ellipse_source" + object_count).className;
+      inst_className = document.getElementById("ellipse_source" + object_count).className;
+className = document.getElementById("file_ellipse_source" + object_count).className;
       if(for_flag === true){
         //forがクリックされたときの処理
         for_property.innerHTML = "円の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
@@ -1314,7 +1406,8 @@ triangle.addEventListener("click",function(){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
       focuses(layer.x,layer.y,layer.radius*2,layer.radius*1.5,(layer.name-1));
-      className = document.getElementById("file_triangle_source" + object_count).className;
+      inst_className = document.getElementById("triangle_source" + object_count).className;
+className = document.getElementById("file_triangle_source" + object_count).className;
       if(for_flag === true){
         //table内のfor_propertyに書き込む
         for_property.innerHTML = "三角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "2" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
@@ -1410,7 +1503,8 @@ polygon.addEventListener("click",function(){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
       focuses(layer.x,layer.y,layer.radius*2,layer.radius*1.8,(layer.name-1));
-      className = document.getElementById("file_polygon_source" + object_count).className;
+      inst_className = document.getElementById("polygon_source" + object_count).className;
+className = document.getElementById("file_polygon_source" + object_count).className;
       if(for_flag === true){
         //table内のfor_propertyに書き込む
         for_property.innerHTML = "多角形の始めのx座標を" + '<input class="textbox" type="text" size="2" id = "int">' + "y座標を" + '<input class="textbox" type = "text" size = "4" id = "for_y">' +"から<select class='ver_hori'><option value='0'>横</option><option value='1'>縦</option></select>に" + '<input class="textbox" type="text" size="2" id = "ctrl">' + " まで"
@@ -1510,7 +1604,8 @@ line.addEventListener("click",function(){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
       focuses(layer.x1,layer.y1,Math.abs(layer.x2-layer.x1),Math.abs(layer.y2-layer.y1),(layer.name-1));
-      className = document.getElementById("file_line_source" + object_count).className;
+      inst_className = document.getElementById("line_source" + object_count).className;
+className = document.getElementById("file_line_source" + object_count).className;
       if(for_flag === true){
         //table内のfor_propertyに書き込む
         for_property.innerHTML = "この図形には使えません";
@@ -1598,7 +1693,8 @@ pac.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_pac_source" + object_count).className;
+      inst_className = document.getElementById("pac_source" + object_count).className;
+className = document.getElementById("file_pac_source" + object_count).className;
       focuses(layer.x,layer.y,layer.radius*2,layer.radius*2,(layer.name-1));
       obj_flag = layer.name;
       if(for_flag === true){
@@ -1680,7 +1776,8 @@ butt_red.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_1" + object_count).className;
+      inst_className = document.getElementById("img1_source" + object_count).className;
+className = document.getElementById("file_img_source_1" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       count_Img["select_obj"] = 1;
       obj_flag = layer.name;
@@ -1759,7 +1856,8 @@ butt_yellow.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_2" + object_count).className;
+      inst_className = document.getElementById("img2_source" + object_count).className;
+className = document.getElementById("file_img_source_2" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       count_Img["select_obj"] = 2;
       obj_flag = layer.name;
@@ -1837,7 +1935,8 @@ butt_blue.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_3" + object_count).className;
+      inst_className = document.getElementById("img3_source" + object_count).className;
+className = document.getElementById("file_img_source_3" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       count_Img["select_obj"] = 3;
       obj_flag = layer.name;
@@ -1915,7 +2014,8 @@ blue_candy.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_4" + object_count).className;
+      inst_className = document.getElementById("img4_source" + object_count).className;
+className = document.getElementById("file_img_source_4" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       count_Img["select_obj"] = 4;
       obj_flag = layer.name;
@@ -1993,7 +2093,8 @@ orange_candy.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_5" + object_count).className;
+      inst_className = document.getElementById("img5_source" + object_count).className;
+className = document.getElementById("file_img_source_5" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       count_Img["select_obj"] = 5;
       obj_flag = layer.name;
@@ -2071,7 +2172,8 @@ pink_candy.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_6" + object_count).className;
+      inst_className = document.getElementById("img6_source" + object_count).className;
+className = document.getElementById("file_img_source_6" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       count_Img["select_obj"] = 6;
       obj_flag = layer.name;
@@ -2149,7 +2251,8 @@ blue_umbrella.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_7" + object_count).className;
+      inst_className = document.getElementById("img7_source" + object_count).className;
+className = document.getElementById("file_img_source_7" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       count_Img["select_obj"] = 7;
       obj_flag = layer.name;
@@ -2226,7 +2329,8 @@ green_umbrella.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_8" + object_count).className;
+      inst_className = document.getElementById("img8_source" + object_count).className;
+className = document.getElementById("file_img_source_8" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       count_Img["select_obj"] = 8;
       obj_flag = layer.name;
@@ -2304,7 +2408,8 @@ orange_umbrella.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_9" + object_count).className;
+      inst_className = document.getElementById("img9_source" + object_count).className;
+className = document.getElementById("file_img_source_9" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       count_Img["select_obj"] = 9;
       obj_flag = layer.name;
@@ -2382,7 +2487,8 @@ orange_flower.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_10" + object_count).className;
+      inst_className = document.getElementById("img10_source" + object_count).className;
+className = document.getElementById("file_img_source_10" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       console.log(className);
       count_Img["select_obj"] = 10;
@@ -2462,7 +2568,8 @@ pink_flower.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_11_" + object_count).className;
+      inst_className = document.getElementById("img11_source" + object_count).className;
+className = document.getElementById("file_img_source_11_" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       console.log(className);
       count_Img["select_obj"] = 11;
@@ -2544,7 +2651,8 @@ yellow_flower.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_12" + object_count).className;
+      inst_className = document.getElementById("img12_source" + object_count).className;
+className = document.getElementById("file_img_source_12" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       count_Img["select_obj"] = 12;
       if(for_flag === true){
@@ -2622,7 +2730,8 @@ tank.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_13" + object_count).className;
+      inst_className = document.getElementById("img13_source" + object_count).className;
+className = document.getElementById("file_img_source_13" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       count_Img["select_obj"] = 13;
       if(for_flag === true){
@@ -2700,7 +2809,8 @@ star.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_14" + object_count).className;
+      inst_className = document.getElementById("img14_source" + object_count).className;
+className = document.getElementById("file_img_source_14" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       count_Img["select_obj"] = 14;
       obj_flag = layer.name;
@@ -2778,7 +2888,8 @@ giraffe.addEventListener("click",function(){
     click:function(layer){
       var layer_o = $("canvas").getLayer(layer.name);
       layer_name = layer_o.name;
-      className = document.getElementById("file_img_source_15" + object_count).className;
+      inst_className = document.getElementById("img15_source" + object_count).className;
+className = document.getElementById("file_img_source_15" + object_count).className;
       focuses(layer.x,layer.y,layer.width,layer.height,(layer.name-1));
       count_Img["select_obj"] = 15;
       if(for_flag === true){
